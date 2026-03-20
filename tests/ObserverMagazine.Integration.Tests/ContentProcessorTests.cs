@@ -32,7 +32,7 @@ public class ContentProcessorTests
         Assert.Equal(new DateTime(2026, 3, 1), frontMatter.Date);
         Assert.Equal("Tester", frontMatter.Author);
         Assert.Equal("A test summary", frontMatter.Summary);
-        Assert.Equal(["test", "integration"], frontMatter.Tags);
+        Assert.Equal(["test", "integration"], frontMatter.Tags!);
         Assert.Contains("## Hello", body);
     }
 
@@ -62,7 +62,19 @@ public class ContentProcessorTests
         var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
         var html = Markdown.ToHtml(md, pipeline);
 
-        Assert.Contains("<h2>Hello</h2>", html);
+        Assert.Contains("<h2 id=\"hello\">Hello</h2>", html);
+        Assert.Contains("<strong>bold</strong>", html);
+        Assert.Contains("<em>italic</em>", html);
+    }
+    
+    [Fact]
+    public void MarkdownTwoWords_ConvertsToHtml()
+    {
+        var md = "## Hello World\n\nThis is **bold** and *italic*.";
+        var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
+        var html = Markdown.ToHtml(md, pipeline);
+
+        Assert.Contains("<h2 id=\"hello-world\">Hello World</h2>", html);
         Assert.Contains("<strong>bold</strong>", html);
         Assert.Contains("<em>italic</em>", html);
     }
