@@ -2820,3 +2820,5 @@ dotnet publish src/ObserverMagazine.Web -c Release -o publish
 3. Write your content in standard Markdown below the front matter
 4. Run the content processor (or just push — CI does it automatically)
 5. The post appears on the blog page and in the RSS feed
+
+dotnet run --project tools/ObserverMagazine.ContentProcessor -- --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot
