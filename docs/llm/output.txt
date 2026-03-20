@@ -1,0 +1,533 @@
+kushal@fedora:~/src/ts/cloudflare/my-api$ cd /home/kushal/src/dotnet/observermagazine.github.io/; time bash export.sh
+🚀 Starting export of git-tracked files...
+📄 Adding: .github/workflows/deploy.yml
+📄 Adding: .gitignore
+⏩ Skipping binary: .nojekyll
+📄 Adding: Directory.Build.props
+📄 Adding: Directory.Packages.props
+📄 Adding: ObserverMagazine.slnx
+📄 Adding: README.md
+📄 Adding: content/blog/2026-01-15-welcome-to-observer-magazine.md
+📄 Adding: content/blog/2026-02-20-getting-started-with-blazor-wasm.md
+📄 Adding: content/blog/2026-03-10-responsive-design-patterns.md
+📄 Adding: docs/llm/claude.md
+📄 Adding: global.json
+📄 Adding: src/ObserverMagazine.Web/App.razor
+📄 Adding: src/ObserverMagazine.Web/Components/MasterDetail.razor
+📄 Adding: src/ObserverMagazine.Web/Components/ResponsiveTable.razor
+📄 Adding: src/ObserverMagazine.Web/Layout/MainLayout.razor
+📄 Adding: src/ObserverMagazine.Web/Layout/NavMenu.razor
+📄 Adding: src/ObserverMagazine.Web/Models/BlogPostMetadata.cs
+📄 Adding: src/ObserverMagazine.Web/Models/Product.cs
+📄 Adding: src/ObserverMagazine.Web/ObserverMagazine.Web.csproj
+📄 Adding: src/ObserverMagazine.Web/Pages/About.razor
+📄 Adding: src/ObserverMagazine.Web/Pages/Blog.razor
+📄 Adding: src/ObserverMagazine.Web/Pages/BlogPost.razor
+📄 Adding: src/ObserverMagazine.Web/Pages/Home.razor
+📄 Adding: src/ObserverMagazine.Web/Pages/Showcase.razor
+📄 Adding: src/ObserverMagazine.Web/Program.cs
+📄 Adding: src/ObserverMagazine.Web/Routes.razor
+📄 Adding: src/ObserverMagazine.Web/Services/BlogService.cs
+📄 Adding: src/ObserverMagazine.Web/Services/IBlogService.cs
+📄 Adding: src/ObserverMagazine.Web/Services/TelemetryService.cs
+📄 Adding: src/ObserverMagazine.Web/_Imports.razor
+📄 Adding: src/ObserverMagazine.Web/wwwroot/404.html
+📄 Adding: src/ObserverMagazine.Web/wwwroot/css/app.css
+📄 Adding: src/ObserverMagazine.Web/wwwroot/index.html
+📄 Adding: src/ObserverMagazine.Web/wwwroot/sample-data/products.json
+📄 Adding: tests/ObserverMagazine.Integration.Tests/ContentProcessorTests.cs
+📄 Adding: tests/ObserverMagazine.Integration.Tests/ObserverMagazine.Integration.Tests.csproj
+📄 Adding: tests/ObserverMagazine.Integration.Tests/RssGeneratorTests.cs
+📄 Adding: tests/ObserverMagazine.Web.Tests/Components/MasterDetailTests.cs
+📄 Adding: tests/ObserverMagazine.Web.Tests/Components/ResponsiveTableTests.cs
+📄 Adding: tests/ObserverMagazine.Web.Tests/ObserverMagazine.Web.Tests.csproj
+📄 Adding: tests/ObserverMagazine.Web.Tests/Services/BlogServiceTests.cs
+📄 Adding: tools/ObserverMagazine.ContentProcessor/FrontMatterParser.cs
+📄 Adding: tools/ObserverMagazine.ContentProcessor/MarkdownProcessor.cs
+📄 Adding: tools/ObserverMagazine.ContentProcessor/ObserverMagazine.ContentProcessor.csproj
+📄 Adding: tools/ObserverMagazine.ContentProcessor/Program.cs
+📄 Adding: tools/ObserverMagazine.ContentProcessor/RssGenerator.cs
+
+✅ Export complete! 46 files written to docs/llm/dump.txt
+
+real	0m0.257s
+user	0m0.122s
+sys	0m0.158s
+kushal@fedora:~/src/dotnet/observermagazine.github.io$ git remote add origin git@github.com:ObserverMagazine/observermagazine.github.io.git
+kushal@fedora:~/src/dotnet/observermagazine.github.io$ cd /home/kushal/src/dotnet/observermagazine.github.io/; time dotnet format; time dotnet restore; time bash export.sh
+The command could not be loaded, possibly because:
+  * You intended to execute a .NET application:
+      The application 'format' does not exist or is not a managed .dll or .exe.
+  * You intended to execute a .NET SDK command:
+      A compatible .NET SDK was not found.
+
+Requested SDK version: 10.0.201
+global.json file: /home/kushal/src/dotnet/observermagazine.github.io/global.json
+
+Installed SDKs:
+10.0.104 [/usr/lib64/dotnet/sdk]
+
+Install the [10.0.201] .NET SDK or update [/home/kushal/src/dotnet/observermagazine.github.io/global.json] to match an installed SDK.
+
+Learn about SDK resolution:
+https://aka.ms/dotnet/sdk-not-found
+
+real	0m0.013s
+user	0m0.002s
+sys	0m0.001s
+The command could not be loaded, possibly because:
+  * You intended to execute a .NET application:
+      The application 'restore' does not exist or is not a managed .dll or .exe.
+  * You intended to execute a .NET SDK command:
+      A compatible .NET SDK was not found.
+
+Requested SDK version: 10.0.201
+global.json file: /home/kushal/src/dotnet/observermagazine.github.io/global.json
+
+Installed SDKs:
+10.0.104 [/usr/lib64/dotnet/sdk]
+
+Install the [10.0.201] .NET SDK or update [/home/kushal/src/dotnet/observermagazine.github.io/global.json] to match an installed SDK.
+
+Learn about SDK resolution:
+https://aka.ms/dotnet/sdk-not-found
+
+real	0m0.002s
+user	0m0.001s
+sys	0m0.001s
+🚀 Starting export of git-tracked files...
+📄 Adding: .github/workflows/deploy.yml
+📄 Adding: .gitignore
+⏩ Skipping binary: .nojekyll
+📄 Adding: Directory.Build.props
+📄 Adding: Directory.Packages.props
+📄 Adding: ObserverMagazine.slnx
+📄 Adding: README.md
+📄 Adding: content/blog/2026-01-15-welcome-to-observer-magazine.md
+📄 Adding: content/blog/2026-02-20-getting-started-with-blazor-wasm.md
+📄 Adding: content/blog/2026-03-10-responsive-design-patterns.md
+📄 Adding: docs/llm/claude.md
+📄 Adding: global.json
+📄 Adding: src/ObserverMagazine.Web/App.razor
+📄 Adding: src/ObserverMagazine.Web/Components/MasterDetail.razor
+📄 Adding: src/ObserverMagazine.Web/Components/ResponsiveTable.razor
+📄 Adding: src/ObserverMagazine.Web/Layout/MainLayout.razor
+📄 Adding: src/ObserverMagazine.Web/Layout/NavMenu.razor
+📄 Adding: src/ObserverMagazine.Web/Models/BlogPostMetadata.cs
+📄 Adding: src/ObserverMagazine.Web/Models/Product.cs
+📄 Adding: src/ObserverMagazine.Web/ObserverMagazine.Web.csproj
+📄 Adding: src/ObserverMagazine.Web/Pages/About.razor
+📄 Adding: src/ObserverMagazine.Web/Pages/Blog.razor
+📄 Adding: src/ObserverMagazine.Web/Pages/BlogPost.razor
+📄 Adding: src/ObserverMagazine.Web/Pages/Home.razor
+📄 Adding: src/ObserverMagazine.Web/Pages/Showcase.razor
+📄 Adding: src/ObserverMagazine.Web/Program.cs
+📄 Adding: src/ObserverMagazine.Web/Routes.razor
+📄 Adding: src/ObserverMagazine.Web/Services/BlogService.cs
+📄 Adding: src/ObserverMagazine.Web/Services/IBlogService.cs
+📄 Adding: src/ObserverMagazine.Web/Services/TelemetryService.cs
+📄 Adding: src/ObserverMagazine.Web/_Imports.razor
+📄 Adding: src/ObserverMagazine.Web/wwwroot/404.html
+📄 Adding: src/ObserverMagazine.Web/wwwroot/css/app.css
+📄 Adding: src/ObserverMagazine.Web/wwwroot/index.html
+📄 Adding: src/ObserverMagazine.Web/wwwroot/sample-data/products.json
+📄 Adding: tests/ObserverMagazine.Integration.Tests/ContentProcessorTests.cs
+📄 Adding: tests/ObserverMagazine.Integration.Tests/ObserverMagazine.Integration.Tests.csproj
+📄 Adding: tests/ObserverMagazine.Integration.Tests/RssGeneratorTests.cs
+📄 Adding: tests/ObserverMagazine.Web.Tests/Components/MasterDetailTests.cs
+📄 Adding: tests/ObserverMagazine.Web.Tests/Components/ResponsiveTableTests.cs
+📄 Adding: tests/ObserverMagazine.Web.Tests/ObserverMagazine.Web.Tests.csproj
+📄 Adding: tests/ObserverMagazine.Web.Tests/Services/BlogServiceTests.cs
+📄 Adding: tools/ObserverMagazine.ContentProcessor/FrontMatterParser.cs
+📄 Adding: tools/ObserverMagazine.ContentProcessor/MarkdownProcessor.cs
+📄 Adding: tools/ObserverMagazine.ContentProcessor/ObserverMagazine.ContentProcessor.csproj
+📄 Adding: tools/ObserverMagazine.ContentProcessor/Program.cs
+📄 Adding: tools/ObserverMagazine.ContentProcessor/RssGenerator.cs
+
+✅ Export complete! 46 files written to docs/llm/dump.txt
+
+real	0m0.227s
+user	0m0.118s
+sys	0m0.159s
+kushal@fedora:~/src/dotnet/observermagazine.github.io$ cd /home/kushal/src/dotnet/observermagazine.github.io/; time dotnet format; time dotnet restore; dotnet run --project tools/ObserverMagazine.ContentProcessor -- --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot; time bash export.sh
+The command could not be loaded, possibly because:
+  * You intended to execute a .NET application:
+      The application 'format' does not exist or is not a managed .dll or .exe.
+  * You intended to execute a .NET SDK command:
+      A compatible .NET SDK was not found.
+
+Requested SDK version: 10.0.201
+global.json file: /home/kushal/src/dotnet/observermagazine.github.io/global.json
+
+Installed SDKs:
+10.0.104 [/usr/lib64/dotnet/sdk]
+
+Install the [10.0.201] .NET SDK or update [/home/kushal/src/dotnet/observermagazine.github.io/global.json] to match an installed SDK.
+
+Learn about SDK resolution:
+https://aka.ms/dotnet/sdk-not-found
+
+real	0m0.002s
+user	0m0.002s
+sys	0m0.000s
+The command could not be loaded, possibly because:
+  * You intended to execute a .NET application:
+      The application 'restore' does not exist or is not a managed .dll or .exe.
+  * You intended to execute a .NET SDK command:
+      A compatible .NET SDK was not found.
+
+Requested SDK version: 10.0.201
+global.json file: /home/kushal/src/dotnet/observermagazine.github.io/global.json
+
+Installed SDKs:
+10.0.104 [/usr/lib64/dotnet/sdk]
+
+Install the [10.0.201] .NET SDK or update [/home/kushal/src/dotnet/observermagazine.github.io/global.json] to match an installed SDK.
+
+Learn about SDK resolution:
+https://aka.ms/dotnet/sdk-not-found
+
+real	0m0.001s
+user	0m0.000s
+sys	0m0.001s
+The command could not be loaded, possibly because:
+  * You intended to execute a .NET application:
+      The application 'run' does not exist or is not a managed .dll or .exe.
+  * You intended to execute a .NET SDK command:
+      A compatible .NET SDK was not found.
+
+Requested SDK version: 10.0.201
+global.json file: /home/kushal/src/dotnet/observermagazine.github.io/global.json
+
+Installed SDKs:
+10.0.104 [/usr/lib64/dotnet/sdk]
+
+Install the [10.0.201] .NET SDK or update [/home/kushal/src/dotnet/observermagazine.github.io/global.json] to match an installed SDK.
+
+Learn about SDK resolution:
+https://aka.ms/dotnet/sdk-not-found
+🚀 Starting export of git-tracked files...
+📄 Adding: .github/workflows/deploy.yml
+📄 Adding: .gitignore
+⏩ Skipping binary: .nojekyll
+📄 Adding: Directory.Build.props
+📄 Adding: Directory.Packages.props
+📄 Adding: ObserverMagazine.slnx
+📄 Adding: README.md
+📄 Adding: content/blog/2026-01-15-welcome-to-observer-magazine.md
+📄 Adding: content/blog/2026-02-20-getting-started-with-blazor-wasm.md
+📄 Adding: content/blog/2026-03-10-responsive-design-patterns.md
+📄 Adding: docs/llm/claude.md
+📄 Adding: global.json
+📄 Adding: src/ObserverMagazine.Web/App.razor
+📄 Adding: src/ObserverMagazine.Web/Components/MasterDetail.razor
+📄 Adding: src/ObserverMagazine.Web/Components/ResponsiveTable.razor
+📄 Adding: src/ObserverMagazine.Web/Layout/MainLayout.razor
+📄 Adding: src/ObserverMagazine.Web/Layout/NavMenu.razor
+📄 Adding: src/ObserverMagazine.Web/Models/BlogPostMetadata.cs
+📄 Adding: src/ObserverMagazine.Web/Models/Product.cs
+📄 Adding: src/ObserverMagazine.Web/ObserverMagazine.Web.csproj
+📄 Adding: src/ObserverMagazine.Web/Pages/About.razor
+📄 Adding: src/ObserverMagazine.Web/Pages/Blog.razor
+📄 Adding: src/ObserverMagazine.Web/Pages/BlogPost.razor
+📄 Adding: src/ObserverMagazine.Web/Pages/Home.razor
+📄 Adding: src/ObserverMagazine.Web/Pages/Showcase.razor
+📄 Adding: src/ObserverMagazine.Web/Program.cs
+📄 Adding: src/ObserverMagazine.Web/Routes.razor
+📄 Adding: src/ObserverMagazine.Web/Services/BlogService.cs
+📄 Adding: src/ObserverMagazine.Web/Services/IBlogService.cs
+📄 Adding: src/ObserverMagazine.Web/Services/TelemetryService.cs
+📄 Adding: src/ObserverMagazine.Web/_Imports.razor
+📄 Adding: src/ObserverMagazine.Web/wwwroot/404.html
+📄 Adding: src/ObserverMagazine.Web/wwwroot/css/app.css
+📄 Adding: src/ObserverMagazine.Web/wwwroot/index.html
+📄 Adding: src/ObserverMagazine.Web/wwwroot/sample-data/products.json
+📄 Adding: tests/ObserverMagazine.Integration.Tests/ContentProcessorTests.cs
+📄 Adding: tests/ObserverMagazine.Integration.Tests/ObserverMagazine.Integration.Tests.csproj
+📄 Adding: tests/ObserverMagazine.Integration.Tests/RssGeneratorTests.cs
+📄 Adding: tests/ObserverMagazine.Web.Tests/Components/MasterDetailTests.cs
+📄 Adding: tests/ObserverMagazine.Web.Tests/Components/ResponsiveTableTests.cs
+📄 Adding: tests/ObserverMagazine.Web.Tests/ObserverMagazine.Web.Tests.csproj
+📄 Adding: tests/ObserverMagazine.Web.Tests/Services/BlogServiceTests.cs
+📄 Adding: tools/ObserverMagazine.ContentProcessor/FrontMatterParser.cs
+📄 Adding: tools/ObserverMagazine.ContentProcessor/MarkdownProcessor.cs
+📄 Adding: tools/ObserverMagazine.ContentProcessor/ObserverMagazine.ContentProcessor.csproj
+📄 Adding: tools/ObserverMagazine.ContentProcessor/Program.cs
+📄 Adding: tools/ObserverMagazine.ContentProcessor/RssGenerator.cs
+
+✅ Export complete! 46 files written to docs/llm/dump.txt
+
+real	0m0.221s
+user	0m0.128s
+sys	0m0.142s
+kushal@fedora:~/src/dotnet/observermagazine.github.io$ cd /home/kushal/src/dotnet/observermagazine.github.io/; time dotnet format; time dotnet restore; dotnet run --project tools/ObserverMagazine.ContentProcessor -- --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot; time bash export.sh
+
+real	0m9.051s
+user	0m10.443s
+sys	0m1.667s
+Restore complete (0.5s)
+
+Build succeeded in 0.6s
+
+real	0m0.810s
+user	0m0.845s
+sys	0m0.152s
+Content directory: content/blog
+Output directory:  src/ObserverMagazine.Web/wwwroot
+Found 3 markdown files
+Processing: 2026-01-15-welcome-to-observer-magazine.md
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/welcome-to-observer-magazine.html
+Processing: 2026-02-20-getting-started-with-blazor-wasm.md
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/getting-started-with-blazor-wasm.html
+Processing: 2026-03-10-responsive-design-patterns.md
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/responsive-design-patterns.html
+Wrote posts index: src/ObserverMagazine.Web/wwwroot/blog-data/posts-index.json (3 posts)
+Wrote RSS feed: src/ObserverMagazine.Web/wwwroot/feed.xml
+Content processing complete.
+🚀 Starting export of git-tracked files...
+📄 Adding: .github/workflows/deploy.yml
+📄 Adding: .gitignore
+⏩ Skipping binary: .nojekyll
+📄 Adding: Directory.Build.props
+📄 Adding: Directory.Packages.props
+📄 Adding: ObserverMagazine.slnx
+📄 Adding: README.md
+📄 Adding: content/blog/2026-01-15-welcome-to-observer-magazine.md
+📄 Adding: content/blog/2026-02-20-getting-started-with-blazor-wasm.md
+📄 Adding: content/blog/2026-03-10-responsive-design-patterns.md
+📄 Adding: docs/llm/claude.md
+📄 Adding: global.json
+📄 Adding: src/ObserverMagazine.Web/App.razor
+📄 Adding: src/ObserverMagazine.Web/Components/MasterDetail.razor
+📄 Adding: src/ObserverMagazine.Web/Components/ResponsiveTable.razor
+📄 Adding: src/ObserverMagazine.Web/Layout/MainLayout.razor
+📄 Adding: src/ObserverMagazine.Web/Layout/NavMenu.razor
+📄 Adding: src/ObserverMagazine.Web/Models/BlogPostMetadata.cs
+📄 Adding: src/ObserverMagazine.Web/Models/Product.cs
+📄 Adding: src/ObserverMagazine.Web/ObserverMagazine.Web.csproj
+📄 Adding: src/ObserverMagazine.Web/Pages/About.razor
+📄 Adding: src/ObserverMagazine.Web/Pages/Blog.razor
+📄 Adding: src/ObserverMagazine.Web/Pages/BlogPost.razor
+📄 Adding: src/ObserverMagazine.Web/Pages/Home.razor
+📄 Adding: src/ObserverMagazine.Web/Pages/Showcase.razor
+📄 Adding: src/ObserverMagazine.Web/Program.cs
+📄 Adding: src/ObserverMagazine.Web/Routes.razor
+📄 Adding: src/ObserverMagazine.Web/Services/BlogService.cs
+📄 Adding: src/ObserverMagazine.Web/Services/IBlogService.cs
+📄 Adding: src/ObserverMagazine.Web/Services/TelemetryService.cs
+📄 Adding: src/ObserverMagazine.Web/_Imports.razor
+📄 Adding: src/ObserverMagazine.Web/wwwroot/404.html
+📄 Adding: src/ObserverMagazine.Web/wwwroot/css/app.css
+📄 Adding: src/ObserverMagazine.Web/wwwroot/index.html
+📄 Adding: src/ObserverMagazine.Web/wwwroot/sample-data/products.json
+📄 Adding: tests/ObserverMagazine.Integration.Tests/ContentProcessorTests.cs
+📄 Adding: tests/ObserverMagazine.Integration.Tests/ObserverMagazine.Integration.Tests.csproj
+📄 Adding: tests/ObserverMagazine.Integration.Tests/RssGeneratorTests.cs
+📄 Adding: tests/ObserverMagazine.Web.Tests/Components/MasterDetailTests.cs
+📄 Adding: tests/ObserverMagazine.Web.Tests/Components/ResponsiveTableTests.cs
+📄 Adding: tests/ObserverMagazine.Web.Tests/ObserverMagazine.Web.Tests.csproj
+📄 Adding: tests/ObserverMagazine.Web.Tests/Services/BlogServiceTests.cs
+📄 Adding: tools/ObserverMagazine.ContentProcessor/FrontMatterParser.cs
+📄 Adding: tools/ObserverMagazine.ContentProcessor/MarkdownProcessor.cs
+📄 Adding: tools/ObserverMagazine.ContentProcessor/ObserverMagazine.ContentProcessor.csproj
+📄 Adding: tools/ObserverMagazine.ContentProcessor/Program.cs
+📄 Adding: tools/ObserverMagazine.ContentProcessor/RssGenerator.cs
+
+✅ Export complete! 46 files written to docs/llm/dump.txt
+
+real	0m0.236s
+user	0m0.129s
+sys	0m0.158s
+kushal@fedora:~/src/dotnet/observermagazine.github.io$ cd /home/kushal/src/dotnet/observermagazine.github.io/; time dotnet format; time dotnet restore; dotnet run --project tools/ObserverMagazine.ContentProcessor -- --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot; time dotnet test; time bash export.sh
+
+real	0m5.952s
+user	0m7.996s
+sys	0m0.720s
+Restore complete (0.5s)
+
+Build succeeded in 0.6s
+
+real	0m0.708s
+user	0m0.756s
+sys	0m0.123s
+Content directory: content/blog
+Output directory:  src/ObserverMagazine.Web/wwwroot
+Found 3 markdown files
+Processing: 2026-01-15-welcome-to-observer-magazine.md
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/welcome-to-observer-magazine.html
+Processing: 2026-02-20-getting-started-with-blazor-wasm.md
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/getting-started-with-blazor-wasm.html
+Processing: 2026-03-10-responsive-design-patterns.md
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/responsive-design-patterns.html
+Wrote posts index: src/ObserverMagazine.Web/wwwroot/blog-data/posts-index.json (3 posts)
+Wrote RSS feed: src/ObserverMagazine.Web/wwwroot/feed.xml
+Content processing complete.
+Restore complete (0.5s)
+  ObserverMagazine.Integration.Tests net10.0 failed with 1 error(s) (0.3s)
+    /home/kushal/src/dotnet/observermagazine.github.io/tests/ObserverMagazine.Integration.Tests/ContentProcessorTests.cs(35,47): error CS8604: Possible null reference argument for parameter 'actualArray' in 'void Assert.Equal<string>(ReadOnlySpan<string> expectedSpan, string[] actualArray)'.
+  ObserverMagazine.Web net10.0 browser-wasm succeeded (3.1s) → src/ObserverMagazine.Web/bin/Debug/net10.0/wwwroot
+  ObserverMagazine.Web.Tests net10.0 failed with 2 error(s) (0.2s)
+    /home/kushal/src/dotnet/observermagazine.github.io/tests/ObserverMagazine.Web.Tests/Components/ResponsiveTableTests.cs(8,37): error CS0104: 'TestContext' is an ambiguous reference between 'Bunit.TestContext' and 'Xunit.TestContext'
+    /home/kushal/src/dotnet/observermagazine.github.io/tests/ObserverMagazine.Web.Tests/Components/MasterDetailTests.cs(8,34): error CS0104: 'TestContext' is an ambiguous reference between 'Bunit.TestContext' and 'Xunit.TestContext'
+
+Build failed with 3 error(s) in 4.0s
+
+real	0m4.118s
+user	0m2.443s
+sys	0m0.476s
+🚀 Starting export of git-tracked files...
+📄 Adding: .github/workflows/deploy.yml
+📄 Adding: .gitignore
+⏩ Skipping binary: .nojekyll
+📄 Adding: Directory.Build.props
+📄 Adding: Directory.Packages.props
+📄 Adding: ObserverMagazine.slnx
+📄 Adding: README.md
+📄 Adding: content/blog/2026-01-15-welcome-to-observer-magazine.md
+📄 Adding: content/blog/2026-02-20-getting-started-with-blazor-wasm.md
+📄 Adding: content/blog/2026-03-10-responsive-design-patterns.md
+📄 Adding: docs/llm/claude.md
+📄 Adding: global.json
+📄 Adding: src/ObserverMagazine.Web/App.razor
+📄 Adding: src/ObserverMagazine.Web/Components/MasterDetail.razor
+📄 Adding: src/ObserverMagazine.Web/Components/ResponsiveTable.razor
+📄 Adding: src/ObserverMagazine.Web/Layout/MainLayout.razor
+📄 Adding: src/ObserverMagazine.Web/Layout/NavMenu.razor
+📄 Adding: src/ObserverMagazine.Web/Models/BlogPostMetadata.cs
+📄 Adding: src/ObserverMagazine.Web/Models/Product.cs
+📄 Adding: src/ObserverMagazine.Web/ObserverMagazine.Web.csproj
+📄 Adding: src/ObserverMagazine.Web/Pages/About.razor
+📄 Adding: src/ObserverMagazine.Web/Pages/Blog.razor
+📄 Adding: src/ObserverMagazine.Web/Pages/BlogPost.razor
+📄 Adding: src/ObserverMagazine.Web/Pages/Home.razor
+📄 Adding: src/ObserverMagazine.Web/Pages/Showcase.razor
+📄 Adding: src/ObserverMagazine.Web/Program.cs
+📄 Adding: src/ObserverMagazine.Web/Routes.razor
+📄 Adding: src/ObserverMagazine.Web/Services/BlogService.cs
+📄 Adding: src/ObserverMagazine.Web/Services/IBlogService.cs
+📄 Adding: src/ObserverMagazine.Web/Services/TelemetryService.cs
+📄 Adding: src/ObserverMagazine.Web/_Imports.razor
+📄 Adding: src/ObserverMagazine.Web/wwwroot/404.html
+📄 Adding: src/ObserverMagazine.Web/wwwroot/css/app.css
+📄 Adding: src/ObserverMagazine.Web/wwwroot/index.html
+📄 Adding: src/ObserverMagazine.Web/wwwroot/sample-data/products.json
+📄 Adding: tests/ObserverMagazine.Integration.Tests/ContentProcessorTests.cs
+📄 Adding: tests/ObserverMagazine.Integration.Tests/ObserverMagazine.Integration.Tests.csproj
+📄 Adding: tests/ObserverMagazine.Integration.Tests/RssGeneratorTests.cs
+📄 Adding: tests/ObserverMagazine.Web.Tests/Components/MasterDetailTests.cs
+📄 Adding: tests/ObserverMagazine.Web.Tests/Components/ResponsiveTableTests.cs
+📄 Adding: tests/ObserverMagazine.Web.Tests/ObserverMagazine.Web.Tests.csproj
+📄 Adding: tests/ObserverMagazine.Web.Tests/Services/BlogServiceTests.cs
+📄 Adding: tools/ObserverMagazine.ContentProcessor/FrontMatterParser.cs
+📄 Adding: tools/ObserverMagazine.ContentProcessor/MarkdownProcessor.cs
+📄 Adding: tools/ObserverMagazine.ContentProcessor/ObserverMagazine.ContentProcessor.csproj
+📄 Adding: tools/ObserverMagazine.ContentProcessor/Program.cs
+📄 Adding: tools/ObserverMagazine.ContentProcessor/RssGenerator.cs
+
+✅ Export complete! 46 files written to docs/llm/dump.txt
+
+real	0m0.224s
+user	0m0.118s
+sys	0m0.156s
+kushal@fedora:~/src/dotnet/observermagazine.github.io$ cd /home/kushal/src/dotnet/observermagazine.github.io/; time dotnet format; time dotnet restore; dotnet run --project tools/ObserverMagazine.ContentProcessor -- --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot; time dotnet test; time bash export.sh
+
+real	0m6.479s
+user	0m8.164s
+sys	0m0.798s
+Restore complete (0.5s)
+
+Build succeeded in 0.6s
+
+real	0m0.742s
+user	0m0.787s
+sys	0m0.147s
+Content directory: content/blog
+Output directory:  src/ObserverMagazine.Web/wwwroot
+Found 3 markdown files
+Processing: 2026-01-15-welcome-to-observer-magazine.md
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/welcome-to-observer-magazine.html
+Processing: 2026-02-20-getting-started-with-blazor-wasm.md
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/getting-started-with-blazor-wasm.html
+Processing: 2026-03-10-responsive-design-patterns.md
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/responsive-design-patterns.html
+Wrote posts index: src/ObserverMagazine.Web/wwwroot/blog-data/posts-index.json (3 posts)
+Wrote RSS feed: src/ObserverMagazine.Web/wwwroot/feed.xml
+Content processing complete.
+Restore complete (0.7s)
+  ObserverMagazine.Integration.Tests net10.0 succeeded (0.4s) → tests/ObserverMagazine.Integration.Tests/bin/Debug/net10.0/ObserverMagazine.Integration.Tests.dll
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.0.2+dd36e86129 (64-bit .NET 10.0.4)
+[xUnit.net 00:00:00.15]   Discovering: ObserverMagazine.Integration.Tests
+[xUnit.net 00:00:00.31]   Discovered:  ObserverMagazine.Integration.Tests
+[xUnit.net 00:00:00.48]   Starting:    ObserverMagazine.Integration.Tests
+  ObserverMagazine.Web net10.0 browser-wasm succeeded (1.3s) → src/ObserverMagazine.Web/bin/Debug/net10.0/wwwroot
+[xUnit.net 00:00:00.69]   Finished:    ObserverMagazine.Integration.Tests
+  ObserverMagazine.Web.Tests net10.0 succeeded (0.2s) → tests/ObserverMagazine.Web.Tests/bin/Debug/net10.0/ObserverMagazine.Web.Tests.dll
+  ObserverMagazine.Integration.Tests test net10.0 succeeded (1.4s)
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.0.2+dd36e86129 (64-bit .NET 10.0.4)
+[xUnit.net 00:00:00.14]   Discovering: ObserverMagazine.Web.Tests
+[xUnit.net 00:00:00.29]   Discovered:  ObserverMagazine.Web.Tests
+[xUnit.net 00:00:00.44]   Starting:    ObserverMagazine.Web.Tests
+[xUnit.net 00:00:00.59]   Finished:    ObserverMagazine.Web.Tests
+  ObserverMagazine.Web.Tests test net10.0 succeeded (1.2s)
+
+Test summary: total: 12, failed: 0, succeeded: 12, skipped: 0, duration: 2.5s
+Build succeeded in 3.7s
+
+real	0m3.811s
+user	0m2.398s
+sys	0m0.383s
+🚀 Starting export of git-tracked files...
+📄 Adding: .github/workflows/deploy.yml
+📄 Adding: .gitignore
+⏩ Skipping binary: .nojekyll
+📄 Adding: Directory.Build.props
+📄 Adding: Directory.Packages.props
+📄 Adding: ObserverMagazine.slnx
+📄 Adding: README.md
+📄 Adding: content/blog/2026-01-15-welcome-to-observer-magazine.md
+📄 Adding: content/blog/2026-02-20-getting-started-with-blazor-wasm.md
+📄 Adding: content/blog/2026-03-10-responsive-design-patterns.md
+📄 Adding: docs/llm/claude.md
+📄 Adding: global.json
+📄 Adding: src/ObserverMagazine.Web/App.razor
+📄 Adding: src/ObserverMagazine.Web/Components/MasterDetail.razor
+📄 Adding: src/ObserverMagazine.Web/Components/ResponsiveTable.razor
+📄 Adding: src/ObserverMagazine.Web/Layout/MainLayout.razor
+📄 Adding: src/ObserverMagazine.Web/Layout/NavMenu.razor
+📄 Adding: src/ObserverMagazine.Web/Models/BlogPostMetadata.cs
+📄 Adding: src/ObserverMagazine.Web/Models/Product.cs
+📄 Adding: src/ObserverMagazine.Web/ObserverMagazine.Web.csproj
+📄 Adding: src/ObserverMagazine.Web/Pages/About.razor
+📄 Adding: src/ObserverMagazine.Web/Pages/Blog.razor
+📄 Adding: src/ObserverMagazine.Web/Pages/BlogPost.razor
+📄 Adding: src/ObserverMagazine.Web/Pages/Home.razor
+📄 Adding: src/ObserverMagazine.Web/Pages/Showcase.razor
+📄 Adding: src/ObserverMagazine.Web/Program.cs
+📄 Adding: src/ObserverMagazine.Web/Routes.razor
+📄 Adding: src/ObserverMagazine.Web/Services/BlogService.cs
+📄 Adding: src/ObserverMagazine.Web/Services/IBlogService.cs
+📄 Adding: src/ObserverMagazine.Web/Services/TelemetryService.cs
+📄 Adding: src/ObserverMagazine.Web/_Imports.razor
+📄 Adding: src/ObserverMagazine.Web/wwwroot/404.html
+📄 Adding: src/ObserverMagazine.Web/wwwroot/css/app.css
+📄 Adding: src/ObserverMagazine.Web/wwwroot/index.html
+📄 Adding: src/ObserverMagazine.Web/wwwroot/sample-data/products.json
+📄 Adding: tests/ObserverMagazine.Integration.Tests/ContentProcessorTests.cs
+📄 Adding: tests/ObserverMagazine.Integration.Tests/ObserverMagazine.Integration.Tests.csproj
+📄 Adding: tests/ObserverMagazine.Integration.Tests/RssGeneratorTests.cs
+📄 Adding: tests/ObserverMagazine.Web.Tests/Components/MasterDetailTests.cs
+📄 Adding: tests/ObserverMagazine.Web.Tests/Components/ResponsiveTableTests.cs
+📄 Adding: tests/ObserverMagazine.Web.Tests/ObserverMagazine.Web.Tests.csproj
+📄 Adding: tests/ObserverMagazine.Web.Tests/Services/BlogServiceTests.cs
+📄 Adding: tools/ObserverMagazine.ContentProcessor/FrontMatterParser.cs
+📄 Adding: tools/ObserverMagazine.ContentProcessor/MarkdownProcessor.cs
+📄 Adding: tools/ObserverMagazine.ContentProcessor/ObserverMagazine.ContentProcessor.csproj
+📄 Adding: tools/ObserverMagazine.ContentProcessor/Program.cs
+📄 Adding: tools/ObserverMagazine.ContentProcessor/RssGenerator.cs
+
+✅ Export complete! 46 files written to docs/llm/dump.txt
+
+real	0m0.295s
+user	0m0.126s
+sys	0m0.191s
+kushal@fedora:~/src/dotnet/observermagazine.github.io$ 
