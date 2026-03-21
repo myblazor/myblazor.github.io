@@ -26,8 +26,8 @@ COUNTER=0
 # Use git ls-files to get everything tracked by git
 # This avoids node_modules, .git folder, and build artifacts automatically.
 while read -r file; do
-    # Skip the export script itself and the output file
-    if [[ "$file" == "export.sh" || "$file" == "$OUTPUT_FILE" ]]; then
+    # Skip the export script itself, the output file, and anything in docs/
+    if [[ "$file" == "export.sh" || "$file" == "$OUTPUT_FILE" || "$file" == docs/* ]]; then
         continue
     fi
 
