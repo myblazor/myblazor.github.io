@@ -5653,3 +5653,111 @@ The good news from that log is that KittenTTS itself is working perfectly — th
 
 48
 09
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+00
+09
+Please write a concise yet comprehensive blog post that is content rich explaining all there is to know about asp dotnet lifecycle. 
+Why is asp dotnet cold start slow in dot net framework? 
+What steps can we take to make it better? 
+Does modern dotnet as of dotnet 10 solve this issue or side step it somehow? 
+How? 
+Explain everything in detail. 
+here is the format 
+date is today 2026-03-21 
+---
+title: Welcome to Observer Magazine
+date: 2026-01-15
+author: Observer Team
+summary: Our first post — introducing Observer Magazine and what we're building.
+tags:
+  - announcement
+  - introduction
+---
+
+## Hello, World!
+
+Welcome to **Observer Magazine**, a free and open-source web application built with Blazor WebAssembly on .NET 10.
+
+This project serves two purposes:
+
+1. **A learning resource** for developers exploring Blazor WASM, modern .NET tooling (slnx, Directory.Build.props, central package management), and static site deployment on GitHub Pages.
+2. **A starting point** you can fork and adapt for your own projects — whether that's a personal blog, a product showcase, or a full SaaS application.
+
+## What's Inside
+
+- A responsive, accessible UI built entirely in C# and Razor
+- A blog engine powered by Markdown files with YAML front matter
+- An auto-generated RSS feed
+- Showcases of common web patterns: responsive tables, master-detail flows
+- Structured logging ready for OpenTelemetry
+- A full test suite using xUnit v3 and bUnit
+
+## Philosophy
+
+Every dependency we use is truly free — no "free for non-commercial" restrictions. We will never charge money for this software. The code is MIT-licensed and always will be.
+
+Stay tuned for more posts!
+
+I'll start by reading the full dump.txt file, then write the blog post.I've now read through the full project knowledge. I have a thorough understanding of the project structure, the existing blog posts, and the format conventions. Now let me write the blog post about ASP.NET lifecycle. Let me also do a quick search to make sure my technical details about .NET 10 are current.Now I have comprehensive research material. Let me write the blog post as a markdown file for the project.Here's your complete blog post file. Save it as `content/blog/2026-03-21-aspnet-lifecycle-deep-dive.md` in your project.
+
+The post covers everything you asked for in depth:
+
+**ASP.NET Lifecycle** — The full IIS integrated pipeline (BeginRequest through EndRequest), the Web Forms page lifecycle, the MVC lifecycle, and the modern .NET 10 middleware pipeline with Kestrel.
+
+**Why .NET Framework cold starts are slow** — Six specific causes: JIT compilation of IL on every first method call, assembly loading from disk, IIS application pool recycling and idle timeouts, dynamic Razor view compilation at runtime, heavy synchronous initialization in Global.asax, and Entity Framework model compilation.
+
+**What you can do about it** — Pre-compilation with aspnet_compiler/aspnet_merge, NGen native images, IIS Application Initialization module, disabling idle timeouts, warm-up scripts, and eagerly resolving singletons.
+
+**How .NET 10 changes everything** — The minimal hosting model, Kestrel replacing IIS process management, build-time Razor compilation, Tiered Compilation (Quick JIT + optimized recompilation), ReadyToRun (R2R) ahead-of-time images, IL trimming, and most importantly Native AOT which eliminates JIT entirely and produces native binaries with sub-15ms startup times. The post also covers the trade-offs (no reflection, source generators required, platform-specific binaries, potentially lower peak throughput) and .NET 10 specifics like selective AOT, CreateSlimBuilder, Blazor WASM IL stripping, and mobile Native AOT.
+
+After saving the file, just run:
+```bash
+dotnet run --project tools/ObserverMagazine.ContentProcessor -- --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot
+```
+
+08
+10
