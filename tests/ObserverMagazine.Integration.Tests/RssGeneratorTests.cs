@@ -156,4 +156,7 @@ public sealed class RssPostEntry
     public DateTime Date { get; init; }
     public string Summary { get; init; } = "";
     public string[] Tags { get; init; } = [];
+    public string AuthorName { get; init; } = "";
+    public string? AuthorEmail { get; init; }
 }
+

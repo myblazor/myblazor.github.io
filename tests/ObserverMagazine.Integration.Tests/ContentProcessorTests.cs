@@ -375,14 +375,3 @@ public sealed class TestFrontMatter
     public string? Series { get; set; }
     public string? Image { get; set; }
 }
-
-public sealed class RssPostEntry
-{
-    public string Slug { get; init; } = "";
-    public string Title { get; init; } = "";
-    public DateTime Date { get; init; }
-    public string Summary { get; init; } = "";
-    public string[] Tags { get; init; } = [];
-    public string AuthorName { get; init; } = "";
-    public string? AuthorEmail { get; init; }
-}
