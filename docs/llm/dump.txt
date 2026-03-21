@@ -1,6 +1,6 @@
 ===============================================================================
 PROJECT EXPORT: observermagazine.github.io
-DATE: Fri Mar 20 10:34:26 PM EDT 2026
+DATE: Fri Mar 20 10:43:26 PM EDT 2026
 ===============================================================================
 
 -------------------------------------------------------------------------------
@@ -45,8 +45,8 @@ jobs:
           cache: 'pip'
           cache-dependency-path: 'tools/requirements-audio.txt'
 
-      - name: Install system dependencies (espeak-ng for KittenTTS)
-        run: sudo apt-get update && sudo apt-get install -y espeak-ng
+      - name: Install system dependencies (espeak-ng for KittenTTS, ffmpeg for WAV→MP3)
+        run: sudo apt-get update && sudo apt-get install -y espeak-ng ffmpeg
 
       - name: Cache HuggingFace model
         uses: actions/cache@v4
