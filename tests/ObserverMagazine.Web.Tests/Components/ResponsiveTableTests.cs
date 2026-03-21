@@ -2,12 +2,15 @@ using Bunit;
 using Microsoft.Extensions.DependencyInjection;
 using ObserverMagazine.Web.Components;
 using ObserverMagazine.Web.Services;
+using ObserverMagazine.Web.Tests.Services;
 using Xunit;
 
 namespace ObserverMagazine.Web.Tests.Components;
 
-public class ResponsiveTableTests : Bunit.TestContext
+public class ResponsiveTableTests : IDisposable
 {
+    private readonly BunitContext ctx = new();
+
     private const string SampleProductsJson = """
         [
           { "name": "Widget A", "category": "Tools", "price": 9.99, "stock": 100, "rating": 4.5, "description": "A widget" },
@@ -19,8 +22,8 @@ public class ResponsiveTableTests : Bunit.TestContext
     {
         var fakeHandler = new ComponentFakeHttpHandler(SampleProductsJson);
         var httpClient = new HttpClient(fakeHandler) { BaseAddress = new Uri("https://test.local/") };
-        Services.AddSingleton(httpClient);
-        Services.AddSingleton<IAnalyticsService, NoOpAnalyticsService>();
+        ctx.Services.AddSingleton(httpClient);
+        ctx.Services.AddSingleton<IAnalyticsService, NoOpAnalyticsService>();
     }
 
     [Fact]
@@ -28,7 +31,7 @@ public class ResponsiveTableTests : Bunit.TestContext
     {
         SetupServices();
 
-        var cut = RenderComponent<ResponsiveTable>();
+        var cut = ctx.Render<ResponsiveTable>();
         cut.WaitForElement(".rt-data-table");
 
         Assert.Contains("Widget A", cut.Markup);
@@ -40,7 +43,7 @@ public class ResponsiveTableTests : Bunit.TestContext
     {
         SetupServices();
 
-        var cut = RenderComponent<ResponsiveTable>();
+        var cut = ctx.Render<ResponsiveTable>();
         cut.WaitForElement(".rt-data-table");
 
         var filterInput = cut.Find(".rt-filter-input");
@@ -55,7 +58,7 @@ public class ResponsiveTableTests : Bunit.TestContext
     {
         SetupServices();
 
-        var cut = RenderComponent<ResponsiveTable>();
+        var cut = ctx.Render<ResponsiveTable>();
         cut.WaitForElement(".rt-data-table");
 
         var priceHeader = cut.FindAll("th.rt-sortable")[2];
@@ -63,6 +66,8 @@ public class ResponsiveTableTests : Bunit.TestContext
 
         Assert.Contains("▲", cut.Markup);
     }
+
+    public void Dispose() => ctx.Dispose();
 }
 
 internal sealed class ComponentFakeHttpHandler : HttpMessageHandler

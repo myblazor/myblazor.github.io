@@ -4998,3 +4998,70 @@ All other files remain identical to what's in the dump.
 
 
 
+I got the following errors 
+kushal@fedora:~/src/dotnet/observermagazine.github.io$ cd /home/kushal/src/dotnet/observermagazine.github.io/; time dotnet format; time dotnet restore; dotnet run --project tools/ObserverMagazine.ContentProcessor -- --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot; time dotnet test; time dotnet list package; time dotnet list package --outdated; time bash export.sh;
+
+real	0m6.042s
+user	0m8.328s
+sys	0m0.755s
+Restore complete (0.5s)
+
+Build succeeded in 0.6s
+
+real	0m0.720s
+user	0m0.764s
+sys	0m0.147s
+Content directory: content/blog
+Output directory:  src/ObserverMagazine.Web/wwwroot
+Found 4 markdown files
+Processing: 2026-01-15-welcome-to-observer-magazine.md
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/welcome-to-observer-magazine.html
+Processing: 2026-02-20-getting-started-with-blazor-wasm.md
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/getting-started-with-blazor-wasm.html
+Processing: 2026-03-10-responsive-design-patterns.md
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/responsive-design-patterns.html
+Processing: 2026-03-20-hello-world.md
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/hello-world.html
+Wrote posts index: src/ObserverMagazine.Web/wwwroot/blog-data/posts-index.json (4 posts)
+Wrote RSS feed: src/ObserverMagazine.Web/wwwroot/feed.xml
+Content processing complete.
+Restore complete (0.5s)
+  ObserverMagazine.Integration.Tests net10.0 succeeded (0.2s) → tests/ObserverMagazine.Integration.Tests/bin/Debug/net10.0/ObserverMagazine.Integration.Tests.dll
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.4)
+[xUnit.net 00:00:00.13]   Discovering: ObserverMagazine.Integration.Tests
+[xUnit.net 00:00:00.28]   Discovered:  ObserverMagazine.Integration.Tests
+[xUnit.net 00:00:00.42]   Starting:    ObserverMagazine.Integration.Tests
+[xUnit.net 00:00:00.61]   Finished:    ObserverMagazine.Integration.Tests (ID = 'a11f17fc47145796b425f2f6072a7236e3de3115aec6d32144ce1d1b834d5009')
+  ObserverMagazine.Integration.Tests test net10.0 succeeded (1.1s)
+  ObserverMagazine.Web net10.0 browser-wasm succeeded (2.9s) → src/ObserverMagazine.Web/bin/Debug/net10.0/wwwroot
+  ObserverMagazine.Web.Tests net10.0 failed with 10 error(s) (0.1s)
+    /home/kushal/src/dotnet/observermagazine.github.io/tests/ObserverMagazine.Web.Tests/Components/MasterDetailTests.cs(9,34): error CS0618: 'TestContext' is obsolete: 'Use BunitContext instead. TestContext will be removed in a future release.' (https://bunit.dev/docs/migrations)
+    /home/kushal/src/dotnet/observermagazine.github.io/tests/ObserverMagazine.Web.Tests/Components/ResponsiveTableTests.cs(9,37): error CS0618: 'TestContext' is obsolete: 'Use BunitContext instead. TestContext will be removed in a future release.' (https://bunit.dev/docs/migrations)
+    /home/kushal/src/dotnet/observermagazine.github.io/tests/ObserverMagazine.Web.Tests/Components/ResponsiveTableTests.cs(23,50): error CS0246: The type or namespace name 'NoOpAnalyticsService' could not be found (are you missing a using directive or an assembly reference?)
+    /home/kushal/src/dotnet/observermagazine.github.io/tests/ObserverMagazine.Web.Tests/Components/MasterDetailTests.cs(23,50): error CS0246: The type or namespace name 'NoOpAnalyticsService' could not be found (are you missing a using directive or an assembly reference?)
+    /home/kushal/src/dotnet/observermagazine.github.io/tests/ObserverMagazine.Web.Tests/Components/MasterDetailTests.cs(31,19): error CS0619: 'BunitContext.RenderComponent<TComponent>()' is obsolete: 'Use Render instead.' (https://bunit.dev/docs/migrations)
+    /home/kushal/src/dotnet/observermagazine.github.io/tests/ObserverMagazine.Web.Tests/Components/ResponsiveTableTests.cs(31,19): error CS0619: 'BunitContext.RenderComponent<TComponent>()' is obsolete: 'Use Render instead.' (https://bunit.dev/docs/migrations)
+    /home/kushal/src/dotnet/observermagazine.github.io/tests/ObserverMagazine.Web.Tests/Components/MasterDetailTests.cs(42,19): error CS0619: 'BunitContext.RenderComponent<TComponent>()' is obsolete: 'Use Render instead.' (https://bunit.dev/docs/migrations)
+    /home/kushal/src/dotnet/observermagazine.github.io/tests/ObserverMagazine.Web.Tests/Components/MasterDetailTests.cs(56,19): error CS0619: 'BunitContext.RenderComponent<TComponent>()' is obsolete: 'Use Render instead.' (https://bunit.dev/docs/migrations)
+    /home/kushal/src/dotnet/observermagazine.github.io/tests/ObserverMagazine.Web.Tests/Components/ResponsiveTableTests.cs(43,19): error CS0619: 'BunitContext.RenderComponent<TComponent>()' is obsolete: 'Use Render instead.' (https://bunit.dev/docs/migrations)
+    /home/kushal/src/dotnet/observermagazine.github.io/tests/ObserverMagazine.Web.Tests/Components/ResponsiveTableTests.cs(58,19): error CS0619: 'BunitContext.RenderComponent<TComponent>()' is obsolete: 'Use Render instead.' (https://bunit.dev/docs/migrations)
+
+Test summary: total: 9, failed: 0, succeeded: 9, skipped: 0, duration: 1.1s
+Build failed with 10 error(s) in 3.7s
+
+real	0m3.904s
+user	0m1.973s
+sys	0m0.347s
+
+I've read the full dump.txt. The errors are clear — bUnit 2.6.2 has deprecated `TestContext` (use `BunitContext`) and `RenderComponent` (use `Render`), and `NoOpAnalyticsService` is in a different namespace. Since `TreatWarningsAsErrors` is on, the obsolete warnings become errors. Here are the three files that need to change:Three fixes across three files:
+
+**1. `Bunit.TestContext` → `BunitContext` + `IDisposable`** — bUnit 2.6.2 deprecated `TestContext` entirely. The new pattern is to own a `BunitContext` field and implement `IDisposable`. This also eliminates the xUnit v3 `TestContext` ambiguity.
+
+**2. `RenderComponent<T>()` → `Render<T>()`** — The method was renamed in bUnit 2.x.
+
+**3. Missing `using ObserverMagazine.Web.Tests.Services`** — `NoOpAnalyticsService` lives in a different namespace than the component tests. Added the `using` directive.
+
+**4. Removed unused `using` directives from BlogServiceTests** — Cleaned up `Bunit`, `Microsoft.Extensions.DependencyInjection`, and `System.Net.Http.Json` imports that were unnecessary (this file doesn't use bUnit at all, it tests the service directly).
+
+No other files changed.
+

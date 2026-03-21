@@ -1,9 +1,5 @@
 using System.Net;
-using System.Net.Http.Json;
 using System.Text.Json;
-using Bunit;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using ObserverMagazine.Web.Models;
 using ObserverMagazine.Web.Services;
