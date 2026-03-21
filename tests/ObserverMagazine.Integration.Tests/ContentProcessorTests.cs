@@ -37,7 +37,7 @@ public class ContentProcessorTests
         Assert.Equal(new DateTime(2026, 3, 1), frontMatter.Date);
         Assert.Equal("observer-team", frontMatter.Author);
         Assert.Equal("A test summary", frontMatter.Summary);
-        Assert.Equal(["test", "integration"], frontMatter.Tags);
+        Assert.Equal(["test", "integration"], frontMatter.Tags!);
         Assert.True(frontMatter.Featured);
         Assert.Equal("Test Series", frontMatter.Series);
         Assert.Equal("/images/test.jpg", frontMatter.Image);
