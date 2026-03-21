@@ -2,6 +2,7 @@
 @inject IBlogService BlogService
 @inject ILogger<BlogPost> Logger
 @inject NavigationManager Nav
+@inject IAnalyticsService Analytics
 
 <PageTitle>@(metadata?.Title ?? "Post") — Observer Magazine</PageTitle>
 
@@ -65,6 +66,7 @@ else
             if (metadata is not null)
             {
                 htmlContent = await BlogService.GetPostHtmlAsync(Slug);
+                await Analytics.TrackPageViewAsync("BlogPost", $"{metadata.Title} ({Slug})");
             }
         }
         catch (Exception ex)

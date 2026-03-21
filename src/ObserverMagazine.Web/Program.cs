@@ -14,6 +14,7 @@ builder.Services.AddScoped(sp =>
 // Register application services
 builder.Services.AddScoped<IBlogService, BlogService>();
 builder.Services.AddSingleton<TelemetryService>();
+builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
 
 // Configure logging
 builder.Logging.SetMinimumLevel(LogLevel.Information);

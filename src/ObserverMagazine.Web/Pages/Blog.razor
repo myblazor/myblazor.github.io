@@ -1,6 +1,7 @@
 @page "/blog"
 @inject IBlogService BlogService
 @inject ILogger<Blog> Logger
+@inject IAnalyticsService Analytics
 
 <PageTitle>Blog — Observer Magazine</PageTitle>
 
@@ -54,6 +55,7 @@ else
         try
         {
             posts = await BlogService.GetPostsAsync();
+            await Analytics.TrackPageViewAsync("Blog", $"{posts?.Length ?? 0} posts");
         }
         catch (Exception ex)
         {

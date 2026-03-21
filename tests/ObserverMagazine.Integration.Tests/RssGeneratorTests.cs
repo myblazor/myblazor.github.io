@@ -5,6 +5,8 @@ namespace ObserverMagazine.Integration.Tests;
 
 public class RssGeneratorTests
 {
+    private static readonly XNamespace ContentNs = "http://purl.org/rss/1.0/modules/content/";
+
     [Fact]
     public void GenerateRss_ProducesValidXml()
     {
@@ -22,7 +24,6 @@ public class RssGeneratorTests
 
         var xml = GenerateRss("Test Blog", "A blog", "https://example.com", posts);
 
-        // Should be valid XML
         var doc = XDocument.Parse(xml);
         var channel = doc.Root!.Element("channel")!;
 
@@ -66,27 +67,73 @@ public class RssGeneratorTests
         Assert.Equal(["alpha", "beta"], categories);
     }
 
-    // --- RSS generation logic (same as ContentProcessor) ---
+    [Fact]
+    public void GenerateRss_IncludesFullContentWhenProvided()
+    {
+        var posts = new List<RssPostEntry>
+        {
+            new()
+            {
+                Slug = "full-content",
+                Title = "Full Content Post",
+                Date = new DateTime(2026, 2, 1),
+                Summary = "Has full content",
+                Tags = []
+            }
+        };
+
+        var htmlMap = new Dictionary<string, string>
+        {
+            ["full-content"] = "<p>This is the <strong>full</strong> content.</p>"
+        };
+
+        var xml = GenerateRss("Blog", "Desc", "https://example.com", posts,
+            slug => htmlMap.GetValueOrDefault(slug));
+
+        var doc = XDocument.Parse(xml);
+        var item = doc.Root!.Element("channel")!.Element("item")!;
+        var encoded = item.Element(ContentNs + "encoded");
+
+        Assert.NotNull(encoded);
+        Assert.Contains("<strong>full</strong>", encoded.Value);
+    }
+
+    // --- RSS generation logic (mirrors ContentProcessor) ---
     private static string GenerateRss(
         string title, string description, string siteUrl,
-        IReadOnlyList<RssPostEntry> posts)
+        IReadOnlyList<RssPostEntry> posts,
+        Func<string, string?>? getPostHtml = null)
     {
         var items = posts.Select(p =>
-            new XElement("item",
+        {
+            var itemElements = new List<object>
+            {
                 new XElement("title", p.Title),
                 new XElement("link", $"{siteUrl}/blog/{p.Slug}"),
                 new XElement("description", p.Summary),
                 new XElement("pubDate", p.Date.ToString("R")),
-                new XElement("guid", $"{siteUrl}/blog/{p.Slug}"),
-                p.Tags.Length > 0
-                    ? p.Tags.Select(t => new XElement("category", t))
-                    : null
-            ));
+                new XElement("guid", $"{siteUrl}/blog/{p.Slug}")
+            };
+
+            var html = getPostHtml?.Invoke(p.Slug);
+            if (!string.IsNullOrEmpty(html))
+            {
+                itemElements.Add(new XElement(ContentNs + "encoded", new XCData(html)));
+            }
+
+            if (p.Tags.Length > 0)
+            {
+                itemElements.AddRange(p.Tags.Select(t => new XElement("category", t)));
+            }
+
+            return new XElement("item", itemElements);
+        });
 
         var rss = new XDocument(
             new XDeclaration("1.0", "utf-8", null),
             new XElement("rss",
                 new XAttribute("version", "2.0"),
+                new XAttribute(XNamespace.Xmlns + "content", ContentNs),
                 new XElement("channel",
                     new XElement("title", title),
                     new XElement("link", siteUrl),

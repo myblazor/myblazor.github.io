@@ -30,6 +30,7 @@ var markdownFiles = Directory.GetFiles(contentDir, "*.md", SearchOption.TopDirec
 Console.WriteLine($"Found {markdownFiles.Length} markdown files");
 
 var allPostMetadata = new List<PostIndexEntry>();
+var postHtmlMap = new Dictionary<string, string>();
 
 foreach (var mdFile in markdownFiles)
 {
@@ -54,6 +55,8 @@ foreach (var mdFile in markdownFiles)
     var htmlPath = Path.Combine(blogDataDir, $"{slug}.html");
     File.WriteAllText(htmlPath, html);
     Console.WriteLine($"  Wrote: {htmlPath}");
+
+    postHtmlMap[slug] = html;
 
     allPostMetadata.Add(new PostIndexEntry
     {
@@ -80,13 +83,14 @@ var indexJson = JsonSerializer.Serialize(allPostMetadata, jsonOptions);
 File.WriteAllText(indexPath, indexJson);
 Console.WriteLine($"Wrote posts index: {indexPath} ({allPostMetadata.Count} posts)");
 
-// Generate RSS feed
+// Generate RSS feed with full post content
 var feedPath = Path.Combine(outputDir, "feed.xml");
 var rssXml = RssGenerator.Generate(
     title: "Observer Magazine",
     description: "A free, open-source Blazor WebAssembly showcase on .NET 10",
     siteUrl: "https://observermagazine.github.io",
-    posts: allPostMetadata
+    posts: allPostMetadata,
+    getPostHtml: slug => postHtmlMap.GetValueOrDefault(slug)
 );
 File.WriteAllText(feedPath, rssXml);
 Console.WriteLine($"Wrote RSS feed: {feedPath}");

@@ -1,8 +1,9 @@
 @inject HttpClient Http
 @inject ILogger<MasterDetail> Logger
+@inject IAnalyticsService Analytics
 
-<div class="master-detail">
-    <div class="master-list">
+<div class="md-container">
+    <div class="md-list">
         <h3>Products</h3>
         @if (products is null)
         {
@@ -13,26 +14,26 @@
             <ul>
                 @foreach (var p in products)
                 {
-                    <li class="@(selected?.Name == p.Name ? "selected" : "")"
+                    <li class="@(selected?.Name == p.Name ? "md-selected" : "")"
                         @onclick="() => Select(p)">
-                        <span class="item-name">@p.Name</span>
-                        <span class="item-price">@p.Price.ToString("C")</span>
+                        <span class="md-item-name">@p.Name</span>
+                        <span class="md-item-price">@p.Price.ToString("C")</span>
                     </li>
                 }
             </ul>
         }
     </div>
 
-    <div class="detail-panel">
+    <div class="md-detail">
         @if (selected is null)
         {
-            <div class="detail-empty">
+            <div class="md-empty">
                 <p>Select an item from the list to view details.</p>
             </div>
         }
         else
         {
-            <div class="detail-content">
+            <div class="md-content">
                 <h3>@selected.Name</h3>
                 <dl>
                     <dt>Category</dt>
@@ -48,7 +49,7 @@
                     <dd>
                         @for (int i = 0; i < (int)Math.Round(selected.Rating); i++)
                         {
-                            <span class="star">★</span>
+                            <span class="md-star">★</span>
                         }
                         (@selected.Rating.ToString("F1"))
                     </dd>
@@ -79,9 +80,10 @@
         }
     }
 
-    private void Select(Product product)
+    private async void Select(Product product)
     {
         selected = product;
         Logger.LogInformation("Selected product: {Name}", product.Name);
+        await Analytics.TrackInteractionAsync("ProductSelect", product.Name);
     }
 }

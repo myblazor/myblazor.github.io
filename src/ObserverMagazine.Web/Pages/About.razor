@@ -1,4 +1,5 @@
 @page "/about"
+@inject IAnalyticsService Analytics
 
 <PageTitle>About — Observer Magazine</PageTitle>
 
@@ -34,6 +35,7 @@
         <tr><td>YAML</td><td>YamlDotNet 16.3.0</td><td>MIT</td></tr>
         <tr><td>Testing</td><td>xUnit v3 + bUnit</td><td>Apache-2.0 / MIT</td></tr>
         <tr><td>Hosting</td><td>GitHub Pages</td><td>Free</td></tr>
+        <tr><td>Backend</td><td>Cloudflare Workers (D1)</td><td>Free tier</td></tr>
     </tbody>
 </table>
 
@@ -44,3 +46,10 @@
         github.com/ObserverMagazine/observermagazine.github.io
     </a>
 </p>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await Analytics.TrackPageViewAsync("About");
+    }
+}

@@ -1,5 +1,6 @@
 @inject HttpClient Http
 @inject ILogger<ResponsiveTable> Logger
+@inject IAnalyticsService Analytics
 
 @if (products is null)
 {
@@ -7,28 +8,28 @@
 }
 else
 {
-    <div class="table-controls">
+    <div class="rt-controls">
         <input type="text"
                placeholder="Filter by name..."
                @bind="filterText"
                @bind:event="oninput"
-               class="filter-input" />
+               class="rt-filter-input" />
     </div>
 
-    <div class="table-responsive">
-        <table class="data-table">
+    <div class="rt-table-responsive">
+        <table class="rt-data-table">
             <thead>
                 <tr>
-                    <th class="sortable" @onclick='() => Sort("Name")'>
+                    <th class="rt-sortable" @onclick='() => Sort("Name")'>
                         Name @SortIndicator("Name")
                     </th>
-                    <th class="sortable" @onclick='() => Sort("Category")'>
+                    <th class="rt-sortable" @onclick='() => Sort("Category")'>
                         Category @SortIndicator("Category")
                     </th>
-                    <th class="sortable numeric" @onclick='() => Sort("Price")'>
+                    <th class="rt-sortable rt-numeric" @onclick='() => Sort("Price")'>
                         Price @SortIndicator("Price")
                     </th>
-                    <th class="sortable numeric" @onclick='() => Sort("Stock")'>
+                    <th class="rt-sortable rt-numeric" @onclick='() => Sort("Stock")'>
                         Stock @SortIndicator("Stock")
                     </th>
                     <th>Rating</th>
@@ -40,12 +41,12 @@ else
                     <tr>
                         <td data-label="Name">@p.Name</td>
                         <td data-label="Category">@p.Category</td>
-                        <td data-label="Price" class="numeric">@p.Price.ToString("C")</td>
-                        <td data-label="Stock" class="numeric">@p.Stock</td>
+                        <td data-label="Price" class="rt-numeric">@p.Price.ToString("C")</td>
+                        <td data-label="Stock" class="rt-numeric">@p.Stock</td>
                         <td data-label="Rating">
                             @for (int i = 0; i < (int)Math.Round(p.Rating); i++)
                             {
-                                <span class="star">★</span>
+                                <span class="rt-star">★</span>
                             }
                         </td>
                     </tr>
@@ -54,7 +55,7 @@ else
         </table>
     </div>
 
-    <p class="table-info">
+    <p class="rt-info">
         Showing @FilteredAndSorted.Count() of @products.Length items
     </p>
 }
@@ -101,7 +102,7 @@ else
         }
     }
 
-    private void Sort(string column)
+    private async void Sort(string column)
     {
         if (sortColumn == column)
         {
@@ -113,6 +114,7 @@ else
             sortAscending = true;
         }
         Logger.LogInformation("Sorted by {Column} {Direction}", column, sortAscending ? "asc" : "desc");
+        await Analytics.TrackInteractionAsync("TableSort", $"{column} {(sortAscending ? "asc" : "desc")}");
     }
 
     private string SortIndicator(string column)
