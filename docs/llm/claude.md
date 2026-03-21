@@ -8546,3 +8546,123 @@ public class ResponsiveTableTests : IDisposable
 }
 ```
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+17
+12
+
+Can you please review the github actions yaml files and make sure the actions are up to date 
+update the yaml if necessary 
+or even the logic if necessary 
+everything should be the latest 
+build-and-deploy
+Node.js 20 actions are deprecated. The following actions are running on Node.js 20 and may not work as expected: actions/checkout@v4, actions/configure-pages@v5, actions/deploy-pages@v4, actions/setup-dotnet@v4, actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02. Actions will be forced to run with Node.js 24 by default starting June 2nd, 2026. Please check if updated versions of these actions are available that support Node.js 24. To opt into Node.js 24 now, set the FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true environment variable on the runner or in your workflow file. Once Node.js 24 becomes the default, you can temporarily opt out by setting ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+also I noticed that the blog posts no longer have the mp3 audio 
+did something break here? please make sure there are no regressions 
+please give me full files for all files that change 
+
+Now let me check the latest versions of the GitHub Actions to ensure Node.js 24 compatibility.Now I have the full picture. Here's my analysis and the fixes.
+
+**Two issues found:**
+
+1. **Node.js 20 deprecation** — Multiple actions need version bumps to support Node.js 24. For actions that don't have a Node.js 24 version yet, we set `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true`.
+
+2. **Missing audio generation steps** — The `deploy.yml` on disk is missing the Python setup, espeak-ng/ffmpeg install, and `generate_audio.py` execution steps. The `tools/generate_audio.py` and `BlogTtsPlayer.razor` exist in the repo but they're never called during CI. That's why blog posts have no MP3 audio.
+
+**Action version updates (verified via official GitHub repos):**
+
+| Action | Current | Updated | Notes |
+|---|---|---|---|
+| `actions/checkout` | `@v4` | `@v6` | Node.js 24 native |
+| `actions/setup-dotnet` | `@v4` | `@v5` | Node.js 24 native |
+| `actions/setup-python` | (missing) | `@v6` | Node.js 24 native |
+| `actions/configure-pages` | `@v5` | `@v5` | No v6 yet; covered by env flag |
+| `actions/upload-pages-artifact` | `@v4` | `@v4` | Latest; covered by env flag |
+| `actions/deploy-pages` | `@v4` | `@v4` | Latest; covered by env flag |
+| `actions/upload-artifact` | `@v4` | `@v4` | Latest; covered by env flag |
+
+Here are the two full files:
+
+---
+
+**CHANGED FILE: `.github/workflows/deploy.yml`****CHANGED FILE: `.github/workflows/pr-check.yml`**---
+
+## Summary of all changes
+
+### `.github/workflows/deploy.yml` — 3 categories of fixes:
+
+**1. Node.js 24 action upgrades:**
+- `actions/checkout@v4` → `@v6`
+- `actions/setup-dotnet@v4` → `@v5`
+- Added `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true` at the top-level `env:` for actions that don't have a Node.js 24 version yet (`configure-pages@v5`, `upload-pages-artifact@v4`, `deploy-pages@v4`)
+
+**2. Missing audio generation steps restored (this is the MP3 regression):**
+- Added `actions/setup-python@v6` with `python-version: '3.12'` (KittenTTS requires `<3.13`)
+- Added `sudo apt-get install -y espeak-ng ffmpeg` (both were missing — espeak-ng is needed by KittenTTS, ffmpeg converts WAV→MP3)
+- Added HuggingFace model caching via `actions/cache@v4`
+- Added `pip install onnxruntime` + `pip install -r tools/requirements-audio.txt`
+- Added the `python tools/generate_audio.py` step between the content processor and tests
+
+**3. Step ordering preserved:**
+Content processor → Audio generation → Tests → Publish → Deploy (same logical flow as before, audio just fills in the gap where it was supposed to be)
+
+### `.github/workflows/pr-check.yml` — Node.js 24 fixes only:
+
+- `actions/checkout@v4` → `@v6`
+- `actions/setup-dotnet@v4` → `@v5`
+- Added `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true` env for `upload-artifact@v4`
+- No audio generation in PR checks (keeps them fast; audio is a deploy-time concern)
+
+### Why blog posts lost their MP3 audio:
+
+The `tools/generate_audio.py`, `tools/requirements-audio.txt`, and `BlogTtsPlayer.razor` all exist in the repo, but the `deploy.yml` was never updated with the Python/audio steps. The audio pipeline was designed but the CI wiring was incomplete — the workflow just ran the .NET content processor and skipped straight to tests. With this fix, the full pipeline runs: markdown → JSON/HTML → MP3 → tests → publish → deploy.

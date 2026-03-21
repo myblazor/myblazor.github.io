@@ -17,6 +17,12 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
+# Opt into Node.js 24 now for actions that haven't released a native v24 version yet
+# (configure-pages, upload-pages-artifact, deploy-pages).
+# This can be removed once all actions ship Node.js 24 support natively.
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build-and-deploy:
     environment:
@@ -25,18 +31,40 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '10.0.x'
 
-      - name: Restore dependencies
+      - name: Setup Python 3.12 (for TTS audio generation)
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Install system dependencies (espeak-ng + ffmpeg)
+        run: sudo apt-get update && sudo apt-get install -y espeak-ng ffmpeg
+
+      - name: Cache HuggingFace model
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: hf-kitten-tts-nano-0.8
+
+      - name: Install Python audio dependencies
+        run: |
+          pip install onnxruntime
+          pip install -r tools/requirements-audio.txt
+
+      - name: Restore .NET dependencies
         run: dotnet restore
 
       - name: Run content processor (markdown → JSON + HTML)
         run: dotnet run --project tools/ObserverMagazine.ContentProcessor -- --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot --authors-dir content/authors
+
+      - name: Generate TTS audio (markdown → MP3)
+        run: python tools/generate_audio.py --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot/blog-data --voice Bella --model KittenML/kitten-tts-nano-0.8
 
       - name: Run tests
         run: dotnet test --no-restore --verbosity normal

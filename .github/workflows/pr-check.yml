@@ -4,15 +4,20 @@ on:
   pull_request:
     branches: [main]
 
+# Opt into Node.js 24 now for actions that haven't released a native v24 version yet.
+# This can be removed once all actions ship Node.js 24 support natively.
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '10.0.x'
 
