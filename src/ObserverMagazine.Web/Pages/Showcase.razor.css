@@ -34,6 +34,13 @@
     position: relative;
 }
 
+.sc-col-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 49;
+    background: transparent;
+}
+
 .sc-col-dropdown {
     position: absolute;
     top: 100%;
@@ -84,7 +91,7 @@
     color: var(--color-text);
 }
 
-/* ---- Filter panel (replaces inline filter row) ---- */
+/* ---- Filter panel ---- */
 .sc-filter-panel {
     background: var(--color-surface);
     border: 1px solid var(--color-border);
@@ -285,7 +292,6 @@
         justify-content: space-between;
     }
 
-    /* Column dropdown: position relative to viewport on mobile */
     .sc-col-dropdown {
         position: fixed;
         top: auto;
@@ -298,12 +304,10 @@
         z-index: 100;
     }
 
-    /* Filters: single column on small screens */
     .sc-filter-grid {
         grid-template-columns: 1fr;
     }
 
-    /* Table collapses to cards */
     .sc-table thead {
         display: none;
     }

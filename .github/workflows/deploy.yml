@@ -17,9 +17,6 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
-# Opt into Node.js 24 now for actions that haven't released a native v24 version yet
-# (configure-pages, upload-pages-artifact, deploy-pages).
-# This can be removed once all actions ship Node.js 24 support natively.
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
@@ -71,6 +68,11 @@ jobs:
 
       - name: Publish Blazor WASM
         run: dotnet publish src/ObserverMagazine.Web/ObserverMagazine.Web.csproj -c Release -o publish
+
+      - name: Strip source map references from framework JS
+        run: |
+          find publish/wwwroot/_framework -name "*.js" -exec sed -i '/^\/\/# sourceMappingURL=/d' {} + 2>/dev/null || true
+          find publish/wwwroot/_framework -name "*.js" -exec sed -i '/^\/\/@ sourceMappingURL=/d' {} + 2>/dev/null || true
 
       - name: Prepare GitHub Pages artifacts
         run: |

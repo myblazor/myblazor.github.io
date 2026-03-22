@@ -1,0 +1,13 @@
+.nav-overlay {
+    display: none;
+}
+
+@media (max-width: 640px) {
+    .nav-overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 98;
+        background: transparent;
+    }
+}

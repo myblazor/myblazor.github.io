@@ -1,9 +1,17 @@
 @inject IJSRuntime JS
+@inject NavigationManager Nav
+@implements IDisposable
 
 <nav class="nav-menu" role="navigation">
-    <button class="nav-toggle" @onclick="ToggleMenu" aria-label="Toggle navigation">
+    <button class="nav-toggle" @onclick="ToggleMenu" @onclick:stopPropagation="true" aria-label="Toggle navigation">
         ☰
     </button>
+
+    @if (isOpen)
+    {
+        <div class="nav-overlay" @onclick="CloseMenu"></div>
+    }
+
     <ul class="nav-links @(isOpen ? "open" : "")">
         <li><NavLink href="" Match="NavLinkMatch.All">Home</NavLink></li>
         <li><NavLink href="blog">Blog</NavLink></li>
@@ -49,7 +57,23 @@
     private bool isOpen;
     private string currentTheme = "system";
 
+    protected override void OnInitialized()
+    {
+        Nav.LocationChanged += OnLocationChanged;
+    }
+
     private void ToggleMenu() => isOpen = !isOpen;
+
+    private void CloseMenu() => isOpen = false;
+
+    private void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
+    {
+        if (isOpen)
+        {
+            isOpen = false;
+            InvokeAsync(StateHasChanged);
+        }
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -64,5 +88,10 @@
     {
         currentTheme = e.Value?.ToString() ?? "system";
         await JS.InvokeVoidAsync("observerTheme.set", currentTheme);
+    }
+
+    public void Dispose()
+    {
+        Nav.LocationChanged -= OnLocationChanged;
     }
 }

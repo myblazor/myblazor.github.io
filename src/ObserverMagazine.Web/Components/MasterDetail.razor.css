@@ -92,6 +92,36 @@
 
 .md-star { color: var(--color-accent); }
 
+/* ---- Confirmation dialog (was missing!) ---- */
+.confirm-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+}
+
+.confirm-dialog {
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 400px;
+    width: 90%;
+}
+
+.confirm-dialog h4 {
+    margin-bottom: 0.75rem;
+}
+
+.confirm-dialog p {
+    margin-bottom: 1rem;
+    color: var(--color-muted);
+    font-size: 0.95rem;
+}
+
 @media (max-width: 640px) {
     .md-container { grid-template-columns: 1fr; }
 

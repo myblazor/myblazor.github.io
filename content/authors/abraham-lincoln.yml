@@ -1,0 +1,77 @@
+name: Abraham Lincoln
+email: abe@lincoln.example
+bio: 16th President of the United States, self-taught lawyer, rail-splitter, and prolific writer. Known for the Emancipation Proclamation, the Gettysburg Address, and preserving the Union.
+avatar: images/authors/abraham-lincoln.png
+socials:
+  # Developer platforms
+  github: "abeLincoln"
+  gitlab: "abeLincoln"
+  bitbucket: "abeLincoln"
+  codepen: "abeLincoln"
+  devto: "abeLincoln"
+  hashnode: "abeLincoln"
+  stackoverflow: "16081865"
+  hackernews: "abeLincoln"
+
+  # Major social networks
+  x: "AbrahamLincoln"
+  facebook: "AbrahamLincoln"
+  instagram: "abeLincoln"
+  linkedin: "abrahamlincoln"
+  threads: "abeLincoln"
+  bluesky: "abeLincoln.bsky.social"
+  mastodon: "@abe@mastodon.social"
+  tiktok: "abeLincoln"
+  snapchat: "abeLincoln"
+  pinterest: "abeLincoln"
+  tumblr: "abeLincoln"
+  reddit: "abeLincoln"
+
+  # Video / streaming
+  youtube: "AbrahamLincoln"
+  twitch: "abeLincoln"
+  vimeo: "abeLincoln"
+
+  # Audio / music
+  spotify: "abeLincoln"
+  soundcloud: "abeLincoln"
+  bandcamp: "abeLincoln"
+
+  # Design / creative
+  dribbble: "abeLincoln"
+  behance: "abeLincoln"
+  flickr: "abeLincoln"
+  500px: "abeLincoln"
+  figma: "abeLincoln"
+
+  # Writing / blogging
+  medium: "abeLincoln"
+  substack: "abeLincoln"
+  wordpress: "abeLincoln"
+
+  # Messaging
+  discord: "abeLincoln"
+  telegram: "abeLincoln"
+  whatsapp: "+18095551865"
+  signal: "+18095551865"
+
+  # Monetisation
+  patreon: "abeLincoln"
+  kofi: "abeLincoln"
+  buymeacoffee: "abeLincoln"
+
+  # Books / academia
+  goodreads: "1234567"
+  orcid: "0000-0001-8651-8650"
+  researchgate: "Abraham-Lincoln"
+
+  # Professional / other
+  quora: "Abraham-Lincoln"
+  keybase: "abeLincoln"
+  producthunt: "abeLincoln"
+  angellist: "abeLincoln"
+  crunchbase: "abraham-lincoln"
+  notion: "abeLincoln"
+  linktree: "abeLincoln"
+  calendly: "abeLincoln"
+  website: "https://abrahamlincoln.example"

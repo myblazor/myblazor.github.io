@@ -29,6 +29,7 @@
             <button class="btn btn-outline btn-sm" @onclick="ToggleColumnPicker">Columns ▾</button>
             @if (showColumnPicker)
             {
+                <div class="sc-col-backdrop" @onclick="() => showColumnPicker = false"></div>
                 <div class="sc-col-dropdown" @onclick:stopPropagation="true">
                     @foreach (var col in columns)
                     {

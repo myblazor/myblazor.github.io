@@ -1,3 +1,4 @@
+@implements IDisposable
 @inject IAnalyticsService Analytics
 @inject ILogger<BlogTtsPlayer> Logger
 @inject IJSRuntime JS
@@ -43,6 +44,11 @@
                 Your browser does not support audio playback.
             </audio>
         }
+
+        <a class="tts-direct-link" href="blog-data/@(Slug).mp3" target="_blank" rel="noopener noreferrer"
+           title="Open audio file directly in a new tab">
+            Open audio ↗
+        </a>
     </div>
 }
 

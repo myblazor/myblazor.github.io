@@ -9,10 +9,8 @@
     <link rel="stylesheet" href="css/app.css" />
     <link rel="stylesheet" href="ObserverMagazine.Web.styles.css" />
 
-    <!-- highlight.js core (no theme — we use our own CSS-variable theme) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css"
-          id="hljs-theme" disabled />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+    <!-- highlight.js core — restored locally via LibMan at build time -->
+    <script src="lib/highlight.js/highlight.min.js"></script>
 
     <!-- Apply saved theme BEFORE first paint to prevent flash -->
     <script>
@@ -67,63 +65,57 @@
         };
     </script>
 
-    <!-- Audio helper for mobile compatibility -->
+    <!-- Audio helper for BlogTtsPlayer -->
     <script>
-/* Audio helper for BlogTtsPlayer — replaces the previous observerAudio block */
-    window.observerAudio = {
-        checkAvailability: function (elementId) {
-            return new Promise(function (resolve) {
+        window.observerAudio = {
+            checkAvailability: function (elementId) {
+                return new Promise(function (resolve) {
+                    var audio = document.getElementById(elementId);
+                    if (!audio) { resolve(false); return; }
+                    var timeout = setTimeout(function () { resolve(false); }, 5000);
+                    audio.addEventListener('loadedmetadata', function () {
+                        clearTimeout(timeout);
+                        resolve(true);
+                    }, { once: true });
+                    audio.addEventListener('error', function () {
+                        clearTimeout(timeout);
+                        resolve(false);
+                    }, { once: true });
+                    if (audio.readyState === 0) audio.load();
+                    else if (audio.readyState >= 1) { clearTimeout(timeout); resolve(true); }
+                });
+            },
+            checkControlsRendered: function (elementId) {
                 var audio = document.getElementById(elementId);
-                if (!audio) { resolve(false); return; }
-                // Try loading metadata; if the file 404s we get an error
-                var timeout = setTimeout(function () { resolve(false); }, 5000);
-                audio.addEventListener('loadedmetadata', function () {
-                    clearTimeout(timeout);
-                    resolve(true);
-                }, { once: true });
-                audio.addEventListener('error', function () {
-                    clearTimeout(timeout);
-                    resolve(false);
-                }, { once: true });
-                // Trigger load if not already started
-                if (audio.readyState === 0) audio.load();
-                else if (audio.readyState >= 1) { clearTimeout(timeout); resolve(true); }
-            });
-        },
-        checkControlsRendered: function (elementId) {
-            // Check if the native audio element actually rendered with visible height.
-            // Chrome Android can clip the controls to 0px with certain CSS.
-            var audio = document.getElementById(elementId);
-            if (!audio) return false;
-            var rect = audio.getBoundingClientRect();
-            // Native audio controls should have at least 20px height
-            return rect.height >= 20;
-        },
-        getDuration: function (elementId) {
-            var audio = document.getElementById(elementId);
-            return audio && isFinite(audio.duration) ? audio.duration : 0;
-        },
-        getCurrentTime: function (elementId) {
-            var audio = document.getElementById(elementId);
-            return audio ? audio.currentTime : 0;
-        },
-        hasEnded: function (elementId) {
-            var audio = document.getElementById(elementId);
-            return audio ? audio.ended : true;
-        },
-        play: function (elementId) {
-            var audio = document.getElementById(elementId);
-            if (audio) return audio.play();
-        },
-        pause: function (elementId) {
-            var audio = document.getElementById(elementId);
-            if (audio) audio.pause();
-        },
-        setCurrentTime: function (elementId, time) {
-            var audio = document.getElementById(elementId);
-            if (audio) audio.currentTime = time;
-        }
-    };
+                if (!audio) return false;
+                var rect = audio.getBoundingClientRect();
+                return rect.height >= 20;
+            },
+            getDuration: function (elementId) {
+                var audio = document.getElementById(elementId);
+                return audio && isFinite(audio.duration) ? audio.duration : 0;
+            },
+            getCurrentTime: function (elementId) {
+                var audio = document.getElementById(elementId);
+                return audio ? audio.currentTime : 0;
+            },
+            hasEnded: function (elementId) {
+                var audio = document.getElementById(elementId);
+                return audio ? audio.ended : true;
+            },
+            play: function (elementId) {
+                var audio = document.getElementById(elementId);
+                if (audio) return audio.play();
+            },
+            pause: function (elementId) {
+                var audio = document.getElementById(elementId);
+                if (audio) audio.pause();
+            },
+            setCurrentTime: function (elementId, time) {
+                var audio = document.getElementById(elementId);
+                if (audio) audio.currentTime = time;
+            }
+        };
     </script>
 
     <!-- SPA redirect for GitHub Pages -->

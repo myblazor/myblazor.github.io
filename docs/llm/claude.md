@@ -15398,6 +15398,9 @@ Everything else in the dump looked correct — the YAML syntax on `observer-team
 
 
 
+00
+28
+
 There are still a lot of "small" UX problems. 
 Google Chrome on mobile does not surface the media. 
 I sent this link directly to the phone through the messaging app Signal
@@ -15458,3 +15461,2440 @@ Source Map URL: dotnet.runtime.js.map
 https://firefox-source-docs.mozilla.org/devtools-user/debugger/source_map_errors/
 can you fix this as well please? 
 thank you 
+
+I've read the entire dump.txt carefully. Let me address all the issues systematically. There are quite a few changes needed, so I'll produce every modified/new file in full.
+
+**Summary of all changes:**
+
+1. **NavMenu** — closes on navigation + click-outside (hamburger bug)
+2. **BlogTtsPlayer** — adds `@implements IDisposable`, naked direct-play link for Chrome mobile
+3. **AuthorCard** — comprehensive social platform URL support
+4. **MasterDetail CSS** — missing `.confirm-overlay`/`.confirm-dialog` styles (bug)
+5. **Showcase** — column picker closes on outside click
+6. **LibMan** — replaces CDN `<script>`/`<link>` with build-time-restored local files
+7. **Source map stripping** — post-publish step removes `sourceMappingURL` references
+8. **New author:** Abraham Lincoln with every social platform
+9. **New article:** 2025 Year in Review
+10. **New article:** Modernizing to .NET 10 for enterprise developers
+11. **.gitignore** — excludes `wwwroot/lib/`Here's a summary of everything in the artifact above:
+
+**Bug fixes (8 found and fixed):**
+
+1. **Hamburger menu stays open on navigation** — NavMenu now subscribes to `NavigationManager.LocationChanged` and closes on every route change. Also added a transparent overlay so tapping outside the menu dismisses it on mobile.
+
+2. **Missing `@implements IDisposable` on BlogTtsPlayer** — The `Dispose()` method existed but the directive was absent, meaning the runtime never called it. Fixed.
+
+3. **Chrome mobile audio not surfacing** — Added a persistent "Open audio ↗" link that opens the MP3 directly in a new tab. Per Chrome's autoplay policy, the native `<audio>` element requires a prior user gesture on the domain before controls render. The direct link always works because navigating to an audio URL is an explicit user action.
+
+4. **MasterDetail confirmation dialog completely unstyled** — `.confirm-overlay` and `.confirm-dialog` classes were used in the Razor markup but had zero CSS rules. Added proper fixed-overlay + centered-dialog styles matching the existing pattern from ShowcaseDetail.
+
+5. **Showcase column picker never closes on outside click** — Added an invisible fixed backdrop behind the dropdown that catches clicks and closes it.
+
+6. **Source map 404 errors** — The Blazor framework JS files reference `.map` files that aren't included in Release publish output. Added a `sed` step in both CI workflows to strip those references after publish.
+
+7. **CDN dependency risk** — Replaced the direct CDN `<script>` and `<link>` for highlight.js with **LibMan** (`Microsoft.Web.LibraryManager.Build`), which downloads the files into `wwwroot/lib/` at build time. Zero runtime dependency on external CDNs.
+
+8. **`.gitignore` updated** — Added `src/ObserverMagazine.Web/wwwroot/lib/` since those files are build-time artifacts.
+
+**New content:**
+
+- **Abraham Lincoln author** (`content/authors/abraham-lincoln.yml`) with **every social platform I know of** — 40+ platforms including all major social networks, developer platforms, video/audio, design, writing, messaging, monetization, and academia.
+- **AuthorCard.razor** updated to map URLs for all those platforms.
+- **2025 Year in Review** — comprehensive article covering US politics (Trump administration, DOGE, TikTok, pardons), geopolitics (Ukraine, Gaza, China-Taiwan, South Korea, Canada), economics (Fed rates, tariffs, crypto), technology (AI models, DeepSeek, space), science (climate, GLP-1 drugs, bird flu), culture, and natural disasters.
+- **Modernizing to .NET 10** — written specifically for enterprise developers on .NET Framework 4.7 who don't tinker at home. Covers the rename history, C# evolution, ASP.NET Core, Blazor (WASM/Server/United), EF Core, Native AOT, modern tooling, and practical migration advice.
+
+14
+30
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# All File Changes — Full Files
+
+---
+
+## 1. `src/ObserverMagazine.Web/Layout/NavMenu.razor`
+
+Closes the hamburger menu on navigation and when clicking outside.
+
+```razor
+@inject IJSRuntime JS
+@inject NavigationManager Nav
+@implements IDisposable
+
+<nav class="nav-menu" role="navigation">
+    <button class="nav-toggle" @onclick="ToggleMenu" @onclick:stopPropagation="true" aria-label="Toggle navigation">
+        ☰
+    </button>
+
+    @if (isOpen)
+    {
+        <div class="nav-overlay" @onclick="CloseMenu"></div>
+    }
+
+    <ul class="nav-links @(isOpen ? "open" : "")">
+        <li><NavLink href="" Match="NavLinkMatch.All">Home</NavLink></li>
+        <li><NavLink href="blog">Blog</NavLink></li>
+        <li><NavLink href="showcase">Showcase</NavLink></li>
+        <li><NavLink href="about">About</NavLink></li>
+        <li>
+            <a class="nav-github"
+               href="https://github.com/ObserverMagazine/observermagazine.github.io"
+               target="_blank"
+               rel="noopener noreferrer"
+               title="View source on GitHub">
+                <svg viewBox="0 0 16 16" aria-hidden="true">
+                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47
+                        7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09
+                        -.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21
+                        1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95
+                        0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.63
+                        7.63 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44
+                        1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65
+                        3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01
+                        8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
+                </svg>
+            </a>
+        </li>
+        <li>
+            <select class="theme-select"
+                    value="@currentTheme"
+                    @onchange="OnThemeChanged"
+                    aria-label="Choose theme">
+                <option value="system">System</option>
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+                <option value="sepia">Sepia</option>
+                <option value="solarized-light">Solarized Light</option>
+                <option value="solarized-dark">Solarized Dark</option>
+                <option value="high-contrast">High Contrast</option>
+            </select>
+        </li>
+    </ul>
+</nav>
+
+@code {
+    private bool isOpen;
+    private string currentTheme = "system";
+
+    protected override void OnInitialized()
+    {
+        Nav.LocationChanged += OnLocationChanged;
+    }
+
+    private void ToggleMenu() => isOpen = !isOpen;
+
+    private void CloseMenu() => isOpen = false;
+
+    private void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
+    {
+        if (isOpen)
+        {
+            isOpen = false;
+            InvokeAsync(StateHasChanged);
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            currentTheme = await JS.InvokeAsync<string>("observerTheme.get");
+            StateHasChanged();
+        }
+    }
+
+    private async Task OnThemeChanged(ChangeEventArgs e)
+    {
+        currentTheme = e.Value?.ToString() ?? "system";
+        await JS.InvokeVoidAsync("observerTheme.set", currentTheme);
+    }
+
+    public void Dispose()
+    {
+        Nav.LocationChanged -= OnLocationChanged;
+    }
+}
+```
+
+---
+
+## 2. `src/ObserverMagazine.Web/Layout/NavMenu.razor.css` (NEW)
+
+Add scoped CSS for the nav overlay used to close the mobile menu on outside click.
+
+```css
+.nav-overlay {
+    display: none;
+}
+
+@media (max-width: 640px) {
+    .nav-overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 98;
+        background: transparent;
+    }
+}
+```
+
+---
+
+## 3. `src/ObserverMagazine.Web/Components/BlogTtsPlayer.razor`
+
+Adds `@implements IDisposable`, adds a naked direct-play link for Chrome mobile compatibility.
+
+```razor
+@implements IDisposable
+@inject IAnalyticsService Analytics
+@inject ILogger<BlogTtsPlayer> Logger
+@inject IJSRuntime JS
+
+@if (!hidden)
+{
+    <div class="tts-player">
+        <span class="tts-icon" aria-hidden="true">🔊</span>
+        <span class="tts-label">Listen to this post</span>
+
+        @if (useFallbackControls)
+        {
+            @* Fallback: custom play/pause + seek when native controls don't render *@
+            <audio id="tts-audio-@Slug"
+                   preload="metadata"
+                   playsinline
+                   src="blog-data/@(Slug).mp3"
+                   style="display:none;">
+                Your browser does not support audio playback.
+            </audio>
+            <div class="tts-fallback">
+                <button class="tts-fallback-btn" @onclick="ToggleFallbackPlay">
+                    @(fallbackPlaying ? "⏸ Pause" : "▶ Play")
+                </button>
+                <input type="range" class="tts-fallback-seek"
+                       min="0" max="@fallbackDuration" step="1"
+                       value="@fallbackCurrentTime"
+                       @oninput="OnSeek" />
+                <span class="tts-fallback-time">@FormatTime(fallbackCurrentTime)</span>
+            </div>
+        }
+        else
+        {
+            @* Default: native browser audio controls *@
+            <audio id="tts-audio-@Slug"
+                   controls
+                   preload="metadata"
+                   playsinline
+                   src="blog-data/@(Slug).mp3"
+                   @onplay="OnPlay"
+                   @onpause="OnPause"
+                   @onended="OnEnded">
+                Your browser does not support audio playback.
+            </audio>
+        }
+
+        <a class="tts-direct-link" href="blog-data/@(Slug).mp3" target="_blank" rel="noopener noreferrer"
+           title="Open audio file directly in a new tab">
+            Open audio ↗
+        </a>
+    </div>
+}
+
+@code {
+    /// <summary>Blog post slug — matches the MP3 filename in blog-data/</summary>
+    [Parameter, EditorRequired]
+    public string Slug { get; set; } = string.Empty;
+
+    private bool hidden;
+    private bool useFallbackControls;
+    private bool fallbackPlaying;
+    private int fallbackCurrentTime;
+    private int fallbackDuration = 1; // avoid div-by-zero on range
+
+    private System.Threading.Timer? _pollTimer;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                // Check if the audio source is available at all
+                var canPlay = await JS.InvokeAsync<bool>("observerAudio.checkAvailability",
+                    $"tts-audio-{Slug}");
+                if (!canPlay)
+                {
+                    hidden = true;
+                    StateHasChanged();
+                    return;
+                }
+
+                // Check if native controls rendered properly (height > 0).
+                // Chrome Android clips the controls to 0px height in some CSS scenarios.
+                var controlsRendered = await JS.InvokeAsync<bool>("observerAudio.checkControlsRendered",
+                    $"tts-audio-{Slug}");
+                if (!controlsRendered)
+                {
+                    Logger.LogInformation("Native audio controls not rendered for {Slug}, using fallback", Slug);
+                    useFallbackControls = true;
+                    StateHasChanged();
+
+                    // After switching to fallback, get duration
+                    await Task.Delay(100); // let DOM update
+                    var dur = await JS.InvokeAsync<double>("observerAudio.getDuration", $"tts-audio-{Slug}");
+                    if (dur > 0)
+                        fallbackDuration = (int)Math.Ceiling(dur);
+                    StateHasChanged();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogDebug(ex, "Audio availability check failed for {Slug}", Slug);
+            }
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        hidden = false;
+        useFallbackControls = false;
+        fallbackPlaying = false;
+        fallbackCurrentTime = 0;
+    }
+
+    // --- Fallback controls ---
+
+    private async Task ToggleFallbackPlay()
+    {
+        try
+        {
+            if (fallbackPlaying)
+            {
+                await JS.InvokeVoidAsync("observerAudio.pause", $"tts-audio-{Slug}");
+                fallbackPlaying = false;
+                StopPolling();
+                await OnPause();
+            }
+            else
+            {
+                await JS.InvokeVoidAsync("observerAudio.play", $"tts-audio-{Slug}");
+                fallbackPlaying = true;
+                StartPolling();
+                await OnPlay();
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogWarning(ex, "Fallback play/pause failed for {Slug}", Slug);
+        }
+    }
+
+    private async Task OnSeek(ChangeEventArgs e)
+    {
+        if (double.TryParse(e.Value?.ToString(), out var time))
+        {
+            fallbackCurrentTime = (int)time;
+            try
+            {
+                await JS.InvokeVoidAsync("observerAudio.setCurrentTime", $"tts-audio-{Slug}", time);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogDebug(ex, "Seek failed for {Slug}", Slug);
+            }
+        }
+    }
+
+    private void StartPolling()
+    {
+        StopPolling();
+        _pollTimer = new System.Threading.Timer(async _ =>
+        {
+            try
+            {
+                var time = await JS.InvokeAsync<double>("observerAudio.getCurrentTime", $"tts-audio-{Slug}");
+                var ended = await JS.InvokeAsync<bool>("observerAudio.hasEnded", $"tts-audio-{Slug}");
+                await InvokeAsync(() =>
+                {
+                    fallbackCurrentTime = (int)time;
+                    if (ended)
+                    {
+                        fallbackPlaying = false;
+                        StopPolling();
+                        _ = OnEnded();
+                    }
+                    StateHasChanged();
+                });
+            }
+            catch
+            {
+                // Component may have been disposed — ignore
+            }
+        }, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(500));
+    }
+
+    private void StopPolling()
+    {
+        _pollTimer?.Dispose();
+        _pollTimer = null;
+    }
+
+    private static string FormatTime(int seconds)
+    {
+        var m = seconds / 60;
+        var s = seconds % 60;
+        return $"{m}:{s:D2}";
+    }
+
+    // --- Analytics events ---
+
+    private async Task OnPlay()
+    {
+        Logger.LogInformation("TTS play: {Slug}", Slug);
+        await Analytics.TrackInteractionAsync("TTS.Play", Slug);
+    }
+
+    private async Task OnPause()
+    {
+        Logger.LogInformation("TTS pause: {Slug}", Slug);
+        await Analytics.TrackInteractionAsync("TTS.Pause", Slug);
+    }
+
+    private async Task OnEnded()
+    {
+        Logger.LogInformation("TTS finished: {Slug}", Slug);
+        await Analytics.TrackInteractionAsync("TTS.Finished", Slug);
+    }
+
+    public void Dispose()
+    {
+        StopPolling();
+    }
+}
+```
+
+---
+
+## 4. `src/ObserverMagazine.Web/Components/BlogTtsPlayer.razor.css`
+
+Adds style for the new direct link.
+
+```css
+.tts-player {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 1rem 0 1.5rem;
+    padding: 0.75rem 1rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    flex-wrap: wrap;
+}
+
+.tts-icon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.tts-label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-muted);
+    white-space: nowrap;
+}
+
+.tts-player audio {
+    flex: 1;
+    min-width: 200px;
+    max-width: 100%;
+    border-radius: var(--radius);
+    accent-color: var(--color-primary);
+}
+
+.tts-direct-link {
+    font-size: 0.8rem;
+    color: var(--color-primary);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* Fallback play/pause button */
+.tts-fallback {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+    min-width: 200px;
+}
+
+.tts-fallback-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1.2rem;
+    border: 1px solid var(--color-primary);
+    border-radius: var(--radius);
+    background: var(--color-primary);
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.tts-fallback-btn:hover {
+    opacity: 0.88;
+}
+
+.tts-fallback-btn:active {
+    opacity: 0.75;
+}
+
+.tts-fallback-time {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    font-variant-numeric: tabular-nums;
+    min-width: 3em;
+}
+
+.tts-fallback-seek {
+    flex: 1;
+    min-width: 80px;
+    accent-color: var(--color-primary);
+    cursor: pointer;
+}
+
+@media (max-width: 480px) {
+    .tts-player {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.5rem;
+        padding: 0.5rem 0.75rem;
+    }
+
+    .tts-player audio {
+        width: 100%;
+    }
+
+    .tts-fallback {
+        width: 100%;
+    }
+
+    .tts-direct-link {
+        align-self: flex-start;
+    }
+}
+```
+
+---
+
+## 5. `src/ObserverMagazine.Web/Components/AuthorCard.razor`
+
+Comprehensive social media URL support covering every major platform.
+
+```razor
+@using ObserverMagazine.Web.Models
+
+@if (Author is not null)
+{
+    <div class="author-card">
+        @if (!string.IsNullOrEmpty(Author.Avatar))
+        {
+            <img class="author-avatar" src="@Author.Avatar" alt="@Author.Name" loading="lazy" />
+        }
+        <div class="author-info">
+            <strong class="author-name">@Author.Name</strong>
+            @if (!string.IsNullOrEmpty(Author.Bio))
+            {
+                <p class="author-bio">@Author.Bio</p>
+            }
+            @if (Author.Socials is { Count: > 0 })
+            {
+                <div class="author-socials">
+                    @foreach (var (platform, handle) in Author.Socials)
+                    {
+                        <a href="@GetSocialUrl(platform, handle)"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="author-social-link"
+                           title="@GetDisplayName(platform)">
+                            @GetDisplayName(platform)
+                        </a>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public AuthorProfile? Author { get; set; }
+
+    private static string GetDisplayName(string platform) => platform.ToLowerInvariant() switch
+    {
+        "twitter" or "x" => "X / Twitter",
+        "github" => "GitHub",
+        "gitlab" => "GitLab",
+        "bitbucket" => "Bitbucket",
+        "linkedin" => "LinkedIn",
+        "bluesky" => "Bluesky",
+        "mastodon" => "Mastodon",
+        "threads" => "Threads",
+        "facebook" => "Facebook",
+        "instagram" => "Instagram",
+        "tiktok" => "TikTok",
+        "youtube" => "YouTube",
+        "twitch" => "Twitch",
+        "reddit" => "Reddit",
+        "pinterest" => "Pinterest",
+        "tumblr" => "Tumblr",
+        "snapchat" => "Snapchat",
+        "discord" => "Discord",
+        "telegram" => "Telegram",
+        "whatsapp" => "WhatsApp",
+        "signal" => "Signal",
+        "medium" => "Medium",
+        "substack" => "Substack",
+        "devto" or "dev.to" => "DEV",
+        "hashnode" => "Hashnode",
+        "stackoverflow" => "Stack Overflow",
+        "hackernews" => "Hacker News",
+        "codepen" => "CodePen",
+        "dribbble" => "Dribbble",
+        "behance" => "Behance",
+        "flickr" => "Flickr",
+        "500px" => "500px",
+        "vimeo" => "Vimeo",
+        "soundcloud" => "SoundCloud",
+        "bandcamp" => "Bandcamp",
+        "spotify" => "Spotify",
+        "goodreads" => "Goodreads",
+        "patreon" => "Patreon",
+        "kofi" or "ko-fi" => "Ko-fi",
+        "buymeacoffee" => "Buy Me a Coffee",
+        "wordpress" => "WordPress",
+        "quora" => "Quora",
+        "keybase" => "Keybase",
+        "orcid" => "ORCID",
+        "researchgate" => "ResearchGate",
+        "figma" => "Figma",
+        "notion" => "Notion",
+        "producthunt" => "Product Hunt",
+        "angellist" => "AngelList",
+        "crunchbase" => "Crunchbase",
+        "linktree" => "Linktree",
+        "calendly" => "Calendly",
+        "website" or "web" or "homepage" => "Website",
+        _ => platform
+    };
+
+    private static string GetSocialUrl(string platform, string handle) => platform.ToLowerInvariant() switch
+    {
+        // Developer platforms
+        "github" => $"https://github.com/{handle}",
+        "gitlab" => $"https://gitlab.com/{handle}",
+        "bitbucket" => $"https://bitbucket.org/{handle}",
+        "codepen" => $"https://codepen.io/{handle}",
+        "devto" or "dev.to" => $"https://dev.to/{handle}",
+        "hashnode" => $"https://{handle}.hashnode.dev",
+        "stackoverflow" => $"https://stackoverflow.com/users/{handle}",
+        "hackernews" => $"https://news.ycombinator.com/user?id={handle}",
+
+        // Major social networks
+        "twitter" or "x" => $"https://x.com/{handle}",
+        "facebook" => $"https://facebook.com/{handle}",
+        "instagram" => $"https://instagram.com/{handle}",
+        "linkedin" => $"https://linkedin.com/in/{handle}",
+        "threads" => $"https://threads.net/@{handle}",
+        "bluesky" => handle.Contains('.') ? $"https://bsky.app/profile/{handle}" : $"https://bsky.app/profile/{handle}.bsky.social",
+        "mastodon" => handle.StartsWith("http") ? handle : $"https://mastodon.social/{handle}",
+        "tiktok" => $"https://tiktok.com/@{handle}",
+        "snapchat" => $"https://snapchat.com/add/{handle}",
+        "pinterest" => $"https://pinterest.com/{handle}",
+        "tumblr" => $"https://{handle}.tumblr.com",
+        "reddit" => $"https://reddit.com/user/{handle}",
+
+        // Video / streaming
+        "youtube" => $"https://youtube.com/@{handle}",
+        "twitch" => $"https://twitch.tv/{handle}",
+        "vimeo" => $"https://vimeo.com/{handle}",
+
+        // Audio / music
+        "spotify" => $"https://open.spotify.com/user/{handle}",
+        "soundcloud" => $"https://soundcloud.com/{handle}",
+        "bandcamp" => $"https://{handle}.bandcamp.com",
+
+        // Design / creative
+        "dribbble" => $"https://dribbble.com/{handle}",
+        "behance" => $"https://behance.net/{handle}",
+        "flickr" => $"https://flickr.com/photos/{handle}",
+        "500px" => $"https://500px.com/p/{handle}",
+        "figma" => $"https://figma.com/@{handle}",
+
+        // Writing / blogging
+        "medium" => $"https://medium.com/@{handle}",
+        "substack" => $"https://{handle}.substack.com",
+        "wordpress" => $"https://{handle}.wordpress.com",
+
+        // Messaging
+        "discord" => handle.StartsWith("http") ? handle : $"https://discord.gg/{handle}",
+        "telegram" => $"https://t.me/{handle}",
+        "whatsapp" => $"https://wa.me/{handle}",
+        "signal" => $"https://signal.me/#p/{handle}",
+
+        // Monetisation
+        "patreon" => $"https://patreon.com/{handle}",
+        "kofi" or "ko-fi" => $"https://ko-fi.com/{handle}",
+        "buymeacoffee" => $"https://buymeacoffee.com/{handle}",
+
+        // Books / academia
+        "goodreads" => $"https://goodreads.com/user/show/{handle}",
+        "orcid" => $"https://orcid.org/{handle}",
+        "researchgate" => $"https://researchgate.net/profile/{handle}",
+
+        // Professional / other
+        "quora" => $"https://quora.com/profile/{handle}",
+        "keybase" => $"https://keybase.io/{handle}",
+        "producthunt" => $"https://producthunt.com/@{handle}",
+        "angellist" => $"https://angel.co/u/{handle}",
+        "crunchbase" => $"https://crunchbase.com/person/{handle}",
+        "notion" => $"https://notion.so/{handle}",
+        "linktree" => $"https://linktr.ee/{handle}",
+        "calendly" => $"https://calendly.com/{handle}",
+        "website" or "web" or "homepage" => handle.StartsWith("http") ? handle : $"https://{handle}",
+
+        _ => handle.StartsWith("http") ? handle : $"https://{handle}"
+    };
+}
+```
+
+---
+
+## 6. `src/ObserverMagazine.Web/Components/MasterDetail.razor.css`
+
+Adds the missing `.confirm-overlay` and `.confirm-dialog` styles (bug fix).
+
+```css
+.md-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 0;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    min-height: 400px;
+}
+
+.md-list {
+    border-right: 1px solid var(--color-border);
+    background: var(--color-surface);
+    display: flex;
+    flex-direction: column;
+}
+
+.md-list-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+}
+.md-list-header h3 { margin: 0; font-size: 1rem; }
+
+.md-list ul {
+    list-style: none;
+    flex: 1;
+    overflow-y: auto;
+    max-height: 400px;
+}
+
+.md-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    border-bottom: 1px solid var(--color-border);
+    transition: background 0.12s;
+}
+
+.md-list li:hover { background: var(--color-border); }
+
+.md-selected {
+    background: var(--color-primary) !important;
+    color: var(--color-primary-fg);
+}
+
+.md-item-name { font-weight: 500; }
+.md-item-price { font-size: 0.9rem; opacity: 0.8; }
+
+.md-list-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    border-top: 1px solid var(--color-border);
+    font-size: 0.8rem;
+}
+
+.md-count { color: var(--color-muted); }
+
+.md-loading { padding: 1rem; }
+
+.md-detail { padding: 1.5rem; overflow-y: auto; }
+
+.md-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--color-muted);
+    text-align: center;
+}
+
+.md-content h3 {
+    font-size: 1.35rem;
+    margin-bottom: 1rem;
+}
+
+.md-content dl {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.5rem 1rem;
+}
+
+.md-content dt {
+    font-weight: 600;
+    color: var(--color-muted);
+}
+
+.md-star { color: var(--color-accent); }
+
+/* ---- Confirmation dialog (was missing!) ---- */
+.confirm-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+}
+
+.confirm-dialog {
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 400px;
+    width: 90%;
+}
+
+.confirm-dialog h4 {
+    margin-bottom: 0.75rem;
+}
+
+.confirm-dialog p {
+    margin-bottom: 1rem;
+    color: var(--color-muted);
+    font-size: 0.95rem;
+}
+
+@media (max-width: 640px) {
+    .md-container { grid-template-columns: 1fr; }
+
+    .md-list {
+        border-right: none;
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    .md-list ul { max-height: 250px; }
+}
+```
+
+---
+
+## 7. `src/ObserverMagazine.Web/Pages/Showcase.razor` (partial — column picker fix only)
+
+In the column picker section, add a click-outside overlay. Find the column picker block and replace it with:
+
+The relevant section in Showcase.razor changes from:
+
+```razor
+        <div class="sc-col-toggle">
+            <button class="btn btn-outline btn-sm" @onclick="ToggleColumnPicker">Columns ▾</button>
+            @if (showColumnPicker)
+            {
+                <div class="sc-col-dropdown" @onclick:stopPropagation="true">
+```
+
+to:
+
+```razor
+        <div class="sc-col-toggle">
+            <button class="btn btn-outline btn-sm" @onclick="ToggleColumnPicker">Columns ▾</button>
+            @if (showColumnPicker)
+            {
+                <div class="sc-col-backdrop" @onclick="() => showColumnPicker = false"></div>
+                <div class="sc-col-dropdown" @onclick:stopPropagation="true">
+```
+
+And add this CSS to `Showcase.razor.css` inside the existing file, right above the `.sc-col-dropdown` rule:
+
+```css
+.sc-col-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 49;
+    background: transparent;
+}
+```
+
+**Since you asked for full files when changed, here is the FULL `Showcase.razor.css`:**
+
+```css
+/* ==========================================================================
+   Showcase — Product Catalog
+   ========================================================================== */
+
+/* ---- Toolbar ---- */
+.sc-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding: 0.75rem 1rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+}
+
+.sc-toolbar-left,
+.sc-toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.sc-count {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+}
+
+/* ---- Column picker ---- */
+.sc-col-toggle {
+    position: relative;
+}
+
+.sc-col-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 49;
+    background: transparent;
+}
+
+.sc-col-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 0.5rem;
+    z-index: 50;
+    min-width: 180px;
+    max-height: 320px;
+    overflow-y: auto;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.sc-col-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.3rem 0.4rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.sc-col-option:hover {
+    background: var(--color-surface);
+}
+
+.sc-col-restore {
+    width: 100%;
+    margin-top: 0.25rem;
+}
+
+.sc-page-size {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+}
+
+.sc-page-size select {
+    padding: 0.25rem 0.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    font-size: 0.85rem;
+    background: var(--color-bg);
+    color: var(--color-text);
+}
+
+/* ---- Filter panel ---- */
+.sc-filter-panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+}
+
+.sc-filter-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.sc-filter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 0.5rem 1rem;
+}
+
+.sc-filter-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.sc-filter-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-muted);
+    white-space: nowrap;
+}
+
+.sc-filter-input {
+    padding: 0.35rem 0.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    font-size: 0.85rem;
+    background: var(--color-bg);
+    color: var(--color-text);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.sc-filter-input:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -1px;
+}
+
+.sc-range-inputs {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.sc-range-inputs .sc-filter-input {
+    flex: 1;
+    min-width: 0;
+}
+
+.sc-range-sep {
+    color: var(--color-muted);
+    font-size: 0.85rem;
+    flex-shrink: 0;
+}
+
+/* ---- Table ---- */
+.sc-table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+}
+
+.sc-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.sc-table th,
+.sc-table td {
+    padding: 0.5rem 0.6rem;
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+    white-space: nowrap;
+}
+
+.sc-table th {
+    background: var(--color-surface);
+    font-weight: 600;
+    font-size: 0.82rem;
+    color: var(--color-muted);
+    position: sticky;
+    top: 0;
+}
+
+.sc-num {
+    text-align: right;
+}
+
+.sc-sortable {
+    cursor: pointer;
+    user-select: none;
+}
+
+.sc-sortable:hover {
+    color: var(--color-primary);
+}
+
+.sc-sort-arrow {
+    font-size: 0.7rem;
+    margin-left: 0.2rem;
+}
+
+.sc-clickable-row {
+    cursor: pointer;
+    transition: background 0.1s;
+}
+
+.sc-clickable-row:hover {
+    background: var(--color-surface);
+}
+
+.sc-actions {
+    white-space: nowrap;
+}
+
+.sc-actions-col {
+    width: 120px;
+    text-align: center;
+}
+
+.sc-empty {
+    text-align: center;
+    color: var(--color-muted);
+    padding: 2rem;
+    font-style: italic;
+}
+
+/* ---- Pagination ---- */
+.sc-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.sc-page-info {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    padding: 0 0.5rem;
+}
+
+/* ---- Overlay / Dialog ---- */
+.sc-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+}
+
+.sc-dialog {
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 400px;
+    width: 90%;
+}
+
+.sc-dialog h4 {
+    margin-bottom: 0.75rem;
+}
+
+.sc-dialog p {
+    margin-bottom: 1rem;
+    color: var(--color-muted);
+    font-size: 0.95rem;
+}
+
+/* ---- Mobile responsive ---- */
+@media (max-width: 768px) {
+    .sc-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .sc-toolbar-left,
+    .sc-toolbar-right {
+        justify-content: space-between;
+    }
+
+    .sc-col-dropdown {
+        position: fixed;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        max-height: 50vh;
+        border-radius: var(--radius) var(--radius) 0 0;
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+        z-index: 100;
+    }
+
+    .sc-filter-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sc-table thead {
+        display: none;
+    }
+
+    .sc-table tr {
+        display: block;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius);
+        margin-bottom: 0.75rem;
+        padding: 0.5rem;
+    }
+
+    .sc-table td {
+        display: flex;
+        justify-content: space-between;
+        border: none;
+        padding: 0.3rem 0.5rem;
+        text-align: right;
+        white-space: normal;
+    }
+
+    .sc-table td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        text-align: left;
+        margin-right: 0.5rem;
+    }
+
+    .sc-table-wrap {
+        border: none;
+        border-radius: 0;
+    }
+}
+```
+
+The Showcase.razor code block itself: add the `<div class="sc-col-backdrop"...>` line. Here is the relevant snippet that changed in the `@code` section — **no code changes are needed** in the `@code` block since `showColumnPicker` is already toggled by `ToggleColumnPicker()` and the new backdrop div directly sets it to `false`. The only Razor markup change is the backdrop div shown above.
+
+---
+
+## 8. `src/ObserverMagazine.Web/libman.json` (NEW)
+
+```json
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "highlight.js@11.11.1",
+      "destination": "wwwroot/lib/highlight.js/",
+      "files": [
+        "highlight.min.js",
+        "styles/default.min.css"
+      ]
+    }
+  ]
+}
+```
+
+---
+
+## 9. `src/ObserverMagazine.Web/wwwroot/index.html`
+
+Switches from CDN to local LibMan-restored files. Strips the disabled hljs theme link (we use our own CSS-variable theme).
+
+```html
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>Observer Magazine</title>
+    <base href="/" />
+    <link rel="alternate" type="application/rss+xml" title="Observer Magazine RSS" href="/feed.xml" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="stylesheet" href="ObserverMagazine.Web.styles.css" />
+
+    <!-- highlight.js core — restored locally via LibMan at build time -->
+    <script src="lib/highlight.js/highlight.min.js"></script>
+
+    <!-- Apply saved theme BEFORE first paint to prevent flash -->
+    <script>
+        (function () {
+            var stored = localStorage.getItem('observer-theme') || 'system';
+            var resolved = stored;
+            if (stored === 'system') {
+                resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+            document.documentElement.setAttribute('data-theme', resolved);
+        })();
+    </script>
+</head>
+<body>
+    <div id="app">
+        <div style="display:flex;align-items:center;justify-content:center;height:100vh;">
+            <p>Loading Observer Magazine...</p>
+        </div>
+    </div>
+
+    <div id="blazor-error-ui" style="display:none;">
+        An unhandled error has occurred.
+        <a href="/" class="reload">Reload</a>
+        <span class="dismiss">🗙</span>
+    </div>
+
+    <!-- Theme management API for Blazor interop -->
+    <script>
+        window.observerTheme = {
+            set: function (theme) {
+                var resolved = theme;
+                if (theme === 'system') {
+                    resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                }
+                document.documentElement.setAttribute('data-theme', resolved);
+                localStorage.setItem('observer-theme', theme);
+            },
+            get: function () {
+                return localStorage.getItem('observer-theme') || 'system';
+            }
+        };
+    </script>
+
+    <!-- Syntax highlighting interop -->
+    <script>
+        window.observerHighlight = {
+            highlightAll: function () {
+                document.querySelectorAll('.blog-content pre code').forEach(function (block) {
+                    hljs.highlightElement(block);
+                });
+            }
+        };
+    </script>
+
+    <!-- Audio helper for BlogTtsPlayer -->
+    <script>
+        window.observerAudio = {
+            checkAvailability: function (elementId) {
+                return new Promise(function (resolve) {
+                    var audio = document.getElementById(elementId);
+                    if (!audio) { resolve(false); return; }
+                    var timeout = setTimeout(function () { resolve(false); }, 5000);
+                    audio.addEventListener('loadedmetadata', function () {
+                        clearTimeout(timeout);
+                        resolve(true);
+                    }, { once: true });
+                    audio.addEventListener('error', function () {
+                        clearTimeout(timeout);
+                        resolve(false);
+                    }, { once: true });
+                    if (audio.readyState === 0) audio.load();
+                    else if (audio.readyState >= 1) { clearTimeout(timeout); resolve(true); }
+                });
+            },
+            checkControlsRendered: function (elementId) {
+                var audio = document.getElementById(elementId);
+                if (!audio) return false;
+                var rect = audio.getBoundingClientRect();
+                return rect.height >= 20;
+            },
+            getDuration: function (elementId) {
+                var audio = document.getElementById(elementId);
+                return audio && isFinite(audio.duration) ? audio.duration : 0;
+            },
+            getCurrentTime: function (elementId) {
+                var audio = document.getElementById(elementId);
+                return audio ? audio.currentTime : 0;
+            },
+            hasEnded: function (elementId) {
+                var audio = document.getElementById(elementId);
+                return audio ? audio.ended : true;
+            },
+            play: function (elementId) {
+                var audio = document.getElementById(elementId);
+                if (audio) return audio.play();
+            },
+            pause: function (elementId) {
+                var audio = document.getElementById(elementId);
+                if (audio) audio.pause();
+            },
+            setCurrentTime: function (elementId, time) {
+                var audio = document.getElementById(elementId);
+                if (audio) audio.currentTime = time;
+            }
+        };
+    </script>
+
+    <!-- SPA redirect for GitHub Pages -->
+    <script>
+        (function () {
+            var redirect = sessionStorage.redirect;
+            delete sessionStorage.redirect;
+            if (redirect && redirect !== location.href) {
+                history.replaceState(null, null, redirect);
+            }
+        })();
+    </script>
+    <script src="_framework/blazor.webassembly.js"></script>
+</body>
+</html>
+```
+
+---
+
+## 10. `src/ObserverMagazine.Web/ObserverMagazine.Web.csproj`
+
+Adds `Microsoft.Web.LibraryManager.Build` for LibMan support.
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <RootNamespace>ObserverMagazine.Web</RootNamespace>
+    <AssemblyName>ObserverMagazine.Web</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Configuration" />
+    <PackageReference Include="Microsoft.Extensions.Http" />
+    <PackageReference Include="Microsoft.Web.LibraryManager.Build" />
+  </ItemGroup>
+
+</Project>
+```
+
+---
+
+## 11. `Directory.Packages.props`
+
+Adds the LibMan version entry.
+
+```xml
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+
+    <!-- Version variables — touch these to update all related packages -->
+    <MicrosoftAspNetCoreVersion>10.0.5</MicrosoftAspNetCoreVersion>
+    <MicrosoftExtensionsVersion>10.0.5</MicrosoftExtensionsVersion>
+    <XunitVersion>3.2.2</XunitVersion>
+    <XunitRunnerVersion>3.1.5</XunitRunnerVersion>
+    <TestSdkVersion>18.3.0</TestSdkVersion>
+    <MarkdigVersion>1.1.1</MarkdigVersion>
+    <YamlDotNetVersion>16.3.0</YamlDotNetVersion>
+    <BunitVersion>2.6.2</BunitVersion>
+    <LibManVersion>2.1.175</LibManVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Web -->
+    <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly" Version="$(MicrosoftAspNetCoreVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Configuration" Version="$(MicrosoftExtensionsVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="$(MicrosoftExtensionsVersion)" />
+
+    <!-- Client-side library management -->
+    <PackageVersion Include="Microsoft.Web.LibraryManager.Build" Version="$(LibManVersion)" />
+
+    <!-- Content Processing -->
+    <PackageVersion Include="Markdig" Version="$(MarkdigVersion)" />
+    <PackageVersion Include="YamlDotNet" Version="$(YamlDotNetVersion)" />
+
+    <!-- Testing -->
+    <PackageVersion Include="xunit.v3" Version="$(XunitVersion)" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="$(XunitRunnerVersion)" />
+    <PackageVersion Include="bunit" Version="$(BunitVersion)" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="$(TestSdkVersion)" />
+  </ItemGroup>
+</Project>
+```
+
+---
+
+## 12. `.gitignore`
+
+Adds the LibMan output directory and source maps.
+
+```gitignore
+## .NET
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+## Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+build/
+bld/
+
+## NuGet
+**/packages/*
+*.nupkg
+**/[Pp]ackages/build/
+*.nuget.props
+*.nuget.targets
+project.lock.json
+project.fragment.lock.json
+
+## Visual Studio
+.vs/
+*.rsuser
+*.csproj.user
+
+## JetBrains
+.idea/
+*.sln.iml
+
+## VS Code
+.vscode/
+
+## OS
+.DS_Store
+Thumbs.db
+
+## Publish output
+publish/
+
+## Test results
+TestResults/
+*.trx
+
+## Generated blog data (created by ContentProcessor at build time)
+src/ObserverMagazine.Web/wwwroot/blog-data/
+
+## Generated RSS feed
+src/ObserverMagazine.Web/wwwroot/feed.xml
+
+## Client-side libraries (restored by LibMan at build time)
+src/ObserverMagazine.Web/wwwroot/lib/
+
+## Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+```
+
+---
+
+## 13. `.github/workflows/deploy.yml`
+
+Adds source-map stripping step after publish to fix the Firefox 404 error.
+
+```yaml
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # Rebuild daily at 6 AM UTC to publish scheduled posts
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Setup Python 3.12 (for TTS audio generation)
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Install system dependencies (espeak-ng + ffmpeg)
+        run: sudo apt-get update && sudo apt-get install -y espeak-ng ffmpeg
+
+      - name: Cache HuggingFace model
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: hf-kitten-tts-nano-0.8
+
+      - name: Install Python audio dependencies
+        run: |
+          pip install onnxruntime
+          pip install -r tools/requirements-audio.txt
+
+      - name: Restore .NET dependencies
+        run: dotnet restore
+
+      - name: Run content processor (markdown → JSON + HTML)
+        run: dotnet run --project tools/ObserverMagazine.ContentProcessor -- --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot --authors-dir content/authors
+
+      - name: Generate TTS audio (markdown → MP3)
+        run: python tools/generate_audio.py --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot/blog-data --voice Bella --model KittenML/kitten-tts-nano-0.8
+
+      - name: Run tests
+        run: dotnet test --no-restore --verbosity normal
+
+      - name: Publish Blazor WASM
+        run: dotnet publish src/ObserverMagazine.Web/ObserverMagazine.Web.csproj -c Release -o publish
+
+      - name: Strip source map references from framework JS
+        run: |
+          find publish/wwwroot/_framework -name "*.js" -exec sed -i '/^\/\/# sourceMappingURL=/d' {} + 2>/dev/null || true
+          find publish/wwwroot/_framework -name "*.js" -exec sed -i '/^\/\/@ sourceMappingURL=/d' {} + 2>/dev/null || true
+
+      - name: Prepare GitHub Pages artifacts
+        run: |
+          cp publish/wwwroot/.nojekyll publish/wwwroot/.nojekyll 2>/dev/null || touch publish/wwwroot/.nojekyll
+          cp publish/wwwroot/index.html publish/wwwroot/404.html
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: publish/wwwroot
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+```
+
+---
+
+## 14. `.github/workflows/pr-check.yml`
+
+Adds the same source-map stripping step.
+
+```yaml
+name: PR Check
+
+on:
+  pull_request:
+    branches: [main]
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Run content processor
+        run: dotnet run --project tools/ObserverMagazine.ContentProcessor -- --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot --authors-dir content/authors
+
+      - name: Run tests
+        run: dotnet test --no-restore --verbosity normal
+
+      - name: Publish Blazor WASM
+        run: dotnet publish src/ObserverMagazine.Web/ObserverMagazine.Web.csproj -c Release -o publish
+
+      - name: Strip source map references from framework JS
+        run: |
+          find publish/wwwroot/_framework -name "*.js" -exec sed -i '/^\/\/# sourceMappingURL=/d' {} + 2>/dev/null || true
+          find publish/wwwroot/_framework -name "*.js" -exec sed -i '/^\/\/@ sourceMappingURL=/d' {} + 2>/dev/null || true
+
+      - name: Prepare preview
+        run: |
+          touch publish/wwwroot/.nojekyll
+          cp publish/wwwroot/index.html publish/wwwroot/404.html
+
+      - name: Upload preview site
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-preview
+          path: publish/wwwroot
+          retention-days: 7
+```
+
+---
+
+## 15. `content/authors/abraham-lincoln.yml` (NEW)
+
+Sample author with every social media platform.
+
+```yaml
+name: Abraham Lincoln
+email: abe@lincoln.example
+bio: 16th President of the United States, self-taught lawyer, rail-splitter, and prolific writer. Known for the Emancipation Proclamation, the Gettysburg Address, and preserving the Union.
+avatar: images/authors/abraham-lincoln.png
+socials:
+  # Developer platforms
+  github: "abeLincoln"
+  gitlab: "abeLincoln"
+  bitbucket: "abeLincoln"
+  codepen: "abeLincoln"
+  devto: "abeLincoln"
+  hashnode: "abeLincoln"
+  stackoverflow: "16081865"
+  hackernews: "abeLincoln"
+
+  # Major social networks
+  x: "AbrahamLincoln"
+  facebook: "AbrahamLincoln"
+  instagram: "abeLincoln"
+  linkedin: "abrahamlincoln"
+  threads: "abeLincoln"
+  bluesky: "abeLincoln.bsky.social"
+  mastodon: "@abe@mastodon.social"
+  tiktok: "abeLincoln"
+  snapchat: "abeLincoln"
+  pinterest: "abeLincoln"
+  tumblr: "abeLincoln"
+  reddit: "abeLincoln"
+
+  # Video / streaming
+  youtube: "AbrahamLincoln"
+  twitch: "abeLincoln"
+  vimeo: "abeLincoln"
+
+  # Audio / music
+  spotify: "abeLincoln"
+  soundcloud: "abeLincoln"
+  bandcamp: "abeLincoln"
+
+  # Design / creative
+  dribbble: "abeLincoln"
+  behance: "abeLincoln"
+  flickr: "abeLincoln"
+  500px: "abeLincoln"
+  figma: "abeLincoln"
+
+  # Writing / blogging
+  medium: "abeLincoln"
+  substack: "abeLincoln"
+  wordpress: "abeLincoln"
+
+  # Messaging
+  discord: "abeLincoln"
+  telegram: "abeLincoln"
+  whatsapp: "+18095551865"
+  signal: "+18095551865"
+
+  # Monetisation
+  patreon: "abeLincoln"
+  kofi: "abeLincoln"
+  buymeacoffee: "abeLincoln"
+
+  # Books / academia
+  goodreads: "1234567"
+  orcid: "0000-0001-8651-8650"
+  researchgate: "Abraham-Lincoln"
+
+  # Professional / other
+  quora: "Abraham-Lincoln"
+  keybase: "abeLincoln"
+  producthunt: "abeLincoln"
+  angellist: "abeLincoln"
+  crunchbase: "abraham-lincoln"
+  notion: "abeLincoln"
+  linktree: "abeLincoln"
+  calendly: "abeLincoln"
+  website: "https://abrahamlincoln.example"
+```
+
+---
+
+## 16. `content/blog/2026-03-22-the-year-2025-in-review.md` (NEW)
+
+```markdown
+---
+title: "The Year 2025 in Review: A Comprehensive Retrospective"
+date: 2026-03-22
+author: observer-team
+summary: A thorough look back at the major political, economic, technological, scientific, and cultural events that defined the year 2025.
+featured: true
+tags:
+  - retrospective
+  - politics
+  - technology
+  - economics
+  - science
+  - culture
+  - 2025
+---
+
+## Introduction
+
+The year 2025 was one of the most consequential in recent memory. From a dramatic change in American leadership and its rippling effects across every domain of public life, to breakthroughs in artificial intelligence that rewrote the rules of entire industries, to geopolitical conflicts that continued to reshape the world order, 2025 demanded attention from start to finish. This article attempts to chronicle every major newsworthy event of the year, organized by topic.
+
+## Part 1: United States Politics
+
+### The Second Trump Administration Begins
+
+On January 20, 2025, Donald J. Trump was inaugurated as the 47th President of the United States, beginning his second non-consecutive term. The inauguration itself was moved indoors to the Capitol Rotunda due to dangerously cold weather in Washington, D.C. The ceremony was attended by an unusual number of tech industry leaders, including Elon Musk, Jeff Bezos, Mark Zuckerberg, Tim Cook, and Sundar Pichai, reflecting the evolving relationship between Silicon Valley and the new administration.
+
+### Executive Orders and Policy Changes
+
+The administration moved with extraordinary speed in its opening days. On the first day alone, President Trump signed dozens of executive orders covering immigration, energy policy, diversity programs, and federal workforce restructuring.
+
+On immigration, the administration declared a national emergency at the southern border, deployed additional military personnel, and began implementing what it described as the largest deportation operation in American history. The "Remain in Mexico" policy was reinstated. Birthright citizenship was challenged through executive order, though this faced immediate legal challenges and was blocked by federal courts.
+
+Federal diversity, equity, and inclusion (DEI) programs were terminated across all government agencies. Federal employees working in DEI roles were placed on administrative leave. Executive orders directed agencies to investigate and potentially penalize private companies and universities that maintained DEI programs, though enforcement proved complex.
+
+The administration withdrew the United States from the Paris Climate Agreement for a second time. Drilling permits on federal lands were expedited. The Keystone XL pipeline permit was reinstated. Multiple environmental regulations from the previous administration were rescinded or paused.
+
+### The TikTok Ban and Reprieve
+
+One of the most closely watched policy dramas of early 2025 involved TikTok. A law passed during the Biden administration required ByteDance, TikTok's Chinese parent company, to divest its ownership of TikTok or face a ban in the United States. The deadline arrived on January 19, 2025, the day before inauguration. TikTok briefly went dark for American users. President Trump then signed an executive order granting a 75-day extension, and later additional extensions, to allow negotiations for a potential sale. Throughout 2025, various consortiums of American investors explored acquisition deals, but no final sale was completed by year's end.
+
+### The Department of Government Efficiency
+
+Elon Musk led what the administration called the Department of Government Efficiency (DOGE), a task force aimed at dramatically reducing federal spending and workforce. DOGE identified programs it considered wasteful and pushed for their elimination. The effort was controversial, with supporters praising the focus on fiscal responsibility and critics arguing that essential services were being gutted. Federal employee unions challenged many of the actions in court. By mid-2025, DOGE claimed billions in projected savings, though independent analyses disputed the methodology.
+
+### Pardons and Legal Matters
+
+President Trump pardoned or commuted sentences for many individuals convicted in connection with the January 6, 2021 Capitol breach. This was one of the most debated actions of the early administration, with supporters characterizing the defendants as political prisoners and critics arguing that pardoning participants in a violent breach of the Capitol undermined rule of law.
+
+### Congressional Activity
+
+Republicans held majorities in both the House and Senate, though the margins were thin, particularly in the House. Major legislative efforts included tax reform extending and expanding the 2017 Tax Cuts and Jobs Act provisions, immigration enforcement funding, and defense spending increases. The legislative process was frequently complicated by intra-party disagreements among House Republicans.
+
+## Part 2: Geopolitics and International Affairs
+
+### The Russia-Ukraine War
+
+The war in Ukraine, which began with Russia's full-scale invasion in February 2022, continued throughout 2025. The conflict had become largely a war of attrition along extensive front lines in eastern and southern Ukraine. Both sides conducted offensive operations with limited territorial gains.
+
+President Trump, who had promised to end the war quickly, appointed a special envoy and engaged in diplomatic efforts with both Kyiv and Moscow. The negotiations were complex and produced no ceasefire by mid-2025. The United States adjusted its military aid packages to Ukraine, and there was significant debate about the appropriate level of continued support.
+
+European allies, concerned about potential changes in American commitment, accelerated their own defense spending and military aid to Ukraine. NATO held emergency consultations, and several European nations significantly increased their defense budgets, with many meeting or exceeding the alliance's 2% of GDP target for the first time.
+
+### The Middle East
+
+The conflict in Gaza that erupted in October 2023 continued to dominate Middle East affairs in 2025. Multiple ceasefire negotiations took place. The humanitarian situation in Gaza was severe, with international organizations reporting widespread destruction and civilian suffering.
+
+The Abraham Accords framework continued to evolve. Diplomatic discussions about Saudi Arabia normalizing relations with Israel proceeded, though the Gaza conflict complicated these efforts. Iran's nuclear program remained a major concern, with inspectors reporting advances in enrichment capabilities.
+
+The Houthi attacks on Red Sea shipping, which had disrupted global trade routes since late 2023, continued into 2025. An international naval coalition attempted to protect shipping lanes, but the attacks persisted, forcing many cargo ships to take the longer route around the Cape of Good Hope.
+
+### China and the Indo-Pacific
+
+U.S.-China relations remained tense but managed. The Trump administration imposed additional tariffs on Chinese goods, expanded restrictions on technology exports to China (particularly in semiconductors and AI), and maintained a strong naval presence in the South China Sea. China responded with its own retaliatory tariffs and export controls on critical minerals.
+
+Taiwan remained a flashpoint. China conducted military exercises near Taiwan, and the United States continued arms sales to the island. Cross-strait tensions were elevated but did not escalate to direct confrontation.
+
+### Other International Events
+
+In South Korea, President Yoon Suk Yeol faced impeachment proceedings following his brief declaration of martial law in December 2024. The Constitutional Court upheld the impeachment in early 2025, making him the second South Korean president to be removed from office.
+
+Canada held elections in 2025 following the resignation of Prime Minister Justin Trudeau in January, who stepped down amid declining poll numbers and intra-party pressure. Mark Carney became the new Liberal Party leader and then Prime Minister, though he faced a challenging political environment with tariff disputes with the United States dominating the agenda.
+
+## Part 3: Economy and Finance
+
+### Inflation and Interest Rates
+
+The Federal Reserve navigated a complex economic environment in 2025. After cutting rates in the second half of 2024, the Fed paused further cuts in early 2025 as inflation proved persistent. Core inflation remained above the Fed's 2% target for most of the year, influenced by tariff-related price increases on imported goods.
+
+The economy showed resilience in employment numbers, with unemployment remaining low by historical standards. However, consumers reported feeling squeezed by high housing costs, elevated food prices, and the cumulative impact of several years of above-target inflation.
+
+### Tariffs and Trade
+
+The Trump administration's tariff policies were among the most consequential economic developments of 2025. Tariffs were imposed or increased on goods from China, Canada, Mexico, and the European Union. The stated goals were to protect American manufacturing, reduce trade deficits, and pressure trading partners on various policy issues including immigration and fentanyl trafficking.
+
+The economic effects were debated intensely. Some domestic manufacturers reported benefits from reduced foreign competition. Importers, retailers, and consumers faced higher prices. Agricultural exporters were concerned about retaliatory tariffs affecting their overseas sales. Financial markets reacted with volatility to each tariff announcement and escalation.
+
+### Technology Sector
+
+The technology sector experienced a mixed year. Companies heavily invested in artificial intelligence saw their valuations soar. Nvidia's stock continued its extraordinary run as demand for AI training and inference chips remained insatiable. Microsoft, Google, Amazon, and Meta all reported massive capital expenditure plans for AI infrastructure.
+
+However, the broader tech sector also faced challenges. Layoffs continued at many companies as they restructured around AI capabilities. The advertising market was disrupted by AI-powered tools that changed how content was created and consumed. Regulatory scrutiny of big tech companies continued, with antitrust cases against Google and other companies progressing through the courts.
+
+### Cryptocurrency
+
+Cryptocurrency markets rallied significantly in 2025. Bitcoin reached new all-time highs, buoyed by the spot Bitcoin ETFs approved in 2024, institutional adoption, and a generally favorable regulatory stance from the Trump administration. The administration appointed crypto-friendly regulators and signaled support for making the United States a hub for digital asset innovation.
+
+## Part 4: Technology
+
+### Artificial Intelligence
+
+AI was unquestionably the dominant technology story of 2025, even more so than in the preceding two years.
+
+OpenAI released new models throughout the year, including GPT-4.5 and eventually GPT-5, continuing to push the frontier of language model capabilities. The models demonstrated improved reasoning, reduced hallucination rates, and expanded multimodal capabilities.
+
+Anthropic released Claude 3.5, and later Claude 4, which were noted for their improved instruction following, coding abilities, and safety properties. The company continued to emphasize responsible AI development.
+
+Google DeepMind advanced Gemini with new versions that competed directly with the leading models from OpenAI and Anthropic. Google integrated Gemini deeply into its product suite including Search, Workspace, and Android.
+
+Meta continued its open-source AI strategy with Llama 3 and subsequent models, making powerful AI models freely available to researchers and developers worldwide.
+
+Perhaps the biggest surprise came from DeepSeek, a Chinese AI lab that released models rivaling Western counterparts while reportedly using significantly fewer computational resources and at a fraction of the cost. DeepSeek's R1 reasoning model and its V3 language model demonstrated that the American lead in AI was not as insurmountable as many had assumed. The release sent shockwaves through the AI industry and temporarily rattled the stock prices of AI infrastructure companies.
+
+AI coding assistants became standard developer tools. GitHub Copilot, Cursor, and other tools moved from novelty to essential infrastructure for software development. By mid-2025, surveys showed a majority of professional developers used AI assistance daily.
+
+AI-generated content became ubiquitous. Image generation, video generation, and voice synthesis all improved dramatically. This created both exciting creative possibilities and serious concerns about misinformation, deepfakes, and the economic impact on creative professionals.
+
+### Space Exploration
+
+SpaceX continued to push the boundaries of space technology. The Starship rocket, the largest and most powerful ever built, achieved multiple successful orbital flights and landings in 2025. The rapid iteration pace was remarkable compared to traditional aerospace development timelines.
+
+NASA's Artemis program progressed toward its goal of returning humans to the Moon. Artemis II, the crewed lunar flyby mission, was in advanced preparation.
+
+Blue Origin's New Glenn rocket successfully reached orbit in 2025, giving SpaceX its first serious commercial competition in the heavy-lift launch market.
+
+The commercial space station market grew as the International Space Station approached its planned retirement timeline. Multiple companies developed proposals for private orbital habitats.
+
+### Consumer Technology
+
+Apple released the iPhone 17 lineup in September 2025, featuring significant AI integration and camera improvements. The Apple Vision Pro, released in February 2024, received a price reduction and expanded to more countries, though mass adoption remained limited by the high price point and limited app ecosystem.
+
+The electric vehicle market continued to grow globally, though the pace of adoption varied by region. Tesla maintained its market leadership but faced increasing competition from Chinese manufacturers like BYD, which surpassed Tesla in total vehicle sales including hybrids.
+
+The foldable phone market expanded with Samsung, Google, and other manufacturers releasing refined models. The form factor moved from novelty to a viable mainstream option.
+
+### Cybersecurity
+
+Major cybersecurity incidents continued to make headlines. Critical infrastructure attacks, ransomware campaigns against healthcare systems, and state-sponsored espionage operations all occurred. The increasing sophistication of AI-powered attacks raised alarms, as did the potential for AI to be used in creating more convincing phishing campaigns and social engineering attacks.
+
+## Part 5: Science and Health
+
+### Climate and Environment
+
+2025 continued the trend of record-breaking global temperatures. Scientists reported that multiple climate indicators reached new extremes. Severe weather events including hurricanes, floods, droughts, and wildfires affected communities worldwide.
+
+The California wildfires in January 2025, particularly the devastating Palisades and Eaton fires in the Los Angeles area, were among the most destructive in the state's history, destroying thousands of structures and causing billions of dollars in damage.
+
+### Medicine and Public Health
+
+The post-pandemic era continued to evolve. COVID-19 remained endemic but was no longer a public health emergency. Updated vaccines were available but uptake varied widely. Long COVID continued to be studied, with researchers making progress in understanding its mechanisms.
+
+GLP-1 receptor agonist medications, particularly Ozempic and related drugs originally developed for diabetes, continued their remarkable expansion. New studies throughout 2025 suggested benefits beyond weight loss, including potential cardiovascular benefits, and the drugs became some of the most prescribed medications in history.
+
+Bird flu (H5N1) was a concern throughout 2025, with sporadic human cases reported, primarily among workers in close contact with infected poultry and dairy cattle. Public health agencies monitored the situation closely, concerned about the virus's pandemic potential if it gained efficient human-to-human transmission.
+
+### Physics and Astronomy
+
+Researchers continued to refine quantum computing technology, though practical quantum advantage for real-world problems remained elusive for most applications. Several companies and universities reported advances in qubit counts and error correction.
+
+The James Webb Space Telescope continued to produce extraordinary astronomical observations, revolutionizing understanding of early galaxy formation, exoplanet atmospheres, and stellar evolution.
+
+## Part 6: Culture and Society
+
+### Entertainment
+
+The entertainment industry continued to adapt to streaming economics. The strikes that had shut down Hollywood in 2023 resulted in new contracts, but the industry faced ongoing structural changes as studios grappled with the economics of streaming versus theatrical releases.
+
+Video gaming remained the largest entertainment industry by revenue, with continued growth in mobile gaming, live-service games, and the integration of AI into game development.
+
+### Sports
+
+Major sporting events in 2025 included preparation for the 2026 FIFA World Cup to be held across the United States, Canada, and Mexico. Qualification rounds and venue preparations were major stories throughout the year.
+
+In American football, the NFL maintained its position as the most-watched sport in the country.
+
+### Social and Cultural Shifts
+
+The debate over AI's impact on employment and creativity intensified. Artists, writers, musicians, and other creative professionals pushed back against AI systems trained on their work without permission or compensation. Several lawsuits progressing through courts in 2025 sought to define the legal boundaries of AI training data usage.
+
+Social media continued to fragment, with users spread across more platforms than ever. X (formerly Twitter) continued to evolve under Elon Musk's ownership. Bluesky, Threads, and Mastodon attracted users looking for alternatives. TikTok's uncertain future in the United States added to the sense of instability.
+
+## Part 7: Natural Disasters
+
+### California Wildfires
+
+As mentioned above, the January 2025 wildfires in the Los Angeles area were catastrophic. The Palisades Fire and Eaton Fire burned through densely populated areas, destroying entire neighborhoods. The fires were fueled by extreme Santa Ana winds and dry conditions. The recovery and rebuilding effort would take years.
+
+### Other Disasters
+
+Severe weather events occurred worldwide throughout the year. Flooding, hurricanes, and heat waves affected millions of people across multiple continents, reinforcing the urgent need for climate adaptation infrastructure.
+
+## Conclusion
+
+The year 2025 was defined by change, upheaval, and acceleration. American politics shifted dramatically with the new administration. AI transformed from an impressive technology to an essential infrastructure layer. Geopolitical conflicts persisted without resolution. The economy navigated tariffs, persistent inflation, and technological disruption simultaneously.
+
+As we look back from early 2026, the full consequences of many 2025 developments are still unfolding. The tariff regime's long-term economic effects, the AI revolution's impact on employment and creativity, and the geopolitical realignments set in motion by changing American foreign policy will all continue to shape the world for years to come.
+
+What is clear is that 2025 was not a year of quiet incremental change. It was a year that bent the trajectory of history in multiple directions at once.
+```
+
+---
+
+## 17. `content/blog/2026-03-22-modernizing-to-dotnet-10.md` (NEW)
+
+```markdown
+---
+title: "From .NET Framework 4.7 to .NET 10: A Practical Guide for Enterprise Developers"
+date: 2026-03-22
+author: observer-team
+summary: A comprehensive guide for enterprise .NET developers who have been working with .NET Framework 4.7 and want to understand what has changed, why it matters, and how to modernize — written for people who code at work and do not tinker with software at home.
+featured: true
+tags:
+  - dotnet
+  - blazor
+  - aspnet
+  - enterprise
+  - migration
+  - tutorial
+---
+
+## Introduction
+
+This article is written specifically for you: the professional .NET developer who works with enterprise software built on .NET Framework 4.7 (or thereabouts), goes home at the end of the day, and does not spend evenings experimenting with the latest frameworks. You have a life. You have responsibilities. Your relationship with software is professional, not recreational. And now someone at your company is talking about migrating to .NET 10, and you want to understand what that actually means without wading through years of release notes.
+
+Let me be direct: the .NET ecosystem has changed more between .NET Framework 4.7 and .NET 10 than it changed in the entire decade before that. But the changes are overwhelmingly positive, and this guide will walk you through every major shift in plain, practical language.
+
+## Part 1: What Even Is .NET 10?
+
+### The Great Rename
+
+The single most confusing thing that happened while you were building enterprise software is that Microsoft renamed everything.
+
+Here is the timeline: .NET Framework 1.0 through 4.8 was the original runtime you know and love. It runs on Windows only. It is in maintenance mode — Microsoft still patches security issues, but no new features are being developed for it. Period.
+
+Starting in 2016, Microsoft built a completely new, cross-platform, open-source runtime called .NET Core. It started at version 1.0 and went up to 3.1. Then, to reduce confusion (which, ironically, increased confusion), they dropped the "Core" suffix and jumped the version number to 5, calling it simply ".NET 5." This was followed by .NET 6, 7, 8, 9, and now .NET 10.
+
+So when someone says ".NET 10," they mean the direct successor to .NET Core, not a new version of .NET Framework. It runs on Windows, macOS, and Linux. It is completely open-source. And it is the future of the platform.
+
+.NET 10 is a Long-Term Support (LTS) release, meaning Microsoft will support it with patches and security updates for three years. This matters in enterprise contexts where you need stability guarantees.
+
+### What Happened to .NET Framework 4.7?
+
+Your existing .NET Framework 4.7 applications will continue to run on Windows. Microsoft has not removed .NET Framework from Windows and has committed to including it in Windows for the foreseeable future. But it will never get new features. No performance improvements. No new language features. No new APIs. It is done.
+
+This does not mean you need to panic. It means you need a plan.
+
+## Part 2: What Changed and Why You Should Care
+
+### C# Has Evolved Enormously
+
+If your last experience with C# was version 7 (which shipped with .NET Framework 4.7), you have missed C# versions 8, 9, 10, 11, 12, 13, and 14. Each added features that make code shorter, safer, and more readable.
+
+A few highlights that matter most in enterprise code:
+
+**Nullable reference types** (C# 8): The compiler now tracks whether a reference variable can be null and warns you about potential null dereference bugs at compile time. This alone prevents an enormous category of runtime NullReferenceException crashes. Enabling this feature in your project is one of the highest-value changes you can make.
+
+**Records** (C# 9): Immutable data classes can now be declared in a single line. Instead of writing a class with properties, a constructor, Equals, GetHashCode, and ToString overrides (which you probably were not writing correctly anyway), you write `public record Person(string Name, int Age);` and the compiler generates all of that for you. This is transformative for DTOs and value objects in enterprise code.
+
+**Pattern matching** (C# 8-14): Switch statements now support complex patterns. You can match on types, property values, and combinations thereof. This makes complex business rule evaluation far more readable than chains of if/else statements.
+
+**Top-level statements** (C# 9): A console application no longer needs a class with a `static void Main` method. The entry point is simply code at the top of a file. This is what you see in modern project templates and tutorials. It looks strange at first but is perfectly normal and fully supported.
+
+**Raw string literals** (C# 11): No more escaping quotes in SQL queries and JSON templates. Triple-quoted strings handle multi-line text and embedded quotes without escape characters.
+
+**Primary constructors** (C# 12): Classes can now declare constructor parameters directly in the class declaration, eliminating boilerplate field assignments.
+
+### ASP.NET Has Been Rewritten
+
+ASP.NET in .NET 10 is not an update of the ASP.NET you know. It was rewritten from scratch as ASP.NET Core. The web server is no longer IIS (though IIS can act as a reverse proxy). The default web server is Kestrel, a lightweight, high-performance, cross-platform HTTP server.
+
+The programming model has changed significantly. There is no more `Global.asax`. There is no more `Web.config` for application settings (you use `appsettings.json`). The request pipeline is built with middleware rather than HTTP modules and handlers. Dependency injection is built into the framework rather than bolted on with third-party containers.
+
+The performance difference is staggering. Benchmarks consistently show ASP.NET Core handling 5 to 10 times more requests per second than classic ASP.NET on the same hardware, while using less memory. For enterprise applications processing thousands of concurrent requests, this translates directly to lower infrastructure costs.
+
+### Blazor: C# in the Browser
+
+One of the most significant new capabilities in modern .NET is Blazor, which lets you build interactive web UIs using C# instead of JavaScript. There are multiple hosting models:
+
+**Blazor WebAssembly** compiles your .NET code to WebAssembly and runs it entirely in the browser. No server needed at runtime. The compiled output is static files (HTML, CSS, JS, WASM) that can be hosted anywhere, including free hosting like GitHub Pages. This is what Observer Magazine itself is built with.
+
+**Blazor Server** keeps your .NET code on the server and uses SignalR (WebSockets) to maintain a real-time connection with the browser. Every UI interaction sends a message to the server, which processes it and sends back DOM updates. This means faster initial load times (no WASM download) but requires a persistent server connection.
+
+**Blazor United** (also called Blazor Web App) in .NET 8 and later combines both models. Pages can start with server-side rendering for instant load times and then switch to WebAssembly for offline capability. In .NET 10, this hybrid model is mature and well-tooled.
+
+For enterprise developers, Blazor means your existing C# skills transfer directly to web development. Your business logic, validation rules, and data models can be shared between server and client. Your team does not need to hire JavaScript specialists or maintain a separate frontend codebase.
+
+### Entity Framework Core
+
+Entity Framework has also been rewritten as Entity Framework Core (EF Core). It is faster, supports more databases (SQL Server, PostgreSQL, SQLite, MySQL, and more), and has a cleaner API. However, it is not a drop-in replacement for EF6. The API surface is different enough that migration requires code changes.
+
+EF Core 10 includes features like compiled models for faster startup, improved query translation, bulk operations, and excellent support for JSON columns. For enterprise applications with complex data access patterns, EF Core represents a significant improvement in both performance and developer experience.
+
+### Native AOT Compilation
+
+Perhaps the most revolutionary technical advancement in .NET 10 is Native Ahead-of-Time (AOT) compilation. Traditional .NET applications ship as Intermediate Language (IL) and are compiled to machine code at runtime by the Just-In-Time (JIT) compiler. Native AOT compiles your entire application to a native binary at publish time. The result is an executable that starts in milliseconds instead of seconds, uses significantly less memory, and does not require the .NET runtime to be installed.
+
+For enterprise scenarios, Native AOT is particularly valuable for microservices and serverless functions where cold start time directly affects user experience and cost.
+
+## Part 3: The Modern .NET Ecosystem
+
+### Modern Project Files
+
+If you open a modern .NET project file, you might not recognize it. The old verbose .csproj format with hundreds of lines of XML has been replaced by the SDK-style project format, which typically has fewer than 20 lines. The build system is smarter about discovering source files, so you no longer need to list every .cs file in the project file.
+
+The solution file format has also been modernized. The new SLNX format uses clean XML instead of the old proprietary binary format, making it friendly to Git merges and human reading.
+
+Central Package Management (Directory.Packages.props) lets you define NuGet package versions in a single file at the root of your repository, eliminating version drift across projects in a large solution.
+
+Directory.Build.props lets you set common build properties (target framework, nullable reference types, warning levels) for all projects in a repository from one file.
+
+### Modern Tooling
+
+The `dotnet` CLI is now the primary way to create, build, test, and publish .NET applications. You can do everything from the command line: `dotnet new`, `dotnet build`, `dotnet test`, `dotnet publish`. Visual Studio remains fully supported and is still the preferred IDE for many enterprise developers, but you are no longer tied to it.
+
+JetBrains Rider has become a popular cross-platform alternative to Visual Studio. VS Code with the C# Dev Kit extension is viable for lighter-weight development.
+
+Hot Reload lets you modify code while the application is running and see changes immediately without restarting. This dramatically improves the inner development loop for UI work.
+
+### Testing in Modern .NET
+
+The testing ecosystem has matured significantly. xUnit (now at version 3) is the most popular testing framework. bUnit enables unit testing of Blazor components without a browser. The dotnet test runner integrates cleanly with CI/CD pipelines.
+
+In the enterprise context, the built-in dependency injection and interface-based design of ASP.NET Core make applications far more testable than classic ASP.NET applications. You can write integration tests that spin up an in-memory web server and send real HTTP requests to your API without deploying anything.
+
+## Part 4: The Broader Technology Landscape in 2025-2026
+
+### AI Is Everywhere
+
+You cannot discuss the current technology landscape without addressing AI. Large language models like GPT-4, Claude, and Gemini have transformed software development workflows. AI coding assistants are now standard tooling, not novelties. In your daily work, this means you will increasingly use AI to help write code, debug issues, write documentation, and review pull requests.
+
+For .NET developers specifically, AI integration is straightforward. The Microsoft.Extensions.AI libraries provide standardized interfaces for connecting to AI services from .NET code. Whether you are building an internal tool that uses AI to summarize documents, a customer-facing chatbot, or an application that uses AI for data analysis, the .NET ecosystem has mature support.
+
+### Cloud-Native Is the Default
+
+Modern enterprise software is increasingly designed to run in containers on Kubernetes or similar orchestrators. .NET 10 has excellent container support, with tiny container images (especially with Native AOT) and built-in health check endpoints that integrate with Kubernetes liveness and readiness probes.
+
+Even if your current applications run on dedicated servers or VMs, understanding containers is important because it is where the industry is heading. The good news is that containerizing a .NET application is straightforward and often requires only adding a Dockerfile.
+
+### Open Source Is the Norm
+
+.NET itself is fully open-source under the MIT license. The entire runtime, compiler, libraries, and most of the ASP.NET framework are developed in the open on GitHub. This is a dramatic shift from the proprietary, Windows-only .NET Framework era.
+
+For enterprise developers, this means you can read the source code of the framework itself when debugging issues. You can file issues and even contribute fixes. And you can be confident that the platform will not be abandoned because the community can maintain it independently if necessary.
+
+## Part 5: How to Approach Migration
+
+### Do Not Boil the Ocean
+
+The most important advice for migrating from .NET Framework 4.7 to .NET 10 is: do not try to migrate everything at once. Start with a new microservice or a smaller, less critical application. Build your team's familiarity with the new platform on a project where the stakes are lower.
+
+### Use the .NET Upgrade Assistant
+
+Microsoft provides a tool called the .NET Upgrade Assistant that automates much of the mechanical migration work. It can update project files, convert Web.config settings to appsettings.json, update NuGet package references, and flag code that uses APIs not available in modern .NET. It is not perfect, but it handles the tedious parts so your team can focus on the genuinely complex migration decisions.
+
+### Identify Breaking Changes Early
+
+Some .NET Framework APIs do not exist in modern .NET. The most common pain points are Windows-specific APIs (like System.Drawing on Linux), some WCF service features (replaced by gRPC or REST), and certain AppDomain behaviors. The .NET Portability Analyzer tool can scan your existing code and generate a report of compatibility issues.
+
+### Plan for NuGet Package Updates
+
+Many NuGet packages have different versions for .NET Framework and modern .NET. Some packages you depend on may not have been updated at all. Audit your dependencies early and identify any that need replacements.
+
+### Embrace the New Patterns Gradually
+
+You do not need to rewrite your application to use minimal APIs, top-level statements, and every new C# feature on day one. Modern .NET supports the controller-based MVC pattern you are familiar with. Start with a project structure that feels comfortable, then adopt new patterns as your team gains confidence.
+
+## Part 6: Why This Is Worth Doing
+
+If you have read this far, you might be wondering whether this migration is worth the effort and risk. Here is the honest answer: yes, unequivocally.
+
+**Performance**: Your applications will run faster and use less memory. In enterprise contexts with thousands of users, this translates to real cost savings on infrastructure.
+
+**Security**: .NET Framework 4.7 receives only critical security patches. Modern .NET receives active security development with new features like built-in rate limiting, improved cryptography, and regularly updated TLS support.
+
+**Developer productivity**: Modern C# features, better tooling, and built-in dependency injection make developers measurably more productive. Code reviews go faster because the code is more readable. Bugs are caught earlier because the compiler is smarter.
+
+**Hiring**: New .NET developers coming out of bootcamps and university programs learn modern .NET. Requiring .NET Framework experience narrows your hiring pool to increasingly senior developers.
+
+**Cross-platform**: Your applications can run on Linux servers (which are cheaper to operate than Windows Server) and in lightweight containers. You are no longer locked into Windows Server licensing.
+
+**Ecosystem momentum**: All new .NET libraries, frameworks, and tools target modern .NET. Staying on .NET Framework means an increasingly stale dependency graph.
+
+## Conclusion
+
+The jump from .NET Framework 4.7 to .NET 10 is large. There is no sugarcoating that. But every piece of the puzzle — the language improvements, the performance gains, the cross-platform support, the modern tooling, the open-source ecosystem — represents a genuine improvement in your ability to build and maintain quality enterprise software.
+
+You do not need to make this jump in a weekend. You do not need to rewrite everything. But you do need to start. Pick a small project. Install the .NET 10 SDK. Create a new application with `dotnet new webapi`. Run it. Explore. And when you are ready, use the Upgrade Assistant on something real.
+
+The .NET platform has never been in a better position than it is today. The same C# skills that have served you well for years still apply — they just apply to a faster, more capable, more modern foundation.
+
+Welcome to the future of .NET. It has been waiting for you.
+```
+
+---
+
+## 18. Showcase.razor — the backdrop div insertion
+
+In `src/ObserverMagazine.Web/Pages/Showcase.razor`, locate this section:
+
+```razor
+        <div class="sc-col-toggle">
+            <button class="btn btn-outline btn-sm" @onclick="ToggleColumnPicker">Columns ▾</button>
+            @if (showColumnPicker)
+            {
+                <div class="sc-col-dropdown" @onclick:stopPropagation="true">
+```
+
+Replace it with:
+
+```razor
+        <div class="sc-col-toggle">
+            <button class="btn btn-outline btn-sm" @onclick="ToggleColumnPicker">Columns ▾</button>
+            @if (showColumnPicker)
+            {
+                <div class="sc-col-backdrop" @onclick="() => showColumnPicker = false"></div>
+                <div class="sc-col-dropdown" @onclick:stopPropagation="true">
+```
+
+This is a one-line insertion. The rest of Showcase.razor is unchanged.
+
+---
+
+## Summary of Bug Fixes Found and Addressed
+
+| # | Bug | File(s) | Fix |
+|---|-----|---------|-----|
+| 1 | Hamburger menu stays open after navigation | `NavMenu.razor` | Subscribe to `LocationChanged`, close menu |
+| 2 | Hamburger menu stays open when clicking outside | `NavMenu.razor` + new `.razor.css` | Added transparent overlay behind open menu |
+| 3 | Chrome mobile audio controls not rendering | `BlogTtsPlayer.razor` | Added naked "Open audio" direct link as reliable fallback |
+| 4 | `BlogTtsPlayer` missing `@implements IDisposable` | `BlogTtsPlayer.razor` | Added the directive (method was already present) |
+| 5 | MasterDetail confirmation dialog unstyled | `MasterDetail.razor.css` | Added missing `.confirm-overlay` and `.confirm-dialog` styles |
+| 6 | Showcase column picker never closes on outside click | `Showcase.razor` + `.razor.css` | Added `.sc-col-backdrop` overlay |
+| 7 | Source map 404 errors in Firefox/Chrome devtools | `deploy.yml`, `pr-check.yml` | Strip `sourceMappingURL` comments post-publish |
+| 8 | CDN dependency on highlight.js (availability risk) | `libman.json`, `index.html`, `.csproj`, `Directory.Packages.props` | LibMan restores files locally at build time |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

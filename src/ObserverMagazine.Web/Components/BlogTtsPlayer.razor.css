@@ -22,10 +22,6 @@
     white-space: nowrap;
 }
 
-/* Style the native audio element to blend with our theme.
- * We use accent-color (supported by all modern browsers) instead of
- * ::-webkit-media-controls-* pseudo-elements which break the internal
- * Shadow DOM layout on Chrome for Android. */
 .tts-player audio {
     flex: 1;
     min-width: 200px;
@@ -34,7 +30,14 @@
     accent-color: var(--color-primary);
 }
 
-/* Fallback play/pause button — shown only when JS detects native controls failed */
+.tts-direct-link {
+    font-size: 0.8rem;
+    color: var(--color-primary);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* Fallback play/pause button */
 .tts-fallback {
     display: flex;
     align-items: center;
@@ -97,5 +100,9 @@
 
     .tts-fallback {
         width: 100%;
+    }
+
+    .tts-direct-link {
+        align-self: flex-start;
     }
 }

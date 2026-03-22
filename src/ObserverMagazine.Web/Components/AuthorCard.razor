@@ -22,8 +22,8 @@
                            target="_blank"
                            rel="noopener noreferrer"
                            class="author-social-link"
-                           title="@platform">
-                            @platform
+                           title="@GetDisplayName(platform)">
+                            @GetDisplayName(platform)
                         </a>
                     }
                 </div>
@@ -35,13 +35,139 @@
 @code {
     [Parameter] public AuthorProfile? Author { get; set; }
 
+    private static string GetDisplayName(string platform) => platform.ToLowerInvariant() switch
+    {
+        "twitter" or "x" => "X / Twitter",
+        "github" => "GitHub",
+        "gitlab" => "GitLab",
+        "bitbucket" => "Bitbucket",
+        "linkedin" => "LinkedIn",
+        "bluesky" => "Bluesky",
+        "mastodon" => "Mastodon",
+        "threads" => "Threads",
+        "facebook" => "Facebook",
+        "instagram" => "Instagram",
+        "tiktok" => "TikTok",
+        "youtube" => "YouTube",
+        "twitch" => "Twitch",
+        "reddit" => "Reddit",
+        "pinterest" => "Pinterest",
+        "tumblr" => "Tumblr",
+        "snapchat" => "Snapchat",
+        "discord" => "Discord",
+        "telegram" => "Telegram",
+        "whatsapp" => "WhatsApp",
+        "signal" => "Signal",
+        "medium" => "Medium",
+        "substack" => "Substack",
+        "devto" or "dev.to" => "DEV",
+        "hashnode" => "Hashnode",
+        "stackoverflow" => "Stack Overflow",
+        "hackernews" => "Hacker News",
+        "codepen" => "CodePen",
+        "dribbble" => "Dribbble",
+        "behance" => "Behance",
+        "flickr" => "Flickr",
+        "500px" => "500px",
+        "vimeo" => "Vimeo",
+        "soundcloud" => "SoundCloud",
+        "bandcamp" => "Bandcamp",
+        "spotify" => "Spotify",
+        "goodreads" => "Goodreads",
+        "patreon" => "Patreon",
+        "kofi" or "ko-fi" => "Ko-fi",
+        "buymeacoffee" => "Buy Me a Coffee",
+        "wordpress" => "WordPress",
+        "quora" => "Quora",
+        "keybase" => "Keybase",
+        "orcid" => "ORCID",
+        "researchgate" => "ResearchGate",
+        "figma" => "Figma",
+        "notion" => "Notion",
+        "producthunt" => "Product Hunt",
+        "angellist" => "AngelList",
+        "crunchbase" => "Crunchbase",
+        "linktree" => "Linktree",
+        "calendly" => "Calendly",
+        "website" or "web" or "homepage" => "Website",
+        _ => platform
+    };
+
     private static string GetSocialUrl(string platform, string handle) => platform.ToLowerInvariant() switch
     {
+        // Developer platforms
         "github" => $"https://github.com/{handle}",
+        "gitlab" => $"https://gitlab.com/{handle}",
+        "bitbucket" => $"https://bitbucket.org/{handle}",
+        "codepen" => $"https://codepen.io/{handle}",
+        "devto" or "dev.to" => $"https://dev.to/{handle}",
+        "hashnode" => $"https://{handle}.hashnode.dev",
+        "stackoverflow" => $"https://stackoverflow.com/users/{handle}",
+        "hackernews" => $"https://news.ycombinator.com/user?id={handle}",
+
+        // Major social networks
         "twitter" or "x" => $"https://x.com/{handle}",
-        "mastodon" => handle.StartsWith("http") ? handle : $"https://mastodon.social/{handle}",
+        "facebook" => $"https://facebook.com/{handle}",
+        "instagram" => $"https://instagram.com/{handle}",
         "linkedin" => $"https://linkedin.com/in/{handle}",
-        "bluesky" => $"https://bsky.app/profile/{handle}",
+        "threads" => $"https://threads.net/@{handle}",
+        "bluesky" => handle.Contains('.') ? $"https://bsky.app/profile/{handle}" : $"https://bsky.app/profile/{handle}.bsky.social",
+        "mastodon" => handle.StartsWith("http") ? handle : $"https://mastodon.social/{handle}",
+        "tiktok" => $"https://tiktok.com/@{handle}",
+        "snapchat" => $"https://snapchat.com/add/{handle}",
+        "pinterest" => $"https://pinterest.com/{handle}",
+        "tumblr" => $"https://{handle}.tumblr.com",
+        "reddit" => $"https://reddit.com/user/{handle}",
+
+        // Video / streaming
+        "youtube" => $"https://youtube.com/@{handle}",
+        "twitch" => $"https://twitch.tv/{handle}",
+        "vimeo" => $"https://vimeo.com/{handle}",
+
+        // Audio / music
+        "spotify" => $"https://open.spotify.com/user/{handle}",
+        "soundcloud" => $"https://soundcloud.com/{handle}",
+        "bandcamp" => $"https://{handle}.bandcamp.com",
+
+        // Design / creative
+        "dribbble" => $"https://dribbble.com/{handle}",
+        "behance" => $"https://behance.net/{handle}",
+        "flickr" => $"https://flickr.com/photos/{handle}",
+        "500px" => $"https://500px.com/p/{handle}",
+        "figma" => $"https://figma.com/@{handle}",
+
+        // Writing / blogging
+        "medium" => $"https://medium.com/@{handle}",
+        "substack" => $"https://{handle}.substack.com",
+        "wordpress" => $"https://{handle}.wordpress.com",
+
+        // Messaging
+        "discord" => handle.StartsWith("http") ? handle : $"https://discord.gg/{handle}",
+        "telegram" => $"https://t.me/{handle}",
+        "whatsapp" => $"https://wa.me/{handle}",
+        "signal" => $"https://signal.me/#p/{handle}",
+
+        // Monetisation
+        "patreon" => $"https://patreon.com/{handle}",
+        "kofi" or "ko-fi" => $"https://ko-fi.com/{handle}",
+        "buymeacoffee" => $"https://buymeacoffee.com/{handle}",
+
+        // Books / academia
+        "goodreads" => $"https://goodreads.com/user/show/{handle}",
+        "orcid" => $"https://orcid.org/{handle}",
+        "researchgate" => $"https://researchgate.net/profile/{handle}",
+
+        // Professional / other
+        "quora" => $"https://quora.com/profile/{handle}",
+        "keybase" => $"https://keybase.io/{handle}",
+        "producthunt" => $"https://producthunt.com/@{handle}",
+        "angellist" => $"https://angel.co/u/{handle}",
+        "crunchbase" => $"https://crunchbase.com/person/{handle}",
+        "notion" => $"https://notion.so/{handle}",
+        "linktree" => $"https://linktr.ee/{handle}",
+        "calendly" => $"https://calendly.com/{handle}",
+        "website" or "web" or "homepage" => handle.StartsWith("http") ? handle : $"https://{handle}",
+
         _ => handle.StartsWith("http") ? handle : $"https://{handle}"
     };
 }
