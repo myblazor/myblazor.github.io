@@ -22,11 +22,42 @@
     white-space: nowrap;
 }
 
+/* Style the native audio element to blend with our themes */
 .tts-player audio {
     flex: 1;
     min-width: 200px;
     max-width: 100%;
-    height: 36px;
+    height: 40px;
+    border-radius: var(--radius);
+    background: var(--color-bg);
+    /* Modern browsers support accent-color for native controls */
+    accent-color: var(--color-primary);
+}
+
+/*
+ * Webkit (Chrome, Edge, Safari) audio pseudo-elements.
+ * These give us deeper control over the player appearance.
+ */
+.tts-player audio::-webkit-media-controls-panel {
+    background: var(--color-bg);
+    border-radius: var(--radius);
+}
+
+.tts-player audio::-webkit-media-controls-play-button {
+    background-color: var(--color-primary);
+    border-radius: 50%;
+}
+
+.tts-player audio::-webkit-media-controls-current-time-display,
+.tts-player audio::-webkit-media-controls-time-remaining-display {
+    color: var(--color-text);
+    font-size: 0.8rem;
+    font-family: var(--font-sans);
+}
+
+.tts-player audio::-webkit-media-controls-timeline {
+    background: var(--color-surface);
+    border-radius: 4px;
 }
 
 @media (max-width: 480px) {

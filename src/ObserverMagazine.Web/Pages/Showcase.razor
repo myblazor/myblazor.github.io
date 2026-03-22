@@ -57,22 +57,22 @@
             {
                 <input type="text" placeholder="@col.Header..."
                        value="@col.FilterText"
-                       @oninput="e => OnFilterTextChanged(col, e.Value?.ToString() ?? "")" />
+                       @oninput="e => OnFilterTextChanged(col, e.Value?.ToString() ?? string.Empty)" />
             }
             else if (col.FilterKind == FilterKind.Range)
             {
                 <div class="sc-range-filter">
                     <input type="number" placeholder="Min"
                            value="@col.FilterMin"
-                           @oninput="e => OnFilterMinChanged(col, e.Value?.ToString() ?? "")" />
+                           @oninput="e => OnFilterMinChanged(col, e.Value?.ToString() ?? string.Empty)" />
                     <input type="number" placeholder="Max"
                            value="@col.FilterMax"
-                           @oninput="e => OnFilterMaxChanged(col, e.Value?.ToString() ?? "")" />
+                           @oninput="e => OnFilterMaxChanged(col, e.Value?.ToString() ?? string.Empty)" />
                 </div>
             }
             else if (col.FilterKind == FilterKind.Select)
             {
-                <select value="@col.FilterText" @onchange="e => OnFilterTextChanged(col, e.Value?.ToString() ?? "")">
+                <select value="@col.FilterText" @onchange="e => OnFilterTextChanged(col, e.Value?.ToString() ?? string.Empty)">
                     <option value="">All</option>
                     @foreach (var opt in col.SelectOptions)
                     {
@@ -394,9 +394,9 @@
     {
         foreach (var col in columns)
         {
-            col.FilterText = "";
-            col.FilterMin = "";
-            col.FilterMax = "";
+            col.FilterText = string.Empty;
+            col.FilterMin = string.Empty;
+            col.FilterMax = string.Empty;
         }
         currentPage = 1;
         ApplyFilterAndSort();
@@ -453,7 +453,7 @@
     }
 
     private static string ColStyle(ColumnDef col) =>
-        string.IsNullOrEmpty(col.MinWidth) ? "" : $"min-width:{col.MinWidth}";
+        string.IsNullOrEmpty(col.MinWidth) ? string.Empty : $"min-width:{col.MinWidth}";
 
     // --- Column definition model ---
 
@@ -466,10 +466,10 @@
         public bool Numeric { get; } = numeric;
         public FilterKind FilterKind { get; } = filterKind;
         public bool Visible { get; set; } = true;
-        public string FilterText { get; set; } = "";
-        public string FilterMin { get; set; } = "";
-        public string FilterMax { get; set; } = "";
-        public string MinWidth { get; set; } = "";
+        public string FilterText { get; set; } = string.Empty;
+        public string FilterMin { get; set; } = string.Empty;
+        public string FilterMax { get; set; } = string.Empty;
+        public string MinWidth { get; set; } = string.Empty;
         public string[] SelectOptions { get; set; } = [];
         public string Render(CatalogProduct p) => render(p);
     }

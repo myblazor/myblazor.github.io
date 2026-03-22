@@ -13597,3 +13597,766 @@ These still compile and pass because the old components still exist in the proje
 
 
 
+I see the following build errors 
+  ObserverMagazine.Web net10.0 browser-wasm failed with 8 error(s) (2.4s)
+    /home/kushal/src/dotnet/observermagazine.github.io/src/ObserverMagazine.Web/Pages/Showcase.razor(60,86): error CS1525: Invalid expression term ')'
+    /home/kushal/src/dotnet/observermagazine.github.io/src/ObserverMagazine.Web/obj/Debug/net10.0/Microsoft.CodeAnalysis.Razor.Compiler/Microsoft.NET.Sdk.Razor.SourceGenerators.RazorSourceGenerator/Pages_Showcase_razor.g.cs(439,15): error CS1026: ) expected
+    /home/kushal/src/dotnet/observermagazine.github.io/src/ObserverMagazine.Web/Pages/Showcase.razor(67,89): error CS1525: Invalid expression term ')'
+    /home/kushal/src/dotnet/observermagazine.github.io/src/ObserverMagazine.Web/obj/Debug/net10.0/Microsoft.CodeAnalysis.Razor.Compiler/Microsoft.NET.Sdk.Razor.SourceGenerators.RazorSourceGenerator/Pages_Showcase_razor.g.cs(476,15): error CS1026: ) expected
+    /home/kushal/src/dotnet/observermagazine.github.io/src/ObserverMagazine.Web/Pages/Showcase.razor(70,89): error CS1525: Invalid expression term ')'
+    /home/kushal/src/dotnet/observermagazine.github.io/src/ObserverMagazine.Web/obj/Debug/net10.0/Microsoft.CodeAnalysis.Razor.Compiler/Microsoft.NET.Sdk.Razor.SourceGenerators.RazorSourceGenerator/Pages_Showcase_razor.g.cs(501,15): error CS1026: ) expected
+    /home/kushal/src/dotnet/observermagazine.github.io/src/ObserverMagazine.Web/Pages/Showcase.razor(75,112): error CS1525: Invalid expression term ')'
+    /home/kushal/src/dotnet/observermagazine.github.io/src/ObserverMagazine.Web/obj/Debug/net10.0/Microsoft.CodeAnalysis.Razor.Compiler/Microsoft.NET.Sdk.Razor.SourceGenerators.RazorSourceGenerator/Pages_Showcase_razor.g.cs(534,15): error CS1026: ) expected
+
+Test summary: total: 17, failed: 0, succeeded: 17, skipped: 0, duration: 1.2s
+Build failed with 8 error(s) in 3.2s
+Please also fix any other build failures or test failures that might result after you fix this. 
+Also please stylize the audio player to fit the rest of the theme 
+also here is the current index.ts of the api cloudflare worker. 
+give me full text of what I need to change it to 
+```typescript 
+import { Hono } from 'hono'
+import { cors } from 'hono/cors'
+import { getCookie, setCookie, deleteCookie } from 'hono/cookie'
+import { z } from 'zod'
+import { zValidator } from '@hono/zod-validator'
+import { html } from 'hono/html'
+import {
+  generateRegistrationOptions,
+  verifyRegistrationResponse,
+  generateAuthenticationOptions,
+  verifyAuthenticationResponse
+} from '@simplewebauthn/server'
+import { uuidv7 } from './uuid'
+
+const app = new Hono<{ Bindings: Env }>()
+
+// ============================================================================
+// CORS — Allow any origin with credentials (needed for passkey cookies).
+// For production, replace origin: true with your actual domain(s).
+// ============================================================================
+app.use('/*', cors({
+  origin: (origin) => origin, // reflect the requesting origin
+  credentials: true,
+  allowMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowHeaders: ['Content-Type', 'Authorization'],
+  maxAge: 86400,
+}))
+
+// ============================================================================
+// HELPERS
+// ============================================================================
+
+function getRelativeTime(dateStr: string) {
+  const date = new Date(dateStr.includes('T') ? dateStr : dateStr + ' UTC')
+  const now = new Date()
+  const s = Math.floor((now.getTime() - date.getTime()) / 1000)
+  if (s < 60) return 'Just now'
+  if (s < 3600) return `${Math.floor(s / 60)}m ago`
+  if (s < 86400) return `${Math.floor(s / 3600)}h ago`
+  return date.toLocaleDateString()
+}
+
+const base64URLToUint8Array = (b64url: string): Uint8Array => {
+  const b64 = b64url.replace(/-/g, '+').replace(/_/g, '/')
+  const pad = '='.repeat((4 - (b64.length % 4)) % 4)
+  const bin = atob(b64 + pad)
+  const arr = new Uint8Array(bin.length)
+  for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i)
+  return arr
+}
+
+const uint8ArrayToBase64URL = (arr: Uint8Array): string => {
+  let bin = ''
+  for (let i = 0; i < arr.length; i++) bin += String.fromCharCode(arr[i])
+  return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '')
+}
+
+// ============================================================================
+// SHARED UI COMPONENTS
+// ============================================================================
+
+const Navbar = (ip: string, user: string | null = null) => html`
+  <nav class="demo">
+    <a href="/" class="brand"><span>📝 Public</span></a>
+    <div class="menu">
+      <a href="/vault" class="button">🛡️ Vault</a>
+      <a href="/secure" class="button">🔑 Secure</a>
+      <a href="/docs" class="button">📖 API Docs</a>
+      ${user
+        ? html`<span class="label success">🔑 Logged In</span>`
+        : html`<span class="label">IP: ${ip}</span>`}
+    </div>
+  </nav>
+`
+
+// ============================================================================
+// SECTION 1: PUBLIC NOTES — UI + JSON API
+// ============================================================================
+
+const noteSchema = z.object({
+  title: z.string().min(1).max(100),
+  content: z.string().max(1000).default('')
+})
+
+const NotesLayout = (content: any, ip: string) => html`
+  <!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Public Notes</title>
+    <link rel="stylesheet" href="https://unpkg.com/picnic">
+    <style>
+      body{padding:20px;max-width:900px;margin:0 auto}
+      .note-card{margin-bottom:20px;padding:15px;border:1px solid #ddd;border-radius:5px;word-break:break-word}
+      nav{margin-bottom:40px}
+    </style>
+  </head><body>
+    ${Navbar(ip)}
+    <main><h1>📝 Public Notes Board</h1>${content}</main>
+  </body></html>
+`
+
+// --- UI Routes ---
+
+app.get('/', async (c) => {
+  const ip = c.req.header('cf-connecting-ip') || 'unknown'
+  const { results } = await c.env.DB.prepare('SELECT * FROM notes ORDER BY created_at DESC').all()
+  return c.html(NotesLayout(html`
+    <form action="/ui/notes/create" method="POST">
+      <div class="flex two">
+        <label><input type="text" name="title" placeholder="Title" required maxlength="100"></label>
+        <button type="submit">Post Note</button>
+      </div>
+      <textarea name="content" placeholder="Content..." maxlength="1000" rows="3"></textarea>
+    </form>
+    <hr>
+    <div>${results.map((n: any) => html`
+      <div class="note-card">
+        <small>${getRelativeTime(n.created_at)}</small>
+        <h3>${n.title}</h3>
+        <p style="white-space:pre-wrap">${n.content}</p>
+        <form action="/ui/notes/delete/${n.id}" method="POST" onsubmit="return confirm('Delete?')">
+          <button class="error" style="padding:5px 10px;font-size:0.8em">Delete</button>
+        </form>
+      </div>
+    `)}</div>
+  `, ip))
+})
+
+app.post('/ui/notes/create', zValidator('form', noteSchema), async (c) => {
+  const { title, content } = c.req.valid('form')
+  const ip = c.req.header('cf-connecting-ip') || 'unknown'
+  await c.env.DB.prepare('INSERT INTO notes (title, content, ip_address) VALUES (?, ?, ?)').bind(title, content, ip).run()
+  return c.redirect('/')
+})
+
+app.post('/ui/notes/delete/:id', async (c) => {
+  await c.env.DB.prepare('DELETE FROM notes WHERE id = ?').bind(c.req.param('id')).run()
+  return c.redirect('/')
+})
+
+// --- JSON API Routes ---
+
+// GET /api/notes — List all notes
+app.get('/api/notes', async (c) => {
+  const { results } = await c.env.DB.prepare('SELECT * FROM notes ORDER BY created_at DESC').all()
+  return c.json({ ok: true, data: results })
+})
+
+// GET /api/notes/:id — Get single note
+app.get('/api/notes/:id', async (c) => {
+  const row = await c.env.DB.prepare('SELECT * FROM notes WHERE id = ?').bind(c.req.param('id')).first()
+  if (!row) return c.json({ ok: false, error: 'Not Found' }, 404)
+  return c.json({ ok: true, data: row })
+})
+
+// POST /api/notes — Create a note (JSON body)
+app.post('/api/notes', async (c) => {
+  let body: any
+  try { body = await c.req.json() } catch { return c.json({ ok: false, error: 'Invalid JSON' }, 400) }
+  const parsed = noteSchema.safeParse(body)
+  if (!parsed.success) return c.json({ ok: false, error: parsed.error.flatten() }, 400)
+  const { title, content } = parsed.data
+  const ip = c.req.header('cf-connecting-ip') || 'unknown'
+  const res = await c.env.DB.prepare('INSERT INTO notes (title, content, ip_address) VALUES (?, ?, ?)').bind(title, content, ip).run()
+  return c.json({ ok: true, id: res.meta.last_row_id }, 201)
+})
+
+// DELETE /api/notes/:id — Delete a note (open to anyone, same as UI)
+app.delete('/api/notes/:id', async (c) => {
+  const res = await c.env.DB.prepare('DELETE FROM notes WHERE id = ?').bind(c.req.param('id')).run()
+  if (res.meta.changes === 0) return c.json({ ok: false, error: 'Not Found' }, 404)
+  return c.json({ ok: true })
+})
+
+// GET /api/notes/meta/version — Lightweight polling fingerprint
+app.get('/api/notes/meta/version', async (c) => {
+  const row = await c.env.DB.prepare('SELECT created_at FROM notes ORDER BY created_at DESC LIMIT 1').first()
+  return c.json({ version: row ? btoa(row.created_at as string) : 'empty' })
+})
+
+// ============================================================================
+// SECTION 2: IP VAULT — UI + JSON API
+// ============================================================================
+
+const vaultSchema = z.object({
+  payload: z.string().min(1, 'Cannot be empty').max(500, 'Max 500 chars')
+})
+
+const VaultLayout = (content: any, ip: string) => html`
+  <!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>IP Vault</title>
+    <link rel="stylesheet" href="https://unpkg.com/picnic">
+    <style>
+      body{padding:20px;max-width:1000px;margin:0 auto;font-family:monospace}
+      .card{margin-bottom:20px;padding:20px;border:1px solid #ccc;background:#fff}
+      .mine{border:2px solid #2ecc71;background:#f0fff4}
+      .meta-box{background:#222;color:#0f0;padding:10px;font-size:0.75em;overflow-x:auto;border-radius:4px}
+      .tag{padding:2px 6px;border-radius:4px;font-size:0.8em;margin-right:5px;color:#fff;display:inline-block}
+      .tag-id{background:#555}.tag-ip{background:#0074d9}
+      .api-docs{margin-top:10px;padding:10px;background:#eee;border-left:4px solid #0074d9}
+      pre{white-space:pre-wrap;word-break:break-all}
+    </style>
+  </head><body>
+    ${Navbar(ip)}
+    <main>
+      <h1>🛡️ The IP Vault</h1>
+      <p>Rules: You can SEE everyone. You can only TOUCH your own IP.</p>
+      <article class="card">
+        <header><h3>Create New Vault Entry</h3></header>
+        <form action="/vault/create" method="POST">
+          <textarea name="payload" placeholder="Enter payload data..." required></textarea>
+          <button type="submit" class="success">Store</button>
+        </form>
+      </article>
+      ${content}
+    </main>
+  </body></html>
+`
+
+// --- Vault UI Routes ---
+
+app.get('/vault', async (c) => {
+  const ip = c.req.header('cf-connecting-ip') || 'unknown'
+  const { results } = await c.env.DB.prepare('SELECT * FROM ip_vault ORDER BY updated_at DESC LIMIT 50').all()
+  return c.html(VaultLayout(html`
+    <div class="flex two-800">${results.map((row: any) => {
+      const mine = row.ip_address === ip
+      const meta = JSON.stringify(JSON.parse(row.meta), null, 2)
+      const url = new URL(c.req.url).origin + '/api/vault/' + row.id
+      return html`
+        <div class="card ${mine ? 'mine' : ''}">
+          <div style="margin-bottom:10px">
+            <span class="tag tag-ip">${row.ip_address}</span>
+            <span class="tag tag-id">ID: ${row.id.substring(0, 12)}…</span>
+          </div>
+          <p><strong>Payload:</strong><br>${row.payload}</p>
+          <small>Updated: ${getRelativeTime(row.updated_at)}</small>
+          <details style="margin-top:10px">
+            <summary class="button pseudo">Show Request Metadata</summary>
+            <pre class="meta-box">${meta}</pre>
+          </details>
+          ${mine ? html`
+            <details class="api-docs">
+              <summary><strong>Developer API (curl)</strong></summary>
+              <p><strong>PUT (Overwrite):</strong></p>
+              <code style="display:block;background:#333;color:#fff;padding:5px">curl -X PUT "${url}" -H "Content-Type: application/json" -d '{"payload":"NEW"}'</code>
+              <p><strong>PATCH (Append):</strong></p>
+              <code style="display:block;background:#333;color:#fff;padding:5px">curl -X PATCH "${url}" -H "Content-Type: application/json" -d '{"payload":" EXTRA"}'</code>
+              <p><strong>DELETE:</strong></p>
+              <code style="display:block;background:#333;color:#fff;padding:5px">curl -X DELETE "${url}"</code>
+            </details>
+            <hr>
+            <form action="/vault/delete/${row.id}" method="POST" onsubmit="return confirm('Delete?')" style="margin-top:10px">
+              <button type="submit" class="error">Delete</button>
+            </form>
+          ` : html``}
+        </div>`
+    })}</div>
+  `, ip))
+})
+
+app.post('/vault/create', zValidator('form', vaultSchema), async (c) => {
+  const { payload } = c.req.valid('form')
+  const ip = c.req.header('cf-connecting-ip') || 'unknown'
+  const id = uuidv7(), now = new Date().toISOString(), meta = JSON.stringify(c.req.header())
+  await c.env.DB.prepare('INSERT INTO ip_vault (id,ip_address,created_at,updated_at,meta,payload) VALUES (?,?,?,?,?,?)').bind(id, ip, now, now, meta, payload).run()
+  return c.redirect('/vault')
+})
+
+app.post('/vault/delete/:id', async (c) => {
+  const ip = c.req.header('cf-connecting-ip') || 'unknown'
+  await c.env.DB.prepare('DELETE FROM ip_vault WHERE id=? AND ip_address=?').bind(c.req.param('id'), ip).run()
+  return c.redirect('/vault')
+})
+
+// --- Vault JSON API Routes ---
+
+// GET /api/vault — List all vault entries
+app.get('/api/vault', async (c) => {
+  const { results } = await c.env.DB.prepare('SELECT id,ip_address,created_at,updated_at,payload FROM ip_vault ORDER BY updated_at DESC LIMIT 50').all()
+  return c.json({ ok: true, data: results })
+})
+
+// GET /api/vault/:id — Get single entry (with meta)
+app.get('/api/vault/:id', async (c) => {
+  const row = await c.env.DB.prepare('SELECT * FROM ip_vault WHERE id=?').bind(c.req.param('id')).first()
+  if (!row) return c.json({ ok: false, error: 'Not Found' }, 404)
+  return c.json({ ok: true, data: row })
+})
+
+// POST /api/vault — Create entry (JSON body)
+app.post('/api/vault', async (c) => {
+  let body: any
+  try { body = await c.req.json() } catch { return c.json({ ok: false, error: 'Invalid JSON' }, 400) }
+  const parsed = vaultSchema.safeParse(body)
+  if (!parsed.success) return c.json({ ok: false, error: parsed.error.flatten() }, 400)
+  const ip = c.req.header('cf-connecting-ip') || 'unknown'
+  const id = uuidv7(), now = new Date().toISOString(), meta = JSON.stringify(c.req.header())
+  await c.env.DB.prepare('INSERT INTO ip_vault (id,ip_address,created_at,updated_at,meta,payload) VALUES (?,?,?,?,?,?)').bind(id, ip, now, now, meta, parsed.data.payload).run()
+  return c.json({ ok: true, id }, 201)
+})
+
+// PUT /api/vault/:id — Overwrite payload (IP-locked)
+app.put('/api/vault/:id', async (c) => {
+  const ip = c.req.header('cf-connecting-ip') || 'unknown'
+  let payload: string
+  try { payload = (await c.req.json()).payload } catch { return c.json({ ok: false, error: 'Invalid JSON' }, 400) }
+  const now = new Date().toISOString(), meta = JSON.stringify(c.req.header())
+  const res = await c.env.DB.prepare('UPDATE ip_vault SET payload=?,updated_at=?,meta=? WHERE id=? AND ip_address=?').bind(payload, now, meta, c.req.param('id'), ip).run()
+  if (res.meta.changes === 0) return c.json({ ok: false, error: 'Forbidden or Not Found' }, 403)
+  return c.json({ ok: true, operation: 'PUT' })
+})
+
+// PATCH /api/vault/:id — Append to payload (IP-locked)
+app.patch('/api/vault/:id', async (c) => {
+  const ip = c.req.header('cf-connecting-ip') || 'unknown'
+  let payload: string
+  try { payload = (await c.req.json()).payload } catch { return c.json({ ok: false, error: 'Invalid JSON' }, 400) }
+  const now = new Date().toISOString(), meta = JSON.stringify(c.req.header())
+  const res = await c.env.DB.prepare('UPDATE ip_vault SET payload=payload||?,updated_at=?,meta=? WHERE id=? AND ip_address=?').bind(payload, now, meta, c.req.param('id'), ip).run()
+  if (res.meta.changes === 0) return c.json({ ok: false, error: 'Forbidden or Not Found' }, 403)
+  return c.json({ ok: true, operation: 'PATCH' })
+})
+
+// DELETE /api/vault/:id — Delete entry (IP-locked)
+app.delete('/api/vault/:id', async (c) => {
+  const ip = c.req.header('cf-connecting-ip') || 'unknown'
+  const res = await c.env.DB.prepare('DELETE FROM ip_vault WHERE id=? AND ip_address=?').bind(c.req.param('id'), ip).run()
+  if (res.meta.changes === 0) return c.json({ ok: false, error: 'Forbidden or Not Found' }, 403)
+  return c.json({ ok: true })
+})
+
+// ============================================================================
+// SECTION 3: SECURE BOARD (PASSKEYS) — UI + JSON API
+// ============================================================================
+
+const SecureLayout = (content: any, ip: string, cred: string | null) => html`
+  <!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Secure Board</title>
+    <link rel="stylesheet" href="https://unpkg.com/picnic">
+    <script src="https://unpkg.com/@simplewebauthn/browser/dist/bundle/index.umd.min.js"></script>
+    <style>
+      body{padding:20px;max-width:900px;margin:0 auto}
+      .card{margin-bottom:20px;padding:20px;border:1px solid #ddd;background:#fff}
+      .mine{border-left:5px solid #ffcc00;background:#fffdf0}
+      .actions{margin-top:15px;border-top:1px solid #eee;padding-top:10px}
+    </style>
+  </head><body>
+    ${Navbar(ip, cred)}
+    <main>
+      <h1>🔑 Secure Passkey Board</h1>
+      <p>Anyone can read. Only users with a <strong>Passkey</strong> can post.</p>
+      <div class="card" style="background:#f8f9fa">
+        ${cred ? html`
+          <div class="flex two" style="align-items:center">
+            <div><strong>Welcome back!</strong><br><small>Key: ${cred.slice(0, 10)}…</small></div>
+            <div style="text-align:right"><button onclick="logout()" class="warning">Logout</button></div>
+          </div>
+          <hr>
+          <form action="/secure/create" method="POST">
+            <textarea name="content" placeholder="Write something secure..." required></textarea>
+            <button type="submit" class="success" style="margin-top:10px">Post Secure Note</button>
+          </form>
+        ` : html`
+          <div style="text-align:center;padding:20px">
+            <h3>Authentication Required to Post</h3>
+            <p>No passwords. No emails. Just cryptography.</p>
+            <div class="flex two" style="gap:20px;justify-content:center;max-width:400px;margin:0 auto">
+              <button onclick="register()" class="pseudo">🆕 Register New Key</button>
+              <button onclick="login()" class="success">🔑 Login with Key</button>
+            </div>
+            <p id="status-msg" style="color:#666;margin-top:10px"></p>
+          </div>
+        `}
+      </div>
+      ${content}
+    </main>
+    <script>
+      const { startRegistration, startAuthentication } = SimpleWebAuthnBrowser;
+      async function register() {
+        document.getElementById('status-msg').innerText = "Starting registration...";
+        try {
+          const resp = await fetch('/api/secure/auth/register-options');
+          const opts = await resp.json();
+          // v11+ API: pass optionsJSON
+          const attResp = await startRegistration({ optionsJSON: opts });
+          const verResp = await fetch('/api/secure/auth/register-verify', {
+            method: 'POST', headers: {'Content-Type':'application/json'},
+            body: JSON.stringify(attResp),
+          });
+          const v = await verResp.json();
+          if (v.verified) window.location.reload();
+          else alert('Registration failed: ' + JSON.stringify(v));
+        } catch (e) {
+          console.error(e);
+          document.getElementById('status-msg').innerText = "Error: " + e.message;
+        }
+      }
+      async function login() {
+        document.getElementById('status-msg').innerText = "Starting login...";
+        try {
+          const resp = await fetch('/api/secure/auth/login-options');
+          const opts = await resp.json();
+          // v11+ API: pass optionsJSON
+          const asResp = await startAuthentication({ optionsJSON: opts });
+          const verResp = await fetch('/api/secure/auth/login-verify', {
+            method: 'POST', headers: {'Content-Type':'application/json'},
+            body: JSON.stringify(asResp),
+          });
+          const v = await verResp.json();
+          if (v.verified) window.location.reload();
+          else alert('Login failed');
+        } catch (e) {
+          console.error(e);
+          document.getElementById('status-msg').innerText = "Error: " + e.message;
+        }
+      }
+      function logout() {
+        document.cookie = "auth_session=; Max-Age=0; path=/";
+        window.location.reload();
+      }
+    </script>
+  </body></html>
+`
+
+// --- Secure UI Routes ---
+
+app.get('/secure', async (c) => {
+  const ip = c.req.header('cf-connecting-ip') || 'unknown'
+  const cred = getCookie(c, 'auth_session') || null
+  const { results } = await c.env.DB.prepare('SELECT * FROM secure_notes ORDER BY created_at DESC').all()
+  return c.html(SecureLayout(html`
+    <div>${results.map((n: any) => {
+      const mine = cred && n.credential_id === cred
+      return html`
+        <div class="card ${mine ? 'mine' : ''}">
+          <p style="white-space:pre-wrap">${n.content}</p>
+          <div style="font-size:0.8em;color:#888;margin-top:10px">
+            ${getRelativeTime(n.created_at)} &bull; Key: ${n.credential_id.slice(0, 8)}…
+          </div>
+          ${mine ? html`
+            <div class="actions">
+              <form action="/secure/delete/${n.id}" method="POST" onsubmit="return confirm('Delete?')">
+                <button class="error sm">Delete My Note</button>
+              </form>
+            </div>
+          ` : ''}
+        </div>`
+    })}</div>
+  `, ip, cred))
+})
+
+app.post('/secure/create', async (c) => {
+  const cred = getCookie(c, 'auth_session')
+  if (!cred) return c.text('Unauthorized', 401)
+  const body = await c.req.parseBody()
+  const content = body['content'] as string
+  await c.env.DB.prepare('INSERT INTO secure_notes (id,content,created_at,credential_id) VALUES (?,?,?,?)').bind(uuidv7(), content, new Date().toISOString(), cred).run()
+  return c.redirect('/secure')
+})
+
+app.post('/secure/delete/:id', async (c) => {
+  const cred = getCookie(c, 'auth_session')
+  if (!cred) return c.text('Unauthorized', 401)
+  await c.env.DB.prepare('DELETE FROM secure_notes WHERE id=? AND credential_id=?').bind(c.req.param('id'), cred).run()
+  return c.redirect('/secure')
+})
+
+// --- Secure JSON API Routes ---
+
+// GET /api/secure/notes — List all secure notes (public read)
+app.get('/api/secure/notes', async (c) => {
+  const { results } = await c.env.DB.prepare('SELECT * FROM secure_notes ORDER BY created_at DESC').all()
+  return c.json({ ok: true, data: results })
+})
+
+// POST /api/secure/notes — Create secure note (requires auth_session cookie)
+app.post('/api/secure/notes', async (c) => {
+  const cred = getCookie(c, 'auth_session')
+  if (!cred) return c.json({ ok: false, error: 'Unauthorized — login with a passkey first' }, 401)
+  let body: any
+  try { body = await c.req.json() } catch { return c.json({ ok: false, error: 'Invalid JSON' }, 400) }
+  const content = body.content
+  if (!content || typeof content !== 'string') return c.json({ ok: false, error: 'content is required' }, 400)
+  const id = uuidv7()
+  await c.env.DB.prepare('INSERT INTO secure_notes (id,content,created_at,credential_id) VALUES (?,?,?,?)').bind(id, content, new Date().toISOString(), cred).run()
+  return c.json({ ok: true, id }, 201)
+})
+
+// DELETE /api/secure/notes/:id — Delete own secure note
+app.delete('/api/secure/notes/:id', async (c) => {
+  const cred = getCookie(c, 'auth_session')
+  if (!cred) return c.json({ ok: false, error: 'Unauthorized' }, 401)
+  const res = await c.env.DB.prepare('DELETE FROM secure_notes WHERE id=? AND credential_id=?').bind(c.req.param('id'), cred).run()
+  if (res.meta.changes === 0) return c.json({ ok: false, error: 'Forbidden or Not Found' }, 403)
+  return c.json({ ok: true })
+})
+
+// GET /api/secure/auth/me — Check current session
+app.get('/api/secure/auth/me', async (c) => {
+  const cred = getCookie(c, 'auth_session')
+  if (!cred) return c.json({ authenticated: false })
+  return c.json({ authenticated: true, credentialId: cred })
+})
+
+// ============================================================================
+// WEBAUTHN API
+// ============================================================================
+
+const RP_NAME = 'Cloudflare Secure Board'
+const RP_ID = 'my-api.2w7sp317.workers.dev'
+const ORIGIN = `https://${RP_ID}`
+
+app.get('/api/secure/auth/register-options', async (c) => {
+  const uid = uuidv7()
+  const userBytes = new TextEncoder().encode(uid)
+  const options = await generateRegistrationOptions({
+    rpName: RP_NAME,
+    rpID: RP_ID,
+    userID: userBytes as any,
+    userName: 'Anonymous User',
+    attestationType: 'none',
+    authenticatorSelection: { residentKey: 'required', userVerification: 'preferred' },
+  })
+  setCookie(c, 'reg_challenge', options.challenge, { httpOnly: true, maxAge: 120, path: '/', secure: true, sameSite: 'None' })
+  return c.json(options)
+})
+
+app.post('/api/secure/auth/register-verify', async (c) => {
+  const body = await c.req.json()
+  const challenge = getCookie(c, 'reg_challenge')
+  if (!challenge) return c.json({ ok: false, error: 'Challenge expired' }, 400)
+  const verification = await verifyRegistrationResponse({
+    response: body,
+    expectedChallenge: challenge,
+    expectedOrigin: ORIGIN,
+    expectedRPID: RP_ID,
+  })
+  if (verification.verified && verification.registrationInfo) {
+    const { credential } = verification.registrationInfo
+    const { id, publicKey, counter } = credential
+    await c.env.DB.prepare('INSERT INTO authenticators (credential_id,credential_public_key,counter,transports) VALUES (?,?,?,?)').bind(
+      id, uint8ArrayToBase64URL(publicKey), counter, JSON.stringify(body.response.transports || [])
+    ).run()
+    setCookie(c, 'auth_session', id, { httpOnly: true, secure: true, maxAge: 86400 * 30, path: '/', sameSite: 'None' })
+    deleteCookie(c, 'reg_challenge')
+    return c.json({ verified: true })
+  }
+  return c.json({ verified: false })
+})
+
+app.get('/api/secure/auth/login-options', async (c) => {
+  const options = await generateAuthenticationOptions({ rpID: RP_ID, userVerification: 'preferred' })
+  setCookie(c, 'auth_challenge', options.challenge, { httpOnly: true, maxAge: 120, path: '/', secure: true, sameSite: 'None' })
+  return c.json(options)
+})
+
+app.post('/api/secure/auth/login-verify', async (c) => {
+  const body = await c.req.json()
+  const challenge = getCookie(c, 'auth_challenge')
+  if (!challenge) return c.json({ ok: false, error: 'Challenge expired' }, 400)
+  const credId = body.id
+  const authRow = await c.env.DB.prepare('SELECT * FROM authenticators WHERE credential_id=?').bind(credId).first()
+  if (!authRow) return c.json({ ok: false, error: 'Authenticator not found' }, 400)
+  const credential = {
+    id: authRow.credential_id as string,
+    publicKey: base64URLToUint8Array(authRow.credential_public_key as string) as any,
+    counter: authRow.counter as number,
+    transports: JSON.parse(authRow.transports as string),
+  }
+  const verification = await verifyAuthenticationResponse({
+    response: body,
+    expectedChallenge: challenge,
+    expectedOrigin: ORIGIN,
+    expectedRPID: RP_ID,
+    credential,
+  })
+  if (verification.verified) {
+    await c.env.DB.prepare('UPDATE authenticators SET counter=? WHERE credential_id=?').bind(verification.authenticationInfo.newCounter, credId).run()
+    setCookie(c, 'auth_session', credId, { httpOnly: true, secure: true, maxAge: 86400 * 30, path: '/', sameSite: 'None' })
+    deleteCookie(c, 'auth_challenge')
+    return c.json({ verified: true })
+  }
+  return c.json({ verified: false })
+})
+
+// POST /api/secure/auth/logout — Clear session
+app.post('/api/secure/auth/logout', async (c) => {
+  deleteCookie(c, 'auth_session')
+  return c.json({ ok: true })
+})
+
+// ============================================================================
+// API DOCUMENTATION PAGE
+// ============================================================================
+
+app.get('/docs', (c) => {
+  const base = new URL(c.req.url).origin
+  return c.html(html`
+    <!DOCTYPE html><html lang="en"><head>
+      <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+      <title>API Documentation</title>
+      <link rel="stylesheet" href="https://unpkg.com/picnic">
+      <style>
+        body{padding:20px;max-width:960px;margin:0 auto;font-family:sans-serif}
+        code{background:#f4f4f4;padding:2px 6px;border-radius:3px;font-size:0.9em}
+        pre{background:#2c3e50;color:#ecf0f1;padding:15px;border-radius:6px;overflow-x:auto;font-size:0.85em}
+        h2{margin-top:40px;border-bottom:2px solid #eee;padding-bottom:10px}
+        h3{margin-top:25px;color:#555}
+        table{width:100%;border-collapse:collapse;margin:10px 0}
+        th,td{text-align:left;padding:8px 12px;border-bottom:1px solid #eee}
+        th{background:#f8f9fa}
+        .method{font-weight:bold;font-family:monospace;padding:2px 8px;border-radius:4px;color:#fff;font-size:0.8em}
+        .get{background:#2ecc71}.post{background:#3498db}.put{background:#f39c12}.patch{background:#9b59b6}.del{background:#e74c3c}
+        nav{margin-bottom:40px}
+      </style>
+    </head><body>
+      ${Navbar(c.req.header('cf-connecting-ip') || 'unknown')}
+      <h1>📖 API Documentation</h1>
+      <p>Base URL: <code>${base}</code></p>
+      <p>All JSON API endpoints return <code>{ ok: boolean, data?: any, error?: string }</code>.</p>
+      <p>CORS is enabled for all origins with credentials. Send <code>Content-Type: application/json</code> for POST/PUT/PATCH.</p>
+
+      <h2>1. Public Notes <code>/api/notes</code></h2>
+      <p>Open to everyone. No authentication required.</p>
+      <table>
+        <tr><th>Method</th><th>Path</th><th>Description</th><th>Body</th></tr>
+        <tr><td><span class="method get">GET</span></td><td><code>/api/notes</code></td><td>List all notes</td><td>—</td></tr>
+        <tr><td><span class="method get">GET</span></td><td><code>/api/notes/:id</code></td><td>Get single note</td><td>—</td></tr>
+        <tr><td><span class="method post">POST</span></td><td><code>/api/notes</code></td><td>Create note</td><td><code>{ "title": "…", "content": "…" }</code></td></tr>
+        <tr><td><span class="method del">DELETE</span></td><td><code>/api/notes/:id</code></td><td>Delete note</td><td>—</td></tr>
+        <tr><td><span class="method get">GET</span></td><td><code>/api/notes/meta/version</code></td><td>Polling fingerprint</td><td>—</td></tr>
+      </table>
+
+      <h3>Example: Create a Note</h3>
+      <pre>curl -X POST ${base}/api/notes \
+  -H "Content-Type: application/json" \
+  -d '{"title":"Hello","content":"World"}'</pre>
+
+      <h2>2. IP Vault <code>/api/vault</code></h2>
+      <p>Everyone can read. Only the IP that created an entry can update or delete it.</p>
+      <table>
+        <tr><th>Method</th><th>Path</th><th>Description</th><th>Body</th></tr>
+        <tr><td><span class="method get">GET</span></td><td><code>/api/vault</code></td><td>List entries (no meta)</td><td>—</td></tr>
+        <tr><td><span class="method get">GET</span></td><td><code>/api/vault/:id</code></td><td>Get entry + meta</td><td>—</td></tr>
+        <tr><td><span class="method post">POST</span></td><td><code>/api/vault</code></td><td>Create entry</td><td><code>{ "payload": "…" }</code></td></tr>
+        <tr><td><span class="method put">PUT</span></td><td><code>/api/vault/:id</code></td><td>Overwrite payload</td><td><code>{ "payload": "…" }</code></td></tr>
+        <tr><td><span class="method patch">PATCH</span></td><td><code>/api/vault/:id</code></td><td>Append to payload</td><td><code>{ "payload": "…" }</code></td></tr>
+        <tr><td><span class="method del">DELETE</span></td><td><code>/api/vault/:id</code></td><td>Delete entry</td><td>—</td></tr>
+      </table>
+
+      <h2>3. Secure Board <code>/api/secure</code></h2>
+      <p>Everyone can read. Writing requires a WebAuthn passkey session (cookie).</p>
+      <table>
+        <tr><th>Method</th><th>Path</th><th>Description</th><th>Auth</th></tr>
+        <tr><td><span class="method get">GET</span></td><td><code>/api/secure/notes</code></td><td>List all secure notes</td><td>No</td></tr>
+        <tr><td><span class="method post">POST</span></td><td><code>/api/secure/notes</code></td><td>Create secure note</td><td>Cookie</td></tr>
+        <tr><td><span class="method del">DELETE</span></td><td><code>/api/secure/notes/:id</code></td><td>Delete own note</td><td>Cookie</td></tr>
+        <tr><td><span class="method get">GET</span></td><td><code>/api/secure/auth/me</code></td><td>Check session</td><td>Cookie</td></tr>
+        <tr><td><span class="method get">GET</span></td><td><code>/api/secure/auth/register-options</code></td><td>Start registration</td><td>No</td></tr>
+        <tr><td><span class="method post">POST</span></td><td><code>/api/secure/auth/register-verify</code></td><td>Complete registration</td><td>No</td></tr>
+        <tr><td><span class="method get">GET</span></td><td><code>/api/secure/auth/login-options</code></td><td>Start login</td><td>No</td></tr>
+        <tr><td><span class="method post">POST</span></td><td><code>/api/secure/auth/login-verify</code></td><td>Complete login</td><td>No</td></tr>
+        <tr><td><span class="method post">POST</span></td><td><code>/api/secure/auth/logout</code></td><td>Clear session</td><td>Cookie</td></tr>
+      </table>
+
+      <h3>Passkey Flow for Frontend Apps (Blazor, React, etc.)</h3>
+      <pre>// 1. Registration
+const opts = await fetch('${base}/api/secure/auth/register-options', { credentials: 'include' }).then(r => r.json());
+const attResp = await SimpleWebAuthnBrowser.startRegistration({ optionsJSON: opts });
+await fetch('${base}/api/secure/auth/register-verify', {
+  method: 'POST', credentials: 'include',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(attResp),
+});
+
+// 2. Authentication
+const loginOpts = await fetch('${base}/api/secure/auth/login-options', { credentials: 'include' }).then(r => r.json());
+const asResp = await SimpleWebAuthnBrowser.startAuthentication({ optionsJSON: loginOpts });
+await fetch('${base}/api/secure/auth/login-verify', {
+  method: 'POST', credentials: 'include',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(asResp),
+});
+
+// 3. Now POST /api/secure/notes with credentials: 'include'</pre>
+
+      <h2>Health Check</h2>
+      <pre>GET /api/health → { "ok": true, "timestamp": "…" }</pre>
+    </body></html>
+  `)
+})
+
+// ============================================================================
+// HEALTH CHECK
+// ============================================================================
+
+app.get('/api/health', (c) => c.json({ ok: true, timestamp: new Date().toISOString() }))
+
+export default app
+
+```
+
+12
+17
+
+I've read the full dump.txt. The build errors are caused by `""` (empty string literals) inside Razor attribute values — the Razor parser treats the `"` as closing the attribute. The fix is to use `string.Empty` instead.
+
+Let me provide all the fixes.
+
+---
+
+## 1. `src/ObserverMagazine.Web/Pages/Showcase.razor` — Fix build errors
+
+The only change is in the filter row section. Replace the entire `@* ---- Filter row ---- *@` section. Here's the **full file** with the fix:
+
+The problem lines are these four:
+```
+e.Value?.ToString() ?? ""
+```
+
+They need to become:
+```
+e.Value?.ToString() ?? string.Empty
+```
+
+Here's the complete fixed file:Now the themed audio player CSS:
+
+## 2. `src/ObserverMagazine.Web/Components/BlogTtsPlayer.razor.css` — Themed audio player## 3. Cloudflare Worker `index.ts` — Full file with view counts + reactions## 4. D1 Migration SQL for new tables
+
+You need to run this SQL against your D1 database to create the view count and reaction tables:---
+
+## Summary of all changes
+
+**Build fix (the 8 errors):** The root cause was `""` (empty string literal) inside Razor `@oninput`/`@onchange` attribute values. The Razor parser interprets the `"` as the end of the attribute value. The fix is replacing every `?? ""` with `?? string.Empty` in `Showcase.razor`. I also changed the `ColumnDef` initializers and `ClearFilters()` to use `string.Empty` for consistency.
+
+**Audio player theming:** Updated `BlogTtsPlayer.razor.css` with `accent-color: var(--color-primary)` and webkit pseudo-element overrides so the native `<audio>` controls pick up the theme colors (background, text, timeline).
+
+**Cloudflare Worker:** Added Section 4 with four new endpoints that the Blazor `AnalyticsService` already calls: `POST /api/views/:slug` (deduplicated by IP+date), `GET /api/views/:slug`, `POST /api/reactions/:slug`, and `GET /api/reactions/:slug`. Also updated the `/docs` page to document them. The existing code is untouched.
+
+**D1 migration:** Three new tables (`view_counts`, `view_log`, `reactions`) need to be created. Run the SQL via `wrangler d1 execute <DB_NAME> --file=migration.sql` or paste it into the Cloudflare dashboard D1 console.
+
+31
+20
