@@ -2,12 +2,17 @@
 <html lang="en" data-theme="light">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
     <title>Observer Magazine</title>
     <base href="/" />
     <link rel="alternate" type="application/rss+xml" title="Observer Magazine RSS" href="/feed.xml" />
     <link rel="stylesheet" href="css/app.css" />
     <link rel="stylesheet" href="ObserverMagazine.Web.styles.css" />
+
+    <!-- highlight.js core (no theme — we use our own CSS-variable theme) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css"
+          id="hljs-theme" disabled />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
 
     <!-- Apply saved theme BEFORE first paint to prevent flash -->
     <script>
@@ -47,6 +52,37 @@
             },
             get: function () {
                 return localStorage.getItem('observer-theme') || 'system';
+            }
+        };
+    </script>
+
+    <!-- Syntax highlighting interop -->
+    <script>
+        window.observerHighlight = {
+            highlightAll: function () {
+                document.querySelectorAll('.blog-content pre code').forEach(function (block) {
+                    hljs.highlightElement(block);
+                });
+            }
+        };
+    </script>
+
+    <!-- Audio helper for mobile compatibility -->
+    <script>
+        window.observerAudio = {
+            checkAvailability: function (elementId) {
+                return new Promise(function (resolve) {
+                    var el = document.getElementById(elementId);
+                    if (!el) { resolve(false); return; }
+
+                    // Try to fetch just the headers to see if file exists
+                    var src = el.getAttribute('src');
+                    if (!src) { resolve(false); return; }
+
+                    fetch(src, { method: 'HEAD' })
+                        .then(function (r) { resolve(r.ok); })
+                        .catch(function () { resolve(false); });
+                });
             }
         };
     </script>

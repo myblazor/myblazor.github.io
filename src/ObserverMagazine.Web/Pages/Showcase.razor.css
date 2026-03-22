@@ -1,0 +1,281 @@
+.sc-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding: 0.75rem 1rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+}
+
+.sc-toolbar-left,
+.sc-toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.sc-count {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+}
+
+.sc-col-toggle {
+    position: relative;
+}
+
+.sc-col-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 0.5rem;
+    z-index: 50;
+    min-width: 180px;
+    max-height: 320px;
+    overflow-y: auto;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.sc-col-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.3rem 0.4rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.sc-col-option:hover {
+    background: var(--color-surface);
+}
+
+.sc-page-size {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+}
+
+.sc-page-size select {
+    padding: 0.25rem 0.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    font-size: 0.85rem;
+    background: var(--color-bg);
+    color: var(--color-text);
+}
+
+/* ---- Filters ---- */
+.sc-filters {
+    display: flex;
+    gap: 0;
+    margin-bottom: 0;
+    border: 1px solid var(--color-border);
+    border-bottom: none;
+    border-radius: var(--radius) var(--radius) 0 0;
+    background: var(--color-surface);
+    overflow-x: auto;
+}
+
+.sc-filter-cell {
+    padding: 0.4rem 0.5rem;
+    flex-shrink: 0;
+}
+
+.sc-filter-cell input,
+.sc-filter-cell select {
+    width: 100%;
+    padding: 0.25rem 0.4rem;
+    border: 1px solid var(--color-border);
+    border-radius: 3px;
+    font-size: 0.8rem;
+    background: var(--color-bg);
+    color: var(--color-text);
+}
+
+.sc-range-filter {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.sc-range-filter input {
+    width: 60px;
+}
+
+.sc-filter-actions {
+    display: flex;
+    align-items: center;
+    padding: 0.4rem;
+}
+
+/* ---- Table ---- */
+.sc-table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--color-border);
+    border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.sc-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+}
+
+.sc-table th,
+.sc-table td {
+    text-align: left;
+    padding: 0.5rem 0.6rem;
+    border-bottom: 1px solid var(--color-border);
+    white-space: nowrap;
+}
+
+.sc-table th {
+    font-weight: 600;
+    background: var(--color-surface);
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.sc-sortable {
+    cursor: pointer;
+    user-select: none;
+}
+
+.sc-sortable:hover {
+    background: var(--color-border);
+}
+
+.sc-sort-arrow {
+    font-size: 0.7rem;
+    margin-left: 0.3rem;
+}
+
+.sc-num {
+    text-align: right;
+}
+
+.sc-clickable-row {
+    cursor: pointer;
+    transition: background 0.1s;
+}
+
+.sc-clickable-row:hover {
+    background: var(--color-surface);
+}
+
+.sc-actions-col {
+    width: 100px;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.sc-empty {
+    text-align: center;
+    padding: 2rem;
+    color: var(--color-muted);
+}
+
+/* ---- Pagination ---- */
+.sc-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.sc-page-info {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    padding: 0 0.5rem;
+}
+
+/* ---- Overlay / Dialog ---- */
+.sc-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+}
+
+.sc-dialog {
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 400px;
+    width: 90%;
+}
+
+.sc-dialog h4 {
+    margin-bottom: 0.75rem;
+}
+
+.sc-dialog p {
+    margin-bottom: 1rem;
+    color: var(--color-muted);
+    font-size: 0.95rem;
+}
+
+/* ---- Mobile: collapse table to cards ---- */
+@media (max-width: 768px) {
+    .sc-filters {
+        display: none;
+    }
+
+    .sc-table thead {
+        display: none;
+    }
+
+    .sc-table tr {
+        display: block;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius);
+        margin-bottom: 0.75rem;
+        padding: 0.5rem;
+    }
+
+    .sc-table td {
+        display: flex;
+        justify-content: space-between;
+        border: none;
+        padding: 0.3rem 0.5rem;
+        text-align: right;
+        white-space: normal;
+    }
+
+    .sc-table td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        text-align: left;
+        margin-right: 0.5rem;
+    }
+
+    .sc-table-wrap {
+        border: none;
+        border-radius: 0;
+    }
+
+    .sc-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .sc-toolbar-left,
+    .sc-toolbar-right {
+        justify-content: space-between;
+    }
+}

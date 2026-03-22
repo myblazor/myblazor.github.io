@@ -3,6 +3,7 @@
 @inject ILogger<BlogPost> Logger
 @inject NavigationManager Nav
 @inject IAnalyticsService Analytics
+@inject IJSRuntime JS
 
 <PageTitle>@(metadata?.Title ?? "Post") — Observer Magazine</PageTitle>
 
@@ -107,6 +108,22 @@ else
         finally
         {
             loading = false;
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        // Trigger syntax highlighting after content is rendered
+        if (!loading && metadata is not null)
+        {
+            try
+            {
+                await JS.InvokeVoidAsync("observerHighlight.highlightAll");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogDebug(ex, "Syntax highlighting failed");
+            }
         }
     }
 }

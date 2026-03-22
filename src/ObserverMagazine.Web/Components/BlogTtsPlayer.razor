@@ -1,18 +1,20 @@
 @inject IAnalyticsService Analytics
 @inject ILogger<BlogTtsPlayer> Logger
+@inject IJSRuntime JS
 
 @if (!hidden)
 {
     <div class="tts-player">
         <span class="tts-icon" aria-hidden="true">🔊</span>
         <span class="tts-label">Listen to this post</span>
-        <audio controls
-               preload="metadata"
+        <audio id="tts-audio-@Slug"
+               controls
+               preload="none"
+               playsinline
                src="blog-data/@(Slug).mp3"
                @onplay="OnPlay"
                @onpause="OnPause"
-               @onended="OnEnded"
-               @onerror="OnError">
+               @onended="OnEnded">
             Your browser does not support audio playback.
         </audio>
     </div>
@@ -25,9 +27,31 @@
 
     private bool hidden;
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Use JS to detect if audio source can be loaded.
+            // The Blazor @onerror binding is unreliable on mobile browsers.
+            try
+            {
+                var canPlay = await JS.InvokeAsync<bool>("observerAudio.checkAvailability",
+                    $"tts-audio-{Slug}");
+                if (!canPlay)
+                {
+                    hidden = true;
+                    StateHasChanged();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogDebug(ex, "Audio availability check failed for {Slug}", Slug);
+            }
+        }
+    }
+
     protected override void OnParametersSet()
     {
-        // Reset visibility when slug changes (navigating between posts)
         hidden = false;
     }
 
@@ -47,14 +71,5 @@
     {
         Logger.LogInformation("TTS finished: {Slug}", Slug);
         await Analytics.TrackInteractionAsync("TTS.Finished", Slug);
-    }
-
-    private Task OnError()
-    {
-        // Audio file not found or can't be decoded — hide player gracefully
-        Logger.LogDebug("TTS audio unavailable for {Slug}, hiding player", Slug);
-        hidden = true;
-        StateHasChanged();
-        return Task.CompletedTask;
     }
 }

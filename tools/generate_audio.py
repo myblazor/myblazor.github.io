@@ -265,7 +265,7 @@ def generate_audio(text: str, output_mp3: str, voice: str = "Bella", model_name:
             continue
         print(f"    Chunk {i+1}/{len(chunks)}: {len(chunk)} chars")
         try:
-            audio = model.generate(chunk, voice=voice, speed=1.0)
+            audio = model.generate(chunk, voice=voice, speed=1.15)
             all_audio.append(audio)
             # Add a short silence between chunks (0.3s at 24kHz)
             all_audio.append(np.zeros(int(24000 * 0.3), dtype=np.float32))

@@ -1,0 +1,365 @@
+@page "/showcase/new"
+@page "/showcase/{ProductId:guid}"
+@inject IJSRuntime JS
+@inject ILogger<ShowcaseDetail> Logger
+@inject NavigationManager Nav
+@inject IAnalyticsService Analytics
+
+<PageTitle>@(isNew ? "New Product" : (editing ? "Edit Product" : product?.Name ?? "Product")) — Showcase</PageTitle>
+
+<div class="sd-header">
+    <button class="btn btn-outline btn-sm" @onclick="BackToList">← Back to Catalog</button>
+</div>
+
+@if (loading)
+{
+    <p><em>Loading...</em></p>
+}
+else if (product is null && !isNew)
+{
+    <h2>Product Not Found</h2>
+    <p>The product you're looking for doesn't exist. <a href="showcase">Back to Catalog</a></p>
+}
+else
+{
+    <div class="sd-card">
+        @if (!editing && !isNew)
+        {
+            @* ---- View mode ---- *@
+            <h2>@product!.Name</h2>
+            <div class="sd-badge sd-badge-@product.Status.ToLowerInvariant()">@product.Status</div>
+
+            <dl class="sd-details">
+                <dt>SKU</dt><dd>@product.Sku</dd>
+                <dt>Brand</dt><dd>@product.Brand</dd>
+                <dt>Category</dt><dd>@product.Category</dd>
+                <dt>Price</dt>
+                <dd>
+                    @product.Price.ToString("C")
+                    @if (product.CompareAtPrice.HasValue)
+                    {
+                        <s class="sd-compare-price">@product.CompareAtPrice.Value.ToString("C")</s>
+                    }
+                </dd>
+                <dt>In Stock</dt><dd>@product.Stock units</dd>
+                <dt>Rating</dt>
+                <dd>
+                    @for (int i = 0; i < (int)Math.Round(product.Rating); i++)
+                    {
+                        <span class="sd-star">★</span>
+                    }
+                    (@product.Rating.ToString("F1") — @product.ReviewCount.ToString("N0") reviews)
+                </dd>
+                <dt>Color</dt><dd>@product.Color</dd>
+                <dt>Weight</dt><dd>@product.WeightKg.ToString("F2") kg</dd>
+                <dt>Warranty</dt><dd>@(product.WarrantyMonths > 0 ? $"{product.WarrantyMonths} months" : "None")</dd>
+                <dt>Date Added</dt><dd>@product.DateAdded.ToString("yyyy-MM-dd")</dd>
+                <dt>Description</dt><dd>@product.Description</dd>
+            </dl>
+
+            <div class="form-actions" style="margin-top:1.5rem;">
+                <button class="btn btn-primary btn-sm" @onclick="StartEdit">Edit</button>
+                <button class="btn btn-danger btn-sm" @onclick="ConfirmDeleteProduct">Delete</button>
+            </div>
+        }
+        else
+        {
+            @* ---- Edit / Create mode ---- *@
+            <h2>@(isNew ? "New Product" : $"Editing: {product!.Name}")</h2>
+
+            <div class="form-group">
+                <label for="f-name">Name</label>
+                <input id="f-name" @bind="editName" @bind:event="oninput" />
+                @if (showVal && string.IsNullOrWhiteSpace(editName))
+                {
+                    <div class="form-validation">Name is required.</div>
+                }
+            </div>
+            <div class="sd-form-row">
+                <div class="form-group">
+                    <label for="f-sku">SKU</label>
+                    <input id="f-sku" @bind="editSku" @bind:event="oninput" />
+                </div>
+                <div class="form-group">
+                    <label for="f-brand">Brand</label>
+                    <input id="f-brand" @bind="editBrand" @bind:event="oninput" />
+                </div>
+            </div>
+            <div class="sd-form-row">
+                <div class="form-group">
+                    <label for="f-cat">Category</label>
+                    <select id="f-cat" @bind="editCategory">
+                        <option value="Electronics">Electronics</option>
+                        <option value="Furniture">Furniture</option>
+                        <option value="Clothing">Clothing</option>
+                        <option value="Home & Kitchen">Home & Kitchen</option>
+                        <option value="Sports & Outdoors">Sports & Outdoors</option>
+                        <option value="Office Supplies">Office Supplies</option>
+                        <option value="Accessories">Accessories</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="f-status">Status</label>
+                    <select id="f-status" @bind="editStatus">
+                        <option value="Active">Active</option>
+                        <option value="Discontinued">Discontinued</option>
+                        <option value="Draft">Draft</option>
+                    </select>
+                </div>
+            </div>
+            <div class="sd-form-row">
+                <div class="form-group">
+                    <label for="f-price">Price</label>
+                    <input id="f-price" type="number" step="0.01" min="0" @bind="editPrice" />
+                </div>
+                <div class="form-group">
+                    <label for="f-compare">Compare-at Price</label>
+                    <input id="f-compare" type="number" step="0.01" min="0" @bind="editComparePrice" />
+                </div>
+            </div>
+            <div class="sd-form-row">
+                <div class="form-group">
+                    <label for="f-stock">Stock</label>
+                    <input id="f-stock" type="number" min="0" @bind="editStock" />
+                </div>
+                <div class="form-group">
+                    <label for="f-color">Color</label>
+                    <input id="f-color" @bind="editColor" @bind:event="oninput" />
+                </div>
+            </div>
+            <div class="sd-form-row">
+                <div class="form-group">
+                    <label for="f-rating">Rating (0–5)</label>
+                    <input id="f-rating" type="number" step="0.1" min="0" max="5" @bind="editRating" />
+                </div>
+                <div class="form-group">
+                    <label for="f-reviews">Review Count</label>
+                    <input id="f-reviews" type="number" min="0" @bind="editReviewCount" />
+                </div>
+            </div>
+            <div class="sd-form-row">
+                <div class="form-group">
+                    <label for="f-weight">Weight (kg)</label>
+                    <input id="f-weight" type="number" step="0.01" min="0" @bind="editWeight" />
+                </div>
+                <div class="form-group">
+                    <label for="f-warranty">Warranty (months)</label>
+                    <input id="f-warranty" type="number" min="0" @bind="editWarranty" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="f-desc">Description</label>
+                <textarea id="f-desc" @bind="editDescription" @bind:event="oninput"></textarea>
+            </div>
+
+            <div class="form-actions">
+                <button class="btn btn-primary btn-sm" @onclick="Save">Save</button>
+                <button class="btn btn-outline btn-sm" @onclick="CancelEdit">Cancel</button>
+            </div>
+        }
+    </div>
+}
+
+@* ---- Delete confirm ---- *@
+@if (showDeleteConfirm)
+{
+    <div class="sd-overlay" @onclick="() => showDeleteConfirm = false">
+        <div class="sd-dialog" @onclick:stopPropagation="true">
+            <h4>Delete Product</h4>
+            <p>Are you sure you want to delete <strong>@product?.Name</strong>? This cannot be undone.</p>
+            <div class="form-actions">
+                <button class="btn btn-outline btn-sm" @onclick="() => showDeleteConfirm = false">Cancel</button>
+                <button class="btn btn-danger btn-sm" @onclick="ExecuteDelete">Delete</button>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private const string StorageKey = "observer-catalog-v2";
+
+    [Parameter] public Guid? ProductId { get; set; }
+
+    private bool isNew => ProductId is null;
+    private bool loading = true;
+    private bool editing;
+    private bool showVal;
+    private bool showDeleteConfirm;
+
+    private List<CatalogProduct> allProducts = [];
+    private CatalogProduct? product;
+
+    // Edit fields
+    private string editName = "", editSku = "", editBrand = "", editCategory = "Electronics",
+        editStatus = "Active", editColor = "", editDescription = "";
+    private decimal editPrice, editComparePrice;
+    private int editStock, editReviewCount, editWarranty;
+    private double editRating, editWeight;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        loading = true;
+        await LoadAll();
+
+        if (isNew)
+        {
+            product = null;
+            editing = true;
+            ResetFormFields();
+        }
+        else
+        {
+            product = allProducts.FirstOrDefault(p => p.Id == ProductId);
+            editing = false;
+        }
+
+        loading = false;
+    }
+
+    private async Task LoadAll()
+    {
+        try
+        {
+            var saved = await JS.InvokeAsync<string?>("localStorage.getItem", StorageKey);
+            if (!string.IsNullOrEmpty(saved))
+            {
+                var deserialized = System.Text.Json.JsonSerializer.Deserialize<List<CatalogProduct>>(saved,
+                    new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                if (deserialized is { Count: > 0 })
+                {
+                    allProducts = deserialized;
+                    return;
+                }
+            }
+        }
+        catch { /* best effort */ }
+
+        allProducts = ProductDataGenerator.Generate(2000);
+        await SaveAll();
+    }
+
+    private async Task SaveAll()
+    {
+        try
+        {
+            var json = System.Text.Json.JsonSerializer.Serialize(allProducts,
+                new System.Text.Json.JsonSerializerOptions { PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase });
+            await JS.InvokeVoidAsync("localStorage.setItem", StorageKey, json);
+        }
+        catch { /* best effort */ }
+    }
+
+    private void StartEdit()
+    {
+        if (product is null) return;
+        editName = product.Name;
+        editSku = product.Sku;
+        editBrand = product.Brand;
+        editCategory = product.Category;
+        editStatus = product.Status;
+        editPrice = product.Price;
+        editComparePrice = product.CompareAtPrice ?? 0;
+        editStock = product.Stock;
+        editRating = product.Rating;
+        editReviewCount = product.ReviewCount;
+        editWeight = product.WeightKg;
+        editColor = product.Color;
+        editWarranty = product.WarrantyMonths;
+        editDescription = product.Description;
+        showVal = false;
+        editing = true;
+    }
+
+    private void ResetFormFields()
+    {
+        editName = ""; editSku = ""; editBrand = ""; editCategory = "Electronics";
+        editStatus = "Active"; editColor = ""; editDescription = "";
+        editPrice = 0; editComparePrice = 0; editStock = 0; editReviewCount = 0;
+        editRating = 0; editWeight = 0; editWarranty = 0;
+        showVal = false;
+    }
+
+    private async Task Save()
+    {
+        showVal = true;
+        if (string.IsNullOrWhiteSpace(editName)) return;
+
+        if (isNew)
+        {
+            var newP = new CatalogProduct
+            {
+                Id = Guid.NewGuid(),
+                Sku = editSku.Trim(),
+                Name = editName.Trim(),
+                Brand = editBrand.Trim(),
+                Category = editCategory,
+                Price = editPrice,
+                CompareAtPrice = editComparePrice > 0 ? editComparePrice : null,
+                Stock = editStock,
+                Rating = Math.Clamp(editRating, 0, 5),
+                ReviewCount = editReviewCount,
+                WeightKg = editWeight,
+                Color = editColor.Trim(),
+                WarrantyMonths = editWarranty,
+                DateAdded = DateTime.UtcNow,
+                Status = editStatus,
+                Description = editDescription.Trim()
+            };
+            allProducts.Add(newP);
+            await SaveAll();
+            Nav.NavigateTo($"showcase/{newP.Id}");
+        }
+        else if (product is not null)
+        {
+            var idx = allProducts.FindIndex(p => p.Id == product.Id);
+            if (idx >= 0)
+            {
+                allProducts[idx] = new CatalogProduct
+                {
+                    Id = product.Id,
+                    Sku = editSku.Trim(),
+                    Name = editName.Trim(),
+                    Brand = editBrand.Trim(),
+                    Category = editCategory,
+                    Price = editPrice,
+                    CompareAtPrice = editComparePrice > 0 ? editComparePrice : null,
+                    Stock = editStock,
+                    Rating = Math.Clamp(editRating, 0, 5),
+                    ReviewCount = editReviewCount,
+                    WeightKg = editWeight,
+                    Color = editColor.Trim(),
+                    WarrantyMonths = editWarranty,
+                    DateAdded = product.DateAdded,
+                    Status = editStatus,
+                    Description = editDescription.Trim()
+                };
+                product = allProducts[idx];
+            }
+            await SaveAll();
+            editing = false;
+            showVal = false;
+        }
+    }
+
+    private void CancelEdit()
+    {
+        if (isNew)
+            Nav.NavigateTo("showcase");
+        else
+            editing = false;
+    }
+
+    private void ConfirmDeleteProduct() => showDeleteConfirm = true;
+
+    private async Task ExecuteDelete()
+    {
+        if (product is not null)
+        {
+            allProducts.RemoveAll(p => p.Id == product.Id);
+            await SaveAll();
+        }
+        Nav.NavigateTo("showcase");
+    }
+
+    private void BackToList() => Nav.NavigateTo("showcase");
+}
