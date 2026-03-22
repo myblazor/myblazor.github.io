@@ -1,5 +1,7 @@
 using System.Text.Json;
+using ObserverMagazine.Web.Models;
 using ObserverMagazine.Web.Services;
+using Xunit;
 using static ObserverMagazine.Web.Pages.Showcase;
 
 namespace ObserverMagazine.Web.Tests.Components;
