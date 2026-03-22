@@ -15198,6 +15198,9 @@ These don't match — `"Discontinued"` is generated but not in the expected set,
 
 
 
+54
+25
+
 These tests are still failing 
 kushal@fedora:~/src/dotnet/observermagazine.github.io$ cd /home/kushal/src/dotnet/observermagazine.github.io/; time dotnet format; time dotnet restore; dotnet run --project tools/ObserverMagazine.ContentProcessor -- --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot; time dotnet test; time dotnet list package; time dotnet list package --outdated; time bash export.sh;
 
@@ -15283,3 +15286,115 @@ Also please review the whole dump.txt
 please don't assume everything is correct 
 for example, take a look at the new kushal.yml file. is the syntax correct? 
 check every single file in the dump
+
+I've read the entire dump.txt line by line. Here are all the issues I found:
+
+**1. `ProductDataGenerator.cs`** — The `Statuses` array has `"Discontinued"` but the Showcase UI filter dropdown and the test both expect `"Active"`, `"Draft"`, `"Archived"`, `"Out of Stock"`. The generator is wrong.
+
+**2. `content/authors/kushal.yml`** — The `github: 9034725985` value is unquoted, so YAML parsers will interpret it as an integer. YamlDotNet will fail to deserialize it into `Dictionary<string, string>`. It needs quotes.
+
+**3. `content/blog/2026-03-21-aspnet-lifecycle-deep-dive.md`** — `author: Observer Team` (with a space) doesn't match any author file. The file is `observer-team.yml` so the author ID should be `observer-team` (with a hyphen). This is why the output shows `WARNING: No author profile found for 'Observer Team'`.
+
+**4. `ShowcaseDetail.razor`** — Uses `StorageKey = "observer-catalog-v2"` but `Showcase.razor` uses `StorageKey = "observer-catalog-products"`. They're reading from different localStorage keys, so the detail page can't find products saved by the list page.
+
+Here are all the fixes:
+
+---
+
+**FILE 1: `src/ObserverMagazine.Web/Services/ProductDataGenerator.cs`** — Fix the `Statuses` array:**FILE 2: `content/authors/kushal.yml`** — Quote the numeric GitHub handle:**FILE 3: `content/blog/2026-03-21-aspnet-lifecycle-deep-dive.md`** — Only the front matter needs to change (`author: Observer Team` → `author: observer-team`). Here's the front matter section (the body is unchanged):**FILE 4: `src/ObserverMagazine.Web/Pages/ShowcaseDetail.razor`** — Two fixes: (a) `StorageKey` changed from `"observer-catalog-v2"` to `"observer-catalog-products"` to match `Showcase.razor`, and (b) the Status `<select>` dropdown now has the correct options matching the generator and filter:**FILE 5: `src/ObserverMagazine.Web/Pages/ShowcaseDetail.razor.css`** — Update badge CSS to match new statuses:---
+
+**Summary of all issues found in the full dump.txt review:**
+
+| # | File | Issue | Fix |
+|---|---|---|---|
+| 1 | `ProductDataGenerator.cs` | `Statuses` array contains `"Discontinued"` which doesn't match the Showcase UI filter options or the test's valid set | Changed to `["Active", "Active", "Active", "Active", "Draft", "Out of Stock"]` |
+| 2 | `content/authors/kushal.yml` | `github: 9034725985` is unquoted — YAML treats it as an integer, but `Dictionary<string, string>` expects a string | Quoted it: `github: "9034725985"` |
+| 3 | `content/blog/2026-03-21-aspnet-lifecycle-deep-dive.md` | `author: Observer Team` (space) doesn't match filename `observer-team.yml` (hyphen) — causes the `WARNING: No author profile found` in the build output | Changed to `author: observer-team` |
+| 4 | `ShowcaseDetail.razor` | `StorageKey = "observer-catalog-v2"` doesn't match `Showcase.razor`'s `"observer-catalog-products"` — detail page can't find products saved by the list page | Changed to `"observer-catalog-products"` |
+| 5 | `ShowcaseDetail.razor` | Status `<select>` had `"Discontinued"` option instead of `"Archived"` and `"Out of Stock"` — mismatch with generator and filter | Updated to `Active / Draft / Archived / Out of Stock` |
+| 6 | `ShowcaseDetail.razor.css` | Had `.sd-badge-discontinued` class but no classes for new statuses | Replaced with `.sd-badge-archived` and `.sd-badge-out-of-stock` |
+| 7 | `ShowcaseDetail.razor` | Badge CSS class used `product.Status.ToLowerInvariant()` which turns "Out of Stock" into "out of stock" (with spaces) — invalid CSS class | Changed to `.Replace(" ", "-")` so it becomes `sd-badge-out-of-stock` |
+
+Everything else in the dump looked correct — the YAML syntax on `observer-team.yml` is fine, the `.slnx` structure is valid, the `Directory.Build.props` and `Directory.Packages.props` are consistent, the CI workflows are correct, the `_Imports.razor` has all needed usings, and the `ShowcaseTests.cs` (which we fixed last round) is now correct with the valid status set being a superset of what the generator produces.
+
+72
+28
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

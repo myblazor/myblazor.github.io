@@ -25,8 +25,9 @@
 }
 
 .sd-badge-active { background: #22c55e; color: #fff; }
-.sd-badge-discontinued { background: #ef4444; color: #fff; }
 .sd-badge-draft { background: var(--color-muted); color: #fff; }
+.sd-badge-archived { background: #6b7280; color: #fff; }
+.sd-badge-out-of-stock { background: #ef4444; color: #fff; }
 
 .sd-details {
     display: grid;

@@ -27,7 +27,7 @@ else
         {
             @* ---- View mode ---- *@
             <h2>@product!.Name</h2>
-            <div class="sd-badge sd-badge-@product.Status.ToLowerInvariant()">@product.Status</div>
+            <div class="sd-badge sd-badge-@product.Status.ToLowerInvariant().Replace(" ", "-")">@product.Status</div>
 
             <dl class="sd-details">
                 <dt>SKU</dt><dd>@product.Sku</dd>
@@ -102,8 +102,9 @@ else
                     <label for="f-status">Status</label>
                     <select id="f-status" @bind="editStatus">
                         <option value="Active">Active</option>
-                        <option value="Discontinued">Discontinued</option>
                         <option value="Draft">Draft</option>
+                        <option value="Archived">Archived</option>
+                        <option value="Out of Stock">Out of Stock</option>
                     </select>
                 </div>
             </div>
@@ -176,7 +177,8 @@ else
 }
 
 @code {
-    private const string StorageKey = "observer-catalog-v2";
+    // MUST match Showcase.razor's StorageKey so both pages share the same data
+    private const string StorageKey = "observer-catalog-products";
 
     [Parameter] public Guid? ProductId { get; set; }
 

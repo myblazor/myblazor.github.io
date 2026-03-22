@@ -26,7 +26,8 @@ public static class ProductDataGenerator
         "Charcoal", "Burgundy", "Cobalt", "Amber", "Lavender"
     ];
 
-    private static readonly string[] Statuses = ["Active", "Active", "Active", "Active", "Discontinued", "Draft"];
+    // Must match the SelectOptions in Showcase.razor Status column and the test expectations
+    private static readonly string[] Statuses = ["Active", "Active", "Active", "Active", "Draft", "Out of Stock"];
 
     private static readonly (string Category, string[] Products, string[] Brands, decimal MinPrice, decimal MaxPrice, double MinWeight, double MaxWeight, int MinWarranty, int MaxWarranty)[] Categories =
     [
