@@ -1,6 +1,6 @@
 ===============================================================================
 PROJECT EXPORT: observermagazine.github.io
-DATE: Sun Mar 22 10:32:46 AM EDT 2026
+DATE: Sun Mar 22 10:42:08 AM EDT 2026
 ===============================================================================
 
 -------------------------------------------------------------------------------
@@ -345,11 +345,9 @@ email: kushaldeveloper@gmail.com
 bio: A web developer
 avatar: images/authors/kushal.png
 socials:
-  github: 9034725985
+  github: "9034725985"
   mastodon: "@k@mastodon.social"
   linkedin: kushalhada
-
-
 
 
 -------------------------------------------------------------------------------
@@ -519,7 +517,7 @@ FILE: content/blog/2026-03-21-aspnet-lifecycle-deep-dive.md
 ---
 title: "The ASP.NET Request Lifecycle: Why Cold Starts Are Slow and How .NET 10 Changes Everything"
 date: 2026-03-21
-author: Observer Team
+author: observer-team
 summary: A deep dive into the ASP.NET request lifecycle across both .NET Framework and modern .NET 10, explaining why cold starts have historically been slow, what you can do about it, and how Native AOT and other advances have fundamentally changed the equation.
 tags:
   - dotnet
@@ -4099,7 +4097,7 @@ else
         {
             @* ---- View mode ---- *@
             <h2>@product!.Name</h2>
-            <div class="sd-badge sd-badge-@product.Status.ToLowerInvariant()">@product.Status</div>
+            <div class="sd-badge sd-badge-@product.Status.ToLowerInvariant().Replace(" ", "-")">@product.Status</div>
 
             <dl class="sd-details">
                 <dt>SKU</dt><dd>@product.Sku</dd>
@@ -4174,8 +4172,9 @@ else
                     <label for="f-status">Status</label>
                     <select id="f-status" @bind="editStatus">
                         <option value="Active">Active</option>
-                        <option value="Discontinued">Discontinued</option>
                         <option value="Draft">Draft</option>
+                        <option value="Archived">Archived</option>
+                        <option value="Out of Stock">Out of Stock</option>
                     </select>
                 </div>
             </div>
@@ -4248,7 +4247,8 @@ else
 }
 
 @code {
-    private const string StorageKey = "observer-catalog-v2";
+    // MUST match Showcase.razor's StorageKey so both pages share the same data
+    private const string StorageKey = "observer-catalog-products";
 
     [Parameter] public Guid? ProductId { get; set; }
 
@@ -4467,8 +4467,9 @@ FILE: src/ObserverMagazine.Web/Pages/ShowcaseDetail.razor.css
 }
 
 .sd-badge-active { background: #22c55e; color: #fff; }
-.sd-badge-discontinued { background: #ef4444; color: #fff; }
 .sd-badge-draft { background: var(--color-muted); color: #fff; }
+.sd-badge-archived { background: #6b7280; color: #fff; }
+.sd-badge-out-of-stock { background: #ef4444; color: #fff; }
 
 .sd-details {
     display: grid;
@@ -4888,7 +4889,8 @@ public static class ProductDataGenerator
         "Charcoal", "Burgundy", "Cobalt", "Amber", "Lavender"
     ];
 
-    private static readonly string[] Statuses = ["Active", "Active", "Active", "Active", "Discontinued", "Draft"];
+    // Must match the SelectOptions in Showcase.razor Status column and the test expectations
+    private static readonly string[] Statuses = ["Active", "Active", "Active", "Active", "Draft", "Out of Stock"];
 
     private static readonly (string Category, string[] Products, string[] Brands, decimal MinPrice, decimal MaxPrice, double MinWeight, double MaxWeight, int MinWarranty, int MaxWarranty)[] Categories =
     [
