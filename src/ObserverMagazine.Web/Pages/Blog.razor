@@ -1,24 +1,35 @@
 @page "/blog"
+@page "/blog/tag/{Tag}"
 @inject IBlogService BlogService
 @inject ILogger<Blog> Logger
 @inject IAnalyticsService Analytics
+@inject NavigationManager Nav
 
-<PageTitle>Blog — Observer Magazine</PageTitle>
+<PageTitle>@(string.IsNullOrEmpty(Tag) ? "Blog" : $"Posts tagged \"{Tag}\"") — Observer Magazine</PageTitle>
 
 <h1>Blog</h1>
+
+@if (!string.IsNullOrEmpty(Tag))
+{
+    <div class="tag-filter-bar">
+        <span>Filtering by tag:</span>
+        <span class="tag">@Tag</span>
+        <button class="tag-filter-clear" @onclick="ClearFilter">Clear filter</button>
+    </div>
+}
 
 @if (posts is null)
 {
     <p><em>Loading posts...</em></p>
 }
-else if (posts.Length == 0)
+else if (filteredPosts.Length == 0)
 {
-    <p>No posts yet. Check back soon!</p>
+    <p>No posts found. <a href="blog">View all posts</a></p>
 }
 else
 {
     <div class="blog-list">
-        @foreach (var post in posts)
+        @foreach (var post in filteredPosts)
         {
             <article class="blog-card">
                 @if (post.Featured)
@@ -49,7 +60,7 @@ else
                     <div class="tag-list">
                         @foreach (var tag in post.Tags)
                         {
-                            <span class="tag">@tag</span>
+                            <a class="tag" href="blog/tag/@Uri.EscapeDataString(tag)">@tag</a>
                         }
                     </div>
                 }
@@ -59,7 +70,10 @@ else
 }
 
 @code {
+    [Parameter] public string? Tag { get; set; }
+
     private BlogPostMetadata[]? posts;
+    private BlogPostMetadata[] filteredPosts = [];
 
     protected override async Task OnInitializedAsync()
     {
@@ -74,5 +88,31 @@ else
             Logger.LogError(ex, "Failed to load blog index");
             posts = [];
         }
+        ApplyFilter();
+    }
+
+    protected override void OnParametersSet()
+    {
+        ApplyFilter();
+    }
+
+    private void ApplyFilter()
+    {
+        if (posts is null)
+        {
+            filteredPosts = [];
+            return;
+        }
+
+        filteredPosts = string.IsNullOrEmpty(Tag)
+            ? posts
+            : posts.Where(p =>
+                p.Tags.Any(t => string.Equals(t, Tag, StringComparison.OrdinalIgnoreCase)))
+              .ToArray();
+    }
+
+    private void ClearFilter()
+    {
+        Nav.NavigateTo("blog");
     }
 }

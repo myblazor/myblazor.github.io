@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,6 +8,18 @@
     <link rel="alternate" type="application/rss+xml" title="Observer Magazine RSS" href="/feed.xml" />
     <link rel="stylesheet" href="css/app.css" />
     <link rel="stylesheet" href="ObserverMagazine.Web.styles.css" />
+
+    <!-- Apply saved theme BEFORE first paint to prevent flash -->
+    <script>
+        (function () {
+            var stored = localStorage.getItem('observer-theme') || 'system';
+            var resolved = stored;
+            if (stored === 'system') {
+                resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+            document.documentElement.setAttribute('data-theme', resolved);
+        })();
+    </script>
 </head>
 <body>
     <div id="app">
@@ -21,6 +33,23 @@
         <a href="/" class="reload">Reload</a>
         <span class="dismiss">🗙</span>
     </div>
+
+    <!-- Theme management API for Blazor interop -->
+    <script>
+        window.observerTheme = {
+            set: function (theme) {
+                var resolved = theme;
+                if (theme === 'system') {
+                    resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                }
+                document.documentElement.setAttribute('data-theme', resolved);
+                localStorage.setItem('observer-theme', theme);
+            },
+            get: function () {
+                return localStorage.getItem('observer-theme') || 'system';
+            }
+        };
+    </script>
 
     <!-- SPA redirect for GitHub Pages -->
     <script>

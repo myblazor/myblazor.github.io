@@ -1,37 +1,64 @@
 @inject HttpClient Http
 @inject ILogger<MasterDetail> Logger
 @inject IAnalyticsService Analytics
+@inject IJSRuntime JS
+
+@* ---- Confirmation dialog ---- *@
+@if (confirmAction is not null)
+{
+    <div class="confirm-overlay" @onclick="CancelConfirm">
+        <div class="confirm-dialog" @onclick:stopPropagation="true">
+            <h4>@confirmTitle</h4>
+            <p>@confirmMessage</p>
+            <div class="form-actions">
+                <button class="btn btn-outline btn-sm" @onclick="CancelConfirm">Cancel</button>
+                <button class="btn btn-danger btn-sm" @onclick="ExecuteConfirm">@confirmButton</button>
+            </div>
+        </div>
+    </div>
+}
 
 <div class="md-container">
+    @* ---- List pane ---- *@
     <div class="md-list">
-        <h3>Products</h3>
+        <div class="md-list-header">
+            <h3>Products</h3>
+            <button class="btn btn-primary btn-sm" @onclick="StartAdd" title="Add a new product">+ Add</button>
+        </div>
         @if (products is null)
         {
-            <p><em>Loading...</em></p>
+            <p class="md-loading"><em>Loading...</em></p>
         }
         else
         {
             <ul>
                 @foreach (var p in products)
                 {
-                    <li class="@(selected?.Name == p.Name ? "md-selected" : "")"
-                        @onclick="() => Select(p)">
+                    <li class="@(selected?.Id == p.Id ? "md-selected" : "")"
+                        @onclick="() => SelectProduct(p)">
                         <span class="md-item-name">@p.Name</span>
                         <span class="md-item-price">@p.Price.ToString("C")</span>
                     </li>
                 }
             </ul>
+            <div class="md-list-footer">
+                <button class="btn btn-outline btn-sm" @onclick="ConfirmReset" title="Reset to default data">
+                    Reset to Defaults
+                </button>
+                <span class="md-count">@products.Count items</span>
+            </div>
         }
     </div>
 
+    @* ---- Detail pane ---- *@
     <div class="md-detail">
-        @if (selected is null)
+        @if (viewMode == ViewMode.Idle)
         {
             <div class="md-empty">
-                <p>Select an item from the list to view details.</p>
+                <p>Select an item from the list, or click <strong>+ Add</strong> to create one.</p>
             </div>
         }
-        else
+        else if (viewMode == ViewMode.Viewing && selected is not null)
         {
             <div class="md-content">
                 <h3>@selected.Name</h3>
@@ -57,33 +84,295 @@
                     <dt>Description</dt>
                     <dd>@selected.Description</dd>
                 </dl>
+
+                <div class="form-actions" style="margin-top: 1.5rem;">
+                    <button class="btn btn-primary btn-sm" @onclick="StartEdit">Edit</button>
+                    <button class="btn btn-danger btn-sm" @onclick="ConfirmDelete">Delete</button>
+                </div>
+            </div>
+        }
+        else if (viewMode is ViewMode.Editing or ViewMode.Adding)
+        {
+            <div class="md-content">
+                <h3>@(viewMode == ViewMode.Adding ? "New Product" : $"Editing: {selected?.Name}")</h3>
+
+                <div class="form-group">
+                    <label for="edit-name">Name</label>
+                    <input id="edit-name" @bind="editName" @bind:event="oninput" placeholder="Product name" />
+                    @if (showValidation && string.IsNullOrWhiteSpace(editName))
+                    {
+                        <div class="form-validation">Name is required.</div>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <label for="edit-category">Category</label>
+                    <input id="edit-category" @bind="editCategory" @bind:event="oninput" placeholder="e.g. Electronics" />
+                </div>
+
+                <div class="form-group">
+                    <label for="edit-price">Price</label>
+                    <input id="edit-price" type="number" step="0.01" min="0" @bind="editPrice" />
+                </div>
+
+                <div class="form-group">
+                    <label for="edit-stock">Stock</label>
+                    <input id="edit-stock" type="number" min="0" @bind="editStock" />
+                </div>
+
+                <div class="form-group">
+                    <label for="edit-rating">Rating (0–5)</label>
+                    <input id="edit-rating" type="number" step="0.1" min="0" max="5" @bind="editRating" />
+                </div>
+
+                <div class="form-group">
+                    <label for="edit-desc">Description</label>
+                    <textarea id="edit-desc" @bind="editDescription" @bind:event="oninput"
+                              placeholder="Describe the product"></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn btn-primary btn-sm" @onclick="SaveEdit">Save</button>
+                    <button class="btn btn-outline btn-sm" @onclick="CancelEdit">Cancel</button>
+                </div>
             </div>
         }
     </div>
 </div>
 
 @code {
-    private Product[]? products;
+    private const string StorageKey = "observer-products-v1";
+
+    private enum ViewMode { Idle, Viewing, Editing, Adding }
+
+    private List<Product>? products;
     private Product? selected;
+    private ViewMode viewMode = ViewMode.Idle;
+
+    // Edit form fields
+    private string editName = "";
+    private string editCategory = "";
+    private decimal editPrice;
+    private int editStock;
+    private double editRating;
+    private string editDescription = "";
+    private bool showValidation;
+
+    // Confirmation dialog
+    private string confirmTitle = "";
+    private string confirmMessage = "";
+    private string confirmButton = "";
+    private Func<Task>? confirmAction;
 
     protected override async Task OnInitializedAsync()
     {
         Logger.LogInformation("Loading product data for master-detail");
+        await LoadProducts();
+    }
+
+    private async Task LoadProducts()
+    {
         try
         {
-            products = await Http.GetFromJsonAsync<Product[]>("sample-data/products.json");
+            // Try localStorage first
+            var saved = await JS.InvokeAsync<string?>("localStorage.getItem", StorageKey);
+            if (!string.IsNullOrEmpty(saved))
+            {
+                products = System.Text.Json.JsonSerializer.Deserialize<List<Product>>(saved,
+                    new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                Logger.LogInformation("Loaded {Count} products from local storage", products?.Count ?? 0);
+            }
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex, "Failed to load products for master-detail");
-            products = [];
+            Logger.LogDebug(ex, "Could not read from local storage");
+        }
+
+        if (products is null || products.Count == 0)
+        {
+            try
+            {
+                var loaded = await Http.GetFromJsonAsync<Product[]>("sample-data/products.json");
+                products = loaded?.ToList() ?? [];
+                Logger.LogInformation("Loaded {Count} products from JSON", products.Count);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Failed to load products");
+                products = [];
+            }
         }
     }
 
-    private async void Select(Product product)
+    private async Task SaveProducts()
     {
+        if (products is null) return;
+        try
+        {
+            var json = System.Text.Json.JsonSerializer.Serialize(products,
+                new System.Text.Json.JsonSerializerOptions { PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase });
+            await JS.InvokeVoidAsync("localStorage.setItem", StorageKey, json);
+            Logger.LogInformation("Saved {Count} products to local storage", products.Count);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogWarning(ex, "Could not save to local storage");
+        }
+    }
+
+    private async Task SelectProduct(Product product)
+    {
+        if (viewMode is ViewMode.Editing or ViewMode.Adding) return;
         selected = product;
+        viewMode = ViewMode.Viewing;
         Logger.LogInformation("Selected product: {Name}", product.Name);
         await Analytics.TrackInteractionAsync("ProductSelect", product.Name);
+    }
+
+    // ---- CRUD operations ----
+
+    private void StartAdd()
+    {
+        selected = null;
+        editName = "";
+        editCategory = "";
+        editPrice = 0;
+        editStock = 0;
+        editRating = 0;
+        editDescription = "";
+        showValidation = false;
+        viewMode = ViewMode.Adding;
+    }
+
+    private void StartEdit()
+    {
+        if (selected is null) return;
+        editName = selected.Name;
+        editCategory = selected.Category;
+        editPrice = selected.Price;
+        editStock = selected.Stock;
+        editRating = selected.Rating;
+        editDescription = selected.Description;
+        showValidation = false;
+        viewMode = ViewMode.Editing;
+    }
+
+    private async Task SaveEdit()
+    {
+        showValidation = true;
+        if (string.IsNullOrWhiteSpace(editName)) return;
+
+        if (viewMode == ViewMode.Adding)
+        {
+            var newProduct = new Product
+            {
+                Id = Guid.NewGuid(),
+                Name = editName.Trim(),
+                Category = editCategory.Trim(),
+                Price = editPrice,
+                Stock = editStock,
+                Rating = Math.Clamp(editRating, 0, 5),
+                Description = editDescription.Trim()
+            };
+            products!.Add(newProduct);
+            selected = newProduct;
+            Logger.LogInformation("Added product: {Name}", newProduct.Name);
+            await Analytics.TrackInteractionAsync("ProductAdd", newProduct.Name);
+        }
+        else if (viewMode == ViewMode.Editing && selected is not null)
+        {
+            var idx = products!.FindIndex(p => p.Id == selected.Id);
+            if (idx >= 0)
+            {
+                var updated = selected with
+                {
+                    Name = editName.Trim(),
+                    Category = editCategory.Trim(),
+                    Price = editPrice,
+                    Stock = editStock,
+                    Rating = Math.Clamp(editRating, 0, 5),
+                    Description = editDescription.Trim()
+                };
+                products[idx] = updated;
+                selected = updated;
+                Logger.LogInformation("Updated product: {Name}", updated.Name);
+                await Analytics.TrackInteractionAsync("ProductUpdate", updated.Name);
+            }
+        }
+
+        await SaveProducts();
+        viewMode = ViewMode.Viewing;
+        showValidation = false;
+    }
+
+    private void CancelEdit()
+    {
+        viewMode = selected is not null ? ViewMode.Viewing : ViewMode.Idle;
+        showValidation = false;
+    }
+
+    private void ConfirmDelete()
+    {
+        if (selected is null) return;
+        confirmTitle = "Delete Product";
+        confirmMessage = $"Are you sure you want to delete \"{selected.Name}\"? This cannot be undone.";
+        confirmButton = "Delete";
+        confirmAction = ExecuteDelete;
+    }
+
+    private async Task ExecuteDelete()
+    {
+        if (selected is not null && products is not null)
+        {
+            var name = selected.Name;
+            products.RemoveAll(p => p.Id == selected.Id);
+            selected = null;
+            viewMode = ViewMode.Idle;
+            await SaveProducts();
+            Logger.LogInformation("Deleted product: {Name}", name);
+            await Analytics.TrackInteractionAsync("ProductDelete", name);
+        }
+        confirmAction = null;
+    }
+
+    private void ConfirmReset()
+    {
+        confirmTitle = "Reset to Defaults";
+        confirmMessage = "This will discard all your changes and restore the original product data. Continue?";
+        confirmButton = "Reset";
+        confirmAction = ExecuteReset;
+    }
+
+    private async Task ExecuteReset()
+    {
+        try
+        {
+            await JS.InvokeVoidAsync("localStorage.removeItem", StorageKey);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogDebug(ex, "Could not clear local storage");
+        }
+
+        products = null;
+        selected = null;
+        viewMode = ViewMode.Idle;
+        await LoadProducts();
+        Logger.LogInformation("Reset products to defaults");
+        await Analytics.TrackInteractionAsync("ProductReset", "");
+        confirmAction = null;
+    }
+
+    private void CancelConfirm()
+    {
+        confirmAction = null;
+    }
+
+    private async Task ExecuteConfirm()
+    {
+        if (confirmAction is not null)
+        {
+            await confirmAction();
+        }
     }
 }

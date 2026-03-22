@@ -81,6 +81,92 @@ def strip_markdown(text: str) -> str:
     return text.strip()
 
 
+def preprocess_programming_terms(text: str) -> str:
+    """
+    Replace programming terms and symbols that TTS engines commonly mispronounce.
+    Must run BEFORE preprocess_numbers since some terms contain digits.
+    """
+    replacements = [
+        # Languages and frameworks — order matters (longer matches first)
+        (r"\.NET\s+10", "dot net ten"),
+        (r"\.NET\s+8", "dot net eight"),
+        (r"\.NET\s+7", "dot net seven"),
+        (r"\.NET\s+6", "dot net six"),
+        (r"\.NET\s+Core\s+3\.0", "dot net core three point oh"),
+        (r"\.NET\s+Core", "dot net core"),
+        (r"\.NET\s+Framework\s+4\.8", "dot net framework four point eight"),
+        (r"\.NET\s+Framework", "dot net framework"),
+        (r"\.NET", "dot net"),
+        (r"\bC#", "C sharp"),
+        (r"\bF#", "F sharp"),
+        (r"\bC\+\+", "C plus plus"),
+        (r"\bASP\.NET", "A S P dot net"),
+
+        # File extensions and config
+        (r"\.csproj\b", " C sharp project file"),
+        (r"\.cshtml\b", " C S H T M L"),
+        (r"\.ascx\b", " A S C X"),
+        (r"\.aspx\b", " A S P X"),
+        (r"\.slnx\b", " solution X"),
+        (r"\.sln\b", " solution"),
+        (r"\.json\b", " JSON"),
+        (r"\.yml\b", " YAML"),
+        (r"\.xml\b", " X M L"),
+        (r"\.md\b", " markdown"),
+        (r"\.css\b", " C S S"),
+        (r"\.js\b", " JavaScript"),
+        (r"\.wasm\b", " web assembly"),
+
+        # Common abbreviations
+        (r"\bWASM\b", "web assembly"),
+        (r"\bIL\b", "intermediate language"),
+        (r"\bCLR\b", "common language runtime"),
+        (r"\bJIT\b", "just in time"),
+        (r"\bAOT\b", "ahead of time"),
+        (r"\bNGen\b", "N gen"),
+        (r"\bR2R\b", "ready to run"),
+        (r"\bDI\b", "dependency injection"),
+        (r"\bOWIN\b", "oh win"),
+        (r"\bCORS\b", "cross origin resource sharing"),
+        (r"\bRSS\b", "R S S"),
+        (r"\bAPI\b", "A P I"),
+        (r"\bAPIs\b", "A P Is"),
+        (r"\bUI\b", "U I"),
+        (r"\bUIs\b", "U Is"),
+        (r"\bURL\b", "U R L"),
+        (r"\bHTTP\b", "H T T P"),
+        (r"\bHTTPS\b", "H T T P S"),
+        (r"\bHTML\b", "H T M L"),
+        (r"\bCSS\b", "C S S"),
+        (r"\bSQL\b", "S Q L"),
+        (r"\bSSD\b", "S S D"),
+        (r"\bSSDs\b", "S S Ds"),
+        (r"\bI/O\b", "I O"),
+        (r"\bIIS\b", "I I S"),
+        (r"\bMVC\b", "M V C"),
+        (r"\bLTS\b", "long term support"),
+        (r"\bSDK\b", "S D K"),
+        (r"\bNuGet\b", "new get"),
+        (r"\bxUnit\b", "x unit"),
+        (r"\bbUnit\b", "b unit"),
+
+        # Symbols in technical context
+        (r"=>", " arrow "),
+        (r"!=", " not equal "),
+        (r"==", " equals "),
+        (r">=", " greater than or equal "),
+        (r"<=", " less than or equal "),
+
+        # Version patterns (e.g., "v3", "v6")
+        (r"\bv(\d+)\b", r"version \1"),
+    ]
+
+    for pattern, replacement in replacements:
+        text = re.sub(pattern, replacement, text)
+
+    return text
+
+
 def preprocess_numbers(text: str) -> str:
     """Convert numbers to words to work around KittenTTS number pronunciation bug."""
     try:
@@ -281,6 +367,7 @@ def main():
         raw = open(md_path, encoding="utf-8").read()
         body = strip_front_matter(raw)
         text = strip_markdown(body)
+        text = preprocess_programming_terms(text)  # MUST run before preprocess_numbers
         text = preprocess_numbers(text)
 
         if len(text.strip()) < 10:

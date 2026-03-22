@@ -1,13 +1,13 @@
 @inject IAnalyticsService Analytics
 @inject ILogger<BlogTtsPlayer> Logger
-@inject HttpClient Http
 
-@if (audioAvailable)
+@if (!hidden)
 {
     <div class="tts-player">
-        <span class="tts-icon">🔊</span>
+        <span class="tts-icon" aria-hidden="true">🔊</span>
         <span class="tts-label">Listen to this post</span>
-        <audio controls preload="none" @ref="audioElement"
+        <audio controls
+               preload="metadata"
                src="blog-data/@(Slug).mp3"
                @onplay="OnPlay"
                @onpause="OnPause"
@@ -23,28 +23,12 @@
     [Parameter, EditorRequired]
     public string Slug { get; set; } = "";
 
-    private ElementReference audioElement;
-    private bool audioAvailable;
+    private bool hidden;
 
-    protected override async Task OnParametersSetAsync()
+    protected override void OnParametersSet()
     {
-        // Check if the MP3 file exists (HEAD request, no body download)
-        try
-        {
-            var request = new HttpRequestMessage(HttpMethod.Head, $"blog-data/{Slug}.mp3");
-            var response = await Http.SendAsync(request);
-            audioAvailable = response.IsSuccessStatusCode;
-
-            if (!audioAvailable)
-            {
-                Logger.LogDebug("No audio file found for {Slug}", Slug);
-            }
-        }
-        catch (Exception ex)
-        {
-            Logger.LogDebug(ex, "Failed to check audio availability for {Slug}", Slug);
-            audioAvailable = false;
-        }
+        // Reset visibility when slug changes (navigating between posts)
+        hidden = false;
     }
 
     private async Task OnPlay()
@@ -65,10 +49,12 @@
         await Analytics.TrackInteractionAsync("TTS.Finished", Slug);
     }
 
-    private async Task OnError()
+    private Task OnError()
     {
-        Logger.LogWarning("TTS audio error: {Slug}", Slug);
-        await Analytics.TrackInteractionAsync("TTS.Error", Slug);
-        audioAvailable = false;
+        // Audio file not found or can't be decoded — hide player gracefully
+        Logger.LogDebug("TTS audio unavailable for {Slug}, hiding player", Slug);
+        hidden = true;
+        StateHasChanged();
+        return Task.CompletedTask;
     }
 }

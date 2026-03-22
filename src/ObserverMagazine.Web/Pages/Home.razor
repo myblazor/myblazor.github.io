@@ -37,6 +37,15 @@
                         }
                     </div>
                     <p>@post.Summary</p>
+                    @if (post.Tags is { Length: > 0 })
+                    {
+                        <div class="tag-list">
+                            @foreach (var tag in post.Tags)
+                            {
+                                <a class="tag" href="blog/tag/@Uri.EscapeDataString(tag)">@tag</a>
+                            }
+                        </div>
+                    }
                 </article>
             }
         </div>
@@ -49,8 +58,8 @@
         <p>Sortable, filterable data tables that adapt gracefully to any screen size.</p>
     </div>
     <div class="feature-card">
-        <h3>Master-Detail Flow</h3>
-        <p>Click an item in a list to view its full details — a common app pattern.</p>
+        <h3>Master-Detail CRUD</h3>
+        <p>Create, edit, and delete items in a master-detail layout — persisted locally.</p>
     </div>
     <div class="feature-card">
         <h3>Blog Engine</h3>
@@ -61,8 +70,8 @@
         <p>Auto-generated <code>feed.xml</code> so readers can subscribe in any RSS reader.</p>
     </div>
     <div class="feature-card">
-        <h3>Structured Logging</h3>
-        <p>ILogger-based telemetry ready for OpenTelemetry export.</p>
+        <h3>Multiple Themes</h3>
+        <p>Light, Dark, Sepia, Solarized, and High Contrast — your choice, persisted locally.</p>
     </div>
     <div class="feature-card">
         <h3>Full Test Suite</h3>

@@ -46,7 +46,7 @@ else
                 <div class="tag-list">
                     @foreach (var tag in metadata.Tags)
                     {
-                        <span class="tag">@tag</span>
+                        <a class="tag" href="blog/tag/@Uri.EscapeDataString(tag)">@tag</a>
                     }
                 </div>
             }
@@ -89,13 +89,11 @@ else
             {
                 htmlContent = await BlogService.GetPostHtmlAsync(Slug);
 
-                // Load author profile (non-blocking if missing)
                 if (!string.IsNullOrEmpty(metadata.Author))
                 {
                     authorProfile = await BlogService.GetAuthorAsync(metadata.Author);
                 }
 
-                // Track view + get count (non-blocking, backend optional)
                 await Analytics.TrackPageViewAsync("BlogPost", $"{metadata.Title} ({Slug})");
                 await Analytics.IncrementViewAsync(Slug);
                 viewCount = await Analytics.GetViewCountAsync(Slug);
