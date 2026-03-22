@@ -1,208 +1,19 @@
-kushal@fedora:~/src/bash$ cd /home/kushal/src/dotnet/observermagazine.github.io/; time dotnet format; time dotnet restore; dotnet run --project tools/ObserverMagazine.ContentProcessor -- --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot; time dotnet test; time dotnet list package; time dotnet list package --outdated; time bash export.sh;
-
-real	0m6.706s
-user	0m8.890s
-sys	0m0.869s
-Restore complete (0.5s)
-
-Build succeeded in 0.6s
-
-real	0m0.724s
-user	0m0.787s
-sys	0m0.128s
-Content directory: content/blog
-Output directory:  src/ObserverMagazine.Web/wwwroot
-Authors directory: content/authors
-Publish before:    2026-03-22 01:43:02 UTC
-Authors directory 'content/authors' does not exist. No author profiles loaded.
-Wrote authors index: src/ObserverMagazine.Web/wwwroot/blog-data/authors.json (0 authors)
-Found 5 markdown files
-Processing: 2026-01-15-welcome-to-observer-magazine.md
-  WARNING: No author profile found for 'observer-team'
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/welcome-to-observer-magazine.html (~1 min read)
-Processing: 2026-02-20-getting-started-with-blazor-wasm.md
-  WARNING: No author profile found for 'observer-team'
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/getting-started-with-blazor-wasm.html (~1 min read)
-Processing: 2026-03-10-responsive-design-patterns.md
-  WARNING: No author profile found for 'observer-team'
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/responsive-design-patterns.html (~1 min read)
-Processing: 2026-03-20-hello-world.md
-  WARNING: No author profile found for 'observer-team'
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/hello-world.html (~1 min read)
-Processing: 2026-03-21-aspnet-lifecycle-deep-dive.md
-  WARNING: No author profile found for 'Observer Team'
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/aspnet-lifecycle-deep-dive.html (~16 min read)
-Wrote posts index: src/ObserverMagazine.Web/wwwroot/blog-data/posts-index.json (5 posts, 0 drafts skipped, 0 future posts skipped)
-Wrote RSS feed: src/ObserverMagazine.Web/wwwroot/feed.xml
-Content processing complete.
-Restore complete (0.5s)
-  ObserverMagazine.Integration.Tests net10.0 succeeded (0.4s) → tests/ObserverMagazine.Integration.Tests/bin/Debug/net10.0/ObserverMagazine.Integration.Tests.dll
-[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.4)
-[xUnit.net 00:00:00.13]   Discovering: ObserverMagazine.Integration.Tests
-[xUnit.net 00:00:00.29]   Discovered:  ObserverMagazine.Integration.Tests
-[xUnit.net 00:00:00.44]   Starting:    ObserverMagazine.Integration.Tests
-[xUnit.net 00:00:00.67]   Finished:    ObserverMagazine.Integration.Tests (ID = 'a11f17fc47145796b425f2f6072a7236e3de3115aec6d32144ce1d1b834d5009')
-  ObserverMagazine.Integration.Tests test net10.0 succeeded (1.2s)
-  ObserverMagazine.Web net10.0 browser-wasm succeeded (3.2s) → src/ObserverMagazine.Web/bin/Debug/net10.0/wwwroot
-  ObserverMagazine.Web.Tests net10.0 succeeded (0.3s) → tests/ObserverMagazine.Web.Tests/bin/Debug/net10.0/ObserverMagazine.Web.Tests.dll
-[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.4)
-[xUnit.net 00:00:00.13]   Discovering: ObserverMagazine.Web.Tests
-[xUnit.net 00:00:00.28]   Discovered:  ObserverMagazine.Web.Tests
-[xUnit.net 00:00:00.42]   Starting:    ObserverMagazine.Web.Tests
-[xUnit.net 00:00:00.83]   Finished:    ObserverMagazine.Web.Tests (ID = '3bfa85c2f37e8d5c8068cb834c3ae337cb6e3533a98dd06391782e4f8f42ef98')
-  ObserverMagazine.Web.Tests test net10.0 succeeded (1.3s)
-
-Test summary: total: 29, failed: 0, succeeded: 29, skipped: 0, duration: 4.5s
-Build succeeded in 5.5s
-
-real	0m5.702s
-user	0m3.018s
-sys	0m0.424s
-Restore complete (0.5s)
-
-Build succeeded in 0.6s
-Project 'ObserverMagazine.Web' has the following package references
-   [net10.0]: 
-   Top-level Package                                        Requested      Resolved
-   > Microsoft.AspNetCore.App.Internal.Assets         (A)   [10.0.4, )     10.0.4  
-   > Microsoft.AspNetCore.Components.WebAssembly            10.0.5         10.0.5  
-   > Microsoft.DotNet.HotReload.WebAssembly.Browser   (A)   [10.0.104, )   10.0.104
-   > Microsoft.Extensions.Http                              10.0.5         10.0.5  
-   > Microsoft.Extensions.Logging.Configuration             10.0.5         10.0.5  
-   > Microsoft.NET.ILLink.Tasks                       (A)   [10.0.4, )     10.0.4  
-   > Microsoft.NET.Sdk.WebAssembly.Pack               (A)   [10.0.1, )     10.0.1  
-
-Project 'ObserverMagazine.Integration.Tests' has the following package references
-   [net10.0]: 
-   Top-level Package                Requested   Resolved
-   > Markdig                        1.1.1       1.1.1   
-   > Microsoft.NET.Test.Sdk         18.3.0      18.3.0  
-   > xunit.runner.visualstudio      3.1.5       3.1.5   
-   > xunit.v3                       3.2.2       3.2.2   
-   > YamlDotNet                     16.3.0      16.3.0  
-
-Project 'ObserverMagazine.Web.Tests' has the following package references
-   [net10.0]: 
-   Top-level Package                Requested   Resolved
-   > bunit                          2.6.2       2.6.2   
-   > Microsoft.NET.Test.Sdk         18.3.0      18.3.0  
-   > xunit.runner.visualstudio      3.1.5       3.1.5   
-   > xunit.v3                       3.2.2       3.2.2   
-
-Project 'ObserverMagazine.ContentProcessor' has the following package references
-   [net10.0]: 
-   Top-level Package      Requested   Resolved
-   > Markdig              1.1.1       1.1.1   
-   > YamlDotNet           16.3.0      16.3.0  
-
-(A) : Auto-referenced package.
-
-real	0m1.554s
-user	0m1.515s
-sys	0m0.337s
-Restore complete (0.5s)
-
-Build succeeded in 0.6s
-
-The following sources were used:
-   https://api.nuget.org/v3/index.json
-
-The given project `ObserverMagazine.Web` has no updates given the current sources.
-The given project `ObserverMagazine.Integration.Tests` has no updates given the current sources.
-The given project `ObserverMagazine.Web.Tests` has no updates given the current sources.
-The given project `ObserverMagazine.ContentProcessor` has no updates given the current sources.
-
-real	0m2.616s
-user	0m2.098s
-sys	0m0.430s
-🚀 Starting export of git-tracked files...
-📄 Adding: .github/workflows/deploy.yml
-📄 Adding: .github/workflows/pr-check.yml
-📄 Adding: .gitignore
-⏩ Skipping binary: .nojekyll
-📄 Adding: Directory.Build.props
-📄 Adding: Directory.Packages.props
-📄 Adding: ObserverMagazine.slnx
-📄 Adding: README.md
-📄 Adding: content/blog/2026-01-15-welcome-to-observer-magazine.md
-📄 Adding: content/blog/2026-02-20-getting-started-with-blazor-wasm.md
-📄 Adding: content/blog/2026-03-10-responsive-design-patterns.md
-📄 Adding: content/blog/2026-03-20-hello-world.md
-📄 Adding: content/blog/2026-03-21-aspnet-lifecycle-deep-dive.md
-📄 Adding: global.json
-📄 Adding: src/ObserverMagazine.Web/App.razor
-📄 Adding: src/ObserverMagazine.Web/Components/AuthorCard.razor
-📄 Adding: src/ObserverMagazine.Web/Components/AuthorCard.razor.css
-📄 Adding: src/ObserverMagazine.Web/Components/BlogTtsPlayer.razor
-📄 Adding: src/ObserverMagazine.Web/Components/BlogTtsPlayer.razor.css
-📄 Adding: src/ObserverMagazine.Web/Components/MasterDetail.razor
-📄 Adding: src/ObserverMagazine.Web/Components/MasterDetail.razor.css
-📄 Adding: src/ObserverMagazine.Web/Components/Reactions.razor
-📄 Adding: src/ObserverMagazine.Web/Components/Reactions.razor.css
-📄 Adding: src/ObserverMagazine.Web/Components/ResponsiveTable.razor
-📄 Adding: src/ObserverMagazine.Web/Components/ResponsiveTable.razor.css
-📄 Adding: src/ObserverMagazine.Web/Layout/MainLayout.razor
-📄 Adding: src/ObserverMagazine.Web/Layout/NavMenu.razor
-📄 Adding: src/ObserverMagazine.Web/Models/AuthorProfile.cs
-📄 Adding: src/ObserverMagazine.Web/Models/BlogPostMetadata.cs
-📄 Adding: src/ObserverMagazine.Web/Models/Product.cs
-📄 Adding: src/ObserverMagazine.Web/ObserverMagazine.Web.csproj
-📄 Adding: src/ObserverMagazine.Web/Pages/About.razor
-📄 Adding: src/ObserverMagazine.Web/Pages/Blog.razor
-📄 Adding: src/ObserverMagazine.Web/Pages/BlogPost.razor
-📄 Adding: src/ObserverMagazine.Web/Pages/Home.razor
-📄 Adding: src/ObserverMagazine.Web/Pages/Showcase.razor
-📄 Adding: src/ObserverMagazine.Web/Program.cs
-📄 Adding: src/ObserverMagazine.Web/Routes.razor
-📄 Adding: src/ObserverMagazine.Web/Services/AnalyticsService.cs
-📄 Adding: src/ObserverMagazine.Web/Services/BlogService.cs
-📄 Adding: src/ObserverMagazine.Web/Services/IAnalyticsService.cs
-📄 Adding: src/ObserverMagazine.Web/Services/IBlogService.cs
-📄 Adding: src/ObserverMagazine.Web/Services/TelemetryService.cs
-📄 Adding: src/ObserverMagazine.Web/_Imports.razor
-📄 Adding: src/ObserverMagazine.Web/wwwroot/404.html
-📄 Adding: src/ObserverMagazine.Web/wwwroot/css/app.css
-⏩ Skipping binary: src/ObserverMagazine.Web/wwwroot/images/authors/observer-team.png
-📄 Adding: src/ObserverMagazine.Web/wwwroot/images/authors/observer-team.txt
-📄 Adding: src/ObserverMagazine.Web/wwwroot/index.html
-📄 Adding: src/ObserverMagazine.Web/wwwroot/sample-data/products.json
-📄 Adding: tests/ObserverMagazine.Integration.Tests/ContentProcessorTests.cs
-📄 Adding: tests/ObserverMagazine.Integration.Tests/ObserverMagazine.Integration.Tests.csproj
-📄 Adding: tests/ObserverMagazine.Integration.Tests/RssGeneratorTests.cs
-📄 Adding: tests/ObserverMagazine.Web.Tests/Components/MasterDetailTests.cs
-📄 Adding: tests/ObserverMagazine.Web.Tests/Components/ResponsiveTableTests.cs
-📄 Adding: tests/ObserverMagazine.Web.Tests/ObserverMagazine.Web.Tests.csproj
-📄 Adding: tests/ObserverMagazine.Web.Tests/Services/BlogServiceTests.cs
-📄 Adding: tests/ObserverMagazine.Web.Tests/Services/NoOpAnalyticsService.cs
-📄 Adding: tools/ObserverMagazine.ContentProcessor/FrontMatterParser.cs
-📄 Adding: tools/ObserverMagazine.ContentProcessor/MarkdownProcessor.cs
-📄 Adding: tools/ObserverMagazine.ContentProcessor/ObserverMagazine.ContentProcessor.csproj
-📄 Adding: tools/ObserverMagazine.ContentProcessor/Program.cs
-📄 Adding: tools/ObserverMagazine.ContentProcessor/RssGenerator.cs
-📄 Adding: tools/generate_audio.py
-📄 Adding: tools/requirements-audio.txt
-
-✅ Export complete! 63 files written to docs/llm/dump.txt
-
-real	0m0.365s
-user	0m0.171s
-sys	0m0.219s
 kushal@fedora:~/src/dotnet/observermagazine.github.io$ cd /home/kushal/src/dotnet/observermagazine.github.io/; time dotnet format; time dotnet restore; dotnet run --project tools/ObserverMagazine.ContentProcessor -- --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot; time dotnet test; time dotnet list package; time dotnet list package --outdated; time bash export.sh;
 
-real	0m6.732s
-user	0m9.385s
-sys	0m0.840s
+real	0m7.430s
+user	0m9.941s
+sys	0m0.996s
 Restore complete (0.5s)
 
 Build succeeded in 0.6s
 
-real	0m0.730s
-user	0m0.751s
+real	0m0.765s
+user	0m0.818s
 sys	0m0.170s
 Content directory: content/blog
 Output directory:  src/ObserverMagazine.Web/wwwroot
 Authors directory: content/authors
-Publish before:    2026-03-22 02:02:31 UTC
+Publish before:    2026-03-22 11:27:37 UTC
 Authors directory 'content/authors' does not exist. No author profiles loaded.
 Wrote authors index: src/ObserverMagazine.Web/wwwroot/blog-data/authors.json (0 authors)
 Found 5 markdown files
@@ -227,26 +38,26 @@ Content processing complete.
 Restore complete (0.5s)
   ObserverMagazine.Integration.Tests net10.0 succeeded (0.4s) → tests/ObserverMagazine.Integration.Tests/bin/Debug/net10.0/ObserverMagazine.Integration.Tests.dll
 [xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.4)
-[xUnit.net 00:00:00.13]   Discovering: ObserverMagazine.Integration.Tests
-[xUnit.net 00:00:00.29]   Discovered:  ObserverMagazine.Integration.Tests
-[xUnit.net 00:00:00.44]   Starting:    ObserverMagazine.Integration.Tests
-[xUnit.net 00:00:00.67]   Finished:    ObserverMagazine.Integration.Tests (ID = 'a11f17fc47145796b425f2f6072a7236e3de3115aec6d32144ce1d1b834d5009')
-  ObserverMagazine.Integration.Tests test net10.0 succeeded (1.2s)
-  ObserverMagazine.Web net10.0 browser-wasm succeeded (3.2s) → src/ObserverMagazine.Web/bin/Debug/net10.0/wwwroot
+[xUnit.net 00:00:00.15]   Discovering: ObserverMagazine.Integration.Tests
+[xUnit.net 00:00:00.31]   Discovered:  ObserverMagazine.Integration.Tests
+[xUnit.net 00:00:00.48]   Starting:    ObserverMagazine.Integration.Tests
+[xUnit.net 00:00:00.73]   Finished:    ObserverMagazine.Integration.Tests (ID = 'a11f17fc47145796b425f2f6072a7236e3de3115aec6d32144ce1d1b834d5009')
+  ObserverMagazine.Integration.Tests test net10.0 succeeded (1.3s)
+  ObserverMagazine.Web net10.0 browser-wasm succeeded (3.3s) → src/ObserverMagazine.Web/bin/Debug/net10.0/wwwroot
   ObserverMagazine.Web.Tests net10.0 succeeded (0.3s) → tests/ObserverMagazine.Web.Tests/bin/Debug/net10.0/ObserverMagazine.Web.Tests.dll
 [xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.4)
-[xUnit.net 00:00:00.13]   Discovering: ObserverMagazine.Web.Tests
-[xUnit.net 00:00:00.28]   Discovered:  ObserverMagazine.Web.Tests
-[xUnit.net 00:00:00.42]   Starting:    ObserverMagazine.Web.Tests
-[xUnit.net 00:00:00.83]   Finished:    ObserverMagazine.Web.Tests (ID = '3bfa85c2f37e8d5c8068cb834c3ae337cb6e3533a98dd06391782e4f8f42ef98')
-  ObserverMagazine.Web.Tests test net10.0 succeeded (1.3s)
+[xUnit.net 00:00:00.14]   Discovering: ObserverMagazine.Web.Tests
+[xUnit.net 00:00:00.30]   Discovered:  ObserverMagazine.Web.Tests
+[xUnit.net 00:00:00.47]   Starting:    ObserverMagazine.Web.Tests
+[xUnit.net 00:00:00.88]   Finished:    ObserverMagazine.Web.Tests (ID = '3bfa85c2f37e8d5c8068cb834c3ae337cb6e3533a98dd06391782e4f8f42ef98')
+  ObserverMagazine.Web.Tests test net10.0 succeeded (1.4s)
 
-Test summary: total: 33, failed: 0, succeeded: 33, skipped: 0, duration: 4.5s
-Build succeeded in 5.5s
+Test summary: total: 33, failed: 0, succeeded: 33, skipped: 0, duration: 4.6s
+Build succeeded in 5.7s
 
-real	0m5.684s
-user	0m3.073s
-sys	0m0.432s
+real	0m5.862s
+user	0m3.115s
+sys	0m0.448s
 Restore complete (0.5s)
 
 Build succeeded in 0.6s
@@ -287,8 +98,8 @@ Project 'ObserverMagazine.ContentProcessor' has the following package references
 (A) : Auto-referenced package.
 
 real	0m1.523s
-user	0m1.502s
-sys	0m0.339s
+user	0m1.478s
+sys	0m0.346s
 Restore complete (0.5s)
 
 Build succeeded in 0.6s
@@ -301,9 +112,9 @@ The given project `ObserverMagazine.Integration.Tests` has no updates given the 
 The given project `ObserverMagazine.Web.Tests` has no updates given the current sources.
 The given project `ObserverMagazine.ContentProcessor` has no updates given the current sources.
 
-real	0m1.703s
-user	0m1.678s
-sys	0m0.342s
+real	0m2.834s
+user	0m2.069s
+sys	0m0.393s
 🚀 Starting export of git-tracked files...
 📄 Adding: .github/workflows/deploy.yml
 📄 Adding: .github/workflows/pr-check.yml
@@ -372,25 +183,25 @@ sys	0m0.342s
 
 ✅ Export complete! 62 files written to docs/llm/dump.txt
 
-real	0m0.333s
-user	0m0.158s
-sys	0m0.227s
+real	0m0.391s
+user	0m0.184s
+sys	0m0.226s
 kushal@fedora:~/src/dotnet/observermagazine.github.io$ cd /home/kushal/src/dotnet/observermagazine.github.io/; time dotnet format; time dotnet restore; dotnet run --project tools/ObserverMagazine.ContentProcessor -- --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot; time dotnet test; time dotnet list package; time dotnet list package --outdated; time bash export.sh;
 
-real	0m6.567s
-user	0m9.348s
-sys	0m0.852s
+real	0m6.642s
+user	0m9.171s
+sys	0m0.901s
 Restore complete (0.5s)
 
-Build succeeded in 0.6s
+Build succeeded in 0.7s
 
-real	0m0.728s
-user	0m0.774s
-sys	0m0.162s
+real	0m0.800s
+user	0m0.862s
+sys	0m0.153s
 Content directory: content/blog
 Output directory:  src/ObserverMagazine.Web/wwwroot
 Authors directory: content/authors
-Publish before:    2026-03-22 02:41:33 UTC
+Publish before:    2026-03-22 11:56:49 UTC
 Authors directory 'content/authors' does not exist. No author profiles loaded.
 Wrote authors index: src/ObserverMagazine.Web/wwwroot/blog-data/authors.json (0 authors)
 Found 5 markdown files
@@ -413,28 +224,28 @@ Wrote posts index: src/ObserverMagazine.Web/wwwroot/blog-data/posts-index.json (
 Wrote RSS feed: src/ObserverMagazine.Web/wwwroot/feed.xml
 Content processing complete.
 Restore complete (0.5s)
-  ObserverMagazine.Integration.Tests net10.0 succeeded (0.4s) → tests/ObserverMagazine.Integration.Tests/bin/Debug/net10.0/ObserverMagazine.Integration.Tests.dll
+  ObserverMagazine.Integration.Tests net10.0 succeeded (0.2s) → tests/ObserverMagazine.Integration.Tests/bin/Debug/net10.0/ObserverMagazine.Integration.Tests.dll
 [xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.4)
-[xUnit.net 00:00:00.15]   Discovering: ObserverMagazine.Integration.Tests
-[xUnit.net 00:00:00.31]   Discovered:  ObserverMagazine.Integration.Tests
-[xUnit.net 00:00:00.47]   Starting:    ObserverMagazine.Integration.Tests
-[xUnit.net 00:00:00.70]   Finished:    ObserverMagazine.Integration.Tests (ID = 'a11f17fc47145796b425f2f6072a7236e3de3115aec6d32144ce1d1b834d5009')
+[xUnit.net 00:00:00.14]   Discovering: ObserverMagazine.Integration.Tests
+[xUnit.net 00:00:00.30]   Discovered:  ObserverMagazine.Integration.Tests
+[xUnit.net 00:00:00.45]   Starting:    ObserverMagazine.Integration.Tests
+  ObserverMagazine.Web net10.0 browser-wasm succeeded (1.1s) → src/ObserverMagazine.Web/bin/Debug/net10.0/wwwroot
+[xUnit.net 00:00:00.68]   Finished:    ObserverMagazine.Integration.Tests (ID = 'a11f17fc47145796b425f2f6072a7236e3de3115aec6d32144ce1d1b834d5009')
+  ObserverMagazine.Web.Tests net10.0 succeeded (0.2s) → tests/ObserverMagazine.Web.Tests/bin/Debug/net10.0/ObserverMagazine.Web.Tests.dll
   ObserverMagazine.Integration.Tests test net10.0 succeeded (1.2s)
-  ObserverMagazine.Web net10.0 browser-wasm succeeded (3.3s) → src/ObserverMagazine.Web/bin/Debug/net10.0/wwwroot
-  ObserverMagazine.Web.Tests net10.0 succeeded (0.3s) → tests/ObserverMagazine.Web.Tests/bin/Debug/net10.0/ObserverMagazine.Web.Tests.dll
 [xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.4)
-[xUnit.net 00:00:00.15]   Discovering: ObserverMagazine.Web.Tests
-[xUnit.net 00:00:00.31]   Discovered:  ObserverMagazine.Web.Tests
-[xUnit.net 00:00:00.46]   Starting:    ObserverMagazine.Web.Tests
-[xUnit.net 00:00:00.89]   Finished:    ObserverMagazine.Web.Tests (ID = '3bfa85c2f37e8d5c8068cb834c3ae337cb6e3533a98dd06391782e4f8f42ef98')
-  ObserverMagazine.Web.Tests test net10.0 succeeded (1.5s)
+[xUnit.net 00:00:00.12]   Discovering: ObserverMagazine.Web.Tests
+[xUnit.net 00:00:00.27]   Discovered:  ObserverMagazine.Web.Tests
+[xUnit.net 00:00:00.41]   Starting:    ObserverMagazine.Web.Tests
+[xUnit.net 00:00:00.81]   Finished:    ObserverMagazine.Web.Tests (ID = '3bfa85c2f37e8d5c8068cb834c3ae337cb6e3533a98dd06391782e4f8f42ef98')
+  ObserverMagazine.Web.Tests test net10.0 succeeded (1.3s)
 
-Test summary: total: 33, failed: 0, succeeded: 33, skipped: 0, duration: 4.7s
-Build succeeded in 5.8s
+Test summary: total: 33, failed: 0, succeeded: 33, skipped: 0, duration: 2.4s
+Build succeeded in 3.3s
 
-real	0m5.972s
-user	0m3.356s
-sys	0m0.414s
+real	0m3.454s
+user	0m2.099s
+sys	0m0.392s
 Restore complete (0.5s)
 
 Build succeeded in 0.6s
@@ -474,9 +285,9 @@ Project 'ObserverMagazine.ContentProcessor' has the following package references
 
 (A) : Auto-referenced package.
 
-real	0m1.526s
-user	0m1.517s
-sys	0m0.339s
+real	0m1.506s
+user	0m1.485s
+sys	0m0.332s
 Restore complete (0.5s)
 
 Build succeeded in 0.6s
@@ -489,9 +300,9 @@ The given project `ObserverMagazine.Integration.Tests` has no updates given the 
 The given project `ObserverMagazine.Web.Tests` has no updates given the current sources.
 The given project `ObserverMagazine.ContentProcessor` has no updates given the current sources.
 
-real	0m2.777s
-user	0m2.100s
-sys	0m0.395s
+real	0m1.733s
+user	0m1.709s
+sys	0m0.339s
 🚀 Starting export of git-tracked files...
 📄 Adding: .github/workflows/deploy.yml
 📄 Adding: .github/workflows/pr-check.yml
@@ -560,8 +371,7 @@ sys	0m0.395s
 
 ✅ Export complete! 62 files written to docs/llm/dump.txt
 
-real	0m0.320s
-user	0m0.189s
-sys	0m0.201s
+real	0m0.339s
+user	0m0.180s
+sys	0m0.217s
 kushal@fedora:~/src/dotnet/observermagazine.github.io$ 
-

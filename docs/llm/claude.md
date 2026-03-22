@@ -10628,3 +10628,99 @@ rm src/ObserverMagazine.Web/Routes.razor
 
 13
 15
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+00
+15
+I still have multiple issues. 
+1. The Listen to this post still does not work on chrome on Android. It does work on Chrome on Fedora Linux though. 
+2. Is it `author: observer-team`. 
+I don't see it link anywhere. 
+I added an image to 
+`/home/kushal/src/dotnet/observermagazine.github.io/src/ObserverMagazine.Web/wwwroot/images/authors/observer-team.png`. 
+Is there a yaml page missing?
+Please make sure dump is not missing any essential files. 
+Also, I will need to add my personal name at some point. 
+Also, we need to somehow allow code in any of multiple programming languages in the blog. How can we implement syntax highlighting that works across the different color themes? does it already exist? I really need the website to be accessible first. function over form but I still want the website to look nice as well. 
+What we have now is good but we need to make sure it stays good as we add more posts. 
+the page should not scroll side to side or be janky on mobile or tablets or anywhere actually 
+also, I feel like not as much of the css has been scoped as it should be. 
+if some css can be scoped to just a razor.css it should be 
+it helps us reduce our blast radius
+also the speed at which the woman speaks is too slow 
+we should speed it up a little if possible
+it should still be easy to understand though. 
+for example, `An ASP.NET` is not quite easy to understand already even though the speed of speech is slow overall. 
+3. Please make a sample post in draft mode so I can easily copy paste it as a template 
+4. Please make a sample post with a future date like 2027-01-01 wishing a happy new year. make it long and thorough and comprehensive. 
+5. Update the showcase to combine the responsive table and the master detail with crud flow. Add a lot more data points for each item and add a lot more items by default. We want to show pagination on the data table and also users should be able to pick and choose which columns they want to see. also in addition to being able to sort, they should also be able to filter on each column or on a combination of multiple columns, finally to combine the master detail flow, we need to take users to a different screen when they want to view or edit a particular item in the table. we should do this in a SPA way. We still save all the data in the local storage or something like that and we still want to be able to create / edit / view / delete individual entries. There should be at least two thousand entries here by default and we should set default pagination to twenty but users should be able to change the page size in a dropdown. this table with integrated master detail flow is a technological master piece and we should show something that ecommerce website often get wrong. we should do things right because we don't have legacy code or data to be compatible with, the sky is the limit! Make sure you implement reasonable features for example, we don't want to implement exact match for things like price or stock. usually people want stock 20 or more. they don't care if we have 24 or 25. it is the same. similarly for pricing. the filter by name is good. when I type `at` it shows `Desk Mat XL` which is correct. Don't forget the detail view where we can edit each item individually. 
+6. fix any other defect you see as you read the dump.txt carefully. Make sure you fix all the tests as you edit the code. Add as much unit tests as possible. Please do NOT hallucinate. The build should succeed. All tests should pass. The pipelines should work. Please and thank you. 
+
