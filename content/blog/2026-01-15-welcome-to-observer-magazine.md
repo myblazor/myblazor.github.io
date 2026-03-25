@@ -3,7 +3,6 @@ title: Welcome to Observer Magazine
 date: 2026-01-15
 author: observer-team
 summary: Our first post — introducing Observer Magazine and what we're building.
-featured: true
 tags:
   - announcement
   - introduction
