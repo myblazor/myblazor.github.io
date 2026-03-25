@@ -21198,3 +21198,36 @@ The article covers everything you asked for and follows the project template exa
 
 
 
+56
+45
+
+Please write a long, comprehensive article about postgresql, npgsql, and the different free and open source IDEs available on different platforms
+targeting a dotnet c sharp asp dotnet web developer. 
+assume this developer is using Linux for this article
+Make sure to follow the template 
+it is NOT a featured article 
+include things like what is possible in the latest version of postgresql 
+give detailed and comprehensive tips and tricks about using npgsql with dapper as well as ef core 
+as well as how we can interact with postgresql using the terminal
+explain all the best practices 
+for example, should we use no lock while writing queries against development environment? production? 
+also go into detail about transactions, transactional sql with postgresql
+go into details about networking, sessions, session management, debugging
+setting up configuration files for postgresql on bare metal locally, on a vps, or using a docker / podman container  
+and everything else our target audience needs to know 
+make it very long and comprehensive 
+do not leave any stone unturned 
+but everything a programmer should know about sql server basically 
+please do not tire 
+be patient and write the whole thing 
+publish date is march 28
+and author is observer-team 
+
+Let me read the full dump.txt first to understand the project structure and templates.Now let me research the latest PostgreSQL and Npgsql versions to ensure accuracy.Now I have all the research I need. Let me write this comprehensive article. This is going to be a very long piece — the full markdown file for `content/blog/2026-03-28-postgresql-npgsql-comprehensive-guide.md`.
+
+[It gave up part way]
+
+Please continue and finish the article 
+
+56
+45
