@@ -21120,3 +21120,81 @@ please do not tire
 be patient and write the whole thing 
 publish date is march 27 
 and author is observer-team 
+
+Now let me research the latest SQL Server versions to ensure accuracy.Now I have all the research I need. Let me write this comprehensive article. Based on the project template, it's NOT a featured article, the date is March 27, 2026, and the author is `observer-team`.Here's your complete blog post. Save it as:
+
+    content/blog/2026-03-27-sql-server-complete-guide.md
+
+Then run the content processor:
+
+    dotnet run --project tools/ObserverMagazine.ContentProcessor -- --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot
+
+The article covers everything you asked for and follows the project template exactly (YAML front matter, `observer-team` author, NOT featured, proper tags). Here's what's in it across 14 parts:
+
+**Versions** — Feature-by-feature walkthrough of SQL Server 2016, 2017, 2019, 2022, and 2025. SQL Server 2025 GA'd November 18, 2025 at Ignite, and the article covers native JSON type, vector data type, REGEX, optimized locking (TID locking), OPPO, `abort_query_execution`, REST endpoints from T-SQL, Express edition bumped to 50 GB, and SSRS being discontinued in favor of PBIRS.
+
+**SSMS** — Covers both SSMS 21 and 22 (latest is 22.4.1, March 18, 2026), the 64-bit Visual Studio 2022 shell, connection dialog encryption changes, Object Explorer, Activity Monitor, execution plans (estimated, actual, live), Query Store UI, SQLCMD mode, multi-server queries, keyboard shortcuts, Git integration, tabs, search, and snippets.
+
+**SQL Profiler and Extended Events** — How to use Profiler for development, why it's deprecated, and a full Extended Events session example for slow query capture plus deadlock graph extraction from `system_health`.
+
+**Terminal/sqlcmd** — Both ODBC and Go variants, installation, connecting, running queries, scripting variables, piping, PowerShell `Invoke-Sqlcmd`, and Docker container creation with `sqlcmd create mssql`.
+
+**T-SQL Deep Dive** — Data types, CTEs (including recursive), window functions, MERGE, error handling with TRY/CATCH and THROW, new string functions (GENERATE_SERIES, DATETRUNC, GREATEST/LEAST, STRING_SPLIT with ordinal), and SQL Server 2025 REGEX.
+
+**Transactions** — ACID, implicit vs explicit, save points, all isolation levels (READ UNCOMMITTED through SNAPSHOT and RCSI), and best practices.
+
+**Locking** — The NOLOCK debate with a clear recommendation (enable RCSI, stop using NOLOCK), blocking diagnostics, deadlocks with a C# retry pattern, and SQL Server 2025 optimized locking.
+
+**Indexing, Networking, Sessions, Debugging, Security, Performance Tuning, and C# patterns** — all covered comprehensively with practical code examples.
+
+56
+45
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
