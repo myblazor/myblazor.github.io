@@ -22198,3 +22198,1090 @@ Two files need to change: `app.css` (global styles + hljs tokens) and `BlogPost.
 
 
 
+25
+84
+
+Please write a long and comprehensive prompt where I can provide a topic 
+and I get a long and comprehensive article with all the details 
+as we have discussed in previous blog posts 
+
+I've read through the full project knowledge — the dump.txt, all existing articles, front matter schema, conventions, and writing style. Here's your reusable prompt template:Here's your reusable prompt template. It captures everything I've learned from the existing articles and project conventions:
+
+**What it includes:**
+
+The template has the complete prompt text with `[BRACKETED]` placeholders you fill in for each new article. It covers the front matter schema (with the critical `observer-team` hyphenated ID rule, the featured flag convention), the writing style requirements (exhaustive length, code examples in all relevant languages, anecdotes, numbered parts structure), web search verification requirements, the file naming convention, and the delivery format.
+
+There's also a filled-in example showing what a completed prompt looks like for a hypothetical Docker/Podman article, plus a quick-reference list of all tags already used across your existing blog posts for consistency.
+
+**How to use it:** Copy everything from the "The Prompt" section, fill in your topic, key areas, date, and featured preference, then paste it into a new conversation alongside your dump.txt project knowledge. The writing requirements section ensures the output matches the style and depth of your existing articles (the 30–48 minute read monsters like the SQL Server and PostgreSQL guides).
+
+# Observer Magazine — Blog Article Generation Prompt
+
+Copy everything below the line, fill in the `[BRACKETED]` placeholders, and paste it as your prompt.
+
+---
+
+## The Prompt
+
+```
+Please read the FULL dump.txt in its entirety. Do not skim it. Do not search for keywords in it. Read the whole thing.
+
+If any file needs changing, always return the FULL file so it is easy to copy paste.
+Please do not hallucinate.
+Take some more time up front to save time and effort for the humans.
+When in doubt, use your best judgment.
+Use best engineering practices within the limits of this project.
+
+Write a long, comprehensive blog article for Observer Magazine on the following topic:
+
+**Topic**: [DESCRIBE THE TOPIC HERE — be as specific or as broad as you want]
+
+**Key areas to cover** (adjust as needed):
+- [AREA 1 — e.g., "history and evolution of the technology"]
+- [AREA 2 — e.g., "getting started from scratch, assume no prior knowledge"]
+- [AREA 3 — e.g., "advanced features and configuration options"]
+- [AREA 4 — e.g., "best practices for production use"]
+- [AREA 5 — e.g., "common pitfalls and how to avoid them"]
+- [AREA 6 — e.g., "comparison with alternatives"]
+- [ADD OR REMOVE AREAS AS NEEDED]
+
+**Publish date**: [YYYY-MM-DD]
+**Author**: observer-team
+**Featured**: [YES if you want `featured: true` in front matter, otherwise NO — and if NO, omit the featured line entirely from the front matter]
+
+## Writing requirements
+
+Follow these rules exactly. They are non-negotiable:
+
+### Front matter format
+The file MUST start with YAML front matter in this exact schema:
+```yaml
+---
+title: "[A descriptive, compelling title — can include a subtitle after a colon]"
+date: [YYYY-MM-DD]
+author: observer-team
+summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
+tags:
+  - [tag1]
+  - [tag2]
+  - [tag3-etc]
+---
+```
+
+CRITICAL front matter rules:
+- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
+- If the article IS featured, include `featured: true`.
+- Do NOT include `draft: true` unless I explicitly ask for a draft.
+- Tags should be lowercase, hyphenated (e.g., `aspnet`, `best-practices`, `deep-dive`).
+
+### File naming
+The output file should be saved as: `content/blog/[YYYY-MM-DD]-[slug].md`
+where `[slug]` is a short, hyphenated, lowercase description of the article (e.g., `typescript-comprehensive-guide`, `sql-server-complete-guide`).
+
+### Writing style and structure
+
+1. **Be exhaustive.** This is a long-form technical article. Do not summarize. Do not truncate. Do not say "and so on" or "etc." Cover every relevant detail. If you are writing about a technology with 30 configuration options, cover all 30. If there are 8 major versions, cover all 8. The target length is 5,000–15,000+ words depending on topic scope.
+
+2. **Be patient.** Do not tire. Do not rush the ending. The conclusion should be as thoughtful as the introduction. If the article needs 12 major sections, write all 12 with equal depth and care.
+
+3. **Target audience.** The primary reader is a .NET / C# / ASP.NET web developer. You can assume basic C# syntax literacy and web development knowledge. Do NOT assume familiarity with the specific topic being covered — explain everything from first principles, then build up to advanced material.
+
+4. **Code examples are mandatory.** Include real, working code examples throughout. Not just C# — include whatever is relevant: SQL, YAML, JSON, bash commands, configuration files, AXAML, TypeScript, etc. Code examples should be complete enough to copy-paste and run (or at least understand in context), not pseudocode snippets.
+
+5. **Use anecdotes and analogies.** Start sections with relatable scenarios. Compare unfamiliar concepts to things the reader already knows. Use concrete examples ("imagine you are building a blog engine" or "picture a Thursday afternoon deploy") rather than abstract descriptions.
+
+6. **Structure with numbered parts.** Organize the article into clearly titled parts (Part 1, Part 2, etc.) using `##` headers. Use `###` for subsections within parts. This helps readers navigate and bookmark.
+
+7. **Cite your sources.** When stating version numbers, release dates, performance claims, or statistics, verify them with web search first. If something has changed since your knowledge cutoff, search for the current state. Do not guess at version numbers or release dates.
+
+8. **Include practical recommendations.** Don't just describe — advise. Tell the reader what to do, what to avoid, and why. Include "do this, not that" comparisons where appropriate.
+
+9. **End with resources.** Close with a short list of official documentation links, GitHub repos, or other authoritative references the reader can follow up on.
+
+### What to verify via web search before writing
+- Current stable version numbers of all technologies mentioned
+- Release dates for major versions
+- Any breaking changes or deprecations in recent releases
+- Performance benchmarks or statistics you plan to cite
+- Correct URLs for documentation and resources
+
+### Delivery format
+Return the complete article as a single markdown artifact. The artifact should contain the FULL file content — from the opening `---` of the front matter to the last line of the article. No truncation. No "continued in next message." The entire article in one artifact.
+
+After saving the file, I will run:
+```bash
+dotnet run --project tools/ObserverMagazine.ContentProcessor -- \
+  --content-dir content/blog \
+  --output-dir src/ObserverMagazine.Web/wwwroot \
+  --authors-dir content/authors
+dotnet test
+```
+```
+
+---
+
+## Example: Filled-in prompt
+
+Here's what a completed prompt looks like (you'd paste this into a new conversation):
+
+```
+Please read the FULL dump.txt in its entirety. Do not skim it. Do not search for keywords in it. Read the whole thing.
+
+If any file needs changing, always return the FULL file so it is easy to copy paste.
+Please do not hallucinate.
+Take some more time up front to save time and effort for the humans.
+When in doubt, use your best judgment.
+Use best engineering practices within the limits of this project.
+
+Write a long, comprehensive blog article for Observer Magazine on the following topic:
+
+**Topic**: Docker and Podman for .NET developers — containerizing ASP.NET applications from development through production
+
+**Key areas to cover**:
+- What containers are and why they matter (assume no prior container knowledge)
+- Docker vs Podman — differences, trade-offs, rootless containers
+- Writing Dockerfiles for .NET 10 applications (multi-stage builds, layer caching)
+- Docker Compose for local development (SQL Server, PostgreSQL, Redis, your app)
+- Container orchestration basics (Kubernetes concepts without going down the rabbit hole)
+- CI/CD with containers (GitHub Actions building and pushing images)
+- Security best practices (non-root users, minimal base images, vulnerability scanning)
+- Debugging containerized .NET apps (attaching debuggers, viewing logs, exec into running containers)
+- Performance tuning (.NET container-specific GC settings, memory limits, CPU limits)
+- Common pitfalls (timezone issues, culture settings, file permissions, signal handling)
+
+**Publish date**: 2026-04-01
+**Author**: observer-team
+**Featured**: NO
+
+[...rest of the writing requirements from above...]
+```
+
+---
+
+## Quick-reference: Tags used in existing articles
+
+For consistency, here are tags already in use across the blog:
+
+- `dotnet`, `aspnet`, `csharp`, `blazor`
+- `typescript`, `javascript`, `web-development`
+- `sql-server`, `postgresql`, `database`, `npgsql`, `dapper`, `efcore`
+- `git`, `version-control`, `trunk-based-development`
+- `avalonia`, `desktop`, `cross-platform`, `mobile`
+- `testing`, `qa`, `best-practices`, `software-engineering`
+- `cloud`, `ai`, `architecture`, `resilience`
+- `ssms`, `t-sql`, `linux`
+- `tutorial`, `deep-dive`, `opinion`
+- `announcement`, `introduction`, `new-year`, `retrospective`, `predictions`
+- `programming-languages`, `open-source`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+29
+84
+
+Please read the FULL dump.txt in its entirety. Do not skim it. Do not search for keywords in it. Read the whole thing.
+
+If any file needs changing, always return the FULL file so it is easy to copy paste.
+Please do not hallucinate.
+Take some more time up front to save time and effort for the humans.
+When in doubt, use your best judgment.
+Use best engineering practices within the limits of this project.
+
+Write a long, comprehensive blog article for Observer Magazine on the following topic:
+
+**Topic**: SOLID principles, all five of them in full detail 
+
+**Key areas to cover** (this may differ based on subject matter, use your best judgment):
+- [AREA 1 — e.g., "history and evolution of the technology"]
+- [AREA 2 — e.g., "getting started from scratch, assume no prior knowledge"]
+- [AREA 3 — e.g., "advanced features and configuration options"]
+- [AREA 4 — e.g., "best practices for production use"]
+- [AREA 5 — e.g., "common pitfalls and how to avoid them"]
+- [AREA 6 — e.g., "comparison with alternatives"]
+- [ADD OR REMOVE AREAS AS NEEDED]
+
+**Publish date**: [YYYY-MM-DD]
+**Author**: observer-team
+
+## Writing requirements
+
+Follow these rules exactly. They are non-negotiable:
+
+### Front matter format
+The file MUST start with YAML front matter in this exact schema:
+```yaml
+---
+title: "[A descriptive, compelling title — can include a subtitle after a colon]"
+date: [YYYY-MM-DD]
+author: observer-team
+summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
+tags:
+  - [tag1]
+  - [tag2]
+  - [tag3-etc]
+---
+```
+
+CRITICAL front matter rules:
+- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
+- If the article IS featured, include `featured: true`.
+- Do NOT include `draft: true` unless I explicitly ask for a draft.
+- Tags should be lowercase, hyphenated (e.g., `aspnet`, `best-practices`, `deep-dive`).
+
+### File naming
+The output file should be saved as: `content/blog/[YYYY-MM-DD]-[slug].md`
+where `[slug]` is a short, hyphenated, lowercase description of the article (e.g., `typescript-comprehensive-guide`, `sql-server-complete-guide`).
+
+### Writing style and structure
+
+1. **Be exhaustive.** This is a long-form technical article. Do not summarize. Do not truncate. Do not say "and so on" or "etc." Cover every relevant detail. If you are writing about a technology with 30 configuration options, cover all 30. If there are 8 major versions, cover all 8. The target length is 5,000–15,000+ words depending on topic scope.
+
+2. **Be patient.** Do not tire. Do not rush the ending. The conclusion should be as thoughtful as the introduction. If the article needs 12 major sections, write all 12 with equal depth and care.
+
+3. **Target audience.** The primary reader is a .NET / C# / ASP.NET web developer. You can assume basic C# syntax literacy and web development knowledge. Do NOT assume familiarity with the specific topic being covered — explain everything from first principles, then build up to advanced material.
+
+4. **Code examples are mandatory.** Include real, working code examples throughout. Not just C# — include whatever is relevant: SQL, YAML, JSON, bash commands, configuration files, AXAML, TypeScript, etc. Code examples should be complete enough to copy-paste and run (or at least understand in context), not pseudocode snippets.
+
+5. **Use anecdotes and analogies.** Start sections with relatable scenarios. Compare unfamiliar concepts to things the reader already knows. Use concrete examples ("imagine you are building a blog engine" or "picture a Thursday afternoon deploy") rather than abstract descriptions.
+
+6. **Structure with numbered parts.** Organize the article into clearly titled parts (Part 1, Part 2, etc.) using `##` headers. Use `###` for subsections within parts. This helps readers navigate and bookmark.
+
+7. **Cite your sources.** When stating version numbers, release dates, performance claims, or statistics, verify them with web search first. If something has changed since your knowledge cutoff, search for the current state. Do not guess at version numbers or release dates.
+
+8. **Include practical recommendations.** Don't just describe — advise. Tell the reader what to do, what to avoid, and why. Include "do this, not that" comparisons where appropriate.
+
+9. **End with resources.** Close with a short list of official documentation links, GitHub repos, or other authoritative references the reader can follow up on.
+
+### What to verify via web search before writing
+- Current stable version numbers of all technologies mentioned
+- Release dates for major versions
+- Any breaking changes or deprecations in recent releases
+- Performance benchmarks or statistics you plan to cite
+- Correct URLs for documentation and resources
+
+### Delivery format
+Return the complete article as a single markdown artifact. The artifact should contain the FULL file content — from the opening `---` of the front matter to the last line of the article. No truncation. No "continued in next message." The entire article in one artifact.
+
+After saving the file, I will 
+simply commit this new markdown file and push it 
+for github actions to do its thing. 
+
+
+
+
+
+
+
+
+
+
+Please read the FULL dump.txt in its entirety. Do not skim it. Do not search for keywords in it. Read the whole thing.
+
+If any file needs changing, always return the FULL file so it is easy to copy paste.
+Please do not hallucinate.
+Take some more time up front to save time and effort for the humans.
+When in doubt, use your best judgment.
+Use best engineering practices within the limits of this project.
+
+Write a long, comprehensive blog article for Observer Magazine on the following topic:
+
+**Topic**: single responsibility principle 
+
+**Key areas to cover** (this may differ based on subject matter, use your best judgment):
+- [AREA 1 — e.g., "history and evolution of the technology"]
+- [AREA 2 — e.g., "getting started from scratch, assume no prior knowledge"]
+- [AREA 3 — e.g., "advanced features and configuration options"]
+- [AREA 4 — e.g., "best practices for production use"]
+- [AREA 5 — e.g., "common pitfalls and how to avoid them"]
+- [AREA 6 — e.g., "comparison with alternatives"]
+- [ADD OR REMOVE AREAS AS NEEDED]
+
+**Publish date**: [YYYY-MM-DD]
+**Author**: observer-team
+
+## Writing requirements
+
+Follow these rules exactly. They are non-negotiable:
+
+### Front matter format
+The file MUST start with YAML front matter in this exact schema:
+```yaml
+---
+title: "[A descriptive, compelling title — can include a subtitle after a colon]"
+date: [YYYY-MM-DD]
+author: observer-team
+summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
+tags:
+  - [tag1]
+  - [tag2]
+  - [tag3-etc]
+---
+```
+
+CRITICAL front matter rules:
+- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
+- If the article IS featured, include `featured: true`.
+- Do NOT include `draft: true` unless I explicitly ask for a draft.
+- Tags should be lowercase, hyphenated (e.g., `aspnet`, `best-practices`, `deep-dive`).
+
+### File naming
+The output file should be saved as: `content/blog/[YYYY-MM-DD]-[slug].md`
+where `[slug]` is a short, hyphenated, lowercase description of the article (e.g., `typescript-comprehensive-guide`, `sql-server-complete-guide`).
+
+### Writing style and structure
+
+1. **Be exhaustive.** This is a long-form technical article. Do not summarize. Do not truncate. Do not say "and so on" or "etc." Cover every relevant detail. If you are writing about a technology with 30 configuration options, cover all 30. If there are 8 major versions, cover all 8. The target length is 5,000–15,000+ words depending on topic scope.
+
+2. **Be patient.** Do not tire. Do not rush the ending. The conclusion should be as thoughtful as the introduction. If the article needs 12 major sections, write all 12 with equal depth and care.
+
+3. **Target audience.** The primary reader is a .NET / C# / ASP.NET web developer. You can assume basic C# syntax literacy and web development knowledge. Do NOT assume familiarity with the specific topic being covered — explain everything from first principles, then build up to advanced material.
+
+4. **Code examples are mandatory.** Include real, working code examples throughout. Not just C# — include whatever is relevant: SQL, YAML, JSON, bash commands, configuration files, AXAML, TypeScript, etc. Code examples should be complete enough to copy-paste and run (or at least understand in context), not pseudocode snippets.
+
+5. **Use anecdotes and analogies.** Start sections with relatable scenarios. Compare unfamiliar concepts to things the reader already knows. Use concrete examples ("imagine you are building a blog engine" or "picture a Thursday afternoon deploy") rather than abstract descriptions.
+
+6. **Structure with numbered parts.** Organize the article into clearly titled parts (Part 1, Part 2, etc.) using `##` headers. Use `###` for subsections within parts. This helps readers navigate and bookmark.
+
+7. **Cite your sources.** When stating version numbers, release dates, performance claims, or statistics, verify them with web search first. If something has changed since your knowledge cutoff, search for the current state. Do not guess at version numbers or release dates.
+
+8. **Include practical recommendations.** Don't just describe — advise. Tell the reader what to do, what to avoid, and why. Include "do this, not that" comparisons where appropriate.
+
+9. **End with resources.** Close with a short list of official documentation links, GitHub repos, or other authoritative references the reader can follow up on.
+
+### What to verify via web search before writing
+- Current stable version numbers of all technologies mentioned
+- Release dates for major versions
+- Any breaking changes or deprecations in recent releases
+- Performance benchmarks or statistics you plan to cite
+- Correct URLs for documentation and resources
+
+### Delivery format
+Return the complete article as a single markdown artifact. The artifact should contain the FULL file content — from the opening `---` of the front matter to the last line of the article. No truncation. No "continued in next message." The entire article in one artifact.
+
+After saving the file, I will 
+simply commit this new markdown file and push it 
+for github actions to do its thing. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+Please read the FULL dump.txt in its entirety. Do not skim it. Do not search for keywords in it. Read the whole thing.
+
+If any file needs changing, always return the FULL file so it is easy to copy paste.
+Please do not hallucinate.
+Take some more time up front to save time and effort for the humans.
+When in doubt, use your best judgment.
+Use best engineering practices within the limits of this project.
+
+Write a long, comprehensive blog article for Observer Magazine on the following topic:
+
+**Topic**: open closed principle 
+
+**Key areas to cover** (this may differ based on subject matter, use your best judgment):
+- [AREA 1 — e.g., "history and evolution of the technology"]
+- [AREA 2 — e.g., "getting started from scratch, assume no prior knowledge"]
+- [AREA 3 — e.g., "advanced features and configuration options"]
+- [AREA 4 — e.g., "best practices for production use"]
+- [AREA 5 — e.g., "common pitfalls and how to avoid them"]
+- [AREA 6 — e.g., "comparison with alternatives"]
+- [ADD OR REMOVE AREAS AS NEEDED]
+
+**Publish date**: [YYYY-MM-DD]
+**Author**: observer-team
+
+## Writing requirements
+
+Follow these rules exactly. They are non-negotiable:
+
+### Front matter format
+The file MUST start with YAML front matter in this exact schema:
+```yaml
+---
+title: "[A descriptive, compelling title — can include a subtitle after a colon]"
+date: [YYYY-MM-DD]
+author: observer-team
+summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
+tags:
+  - [tag1]
+  - [tag2]
+  - [tag3-etc]
+---
+```
+
+CRITICAL front matter rules:
+- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
+- If the article IS featured, include `featured: true`.
+- Do NOT include `draft: true` unless I explicitly ask for a draft.
+- Tags should be lowercase, hyphenated (e.g., `aspnet`, `best-practices`, `deep-dive`).
+
+### File naming
+The output file should be saved as: `content/blog/[YYYY-MM-DD]-[slug].md`
+where `[slug]` is a short, hyphenated, lowercase description of the article (e.g., `typescript-comprehensive-guide`, `sql-server-complete-guide`).
+
+### Writing style and structure
+
+1. **Be exhaustive.** This is a long-form technical article. Do not summarize. Do not truncate. Do not say "and so on" or "etc." Cover every relevant detail. If you are writing about a technology with 30 configuration options, cover all 30. If there are 8 major versions, cover all 8. The target length is 5,000–15,000+ words depending on topic scope.
+
+2. **Be patient.** Do not tire. Do not rush the ending. The conclusion should be as thoughtful as the introduction. If the article needs 12 major sections, write all 12 with equal depth and care.
+
+3. **Target audience.** The primary reader is a .NET / C# / ASP.NET web developer. You can assume basic C# syntax literacy and web development knowledge. Do NOT assume familiarity with the specific topic being covered — explain everything from first principles, then build up to advanced material.
+
+4. **Code examples are mandatory.** Include real, working code examples throughout. Not just C# — include whatever is relevant: SQL, YAML, JSON, bash commands, configuration files, AXAML, TypeScript, etc. Code examples should be complete enough to copy-paste and run (or at least understand in context), not pseudocode snippets.
+
+5. **Use anecdotes and analogies.** Start sections with relatable scenarios. Compare unfamiliar concepts to things the reader already knows. Use concrete examples ("imagine you are building a blog engine" or "picture a Thursday afternoon deploy") rather than abstract descriptions.
+
+6. **Structure with numbered parts.** Organize the article into clearly titled parts (Part 1, Part 2, etc.) using `##` headers. Use `###` for subsections within parts. This helps readers navigate and bookmark.
+
+7. **Cite your sources.** When stating version numbers, release dates, performance claims, or statistics, verify them with web search first. If something has changed since your knowledge cutoff, search for the current state. Do not guess at version numbers or release dates.
+
+8. **Include practical recommendations.** Don't just describe — advise. Tell the reader what to do, what to avoid, and why. Include "do this, not that" comparisons where appropriate.
+
+9. **End with resources.** Close with a short list of official documentation links, GitHub repos, or other authoritative references the reader can follow up on.
+
+### What to verify via web search before writing
+- Current stable version numbers of all technologies mentioned
+- Release dates for major versions
+- Any breaking changes or deprecations in recent releases
+- Performance benchmarks or statistics you plan to cite
+- Correct URLs for documentation and resources
+
+### Delivery format
+Return the complete article as a single markdown artifact. The artifact should contain the FULL file content — from the opening `---` of the front matter to the last line of the article. No truncation. No "continued in next message." The entire article in one artifact.
+
+After saving the file, I will 
+simply commit this new markdown file and push it 
+for github actions to do its thing. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+Please read the FULL dump.txt in its entirety. Do not skim it. Do not search for keywords in it. Read the whole thing.
+
+If any file needs changing, always return the FULL file so it is easy to copy paste.
+Please do not hallucinate.
+Take some more time up front to save time and effort for the humans.
+When in doubt, use your best judgment.
+Use best engineering practices within the limits of this project.
+
+Write a long, comprehensive blog article for Observer Magazine on the following topic:
+
+**Topic**: Liskov Substitution principle 
+
+**Key areas to cover** (this may differ based on subject matter, use your best judgment):
+- [AREA 1 — e.g., "history and evolution of the technology"]
+- [AREA 2 — e.g., "getting started from scratch, assume no prior knowledge"]
+- [AREA 3 — e.g., "advanced features and configuration options"]
+- [AREA 4 — e.g., "best practices for production use"]
+- [AREA 5 — e.g., "common pitfalls and how to avoid them"]
+- [AREA 6 — e.g., "comparison with alternatives"]
+- [ADD OR REMOVE AREAS AS NEEDED]
+
+**Publish date**: [YYYY-MM-DD]
+**Author**: observer-team
+
+## Writing requirements
+
+Follow these rules exactly. They are non-negotiable:
+
+### Front matter format
+The file MUST start with YAML front matter in this exact schema:
+```yaml
+---
+title: "[A descriptive, compelling title — can include a subtitle after a colon]"
+date: [YYYY-MM-DD]
+author: observer-team
+summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
+tags:
+  - [tag1]
+  - [tag2]
+  - [tag3-etc]
+---
+```
+
+CRITICAL front matter rules:
+- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
+- If the article IS featured, include `featured: true`.
+- Do NOT include `draft: true` unless I explicitly ask for a draft.
+- Tags should be lowercase, hyphenated (e.g., `aspnet`, `best-practices`, `deep-dive`).
+
+### File naming
+The output file should be saved as: `content/blog/[YYYY-MM-DD]-[slug].md`
+where `[slug]` is a short, hyphenated, lowercase description of the article (e.g., `typescript-comprehensive-guide`, `sql-server-complete-guide`).
+
+### Writing style and structure
+
+1. **Be exhaustive.** This is a long-form technical article. Do not summarize. Do not truncate. Do not say "and so on" or "etc." Cover every relevant detail. If you are writing about a technology with 30 configuration options, cover all 30. If there are 8 major versions, cover all 8. The target length is 5,000–15,000+ words depending on topic scope.
+
+2. **Be patient.** Do not tire. Do not rush the ending. The conclusion should be as thoughtful as the introduction. If the article needs 12 major sections, write all 12 with equal depth and care.
+
+3. **Target audience.** The primary reader is a .NET / C# / ASP.NET web developer. You can assume basic C# syntax literacy and web development knowledge. Do NOT assume familiarity with the specific topic being covered — explain everything from first principles, then build up to advanced material.
+
+4. **Code examples are mandatory.** Include real, working code examples throughout. Not just C# — include whatever is relevant: SQL, YAML, JSON, bash commands, configuration files, AXAML, TypeScript, etc. Code examples should be complete enough to copy-paste and run (or at least understand in context), not pseudocode snippets.
+
+5. **Use anecdotes and analogies.** Start sections with relatable scenarios. Compare unfamiliar concepts to things the reader already knows. Use concrete examples ("imagine you are building a blog engine" or "picture a Thursday afternoon deploy") rather than abstract descriptions.
+
+6. **Structure with numbered parts.** Organize the article into clearly titled parts (Part 1, Part 2, etc.) using `##` headers. Use `###` for subsections within parts. This helps readers navigate and bookmark.
+
+7. **Cite your sources.** When stating version numbers, release dates, performance claims, or statistics, verify them with web search first. If something has changed since your knowledge cutoff, search for the current state. Do not guess at version numbers or release dates.
+
+8. **Include practical recommendations.** Don't just describe — advise. Tell the reader what to do, what to avoid, and why. Include "do this, not that" comparisons where appropriate.
+
+9. **End with resources.** Close with a short list of official documentation links, GitHub repos, or other authoritative references the reader can follow up on.
+
+### What to verify via web search before writing
+- Current stable version numbers of all technologies mentioned
+- Release dates for major versions
+- Any breaking changes or deprecations in recent releases
+- Performance benchmarks or statistics you plan to cite
+- Correct URLs for documentation and resources
+
+### Delivery format
+Return the complete article as a single markdown artifact. The artifact should contain the FULL file content — from the opening `---` of the front matter to the last line of the article. No truncation. No "continued in next message." The entire article in one artifact.
+
+After saving the file, I will 
+simply commit this new markdown file and push it 
+for github actions to do its thing. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+Please read the FULL dump.txt in its entirety. Do not skim it. Do not search for keywords in it. Read the whole thing.
+
+If any file needs changing, always return the FULL file so it is easy to copy paste.
+Please do not hallucinate.
+Take some more time up front to save time and effort for the humans.
+When in doubt, use your best judgment.
+Use best engineering practices within the limits of this project.
+
+Write a long, comprehensive blog article for Observer Magazine on the following topic:
+
+**Topic**: Interface segregation principle 
+
+**Key areas to cover** (this may differ based on subject matter, use your best judgment):
+- [AREA 1 — e.g., "history and evolution of the technology"]
+- [AREA 2 — e.g., "getting started from scratch, assume no prior knowledge"]
+- [AREA 3 — e.g., "advanced features and configuration options"]
+- [AREA 4 — e.g., "best practices for production use"]
+- [AREA 5 — e.g., "common pitfalls and how to avoid them"]
+- [AREA 6 — e.g., "comparison with alternatives"]
+- [ADD OR REMOVE AREAS AS NEEDED]
+
+**Publish date**: [YYYY-MM-DD]
+**Author**: observer-team
+
+## Writing requirements
+
+Follow these rules exactly. They are non-negotiable:
+
+### Front matter format
+The file MUST start with YAML front matter in this exact schema:
+```yaml
+---
+title: "[A descriptive, compelling title — can include a subtitle after a colon]"
+date: [YYYY-MM-DD]
+author: observer-team
+summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
+tags:
+  - [tag1]
+  - [tag2]
+  - [tag3-etc]
+---
+```
+
+CRITICAL front matter rules:
+- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
+- If the article IS featured, include `featured: true`.
+- Do NOT include `draft: true` unless I explicitly ask for a draft.
+- Tags should be lowercase, hyphenated (e.g., `aspnet`, `best-practices`, `deep-dive`).
+
+### File naming
+The output file should be saved as: `content/blog/[YYYY-MM-DD]-[slug].md`
+where `[slug]` is a short, hyphenated, lowercase description of the article (e.g., `typescript-comprehensive-guide`, `sql-server-complete-guide`).
+
+### Writing style and structure
+
+1. **Be exhaustive.** This is a long-form technical article. Do not summarize. Do not truncate. Do not say "and so on" or "etc." Cover every relevant detail. If you are writing about a technology with 30 configuration options, cover all 30. If there are 8 major versions, cover all 8. The target length is 5,000–15,000+ words depending on topic scope.
+
+2. **Be patient.** Do not tire. Do not rush the ending. The conclusion should be as thoughtful as the introduction. If the article needs 12 major sections, write all 12 with equal depth and care.
+
+3. **Target audience.** The primary reader is a .NET / C# / ASP.NET web developer. You can assume basic C# syntax literacy and web development knowledge. Do NOT assume familiarity with the specific topic being covered — explain everything from first principles, then build up to advanced material.
+
+4. **Code examples are mandatory.** Include real, working code examples throughout. Not just C# — include whatever is relevant: SQL, YAML, JSON, bash commands, configuration files, AXAML, TypeScript, etc. Code examples should be complete enough to copy-paste and run (or at least understand in context), not pseudocode snippets.
+
+5. **Use anecdotes and analogies.** Start sections with relatable scenarios. Compare unfamiliar concepts to things the reader already knows. Use concrete examples ("imagine you are building a blog engine" or "picture a Thursday afternoon deploy") rather than abstract descriptions.
+
+6. **Structure with numbered parts.** Organize the article into clearly titled parts (Part 1, Part 2, etc.) using `##` headers. Use `###` for subsections within parts. This helps readers navigate and bookmark.
+
+7. **Cite your sources.** When stating version numbers, release dates, performance claims, or statistics, verify them with web search first. If something has changed since your knowledge cutoff, search for the current state. Do not guess at version numbers or release dates.
+
+8. **Include practical recommendations.** Don't just describe — advise. Tell the reader what to do, what to avoid, and why. Include "do this, not that" comparisons where appropriate.
+
+9. **End with resources.** Close with a short list of official documentation links, GitHub repos, or other authoritative references the reader can follow up on.
+
+### What to verify via web search before writing
+- Current stable version numbers of all technologies mentioned
+- Release dates for major versions
+- Any breaking changes or deprecations in recent releases
+- Performance benchmarks or statistics you plan to cite
+- Correct URLs for documentation and resources
+
+### Delivery format
+Return the complete article as a single markdown artifact. The artifact should contain the FULL file content — from the opening `---` of the front matter to the last line of the article. No truncation. No "continued in next message." The entire article in one artifact.
+
+After saving the file, I will 
+simply commit this new markdown file and push it 
+for github actions to do its thing. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+Please read the FULL dump.txt in its entirety. Do not skim it. Do not search for keywords in it. Read the whole thing.
+
+If any file needs changing, always return the FULL file so it is easy to copy paste.
+Please do not hallucinate.
+Take some more time up front to save time and effort for the humans.
+When in doubt, use your best judgment.
+Use best engineering practices within the limits of this project.
+
+Write a long, comprehensive blog article for Observer Magazine on the following topic:
+
+**Topic**: Dependency inversion principle 
+
+**Key areas to cover** (this may differ based on subject matter, use your best judgment):
+- [AREA 1 — e.g., "history and evolution of the technology"]
+- [AREA 2 — e.g., "getting started from scratch, assume no prior knowledge"]
+- [AREA 3 — e.g., "advanced features and configuration options"]
+- [AREA 4 — e.g., "best practices for production use"]
+- [AREA 5 — e.g., "common pitfalls and how to avoid them"]
+- [AREA 6 — e.g., "comparison with alternatives"]
+- [ADD OR REMOVE AREAS AS NEEDED]
+
+**Publish date**: [YYYY-MM-DD]
+**Author**: observer-team
+
+## Writing requirements
+
+Follow these rules exactly. They are non-negotiable:
+
+### Front matter format
+The file MUST start with YAML front matter in this exact schema:
+```yaml
+---
+title: "[A descriptive, compelling title — can include a subtitle after a colon]"
+date: [YYYY-MM-DD]
+author: observer-team
+summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
+tags:
+  - [tag1]
+  - [tag2]
+  - [tag3-etc]
+---
+```
+
+CRITICAL front matter rules:
+- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
+- If the article IS featured, include `featured: true`.
+- Do NOT include `draft: true` unless I explicitly ask for a draft.
+- Tags should be lowercase, hyphenated (e.g., `aspnet`, `best-practices`, `deep-dive`).
+
+### File naming
+The output file should be saved as: `content/blog/[YYYY-MM-DD]-[slug].md`
+where `[slug]` is a short, hyphenated, lowercase description of the article (e.g., `typescript-comprehensive-guide`, `sql-server-complete-guide`).
+
+### Writing style and structure
+
+1. **Be exhaustive.** This is a long-form technical article. Do not summarize. Do not truncate. Do not say "and so on" or "etc." Cover every relevant detail. If you are writing about a technology with 30 configuration options, cover all 30. If there are 8 major versions, cover all 8. The target length is 5,000–15,000+ words depending on topic scope.
+
+2. **Be patient.** Do not tire. Do not rush the ending. The conclusion should be as thoughtful as the introduction. If the article needs 12 major sections, write all 12 with equal depth and care.
+
+3. **Target audience.** The primary reader is a .NET / C# / ASP.NET web developer. You can assume basic C# syntax literacy and web development knowledge. Do NOT assume familiarity with the specific topic being covered — explain everything from first principles, then build up to advanced material.
+
+4. **Code examples are mandatory.** Include real, working code examples throughout. Not just C# — include whatever is relevant: SQL, YAML, JSON, bash commands, configuration files, AXAML, TypeScript, etc. Code examples should be complete enough to copy-paste and run (or at least understand in context), not pseudocode snippets.
+
+5. **Use anecdotes and analogies.** Start sections with relatable scenarios. Compare unfamiliar concepts to things the reader already knows. Use concrete examples ("imagine you are building a blog engine" or "picture a Thursday afternoon deploy") rather than abstract descriptions.
+
+6. **Structure with numbered parts.** Organize the article into clearly titled parts (Part 1, Part 2, etc.) using `##` headers. Use `###` for subsections within parts. This helps readers navigate and bookmark.
+
+7. **Cite your sources.** When stating version numbers, release dates, performance claims, or statistics, verify them with web search first. If something has changed since your knowledge cutoff, search for the current state. Do not guess at version numbers or release dates.
+
+8. **Include practical recommendations.** Don't just describe — advise. Tell the reader what to do, what to avoid, and why. Include "do this, not that" comparisons where appropriate.
+
+9. **End with resources.** Close with a short list of official documentation links, GitHub repos, or other authoritative references the reader can follow up on.
+
+### What to verify via web search before writing
+- Current stable version numbers of all technologies mentioned
+- Release dates for major versions
+- Any breaking changes or deprecations in recent releases
+- Performance benchmarks or statistics you plan to cite
+- Correct URLs for documentation and resources
+
+### Delivery format
+Return the complete article as a single markdown artifact. The artifact should contain the FULL file content — from the opening `---` of the front matter to the last line of the article. No truncation. No "continued in next message." The entire article in one artifact.
+
+After saving the file, I will 
+simply commit this new markdown file and push it 
+for github actions to do its thing. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+Now let me verify some facts about SOLID principles to ensure accuracy throughout the article.Now I have all the research I need. Let me write the comprehensive article.Here's your complete article. Save it as `content/blog/2026-03-27-solid-principles-complete-guide.md`.
+
+The article covers all five SOLID principles in 12 parts across roughly 5,500+ words of prose and extensive C# code examples. Here's what's in it:
+
+- **Part 1**: History — Robert C. Martin's 2000 paper, Michael Feathers' acronym (~2004), Bertrand Meyer's OCP (1988), Barbara Liskov's LSP (1987)
+- **Part 2**: Single Responsibility — Employee example, ASP.NET controller refactoring, common mistakes
+- **Part 3**: Open/Closed — Payment processor with strategy pattern, ASP.NET middleware as a real-world OCP example
+- **Part 4**: Liskov Substitution — Rectangle/Square, Design by Contract rules, real-world .NET violations (ReadOnlyCollection, exception mismatches), testing for LSP compliance
+- **Part 5**: Interface Segregation — Worker/Robot example, repository interface splitting, ISP in Blazor components
+- **Part 6**: Dependency Inversion — Full before/after with DI registration, testability walkthrough with hand-rolled test doubles, DIP vs DI vs IoC Container distinction
+- **Part 7**: How the five principles interact and reinforce each other, with a complete notification system example
+- **Part 8**: Common pitfalls — over-engineering, interface-per-class, anemic domain models, analysis paralysis
+- **Part 9**: SOLID in modern .NET — records, pattern matching, minimal APIs, source generators, C# 12 primary constructors
+- **Part 10–12**: Practical recommendations, SOLID beyond OOP, resources and further reading
+
+Front matter uses `author: observer-team` (hyphenated ID), no `featured` line, no `draft` line. Just commit and push.
+
+Now let me verify some key facts about SRP's origins and Robert C. Martin's work before writing.Now I have all the research I need. Let me write the comprehensive article.Here's your complete blog article. Save it as:
+
+**`content/blog/2026-03-27-single-responsibility-principle-complete-guide.md`**
+
+Then just commit and push — GitHub Actions will handle the rest.
+
+The article covers SRP exhaustively across 18 parts:
+
+**Parts 1–2** — Intellectual history from Tom DeMarco's cohesion concept (1978) through Martin's three progressively refined definitions (late 1990s → 2003 → 2014 → 2017's final "one actor" formulation), plus four common misconceptions debunked.
+
+**Parts 3–4** — Five concrete indicators for spotting SRP violations, followed by a complete step-by-step refactoring of an `InvoiceService` into four focused classes with full C# code.
+
+**Parts 5–6** — SRP at the method level (the "and" test, abstraction level test) and in ASP.NET Core specifically (fat controllers, minimal APIs, middleware).
+
+**Parts 7–8** — How SRP interacts with dependency injection (constructor over-injection smell, DI registration as documentation) and testing (painful mocks vs. clean focused tests, the testing pyramid).
+
+**Parts 9–10** — SRP in common .NET patterns (Repository, MediatR/CQRS, Options, Specification) and at the architectural level (project structure, microservices, vertical slice architecture).
+
+**Parts 11–13** — Over-engineering warnings (one-method-per-class trap, interface explosion), SRP's relationship to the other four SOLID principles, and SRP applied specifically to Blazor WebAssembly components and CSS isolation.
+
+**Parts 14–18** — Practical checklist, decision framework for when to split vs. when not to, common violations in the wild (God controller, entity with behavior, utility class, config dumping ground), SRP across the SDLC (source control, CI/CD, docs, teams), and resources.
+
+The front matter uses `author: observer-team` (hyphenated ID), omits `featured` entirely (non-featured), and uses lowercase hyphenated tags.
+
+Now let me verify some key facts about the Open/Closed Principle before writing.Now I have all the research I need. Let me write the comprehensive article.Here's your complete article. Save it as:
+
+```
+content/blog/2026-03-30-open-closed-principle.md
+```
+
+Then run the content processor:
+
+```bash
+dotnet run --project tools/ObserverMagazine.ContentProcessor -- \
+  --content-dir content/blog \
+  --output-dir src/ObserverMagazine.Web/wwwroot \
+  --authors-dir content/authors
+```
+
+The article follows all project conventions: `author: observer-team` (hyphenated ID), no `featured` line (omitted entirely), March 30 publish date, and standard lowercase hyphenated tags.
+
+**What it covers across 14 parts:**
+
+**Parts 1–2** — What the OCP actually means, the SOLID constellation, Bertrand Meyer's 1988 original formulation via implementation inheritance, Robert C. Martin's 1996 reformulation via interfaces and polymorphism, and why the distinction matters for working developers.
+
+**Part 3** — Three recognizable OCP violation patterns with complete C# code: the giant switch statement, the if-else chain, and the type-checking method that undermines its own interface.
+
+**Part 4** — Step-by-step refactoring from violation to compliance: define an abstraction, implement it per case, compose via dictionary lookup, and wire it up in ASP.NET Core DI. Complete working code for an invoice formatting system.
+
+**Part 5** — Five design patterns that embody the OCP, each with complete C# examples: Strategy (compression), Decorator (cached + audited repository with stacking), Template Method (report generators), Factory Method (notifications), and Observer (events/delegates on an order service).
+
+**Part 6** — OCP in ASP.NET Core specifically: middleware pipeline, DI and service registration, the Options pattern with feature flags, and Minimal API endpoint filters.
+
+**Part 7** — Modern C# features and the OCP: generics, delegates/Func/Action, extension methods, and a caution about pattern matching making violations look deceptively clean.
+
+**Parts 8–10** — Testability benefits, when NOT to follow the OCP (unknown axis of change, cost exceeds benefit, planned refactoring, performance-critical paths), and common criticisms addressed honestly.
+
+**Part 11** — A complete real-world example: a document export service with PDF/CSV/Markdown exporters, the service, API endpoints, DI registration, and a demonstration of adding JSON export with zero modifications to existing code.
+
+**Parts 12–14** — OCP beyond OOP (functional pipelines, MediatR event handlers, plugin architectures), an actionable checklist, and authoritative resources.
+
+Now let me verify some key facts about the Interface Segregation Principle before writing.I now have comprehensive research. Let me write the full article.Here's your complete blog article. Save it as `content/blog/2026-03-27-interface-segregation-principle-guide.md`.
+
+The article covers ISP comprehensively across 14 parts:
+
+**Parts 1–2**: The Xerox origin story and a precise definition of what ISP says vs. what it does not say (clearing up common conflations with SRP and LSP).
+
+**Part 3**: ISP in the .NET BCL — the `IList<T>` / `IReadOnlyList<T>` evolution, the `IQueryable<T>` hierarchy, and the `Stream` capability-flag compromise.
+
+**Parts 4–5**: How to spot fat interfaces in your own code (five telltale signs), followed by a full step-by-step refactoring walkthrough from a 13-method `IUserRepository` to well-segregated `IUserReader`, `IUserWriter`, `IUserBulkOperations`, and `IUserReporting` — including DI registration.
+
+**Part 6**: How ISP interacts with SRP, OCP, LSP, and DIP.
+
+**Parts 7–8**: ISP in ASP.NET Core (minimal APIs, DI forwarding, default interface methods, `IHost`), and ISP beyond OOP (REST/CQRS, gRPC service definitions, event contracts in messaging systems).
+
+**Parts 9–11**: Common pitfalls (over-segregation, splitting by implementation detail, breaking changes), practical heuristics for when to split and when to stop, and the "one more method" test.
+
+**Parts 12–14**: A real-world example from Observer Magazine itself, ISP implications for source generators and Native AOT, keyed services in .NET 8+, and a summary with resource links.
+
+After saving, just commit and push — CI will handle the rest.
+
+Now I have all the research I need. Let me write this comprehensive article on the Dependency Inversion Principle.Here is your comprehensive Dependency Inversion Principle article. Save it as:
+
+```
+content/blog/2026-03-27-dependency-inversion-principle.md
+```
+
+Then run the content processor:
+
+```bash
+dotnet run --project tools/ObserverMagazine.ContentProcessor -- \
+  --content-dir content/blog \
+  --output-dir src/ObserverMagazine.Web/wwwroot \
+  --authors-dir content/authors
+```
+
+The article covers 14 parts across roughly 7,000+ words:
+
+**Part 1: Origins** — Robert C. Martin's 1996 C++ Report paper, the intellectual ancestors (Meyer, Liskov, Gang of Four), and the SOLID acronym coined by Michael Feathers around 2004.
+
+**Part 2: Formal Definition** — The two-part statement unpacked word by word: high-level vs low-level modules, abstractions vs details, and why it's called "inversion."
+
+**Part 3: Plain English** — The wall outlet analogy and Martin's Button/Lamp example from the original paper.
+
+**Part 4: DIP vs DI vs IoC** — Clears up the most common confusion: principle vs technique vs pattern vs tool. Cites Fowler's 2004 article where he coined "Dependency Injection."
+
+**Part 5: DIP in C#** — Step-by-step refactoring from the hardcoded `OrderProcessor` to clean interfaces with constructor injection, including complete working code for every interface, implementation, and DI registration.
+
+**Part 6: ASP.NET Core DI Container** — Lifetimes (Transient/Scoped/Singleton), keyed services (.NET 8+, with the .NET 10 `AnyKey` breaking change noted), open generics, and factory registrations.
+
+**Part 7: Testing Payoff** — Before/after comparison with hand-written fakes and NSubstitute mocks, showing the test speed and isolation benefits.
+
+**Part 8: Architectural Patterns** — Clean Architecture, Hexagonal Architecture, Strategy pattern, and Repository pattern as DIP applications.
+
+**Part 9: Common Pitfalls** — Interface-per-class cargo cult, leaky abstractions, constructor over-injection, service locator anti-pattern, over-abstraction, and interface ownership.
+
+**Part 10: Real-World Examples** — Database provider swapping (SQL Server → PostgreSQL), feature flags with branch by abstraction, and resilient multi-provider services with the decorator pattern.
+
+**Part 11: DIP and Other SOLID Principles** — How DIP interacts with SRP, OCP, LSP, and ISP.
+
+**Part 12: DIP in Blazor WASM** — Service registration, `@inject`, scoping nuances (scoped ≈ singleton in WASM), and bUnit testing.
+
+**Part 13: When Not to Use DIP** — Scripts, value objects, stable dependencies, and abstraction fatigue.
+
+**Part 14: Practical Checklist** — Ten actionable steps for applying DIP to your own codebase.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Please read the FULL dump.txt in its entirety. Do not skim it. Do not search for keywords in it. Read the whole thing.
+
+If any file needs changing, always return the FULL file so it is easy to copy paste.
+Please do not hallucinate.
+Take some more time up front to save time and effort for the humans.
+When in doubt, use your best judgment.
+Use best engineering practices within the limits of this project.
+
+Write a long, comprehensive blog article for Observer Magazine on the following topic:
+
+**Topic**: Of all the five principles of the SOLID principles, which one do you think is the most important and why? 
+
+**Key areas to cover** (this may differ based on subject matter, use your best judgment):
+- [AREA 1 — e.g., "history and evolution of the technology"]
+- [AREA 2 — e.g., "getting started from scratch, assume no prior knowledge"]
+- [AREA 3 — e.g., "advanced features and configuration options"]
+- [AREA 4 — e.g., "best practices for production use"]
+- [AREA 5 — e.g., "common pitfalls and how to avoid them"]
+- [AREA 6 — e.g., "comparison with alternatives"]
+- [ADD OR REMOVE AREAS AS NEEDED]
+
+**Publish date**: [YYYY-MM-DD]
+**Author**: observer-team
+
+## Writing requirements
+
+Follow these rules exactly. They are non-negotiable:
+
+### Front matter format
+The file MUST start with YAML front matter in this exact schema:
+```yaml
+---
+title: "[A descriptive, compelling title — can include a subtitle after a colon]"
+date: [YYYY-MM-DD]
+author: observer-team
+summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
+tags:
+  - [tag1]
+  - [tag2]
+  - [tag3-etc]
+---
+```
+
+CRITICAL front matter rules:
+- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
+- If the article IS featured, include `featured: true`.
+- Do NOT include `draft: true` unless I explicitly ask for a draft.
+- Tags should be lowercase, hyphenated (e.g., `aspnet`, `best-practices`, `deep-dive`).
+
+### File naming
+The output file should be saved as: `content/blog/[YYYY-MM-DD]-[slug].md`
+where `[slug]` is a short, hyphenated, lowercase description of the article (e.g., `typescript-comprehensive-guide`, `sql-server-complete-guide`).
+
+### Writing style and structure
+
+1. **Be exhaustive.** This is a long-form technical article. Do not summarize. Do not truncate. Do not say "and so on" or "etc." Cover every relevant detail. If you are writing about a technology with 30 configuration options, cover all 30. If there are 8 major versions, cover all 8. The target length is 5,000–15,000+ words depending on topic scope.
+
+2. **Be patient.** Do not tire. Do not rush the ending. The conclusion should be as thoughtful as the introduction. If the article needs 12 major sections, write all 12 with equal depth and care.
+
+3. **Target audience.** The primary reader is a .NET / C# / ASP.NET web developer. You can assume basic C# syntax literacy and web development knowledge. Do NOT assume familiarity with the specific topic being covered — explain everything from first principles, then build up to advanced material.
+
+4. **Code examples are mandatory.** Include real, working code examples throughout. Not just C# — include whatever is relevant: SQL, YAML, JSON, bash commands, configuration files, AXAML, TypeScript, etc. Code examples should be complete enough to copy-paste and run (or at least understand in context), not pseudocode snippets.
+
+5. **Use anecdotes and analogies.** Start sections with relatable scenarios. Compare unfamiliar concepts to things the reader already knows. Use concrete examples ("imagine you are building a blog engine" or "picture a Thursday afternoon deploy") rather than abstract descriptions.
+
+6. **Structure with numbered parts.** Organize the article into clearly titled parts (Part 1, Part 2, etc.) using `##` headers. Use `###` for subsections within parts. This helps readers navigate and bookmark.
+
+7. **Cite your sources.** When stating version numbers, release dates, performance claims, or statistics, verify them with web search first. If something has changed since your knowledge cutoff, search for the current state. Do not guess at version numbers or release dates.
+
+8. **Include practical recommendations.** Don't just describe — advise. Tell the reader what to do, what to avoid, and why. Include "do this, not that" comparisons where appropriate.
+
+9. **End with resources.** Close with a short list of official documentation links, GitHub repos, or other authoritative references the reader can follow up on.
+
+### What to verify via web search before writing
+- Current stable version numbers of all technologies mentioned
+- Release dates for major versions
+- Any breaking changes or deprecations in recent releases
+- Performance benchmarks or statistics you plan to cite
+- Correct URLs for documentation and resources
+
+### Delivery format
+Return the complete article as a single markdown artifact. The artifact should contain the FULL file content — from the opening `---` of the front matter to the last line of the article. No truncation. No "continued in next message." The entire article in one artifact.
+
+After saving the file, I will 
+simply commit this new markdown file and push it 
+for github actions to do its thing. 

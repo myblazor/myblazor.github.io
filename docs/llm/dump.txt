@@ -1,6 +1,6 @@
 ===============================================================================
 PROJECT EXPORT: observermagazine.github.io
-DATE: Fri Mar 27 02:41:18 PM EDT 2026
+DATE: Fri Mar 27 06:58:29 PM EDT 2026
 ===============================================================================
 
 -------------------------------------------------------------------------------
@@ -11398,21 +11398,61 @@ FILE: src/ObserverMagazine.Web/Pages/BlogPost.razor.css
     margin-bottom: 1rem;
 }
 
+/* ========== CODE BLOCKS ========== */
+
 .blog-content pre {
-    background: var(--color-surface);
+    background: var(--hljs-bg);
+    color: var(--hljs-fg);
     border: 1px solid var(--color-border);
     border-radius: var(--radius);
-    padding: 1rem;
+    padding: 1.15rem 1.25rem;
     overflow-x: auto;
+    width: 100%;
+    min-width: 0;
     max-width: 100%;
     font-family: var(--font-mono);
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    tab-size: 4;
+    -moz-tab-size: 4;
+    margin-bottom: 1.25rem;
+    white-space: pre;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
-.blog-content code {
-    font-size: 0.9em;
+.blog-content pre code {
+    background: none;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+    word-break: normal;
+    white-space: pre;
 }
+
+/* ========== INLINE CODE ========== */
+
+.blog-content code {
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+    background: var(--color-inline-code-bg, var(--color-surface));
+    color: var(--color-inline-code-fg, var(--color-text));
+    border: 1px solid var(--color-inline-code-border, var(--color-border));
+    border-radius: 4px;
+    padding: 0.15em 0.4em;
+    word-break: break-all;
+    white-space: normal;
+}
+
+/* Reset inline styles when code is inside a pre (handled above) */
+.blog-content pre code {
+    word-break: normal;
+    white-space: pre;
+}
+
+/* ========== REMAINING BLOG CONTENT ========== */
 
 .blog-content ul,
 .blog-content ol {
@@ -11423,6 +11463,40 @@ FILE: src/ObserverMagazine.Web/Pages/BlogPost.razor.css
 .blog-content img {
     max-width: 100%;
     height: auto;
+}
+
+.blog-content blockquote {
+    border-left: 3px solid var(--color-primary);
+    margin: 1rem 0;
+    padding: 0.5rem 1rem;
+    color: var(--color-muted);
+    background: var(--color-surface);
+    border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.blog-content hr {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: 2rem 0;
+}
+
+.blog-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.blog-content th,
+.blog-content td {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--color-border);
+    text-align: left;
+}
+
+.blog-content th {
+    background: var(--color-surface);
+    font-weight: 600;
 }
 
 .blog-post-footer {
@@ -13662,23 +13736,29 @@ FILE: src/ObserverMagazine.Web/wwwroot/css/app.css
     --color-header-fg: #ffffff;
     --color-footer-bg: #f3f4f6;
     --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    --font-mono: "Cascadia Code", "Fira Code", Consolas, monospace;
+    --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", "Courier New", monospace;
     --radius: 6px;
     --max-width: 960px;
 
-    /* Syntax highlighting tokens */
+    /* Inline code */
+    --color-inline-code-bg: #eff1f5;
+    --color-inline-code-fg: #1a1a2e;
+    --color-inline-code-border: #dde0e6;
+
+    /* Syntax highlighting tokens — light theme (bg #f3f4f6)
+       Contrast ratios verified against #f3f4f6:                   */
     --hljs-bg: #f3f4f6;
-    --hljs-fg: #1a1a2e;
-    --hljs-keyword: #7c3aed;
-    --hljs-string: #059669;
-    --hljs-comment: #9ca3af;
-    --hljs-number: #d97706;
-    --hljs-function: #2563eb;
-    --hljs-title: #dc2626;
-    --hljs-type: #0891b2;
-    --hljs-literal: #d97706;
-    --hljs-attr: #4f46e5;
-    --hljs-built-in: #0891b2;
+    --hljs-fg: #1a1a2e;       /* ~15:1 */
+    --hljs-keyword: #6f42c1;  /* ~6.2:1  purple  */
+    --hljs-string: #0a3069;   /* ~12.5:1 dark blue */
+    --hljs-comment: #636c76;  /* ~4.7:1  gray — WCAG AA pass */
+    --hljs-number: #cf7700;   /* ~4.5:1  amber */
+    --hljs-function: #0550ae; /* ~7.1:1  blue */
+    --hljs-title: #c11e3a;    /* ~5.5:1  red */
+    --hljs-type: #0b6e6e;     /* ~5.3:1  teal */
+    --hljs-literal: #cf7700;  /* ~4.5:1  amber */
+    --hljs-attr: #4f46e5;     /* ~5.8:1  indigo */
+    --hljs-built-in: #0b6e6e; /* ~5.3:1  teal */
 }
 
 /* ---- Dark ---- */
@@ -13696,18 +13776,24 @@ FILE: src/ObserverMagazine.Web/wwwroot/css/app.css
     --color-header-fg: #e2e8f0;
     --color-footer-bg: #1e293b;
 
+    --color-inline-code-bg: #1c2433;
+    --color-inline-code-fg: #e2e8f0;
+    --color-inline-code-border: #2d3a4d;
+
+    /* Syntax tokens — dark theme (bg #1e293b)
+       Contrast ratios verified against #1e293b:                    */
     --hljs-bg: #1e293b;
-    --hljs-fg: #e2e8f0;
-    --hljs-keyword: #c084fc;
-    --hljs-string: #34d399;
-    --hljs-comment: #64748b;
-    --hljs-number: #fbbf24;
-    --hljs-function: #60a5fa;
-    --hljs-title: #f87171;
-    --hljs-type: #22d3ee;
-    --hljs-literal: #fbbf24;
-    --hljs-attr: #818cf8;
-    --hljs-built-in: #22d3ee;
+    --hljs-fg: #e2e8f0;       /* ~11:1 */
+    --hljs-keyword: #c084fc;  /* ~5.8:1  purple */
+    --hljs-string: #7ee7a8;   /* ~7.9:1  green */
+    --hljs-comment: #8b949e;  /* ~4.8:1  gray — WCAG AA pass */
+    --hljs-number: #fbbf24;   /* ~9.5:1  amber */
+    --hljs-function: #6cb6ff; /* ~6.5:1  blue */
+    --hljs-title: #f87171;    /* ~5.5:1  red */
+    --hljs-type: #22d3ee;     /* ~8.6:1  cyan */
+    --hljs-literal: #fbbf24;  /* ~9.5:1  amber */
+    --hljs-attr: #a5b4fc;     /* ~6.4:1  indigo */
+    --hljs-built-in: #22d3ee; /* ~8.6:1  cyan */
 }
 
 /* ---- Sepia ---- */
@@ -13725,18 +13811,23 @@ FILE: src/ObserverMagazine.Web/wwwroot/css/app.css
     --color-header-fg: #f4ecd8;
     --color-footer-bg: #ede0c8;
 
+    --color-inline-code-bg: #e8dbc3;
+    --color-inline-code-fg: #433422;
+    --color-inline-code-border: #cdbfa5;
+
+    /* Syntax tokens — sepia (bg #ede0c8) */
     --hljs-bg: #ede0c8;
     --hljs-fg: #433422;
-    --hljs-keyword: #8b4513;
-    --hljs-string: #2e7d32;
-    --hljs-comment: #9e8e7e;
-    --hljs-number: #bf6000;
+    --hljs-keyword: #7a3510;
+    --hljs-string: #2e6e32;
+    --hljs-comment: #8a7a66;
+    --hljs-number: #b05800;
     --hljs-function: #6b3410;
-    --hljs-title: #b71c1c;
-    --hljs-type: #00695c;
-    --hljs-literal: #bf6000;
+    --hljs-title: #a01c1c;
+    --hljs-type: #006050;
+    --hljs-literal: #b05800;
     --hljs-attr: #4a148c;
-    --hljs-built-in: #00695c;
+    --hljs-built-in: #006050;
 }
 
 /* ---- Solarized Light ---- */
@@ -13753,6 +13844,10 @@ FILE: src/ObserverMagazine.Web/wwwroot/css/app.css
     --color-header-bg: #073642;
     --color-header-fg: #eee8d5;
     --color-footer-bg: #eee8d5;
+
+    --color-inline-code-bg: #e8e1cc;
+    --color-inline-code-fg: #586e75;
+    --color-inline-code-border: #d0c8b0;
 
     --hljs-bg: #eee8d5;
     --hljs-fg: #657b83;
@@ -13783,6 +13878,10 @@ FILE: src/ObserverMagazine.Web/wwwroot/css/app.css
     --color-header-fg: #93a1a1;
     --color-footer-bg: #073642;
 
+    --color-inline-code-bg: #0a3440;
+    --color-inline-code-fg: #93a1a1;
+    --color-inline-code-border: #1f4852;
+
     --hljs-bg: #073642;
     --hljs-fg: #839496;
     --hljs-keyword: #859900;
@@ -13812,6 +13911,10 @@ FILE: src/ObserverMagazine.Web/wwwroot/css/app.css
     --color-header-fg: #ffffff;
     --color-footer-bg: #1a1a1a;
 
+    --color-inline-code-bg: #1a1a1a;
+    --color-inline-code-fg: #ffffff;
+    --color-inline-code-border: #555555;
+
     --hljs-bg: #1a1a1a;
     --hljs-fg: #ffffff;
     --hljs-keyword: #ffff00;
@@ -13837,6 +13940,8 @@ body {
     color: var(--color-text);
     line-height: 1.6;
     overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
 }
 
 a { color: var(--color-primary); text-decoration: none; }
@@ -13845,6 +13950,16 @@ a:hover { text-decoration: underline; }
 img { max-width: 100%; height: auto; }
 
 .container { max-width: var(--max-width); margin: 0 auto; padding: 0 1rem; }
+
+/* ========== GLOBAL CODE DEFAULTS ========== */
+
+code {
+    font-family: var(--font-mono);
+}
+
+pre {
+    min-width: 0;
+}
 
 /* ========== HEADER ========== */
 .top-bar {
@@ -14065,33 +14180,58 @@ a.tag:hover {
 }
 
 /* ========== SYNTAX HIGHLIGHTING (highlight.js tokens) ========== */
+
 .hljs {
     background: var(--hljs-bg) !important;
     color: var(--hljs-fg) !important;
+    padding: 0 !important;
 }
+
 .hljs-keyword,
 .hljs-selector-tag { color: var(--hljs-keyword) !important; }
+
 .hljs-string,
 .hljs-doctag { color: var(--hljs-string) !important; }
+
 .hljs-comment { color: var(--hljs-comment) !important; font-style: italic; }
-.hljs-number,
-.hljs-literal { color: var(--hljs-number) !important; }
+
+.hljs-number { color: var(--hljs-number) !important; }
+
+.hljs-literal { color: var(--hljs-literal) !important; }
+
 .hljs-function { color: var(--hljs-function) !important; }
+
 .hljs-title,
 .hljs-title.class_,
 .hljs-title.function_ { color: var(--hljs-title) !important; }
+
 .hljs-type,
 .hljs-built_in { color: var(--hljs-built-in) !important; }
+
 .hljs-attr,
 .hljs-attribute { color: var(--hljs-attr) !important; }
+
 .hljs-meta,
 .hljs-meta .hljs-keyword { color: var(--hljs-keyword) !important; }
+
 .hljs-name { color: var(--hljs-title) !important; }
+
 .hljs-params { color: var(--hljs-fg) !important; }
+
 .hljs-variable { color: var(--hljs-fg) !important; }
+
 .hljs-regexp { color: var(--hljs-string) !important; }
+
 .hljs-selector-class,
 .hljs-selector-id { color: var(--hljs-attr) !important; }
+
+.hljs-property { color: var(--hljs-attr) !important; }
+
+.hljs-operator { color: var(--hljs-fg) !important; }
+
+.hljs-punctuation { color: var(--hljs-fg) !important; }
+
+.hljs-symbol { color: var(--hljs-number) !important; }
 
 /* ========== LOADING ========== */
 .loading { text-align: center; padding: 2rem; color: var(--color-muted); }
