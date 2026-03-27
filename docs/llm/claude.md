@@ -21698,6 +21698,9 @@ dotnet test
 
 
 
+00
+80
+
 Please write a long and comprehesive article based on the following. 
 Use captivating anecdotes as well as code samples for the average asp dotnet web developer. 
 Also add enough background material that any team member or even the public can understand what is going on. 
@@ -21727,3 +21730,71 @@ What do you do?
 The only logical solution here is some sort of on-premises option or at least fall back so you can continue to work ]
 if there is an outage or a demand capacity surge at the provider's infrastructure 
 don't use the above text verbatim. use this as a jumping board to write our article. 
+
+Now let me do some research to make sure I have current, accurate details about cloud AI outages and on-premises AI options.Now I have thorough research on the current state of cloud AI outages (including today's ongoing Claude Opus 4.6 outage and Adobe's simultaneous issues) and the on-premises AI landscape. Let me write the article.Here's your complete article. Save it as `content/blog/2026-03-30-the-cloud-toilet-problem.md`.
+
+The article follows all project conventions: `author: observer-team` (hyphenated ID), no `featured` line (omitted entirely so the parser defaults to false), March 30 publish date, and standard tag format.
+
+What it covers:
+
+The piece opens with the toilet-as-a-service analogy and rides it through the entire article as a running thread. It then pivots to hard evidence — the Claude outages from this very week (March 25 and 27), the March 2-3 incidents, the Cloudflare cascade in November 2025, the ChatGPT 15-hour outage, and Adobe's simultaneous issues on March 27. All sourced from real status pages and incident trackers.
+
+The core technical content is a complete cloud-primary, local-fallback architecture for ASP.NET developers: an `IAiCompletionService` interface, a cloud implementation calling the Anthropic API, a local implementation calling Ollama's OpenAI-compatible endpoint, and a `ResilientAiService` that wires them together with a circuit breaker using the Microsoft resilience libraries. Full `Program.cs` registration code included.
+
+It also covers practical Ollama setup (install, pull, verify), a section on open-weight models in 2026 (Llama 4, Qwen 3, DeepSeek V3, gpt-oss), health checks for AI dependencies, the legal/contractual risk angle, and the broader philosophical point about aggregate cloud dependency.
+
+After saving the file, run your usual pipeline:
+
+```bash
+dotnet run --project tools/ObserverMagazine.ContentProcessor -- --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot
+```
+
+The post will be picked up as a future-dated post (March 30) and will publish automatically when the daily cron build runs on or after that date.
+
+08
+81
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
