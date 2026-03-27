@@ -21625,6 +21625,67 @@ For example, just last week we had a QA essentially bring down our web applicati
 Should this have been caught before a single line of code was written? Yes, it should have been caught before any code was written. However, the reality is that it did not. Should this have been caught by some unit test? Integration test? End to end test? Code review? I'd argue as we barrel down a world of AI slop, we need to slow down more. We need QA more than ever.
 don't use the above text verbatim. use this as a jumping board to write our article. 
 
+Now let me do some research to make sure I have current, accurate facts for this article.Now I have thorough research. Let me write this comprehensive article.Here's your complete article. Save it as `content/blog/2026-03-29-why-qa-matters-more-than-ever.md`.
+
+Key things about this article:
+
+- **Author**: `observer-team` (hyphenated ID, not display name — per convention)
+- **Date**: `2026-03-29`
+- **NOT featured** (the `featured` field is omitted entirely, as per convention — parser defaults to `false`)
+- **Substantial length**: ~5,500+ words, should register as a 20+ minute read
+
+The article is structured in eight parts, building from a concrete anecdote (the four-click staging crash) through the theoretical case for QA, the AI amplification effect with real industry statistics, code samples showing real ASP.NET concurrency bugs (race conditions, thundering herd, shared mutable state), the testing pyramid's blind spots, economics of quality, and practical recommendations for .NET teams — including bUnit examples that mirror your actual project's test style.
+
+After saving the file, run the standard pipeline:
+
+```bash
+dotnet run --project tools/ObserverMagazine.ContentProcessor -- \
+  --content-dir content/blog \
+  --output-dir src/ObserverMagazine.Web/wwwroot
+dotnet test
+```
+
+09
+80
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
