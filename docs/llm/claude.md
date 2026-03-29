@@ -30309,19 +30309,31 @@ Use best engineering practices within the limits of this project.
 Write a long, comprehensive blog article for Observer Magazine on the following topic:
 
 **Topic**: 
-
-Explain in great detail all the important data structures, make sure to cover primitives 
-keep in mind the reader is a dumb code monkey writing asp dotnet code, probably c# 
-and may not understand c or rust code 
-use data structures in dotnet 
-use all the best practices of modern dotnet 10 and latest c sharp features 
-then also explain in great detail how dotnet and c sharp implement these data structures 
-also explain why we need all these data structures 
+relational databases and normalization 
+the exact specifics should not matter I don't think but use dotnet 10, 
+the latest c sharp, 
+dapper, 
+object relational mapping 
+and best software engineering best practices 
+show examples at each level of normalization 
+start with the code in the example above we used for github.com/collabskus/virginia 
+if you need to make a change, 
+use uuidv7 as a guid as the primary key where necessary, only where necessary 
+give a good critique of how the code is today 
+and what we gain by normalizing one more 
+for each normalizing step we go up 
+go up as high as you can 
+explain the cost benefit 
+also explain entity attribute value 
+and explain how it might or might not be useful 
+do not assume the reader has read the code for the github repo or even assume the github repo is live 
+when the reader is reading 
+give the full context in the blog post itself
 give a lot of code examples 
 remember to be completely comprehensive, leave no stone unturned 
 
 use this as the publish date and file name date 
-2026-04-09
+2026-04-10
 
 **Key areas to cover** (this may differ based on subject matter, use your best judgment):
 - [AREA 1 — e.g., "history and evolution of the technology"]
@@ -30398,3 +30410,4 @@ Return the complete article as a single markdown artifact. The artifact should c
 After saving the file, I will 
 simply commit this new markdown file and push it 
 for github actions to do its thing. 
+
