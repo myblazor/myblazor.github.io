@@ -23498,3 +23498,6503 @@ for github actions to do its thing.
 02
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+02
+02
+
+Please read the FULL dump.txt in its entirety. Do not skim it. Do not search for keywords in it. Read the whole thing.
+
+If any file needs changing, always return the FULL file so it is easy to copy paste.
+Please do not hallucinate.
+Take some more time up front to save time and effort for the humans.
+When in doubt, use your best judgment.
+Use best engineering practices within the limits of this project.
+
+Write a long, comprehensive blog article for Observer Magazine on the following topic:
+
+**Topic**: what is dotnet aspire? 
+how can I set up my project so I can put everything necessary in a Containerfile 
+so I can put everything I need in my github repository 
+and deploy it to a bare metal machine at home or a vps on digital ocean or hetzner or whatever 
+is podman-compose enough? 
+don't assume I have docker installed 
+use only vendor neutral language 
+and use podman-compose if necessary 
+if kubernetes is required, explain why 
+I don't think kubernetes is needed for a simple project 
+use this blazor application writing to sqlite as a sample 
+https://github.com/collabskus/virginia/
+
+**Key areas to cover** (this may differ based on subject matter, use your best judgment):
+- [AREA 1 — e.g., "history and evolution of the technology"]
+- [AREA 2 — e.g., "getting started from scratch, assume no prior knowledge"]
+- [AREA 3 — e.g., "advanced features and configuration options"]
+- [AREA 4 — e.g., "best practices for production use"]
+- [AREA 5 — e.g., "common pitfalls and how to avoid them"]
+- [AREA 6 — e.g., "comparison with alternatives"]
+- [ADD OR REMOVE AREAS AS NEEDED]
+
+**Publish date**: [YYYY-MM-DD]
+**Author**: observer-team
+
+## Writing requirements
+
+Follow these rules exactly. They are non-negotiable:
+
+### Front matter format
+The file MUST start with YAML front matter in this exact schema:
+```yaml
+---
+title: "[A descriptive, compelling title — can include a subtitle after a colon]"
+date: [YYYY-MM-DD]
+author: observer-team
+summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
+tags:
+  - [tag1]
+  - [tag2]
+  - [tag3-etc]
+---
+```
+
+CRITICAL front matter rules:
+- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
+- If the article IS featured, include `featured: true`.
+- Do NOT include `draft: true` unless I explicitly ask for a draft.
+- Tags should be lowercase, hyphenated (e.g., `aspnet`, `best-practices`, `deep-dive`).
+
+### File naming
+The output file should be saved as: `content/blog/[YYYY-MM-DD]-[slug].md`
+where `[slug]` is a short, hyphenated, lowercase description of the article (e.g., `typescript-comprehensive-guide`, `sql-server-complete-guide`).
+
+### Writing style and structure
+
+1. **Be exhaustive.** This is a long-form technical article. Do not summarize. Do not truncate. Do not say "and so on" or "etc." Cover every relevant detail. If you are writing about a technology with 30 configuration options, cover all 30. If there are 8 major versions, cover all 8. The target length is 5,000–15,000+ words depending on topic scope.
+
+2. **Be patient.** Do not tire. Do not rush the ending. The conclusion should be as thoughtful as the introduction. If the article needs 12 major sections, write all 12 with equal depth and care.
+
+3. **Target audience.** The primary reader is a .NET / C# / ASP.NET web developer. You can assume basic C# syntax literacy and web development knowledge. Do NOT assume familiarity with the specific topic being covered — explain everything from first principles, then build up to advanced material.
+
+4. **Code examples are mandatory.** Include real, working code examples throughout. Not just C# — include whatever is relevant: SQL, YAML, JSON, bash commands, configuration files, AXAML, TypeScript, etc. Code examples should be complete enough to copy-paste and run (or at least understand in context), not pseudocode snippets.
+
+5. **Use anecdotes and analogies.** Start sections with relatable scenarios. Compare unfamiliar concepts to things the reader already knows. Use concrete examples ("imagine you are building a blog engine" or "picture a Thursday afternoon deploy") rather than abstract descriptions.
+
+6. **Structure with numbered parts.** Organize the article into clearly titled parts (Part 1, Part 2, etc.) using `##` headers. Use `###` for subsections within parts. This helps readers navigate and bookmark.
+
+7. **Cite your sources.** When stating version numbers, release dates, performance claims, or statistics, verify them with web search first. If something has changed since your knowledge cutoff, search for the current state. Do not guess at version numbers or release dates.
+
+8. **Include practical recommendations.** Don't just describe — advise. Tell the reader what to do, what to avoid, and why. Include "do this, not that" comparisons where appropriate.
+
+9. **End with resources.** Close with a short list of official documentation links, GitHub repos, or other authoritative references the reader can follow up on.
+
+### What to verify via web search before writing
+- Current stable version numbers of all technologies mentioned
+- Release dates for major versions
+- Any breaking changes or deprecations in recent releases
+- Performance benchmarks or statistics you plan to cite
+- Correct URLs for documentation and resources
+
+### Delivery format
+Return the complete article as a single markdown artifact. The artifact should contain the FULL file content — from the opening `---` of the front matter to the last line of the article. No truncation. No "continued in next message." The entire article in one artifact.
+
+After saving the file, I will 
+simply commit this new markdown file and push it 
+for github actions to do its thing. 
+
+here is the full source code for the sample app 
+
+===============================================================================
+ASP.NET PROJECT EXPORT  (git-tracked files only)
+Generated: 03/26/2026 21:11:22
+Project Path: D:\DEV\personal\Virginia
+===============================================================================
+
+DIRECTORY STRUCTURE (tracked):
+==============================
+
+.editorconfig
+.github/workflows/ci.yml
+.gitignore
+Directory.Build.props
+Directory.Packages.props
+docs/llm/claude.md
+docs/llm/dump.txt
+Export.ps1
+README.md
+Virginia.AppHost/AppHost.cs
+Virginia.AppHost/appsettings.Development.json
+Virginia.AppHost/appsettings.json
+Virginia.AppHost/Properties/launchSettings.json
+Virginia.AppHost/Virginia.AppHost.csproj
+Virginia.ServiceDefaults/Extensions.cs
+Virginia.ServiceDefaults/Virginia.ServiceDefaults.csproj
+Virginia.slnx
+Virginia.Tests/ContactServiceTests.cs
+Virginia.Tests/DtoMappingTests.cs
+Virginia.Tests/FormValidationTests.cs
+Virginia.Tests/TestInfrastructure.cs
+Virginia.Tests/Virginia.Tests.csproj
+Virginia/appsettings.Development.json
+Virginia/appsettings.json
+Virginia/Components/_Imports.razor
+Virginia/Components/App.razor
+Virginia/Components/Layout/MainLayout.razor
+Virginia/Components/Layout/MainLayout.razor.css
+Virginia/Components/Layout/ReconnectModal.razor
+Virginia/Components/Layout/ReconnectModal.razor.css
+Virginia/Components/Layout/ReconnectModal.razor.js
+Virginia/Components/Pages/Account/ChangePassword.razor
+Virginia/Components/Pages/Account/Login.razor
+Virginia/Components/Pages/Account/Register.razor
+Virginia/Components/Pages/Admin/UserManagement.razor
+Virginia/Components/Pages/ContactDetail.razor
+Virginia/Components/Pages/ContactDetail.razor.css
+Virginia/Components/Pages/ContactList.razor
+Virginia/Components/Pages/ContactList.razor.css
+Virginia/Components/Pages/Error.razor
+Virginia/Components/Pages/NotFound.razor
+Virginia/Components/RedirectToLogin.razor
+Virginia/Components/Routes.razor
+Virginia/Data/AppDbContext.cs
+Virginia/Data/AppUser.cs
+Virginia/Data/Dtos.cs
+Virginia/Data/Entities.cs
+Virginia/Data/FormModels.cs
+Virginia/Program.cs
+Virginia/Properties/launchSettings.json
+Virginia/Services/AppClaimsPrincipalFactory.cs
+Virginia/Services/ContactService.cs
+Virginia/Services/ContactTelemetry.cs
+Virginia/Services/IContactService.cs
+Virginia/Virginia.csproj
+Virginia/wwwroot/app.css
+
+
+FILE CONTENTS:
+==============
+
+================================================================================
+FILE: .editorconfig
+SIZE: 1.2 KB
+MODIFIED: 03/26/2026 16:12:28
+================================================================================
+
+root = true
+
+[*]
+indent_style = space
+indent_size = 4
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.{csproj,props,targets,slnx,xml,json,razor}]
+indent_size = 2
+
+[*.cs]
+# Organize usings
+dotnet_sort_system_directives_first = true
+dotnet_separate_import_directive_groups = false
+
+# var preferences
+csharp_style_var_for_built_in_types = true:suggestion
+csharp_style_var_when_type_is_apparent = true:suggestion
+csharp_style_var_elsewhere = true:suggestion
+
+# Expression-bodied members
+csharp_style_expression_bodied_methods = when_on_single_line:suggestion
+csharp_style_expression_bodied_properties = true:suggestion
+csharp_style_expression_bodied_accessors = true:suggestion
+
+# Namespace
+csharp_style_namespace_declarations = file_scoped:warning
+
+# Primary constructor preferences
+csharp_style_prefer_primary_constructors = true:suggestion
+
+# Null checking
+csharp_style_prefer_pattern_matching = true:suggestion
+dotnet_style_null_propagation = true:suggestion
+
+# New line preferences
+csharp_new_line_before_open_brace = all
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+
+
+
+================================================================================
+FILE: .github/workflows/ci.yml
+SIZE: 1 KB
+MODIFIED: 03/26/2026 20:14:56
+================================================================================
+
+name: Build & Test
+
+on:
+  push:
+    branches: [main, master, development]
+  pull_request:
+    branches: [main, master, development]
+
+permissions:
+  contents: read
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore
+        run: dotnet restore Virginia.slnx
+
+      - name: Build
+        run: dotnet build Virginia.slnx --no-restore --configuration Release
+
+      - name: Test
+        run: dotnet test Virginia.slnx --no-build --configuration Release --verbosity normal --logger "trx;LogFileName=results.trx" --results-directory ./TestResults
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: TestResults/**/*.trx
+          retention-days: 7
+          if-no-files-found: ignore
+
+
+
+================================================================================
+FILE: .gitignore
+SIZE: 8.34 KB
+MODIFIED: 03/26/2026 20:52:31
+================================================================================
+
+## Ignore Visual Studio temporary files, build results, and
+## files generated by popular Visual Studio add-ons.
+##
+## Get latest from `dotnet new gitignore`
+
+# dotenv files
+.env
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# User-specific files (MonoDevelop/Xamarin Studio)
+*.userprefs
+
+# Mono auto generated files
+mono_crash.*
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio 2015/2017 cache/options directory
+.vs/
+# Uncomment if you have tasks that create the project's static files in wwwroot
+#wwwroot/
+
+# Visual Studio 2017 auto generated files
+Generated\ Files/
+
+# MSTest test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# NUnit
+*.VisualState.xml
+TestResult.xml
+nunit-*.xml
+
+# Build Results of an ATL Project
+[Dd]ebugPS/
+[Rr]eleasePS/
+dlldata.c
+
+# Benchmark Results
+BenchmarkDotNet.Artifacts/
+
+# .NET
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Tye
+.tye/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# StyleCop
+StyleCopReport.xml
+
+# Files built by Visual Studio
+*_i.c
+*_p.c
+*_h.h
+*.ilk
+*.meta
+*.obj
+*.iobj
+*.pch
+*.pdb
+*.ipdb
+*.pgc
+*.pgd
+*.rsp
+# but not Directory.Build.rsp, as it configures directory-level build defaults
+!Directory.Build.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*_wpftmp.csproj
+*.log
+*.tlog
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
+
+# Chutzpah Test files
+_Chutzpah*
+
+# Visual C++ cache files
+ipch/
+*.aps
+*.ncb
+*.opendb
+*.opensdf
+*.sdf
+*.cachefile
+*.VC.db
+*.VC.VC.opendb
+
+# Visual Studio profiler
+*.psess
+*.vsp
+*.vspx
+*.sap
+
+# Visual Studio Trace Files
+*.e2e
+
+# TFS 2012 Local Workspace
+$tf/
+
+# Guidance Automation Toolkit
+*.gpState
+
+# ReSharper is a .NET coding add-in
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# TeamCity is a build add-in
+_TeamCity*
+
+# DotCover is a Code Coverage Tool
+*.dotCover
+
+# AxoCover is a Code Coverage Tool
+.axoCover/*
+!.axoCover/settings.json
+
+# Coverlet is a free, cross platform Code Coverage Tool
+coverage*.json
+coverage*.xml
+coverage*.info
+
+# Visual Studio code coverage results
+*.coverage
+*.coveragexml
+
+# NCrunch
+_NCrunch_*
+.*crunch*.local.xml
+nCrunchTemp_*
+
+# MightyMoose
+*.mm.*
+AutoTest.Net/
+
+# Web workbench (sass)
+.sass-cache/
+
+# Installshield output folder
+[Ee]xpress/
+
+# DocProject is a documentation generator add-in
+DocProject/buildhelp/
+DocProject/Help/*.HxT
+DocProject/Help/*.HxC
+DocProject/Help/*.hhc
+DocProject/Help/*.hhk
+DocProject/Help/*.hhp
+DocProject/Help/Html2
+DocProject/Help/html
+
+# Click-Once directory
+publish/
+
+# Publish Web Output
+*.[Pp]ublish.xml
+*.azurePubxml
+# Note: Comment the next line if you want to checkin your web deploy settings,
+# but database connection strings (with potential passwords) will be unencrypted
+*.pubxml
+*.publishproj
+
+# Microsoft Azure Web App publish settings. Comment the next line if you want to
+# checkin your Azure Web App publish settings, but sensitive information contained
+# in these scripts will be unencrypted
+PublishScripts/
+
+# NuGet Packages
+*.nupkg
+# NuGet Symbol Packages
+*.snupkg
+# The packages folder can be ignored because of Package Restore
+**/[Pp]ackages/*
+# except build/, which is used as an MSBuild target.
+!**/[Pp]ackages/build/
+# Uncomment if necessary however generally it will be regenerated when needed
+#!**/[Pp]ackages/repositories.config
+# NuGet v3's project.json files produces more ignorable files
+*.nuget.props
+*.nuget.targets
+
+# Microsoft Azure Build Output
+csx/
+*.build.csdef
+
+# Microsoft Azure Emulator
+ecf/
+rcf/
+
+# Windows Store app package directories and files
+AppPackages/
+BundleArtifacts/
+Package.StoreAssociation.xml
+_pkginfo.txt
+*.appx
+*.appxbundle
+*.appxupload
+
+# Visual Studio cache files
+# files ending in .cache can be ignored
+*.[Cc]ache
+# but keep track of directories ending in .cache
+!?*.[Cc]ache/
+
+# Others
+ClientBin/
+~$*
+*~
+*.dbmdl
+*.dbproj.schemaview
+*.jfm
+*.pfx
+*.publishsettings
+orleans.codegen.cs
+
+# Including strong name files can present a security risk
+# (https://github.com/github/gitignore/pull/2483#issue-259490424)
+#*.snk
+
+# Since there are multiple workflows, uncomment next line to ignore bower_components
+# (https://github.com/github/gitignore/pull/1529#issuecomment-104372622)
+#bower_components/
+
+# RIA/Silverlight projects
+Generated_Code/
+
+# Backup & report files from converting an old project file
+# to a newer Visual Studio version. Backup files are not needed,
+# because we have git ;-)
+_UpgradeReport_Files/
+Backup*/
+UpgradeLog*.XML
+UpgradeLog*.htm
+ServiceFabricBackup/
+*.rptproj.bak
+
+# SQL Server files
+*.mdf
+*.ldf
+*.ndf
+
+# Business Intelligence projects
+*.rdl.data
+*.bim.layout
+*.bim_*.settings
+*.rptproj.rsuser
+*- [Bb]ackup.rdl
+*- [Bb]ackup ([0-9]).rdl
+*- [Bb]ackup ([0-9][0-9]).rdl
+
+# Microsoft Fakes
+FakesAssemblies/
+
+# GhostDoc plugin setting file
+*.GhostDoc.xml
+
+# Node.js Tools for Visual Studio
+.ntvs_analysis.dat
+node_modules/
+
+# Visual Studio 6 build log
+*.plg
+
+# Visual Studio 6 workspace options file
+*.opt
+
+# Visual Studio 6 auto-generated workspace file (contains which files were open etc.)
+*.vbw
+
+# Visual Studio 6 auto-generated project file (contains which files were open etc.)
+*.vbp
+
+# Visual Studio 6 workspace and project file (working project files containing files to include in project)
+*.dsw
+*.dsp
+
+# Visual Studio 6 technical files
+*.ncb
+*.aps
+
+# Visual Studio LightSwitch build output
+**/*.HTMLClient/GeneratedArtifacts
+**/*.DesktopClient/GeneratedArtifacts
+**/*.DesktopClient/ModelManifest.xml
+**/*.Server/GeneratedArtifacts
+**/*.Server/ModelManifest.xml
+_Pvt_Extensions
+
+# Paket dependency manager
+.paket/paket.exe
+paket-files/
+
+# FAKE - F# Make
+.fake/
+
+# CodeRush personal settings
+.cr/personal
+
+# Python Tools for Visual Studio (PTVS)
+__pycache__/
+*.pyc
+
+# Cake - Uncomment if you are using it
+# tools/**
+# !tools/packages.config
+
+# Tabs Studio
+*.tss
+
+# Telerik's JustMock configuration file
+*.jmconfig
+
+# BizTalk build output
+*.btp.cs
+*.btm.cs
+*.odx.cs
+*.xsd.cs
+
+# OpenCover UI analysis results
+OpenCover/
+
+# Azure Stream Analytics local run output
+ASALocalRun/
+
+# MSBuild Binary and Structured Log
+*.binlog
+
+# NVidia Nsight GPU debugger configuration file
+*.nvuser
+
+# MFractors (Xamarin productivity tool) working folder
+.mfractor/
+
+# Local History for Visual Studio
+.localhistory/
+
+# Visual Studio History (VSHistory) files
+.vshistory/
+
+# BeatPulse healthcheck temp database
+healthchecksdb
+
+# Backup folder for Package Reference Convert tool in Visual Studio 2017
+MigrationBackup/
+
+# Ionide (cross platform F# VS Code tools) working folder
+.ionide/
+
+# Fody - auto-generated XML schema
+FodyWeavers.xsd
+
+# VS Code files for those working on multiple tools
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# Local History for Visual Studio Code
+.history/
+
+# Windows Installer files from build outputs
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+
+# JetBrains Rider
+*.sln.iml
+.idea/
+
+##
+## Visual studio for Mac
+##
+
+
+# globs
+Makefile.in
+*.userprefs
+*.usertasks
+config.make
+config.status
+aclocal.m4
+install-sh
+autom4te.cache/
+*.tar.gz
+tarballs/
+test-results/
+
+# content below from: https://github.com/github/gitignore/blob/main/Global/macOS.gitignore
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# content below from: https://github.com/github/gitignore/blob/main/Global/Windows.gitignore
+# Windows thumbnail cache files
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+
+# Dump file
+*.stackdump
+
+# Folder config file
+[Dd]esktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk
+
+# Vim temporary swap files
+*.swp
+
+# SQLite databases
+*.db
+*.db-shm
+*.db-wal
+
+
+
+================================================================================
+FILE: Directory.Build.props
+SIZE: 0.43 KB
+MODIFIED: 03/26/2026 16:10:37
+================================================================================
+
+<Project>
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+</Project>
+
+
+
+================================================================================
+FILE: Directory.Packages.props
+SIZE: 1.29 KB
+MODIFIED: 03/26/2026 20:14:43
+================================================================================
+
+<Project>
+  <ItemGroup>
+    <!-- EF Core -->
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.5" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.5" />
+    <!-- Identity -->
+    <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.5" />
+    <!-- OpenTelemetry -->
+    <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.15.0" />
+    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.15.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.15.1" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.15.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.15.0" />
+    <!-- Aspire extensions (service discovery, resilience) -->
+    <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.4.0" />
+    <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="10.4.0" />
+    <!-- Testing -->
+    <PackageVersion Include="xunit.v3" Version="3.2.2" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.3.0" />
+  </ItemGroup>
+</Project>
+
+
+
+================================================================================
+FILE: Export.ps1
+SIZE: 5.83 KB
+MODIFIED: 03/26/2026 14:28:40
+================================================================================
+
+# Export Git-tracked ASP.NET Project Files to Single Text File
+# Uses `git ls-files` so only committed/staged files are included.
+
+param(
+    [string]$ProjectPath = ".",
+    [string]$OutputFile = "docs/llm/dump.txt"
+)
+
+# File extensions to include (without the leading dot)
+$IncludeExtensions = @(
+    "cs", "json", "xml", "csproj", "slnx", "sln", "config",
+    "cshtml", "razor", "js", "css", "scss", "html",
+    "yml", "yaml", "sql", "props", "targets", "sh",
+    "ps1"
+)
+
+# Exact filenames (no extension match needed)
+$IncludeSpecificFiles = @(
+    "Dockerfile", ".dockerignore", ".editorconfig",
+    ".gitignore", ".gitattributes"
+)
+
+# Directories to skip even if tracked (e.g. this script's own output)
+$ExcludeDirectories = @("docs")
+
+Write-Host "Starting project export..." -ForegroundColor Green
+Write-Host "Project Path: $ProjectPath" -ForegroundColor Yellow
+Write-Host "Output File: $OutputFile" -ForegroundColor Yellow
+
+# ── Resolve paths ────────────────────────────────────────────────────────────
+Push-Location $ProjectPath
+$ResolvedRoot = (Resolve-Path ".").Path
+
+$OutputPath = Join-Path $ResolvedRoot $OutputFile
+$outputDir  = Split-Path $OutputPath -Parent
+if (!(Test-Path $outputDir)) { New-Item -ItemType Directory -Path $outputDir -Force | Out-Null }
+
+# ── Get tracked files from Git ───────────────────────────────────────────────
+Write-Host "Querying git for tracked files..." -ForegroundColor Cyan
+
+$gitFiles = git ls-files --cached --others --exclude-standard 2>&1
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "ERROR: git ls-files failed. Are you inside a git repository?" -ForegroundColor Red
+    Pop-Location
+    exit 1
+}
+
+# Filter to desired extensions / specific filenames, and exclude dirs
+$AllFiles = $gitFiles | ForEach-Object {
+    $rel = $_
+    $name = Split-Path $rel -Leaf
+    $ext  = ($name -replace '^.*\.', '').ToLower()
+
+    # Skip excluded directories
+    $skip = $false
+    foreach ($d in $ExcludeDirectories) {
+        if ($rel -like "$d/*" -or $rel -like "$d\*") { $skip = $true; break }
+    }
+    if ($skip) { return }
+
+    # Match by extension or specific filename
+    if ($IncludeExtensions -contains $ext -or $IncludeSpecificFiles -contains $name) {
+        $fullPath = Join-Path $ResolvedRoot $rel
+        if (Test-Path $fullPath) {
+            [PSCustomObject]@{ Relative = $rel; Full = $fullPath }
+        }
+    }
+} | Sort-Object Relative
+
+Write-Host "Found $($AllFiles.Count) files to export" -ForegroundColor Green
+
+# ── Write header ─────────────────────────────────────────────────────────────
+$header = @"
+===============================================================================
+ASP.NET PROJECT EXPORT  (git-tracked files only)
+Generated: $(Get-Date)
+Project Path: $ResolvedRoot
+===============================================================================
+
+"@
+$header | Out-File -FilePath $OutputPath -Encoding UTF8
+
+# ── Directory tree (git ls-tree) ─────────────────────────────────────────────
+"DIRECTORY STRUCTURE (tracked):" | Out-File -FilePath $OutputPath -Append -Encoding UTF8
+"==============================" | Out-File -FilePath $OutputPath -Append -Encoding UTF8
+""  | Out-File -FilePath $OutputPath -Append -Encoding UTF8
+
+# Show a compact tree of tracked paths
+$gitFiles | Sort-Object | Out-File -FilePath $OutputPath -Append -Encoding UTF8
+
+""  | Out-File -FilePath $OutputPath -Append -Encoding UTF8
+""  | Out-File -FilePath $OutputPath -Append -Encoding UTF8
+
+# ── File contents ────────────────────────────────────────────────────────────
+"FILE CONTENTS:" | Out-File -FilePath $OutputPath -Append -Encoding UTF8
+"==============" | Out-File -FilePath $OutputPath -Append -Encoding UTF8
+""  | Out-File -FilePath $OutputPath -Append -Encoding UTF8
+
+$i = 0
+foreach ($f in $AllFiles) {
+    $i++
+    $info = Get-Item $f.Full
+    Write-Host "Processing ($i/$($AllFiles.Count)): $($f.Relative)" -ForegroundColor White
+
+    $sep = "=" * 80
+    @"
+$sep
+FILE: $($f.Relative)
+SIZE: $([math]::Round($info.Length / 1KB, 2)) KB
+MODIFIED: $($info.LastWriteTime)
+$sep
+
+"@ | Out-File -FilePath $OutputPath -Append -Encoding UTF8
+
+    try {
+        $content = Get-Content -Path $f.Full -Raw -ErrorAction Stop
+        if ($content) {
+            $content | Out-File -FilePath $OutputPath -Append -Encoding UTF8
+        } else {
+            "[EMPTY FILE]" | Out-File -FilePath $OutputPath -Append -Encoding UTF8
+        }
+    } catch {
+        "[ERROR READING FILE: $($_.Exception.Message)]" | Out-File -FilePath $OutputPath -Append -Encoding UTF8
+    }
+
+    "" | Out-File -FilePath $OutputPath -Append -Encoding UTF8
+    "" | Out-File -FilePath $OutputPath -Append -Encoding UTF8
+}
+
+# ── Footer ───────────────────────────────────────────────────────────────────
+@"
+===============================================================================
+EXPORT COMPLETED: $(Get-Date)
+Total Files Exported: $i
+Output File: $OutputPath
+===============================================================================
+"@ | Out-File -FilePath $OutputPath -Append -Encoding UTF8
+
+Pop-Location
+
+Write-Host "`nExport completed!" -ForegroundColor Green
+Write-Host "Total files exported: $i" -ForegroundColor Green
+Write-Host "Output file size: $([math]::Round((Get-Item $OutputPath).Length / 1KB, 2)) KB" -ForegroundColor Cyan
+
+
+
+================================================================================
+FILE: Virginia.AppHost/AppHost.cs
+SIZE: 0.14 KB
+MODIFIED: 03/26/2026 16:13:04
+================================================================================
+
+var builder = DistributedApplication.CreateBuilder(args);
+
+builder.AddProject<Projects.Virginia>("virginia");
+
+builder.Build().Run();
+
+
+
+================================================================================
+FILE: Virginia.AppHost/appsettings.Development.json
+SIZE: 0.12 KB
+MODIFIED: 03/26/2026 16:13:31
+================================================================================
+
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  }
+}
+
+
+
+================================================================================
+FILE: Virginia.AppHost/appsettings.json
+SIZE: 0.16 KB
+MODIFIED: 03/26/2026 16:13:21
+================================================================================
+
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning",
+      "Aspire.Hosting.Dcp": "Warning"
+    }
+  }
+}
+
+
+
+================================================================================
+FILE: Virginia.AppHost/Properties/launchSettings.json
+SIZE: 1.15 KB
+MODIFIED: 03/26/2026 16:13:51
+================================================================================
+
+{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "https": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "applicationUrl": "https://localhost:17205;http://localhost:15227",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DOTNET_ENVIRONMENT": "Development",
+        "ASPIRE_DASHBOARD_OTLP_ENDPOINT_URL": "https://localhost:21205",
+        "ASPIRE_DASHBOARD_MCP_ENDPOINT_URL": "https://localhost:23075",
+        "ASPIRE_RESOURCE_SERVICE_ENDPOINT_URL": "https://localhost:22235"
+      }
+    },
+    "http": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "applicationUrl": "http://localhost:15227",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DOTNET_ENVIRONMENT": "Development",
+        "ASPIRE_DASHBOARD_OTLP_ENDPOINT_URL": "http://localhost:19029",
+        "ASPIRE_DASHBOARD_MCP_ENDPOINT_URL": "http://localhost:18026",
+        "ASPIRE_RESOURCE_SERVICE_ENDPOINT_URL": "http://localhost:20272"
+      }
+    }
+  }
+}
+
+
+
+================================================================================
+FILE: Virginia.AppHost/Virginia.AppHost.csproj
+SIZE: 0.29 KB
+MODIFIED: 03/26/2026 20:58:01
+================================================================================
+
+<Project Sdk="Aspire.AppHost.Sdk/13.1.0">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <UserSecretsId>6587bc8b-aaa4-48f4-84f2-85a615267c18</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Virginia\Virginia.csproj" />
+  </ItemGroup>
+
+</Project>
+
+
+
+================================================================================
+FILE: Virginia.ServiceDefaults/Extensions.cs
+SIZE: 3.3 KB
+MODIFIED: 03/26/2026 20:25:20
+================================================================================
+
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.ServiceDiscovery;
+using OpenTelemetry;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Trace;
+
+namespace Virginia.ServiceDefaults;
+
+public static class Extensions
+{
+    private const string HealthEndpointPath = "/health";
+    private const string AlivenessEndpointPath = "/alive";
+
+    public static TBuilder AddServiceDefaults<TBuilder>(this TBuilder builder)
+        where TBuilder : IHostApplicationBuilder
+    {
+        builder.ConfigureOpenTelemetry();
+        builder.AddDefaultHealthChecks();
+        builder.Services.AddServiceDiscovery();
+
+        builder.Services.ConfigureHttpClientDefaults(http =>
+        {
+            http.AddStandardResilienceHandler();
+            http.AddServiceDiscovery();
+        });
+
+        return builder;
+    }
+
+    public static TBuilder ConfigureOpenTelemetry<TBuilder>(this TBuilder builder)
+        where TBuilder : IHostApplicationBuilder
+    {
+        builder.Logging.AddOpenTelemetry(logging =>
+        {
+            logging.IncludeFormattedMessage = true;
+            logging.IncludeScopes = true;
+        });
+
+        builder.Services.AddOpenTelemetry()
+            .WithMetrics(metrics =>
+            {
+                metrics.AddAspNetCoreInstrumentation()
+                    .AddHttpClientInstrumentation()
+                    .AddRuntimeInstrumentation();
+            })
+            .WithTracing(tracing =>
+            {
+                tracing.AddSource(builder.Environment.ApplicationName)
+                    .AddAspNetCoreInstrumentation(opts =>
+                        opts.Filter = context =>
+                            !context.Request.Path.StartsWithSegments(HealthEndpointPath)
+                            && !context.Request.Path.StartsWithSegments(AlivenessEndpointPath))
+                    .AddHttpClientInstrumentation();
+            });
+
+        builder.AddOpenTelemetryExporters();
+
+        return builder;
+    }
+
+    private static TBuilder AddOpenTelemetryExporters<TBuilder>(this TBuilder builder)
+        where TBuilder : IHostApplicationBuilder
+    {
+        var useOtlpExporter = !string.IsNullOrWhiteSpace(
+            builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"]);
+
+        if (useOtlpExporter)
+        {
+            builder.Services.AddOpenTelemetry().UseOtlpExporter();
+        }
+
+        return builder;
+    }
+
+    public static TBuilder AddDefaultHealthChecks<TBuilder>(this TBuilder builder)
+        where TBuilder : IHostApplicationBuilder
+    {
+        builder.Services.AddHealthChecks()
+            .AddCheck("self", () => HealthCheckResult.Healthy(), ["live"]);
+
+        return builder;
+    }
+
+    public static WebApplication MapDefaultEndpoints(this WebApplication app)
+    {
+        if (app.Environment.IsDevelopment())
+        {
+            app.MapHealthChecks(HealthEndpointPath);
+            app.MapHealthChecks(AlivenessEndpointPath, new HealthCheckOptions
+            {
+                Predicate = r => r.Tags.Contains("live")
+            });
+        }
+
+        return app;
+    }
+}
+
+
+
+================================================================================
+FILE: Virginia.ServiceDefaults/Virginia.ServiceDefaults.csproj
+SIZE: 0.75 KB
+MODIFIED: 03/26/2026 16:14:05
+================================================================================
+
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsAspireSharedProject>true</IsAspireSharedProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+
+    <PackageReference Include="Microsoft.Extensions.Http.Resilience" />
+    <PackageReference Include="Microsoft.Extensions.ServiceDiscovery" />
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" />
+  </ItemGroup>
+
+</Project>
+
+
+
+================================================================================
+FILE: Virginia.slnx
+SIZE: 0.27 KB
+MODIFIED: 03/26/2026 20:58:12
+================================================================================
+
+<Solution>
+  <Project Path="Virginia.AppHost/Virginia.AppHost.csproj" />
+  <Project Path="Virginia.ServiceDefaults/Virginia.ServiceDefaults.csproj" />
+  <Project Path="Virginia/Virginia.csproj" />
+  <Project Path="Virginia.Tests/Virginia.Tests.csproj" />
+</Solution>
+
+
+
+================================================================================
+FILE: Virginia.Tests/ContactServiceTests.cs
+SIZE: 25.06 KB
+MODIFIED: 03/26/2026 20:23:19
+================================================================================
+
+using Microsoft.EntityFrameworkCore;
+using Virginia.Data;
+using Xunit;
+
+namespace Virginia.Tests;
+
+public sealed class ContactServiceTests
+{
+    private static CancellationToken CT => TestContext.Current.CancellationToken;
+
+    // ─── Create ──────────────────────────────────────────────────────────
+
+    [Fact]
+    public async Task Create_ReturnsPositiveId()
+    {
+        await using var h = await TestHarness.CreateAsync();
+
+        var id = await h.Service.CreateAsync(
+            new ContactFormModel { FirstName = "Jane", LastName = "Doe" }, CT);
+
+        Assert.True(id > 0);
+    }
+
+    [Fact]
+    public async Task Create_WithChildren_PersistsAll()
+    {
+        await using var h = await TestHarness.CreateAsync();
+        var form = new ContactFormModel
+        {
+            FirstName = "John", LastName = "Smith",
+            Emails =
+            [
+                new() { Label = "Work", Address = "john@work.com" },
+                new() { Label = "Home", Address = "john@home.com" }
+            ],
+            Phones = [new() { Label = "Mobile", Number = "555-0100" }],
+            Addresses =
+            [
+                new()
+                {
+                    Label = "Office", Street = "123 Main St",
+                    City = "Richmond", State = "VA",
+                    PostalCode = "23220", Country = "US"
+                }
+            ]
+        };
+
+        var id = await h.Service.CreateAsync(form, CT);
+        var detail = await h.Service.GetAsync(id, CT);
+
+        Assert.NotNull(detail);
+        Assert.Equal("John", detail.FirstName);
+        Assert.Equal(2, detail.Emails.Count);
+        Assert.Single(detail.Phones);
+        Assert.Single(detail.Addresses);
+        Assert.Equal("Richmond", detail.Addresses[0].City);
+    }
+
+    [Fact]
+    public async Task Create_WithZeroChildren_Succeeds()
+    {
+        await using var h = await TestHarness.CreateAsync();
+
+        var id = await h.Service.CreateAsync(
+            new ContactFormModel { FirstName = "Solo", LastName = "Contact" }, CT);
+        var detail = await h.Service.GetAsync(id, CT);
+
+        Assert.NotNull(detail);
+        Assert.Empty(detail.Emails);
+        Assert.Empty(detail.Phones);
+        Assert.Empty(detail.Addresses);
+        Assert.Empty(detail.Notes);
+    }
+
+    [Fact]
+    public async Task Create_TrimsWhitespace()
+    {
+        await using var h = await TestHarness.CreateAsync();
+        var form = new ContactFormModel
+        {
+            FirstName = "  Alice  ", LastName = "  Smith  ",
+            Emails = [new() { Label = " Work ", Address = " a@b.com " }]
+        };
+
+        var id = await h.Service.CreateAsync(form, CT);
+        var detail = await h.Service.GetAsync(id, CT);
+
+        Assert.Equal("Alice", detail!.FirstName);
+        Assert.Equal("Smith", detail.LastName);
+        Assert.Equal("Work", detail.Emails[0].Label);
+        Assert.Equal("a@b.com", detail.Emails[0].Address);
+    }
+
+    [Fact]
+    public async Task Create_SetsTimestamps()
+    {
+        await using var h = await TestHarness.CreateAsync();
+        var before = DateTime.UtcNow;
+
+        var id = await h.Service.CreateAsync(
+            new ContactFormModel { FirstName = "T", LastName = "S" }, CT);
+        var detail = await h.Service.GetAsync(id, CT);
+
+        Assert.True(detail!.CreatedAtUtc >= before);
+        Assert.True(detail.UpdatedAtUtc >= before);
+        Assert.Equal(detail.CreatedAtUtc, detail.UpdatedAtUtc);
+    }
+
+    // ─── Get ─────────────────────────────────────────────────────────────
+
+    [Fact]
+    public async Task Get_NonExistent_ReturnsNull()
+    {
+        await using var h = await TestHarness.CreateAsync();
+
+        Assert.Null(await h.Service.GetAsync(9999, CT));
+    }
+
+    // ─── Update ──────────────────────────────────────────────────────────
+
+    [Fact]
+    public async Task Update_ChangesName()
+    {
+        await using var h = await TestHarness.CreateAsync();
+        var id = await h.Service.CreateAsync(
+            new ContactFormModel { FirstName = "Old", LastName = "Name" }, CT);
+
+        await h.Service.UpdateAsync(id,
+            new ContactFormModel { FirstName = "New", LastName = "Name" }, CT);
+
+        var detail = await h.Service.GetAsync(id, CT);
+        Assert.Equal("New", detail!.FirstName);
+    }
+
+    [Fact]
+    public async Task Update_AddsAndRemovesEmails()
+    {
+        await using var h = await TestHarness.CreateAsync();
+        var form = new ContactFormModel
+        {
+            FirstName = "Test", LastName = "User",
+            Emails =
+            [
+                new() { Label = "A", Address = "a@t.com" },
+                new() { Label = "B", Address = "b@t.com" }
+            ]
+        };
+        var id = await h.Service.CreateAsync(form, CT);
+        var detail = await h.Service.GetAsync(id, CT);
+
+        var updateForm = new ContactFormModel
+        {
+            FirstName = "Test", LastName = "User",
+            Emails =
+            [
+                new() { Id = detail!.Emails[0].Id, Label = "A2", Address = "a2@t.com" },
+                new() { Label = "C", Address = "c@t.com" }
+            ]
+        };
+
+        await h.Service.UpdateAsync(id, updateForm, CT);
+        var updated = await h.Service.GetAsync(id, CT);
+
+        Assert.Equal(2, updated!.Emails.Count);
+        Assert.Contains(updated.Emails, e => e.Address == "a2@t.com");
+        Assert.Contains(updated.Emails, e => e.Address == "c@t.com");
+        Assert.DoesNotContain(updated.Emails, e => e.Address == "b@t.com");
+    }
+
+    [Fact]
+    public async Task Update_NonExistent_Throws()
+    {
+        await using var h = await TestHarness.CreateAsync();
+
+        await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            h.Service.UpdateAsync(9999,
+                new ContactFormModel { FirstName = "X", LastName = "Y" }, CT));
+    }
+
+    [Fact]
+    public async Task Update_BumpsTimestamp()
+    {
+        await using var h = await TestHarness.CreateAsync();
+        var id = await h.Service.CreateAsync(
+            new ContactFormModel { FirstName = "T", LastName = "S" }, CT);
+        var before = (await h.Service.GetAsync(id, CT))!.UpdatedAtUtc;
+
+        await Task.Delay(50, CT);
+        await h.Service.UpdateAsync(id,
+            new ContactFormModel { FirstName = "T2", LastName = "S" }, CT);
+
+        var after = (await h.Service.GetAsync(id, CT))!.UpdatedAtUtc;
+        Assert.True(after > before);
+    }
+
+    // ─── Delete ──────────────────────────────────────────────────────────
+
+    [Fact]
+    public async Task Delete_RemovesContact()
+    {
+        await using var h = await TestHarness.CreateAsync();
+        var id = await h.Service.CreateAsync(
+            new ContactFormModel { FirstName = "Gone", LastName = "Soon" }, CT);
+
+        await h.Service.DeleteAsync(id, CT);
+
+        Assert.Null(await h.Service.GetAsync(id, CT));
+    }
+
+    [Fact]
+    public async Task Delete_CascadesChildren()
+    {
+        await using var h = await TestHarness.CreateAsync();
+        var form = new ContactFormModel
+        {
+            FirstName = "P", LastName = "C",
+            Emails = [new() { Label = "W", Address = "w@t.com" }],
+            Phones = [new() { Label = "M", Number = "555-0001" }],
+            Addresses =
+            [
+                new()
+                {
+                    Label = "H", Street = "1 St", City = "X",
+                    PostalCode = "12345", Country = "US"
+                }
+            ]
+        };
+        var id = await h.Service.CreateAsync(form, CT);
+        await h.Service.AddNoteAsync(id, "test note", "user1", "user@test.com", CT);
+
+        await h.Service.DeleteAsync(id, CT);
+
+        Assert.Equal(0, await h.Db.ContactEmails.CountAsync(CT));
+        Assert.Equal(0, await h.Db.ContactPhones.CountAsync(CT));
+        Assert.Equal(0, await h.Db.ContactAddresses.CountAsync(CT));
+        Assert.Equal(0, await h.Db.ContactNotes.CountAsync(CT));
+    }
+
+    [Fact]
+    public async Task Delete_NonExistent_DoesNotThrow()
+    {
+        await using var h = await TestHarness.CreateAsync();
+
+        await h.Service.DeleteAsync(9999, CT);
+    }
+
+    // ─── List / Filtering ────────────────────────────────────────────────
+
+    [Fact]
+    public async Task List_FilterByName_MatchesPartial()
+    {
+        await using var h = await TestHarness.CreateAsync();
+        await h.Service.CreateAsync(new() { FirstName = "Alice", LastName = "Johnson" }, CT);
+        await h.Service.CreateAsync(new() { FirstName = "Bob", LastName = "Jones" }, CT);
+        await h.Service.CreateAsync(new() { FirstName = "Charlie", LastName = "Brown" }, CT);
+
+        var result = await h.Service.ListAsync(new(Name: "Jo"), 1, 50, CT);
+
+        Assert.Equal(2, result.TotalCount);
+    }
+
+    [Fact]
+    public async Task List_FilterByEmail()
+    {
+        await using var h = await TestHarness.CreateAsync();
+        await h.Service.CreateAsync(new()
+        {
+            FirstName = "A", LastName = "B",
+            Emails = [new() { Label = "W", Address = "alice@example.com" }]
+        }, CT);
+        await h.Service.CreateAsync(new() { FirstName = "C", LastName = "D" }, CT);
+
+        var result = await h.Service.ListAsync(new(Email: "alice"), 1, 50, CT);
+
+        Assert.Single(result.Items);
+        Assert.Equal("A", result.Items[0].FirstName);
+    }
+
+    [Fact]
+    public async Task List_FilterByPhone()
+    {
+        await using var h = await TestHarness.CreateAsync();
+        await h.Service.CreateAsync(new()
+        {
+            FirstName = "A", LastName = "B",
+            Phones = [new() { Label = "M", Number = "757-555-0199" }]
+        }, CT);
+        await h.Service.CreateAsync(new() { FirstName = "C", LastName = "D" }, CT);
+
+        var result = await h.Service.ListAsync(new(Phone: "0199"), 1, 50, CT);
+
+        Assert.Single(result.Items);
+    }
+
+    [Fact]
+    public async Task List_FilterByCity()
+    {
+        await using var h = await TestHarness.CreateAsync();
+        await h.Service.CreateAsync(new()
+        {
+            FirstName = "A", LastName = "B",
+            Addresses =
+            [
+                new()
+                {
+                    Label = "H", Street = "1 St", City = "Newport News",
+                    State = "VA", PostalCode = "23601", Country = "US"
+                }
+            ]
+        }, CT);
+        await h.Service.CreateAsync(new()
+        {
+            FirstName = "C", LastName = "D",
+            Addresses =
+            [
+                new()
+                {
+                    Label = "H", Street = "2 St", City = "Richmond",
+                    State = "VA", PostalCode = "23220", Country = "US"
+                }
+            ]
+        }, CT);
+
+        var result = await h.Service.ListAsync(new(City: "Newport"), 1, 50, CT);
+
+        Assert.Single(result.Items);
+    }
+
+    [Fact]
+    public async Task List_FilterByState()
+    {
+        await using var h = await TestHarness.CreateAsync();
+        await h.Service.CreateAsync(new()
+        {
+            FirstName = "VA", LastName = "Person",
+            Addresses =
+            [
+                new()
+                {
+                    Label = "H", Street = "1 St", City = "A",
+                    State = "VA", PostalCode = "23601", Country = "US"
+                }
+            ]
+        }, CT);
+        await h.Service.CreateAsync(new()
+        {
+            FirstName = "CA", LastName = "Person",
+            Addresses =
+            [
+                new()
+                {
+                    Label = "H", Street = "2 St", City = "B",
+                    State = "CA", PostalCode = "90210", Country = "US"
+                }
+            ]
+        }, CT);
+
+        var result = await h.Service.ListAsync(new(State: "VA"), 1, 50, CT);
+
+        Assert.Single(result.Items);
+        Assert.Equal("VA", result.Items[0].FirstName);
+    }
+
+    [Fact]
+    public async Task List_FilterHasPhoto_True()
+    {
+        await using var h = await TestHarness.CreateAsync();
+        var id1 = await h.Service.CreateAsync(new() { FirstName = "With", LastName = "Photo" }, CT);
+        await h.Service.CreateAsync(new() { FirstName = "No", LastName = "Photo" }, CT);
+        await h.Service.SetProfilePictureAsync(id1, [0xFF, 0xD8], "image/jpeg", CT);
+
+        var result = await h.Service.ListAsync(new(HasPhoto: true), 1, 50, CT);
+
+        Assert.Single(result.Items);
+        Assert.Equal("With", result.Items[0].FirstName);
+    }
+
+    [Fact]
+    public async Task List_FilterHasPhoto_False()
+    {
+        await using var h = await TestHarness.CreateAsync();
+        var id1 = await h.Service.CreateAsync(new() { FirstName = "With", LastName = "Photo" }, CT);
+        await h.Service.CreateAsync(new() { FirstName = "No", LastName = "Photo" }, CT);
+        await h.Service.SetProfilePictureAsync(id1, [0xFF, 0xD8], "image/jpeg", CT);
+
+        var result = await h.Service.ListAsync(new(HasPhoto: false), 1, 50, CT);
+
+        Assert.Single(result.Items);
+        Assert.Equal("No", result.Items[0].FirstName);
+    }
+
+    [Fact]
+    public async Task List_CombinedFilters()
+    {
+        await using var h = await TestHarness.CreateAsync();
+        await h.Service.CreateAsync(new()
+        {
+            FirstName = "Alice", LastName = "Johnson",
+            Addresses =
+            [
+                new()
+                {
+                    Label = "H", Street = "1 St", City = "Richmond",
+                    State = "VA", PostalCode = "23220", Country = "US"
+                }
+            ]
+        }, CT);
+        await h.Service.CreateAsync(new()
+        {
+            FirstName = "Alice", LastName = "Jones",
+            Addresses =
+            [
+                new()
+                {
+                    Label = "H", Street = "2 St", City = "Norfolk",
+                    State = "VA", PostalCode = "23510", Country = "US"
+                }
+            ]
+        }, CT);
+
+        var result = await h.Service.ListAsync(
+            new(Name: "Alice", City: "Richmond"), 1, 50, CT);
+
+        Assert.Single(result.Items);
+        Assert.Equal("Johnson", result.Items[0].LastName);
+    }
+
+    // ─── Pagination ──────────────────────────────────────────────────────
+
+    [Fact]
+    public async Task List_Pagination_WorksCorrectly()
+    {
+        await using var h = await TestHarness.CreateAsync();
+        for (var i = 0; i < 25; i++)
+            await h.Service.CreateAsync(new() { FirstName = $"U{i:D2}", LastName = "Test" }, CT);
+
+        var p1 = await h.Service.ListAsync(new(), 1, 10, CT);
+        var p2 = await h.Service.ListAsync(new(), 2, 10, CT);
+        var p3 = await h.Service.ListAsync(new(), 3, 10, CT);
+
+        Assert.Equal(25, p1.TotalCount);
+        Assert.Equal(3, p1.TotalPages);
+        Assert.Equal(10, p1.Items.Count);
+        Assert.Equal(10, p2.Items.Count);
+        Assert.Equal(5, p3.Items.Count);
+
+        Assert.True(p1.HasNext);
+        Assert.False(p1.HasPrevious);
+        Assert.True(p2.HasPrevious);
+        Assert.True(p2.HasNext);
+        Assert.True(p3.HasPrevious);
+        Assert.False(p3.HasNext);
+    }
+
+    [Fact]
+    public async Task List_OrdersByLastNameThenFirst()
+    {
+        await using var h = await TestHarness.CreateAsync();
+        await h.Service.CreateAsync(new() { FirstName = "Zoe", LastName = "Adams" }, CT);
+        await h.Service.CreateAsync(new() { FirstName = "Amy", LastName = "Adams" }, CT);
+        await h.Service.CreateAsync(new() { FirstName = "Bob", LastName = "Baker" }, CT);
+
+        var result = await h.Service.ListAsync(new(), 1, 50, CT);
+
+        Assert.Equal("Amy", result.Items[0].FirstName);
+        Assert.Equal("Zoe", result.Items[1].FirstName);
+        Assert.Equal("Bob", result.Items[2].FirstName);
+    }
+
+    // ─── Profile pictures ────────────────────────────────────────────────
+
+    [Fact]
+    public async Task ProfilePicture_SetAndRetrieve()
+    {
+        await using var h = await TestHarness.CreateAsync();
+        var id = await h.Service.CreateAsync(new() { FirstName = "P", LastName = "T" }, CT);
+        byte[] data = [0x89, 0x50, 0x4E, 0x47];
+
+        await h.Service.SetProfilePictureAsync(id, data, "image/png", CT);
+        var photo = await h.Service.GetProfilePictureAsync(id, CT);
+
+        Assert.NotNull(photo);
+        Assert.Equal(data, photo.Data);
+        Assert.Equal("image/png", photo.ContentType);
+    }
+
+    [Fact]
+    public async Task ProfilePicture_Remove()
+    {
+        await using var h = await TestHarness.CreateAsync();
+        var id = await h.Service.CreateAsync(new() { FirstName = "P", LastName = "T" }, CT);
+        await h.Service.SetProfilePictureAsync(id, [0xFF], "image/jpeg", CT);
+
+        await h.Service.RemoveProfilePictureAsync(id, CT);
+
+        Assert.Null(await h.Service.GetProfilePictureAsync(id, CT));
+    }
+
+    [Fact]
+    public async Task ProfilePicture_GetNonExistent_ReturnsNull()
+    {
+        await using var h = await TestHarness.CreateAsync();
+        var id = await h.Service.CreateAsync(new() { FirstName = "P", LastName = "T" }, CT);
+
+        Assert.Null(await h.Service.GetProfilePictureAsync(id, CT));
+    }
+
+    [Fact]
+    public async Task ProfilePicture_SetForNonExistent_Throws()
+    {
+        await using var h = await TestHarness.CreateAsync();
+
+        await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            h.Service.SetProfilePictureAsync(9999, [0xFF], "image/jpeg", CT));
+    }
+
+    // ─── Case-insensitive filtering ──────────────────────────────────────
+
+    [Theory]
+    [InlineData("linc")]
+    [InlineData("LINC")]
+    [InlineData("Linc")]
+    [InlineData("lInC")]
+    public async Task List_FilterByName_CaseInsensitive(string term)
+    {
+        await using var h = await TestHarness.CreateAsync();
+        await h.Service.CreateAsync(
+            new() { FirstName = "Abraham", LastName = "Lincoln" }, CT);
+
+        var result = await h.Service.ListAsync(new(Name: term), 1, 50, CT);
+
+        Assert.Single(result.Items);
+    }
+
+    [Fact]
+    public async Task List_FilterByEmail_CaseInsensitive()
+    {
+        await using var h = await TestHarness.CreateAsync();
+        await h.Service.CreateAsync(new()
+        {
+            FirstName = "A", LastName = "B",
+            Emails = [new() { Label = "W", Address = "Alice@Example.COM" }]
+        }, CT);
+
+        var result = await h.Service.ListAsync(new(Email: "alice@example"), 1, 50, CT);
+
+        Assert.Single(result.Items);
+    }
+
+    [Fact]
+    public async Task List_FilterByCity_CaseInsensitive()
+    {
+        await using var h = await TestHarness.CreateAsync();
+        await h.Service.CreateAsync(new()
+        {
+            FirstName = "A", LastName = "B",
+            Addresses =
+            [
+                new()
+                {
+                    Label = "H", Street = "1 St", City = "Newport News",
+                    State = "VA", PostalCode = "23601", Country = "US"
+                }
+            ]
+        }, CT);
+
+        var result = await h.Service.ListAsync(new(City: "newport news"), 1, 50, CT);
+
+        Assert.Single(result.Items);
+    }
+
+    [Fact]
+    public async Task List_FilterByState_CaseInsensitive()
+    {
+        await using var h = await TestHarness.CreateAsync();
+        await h.Service.CreateAsync(new()
+        {
+            FirstName = "A", LastName = "B",
+            Addresses =
+            [
+                new()
+                {
+                    Label = "H", Street = "1 St", City = "X",
+                    State = "VA", PostalCode = "23601", Country = "US"
+                }
+            ]
+        }, CT);
+
+        var result = await h.Service.ListAsync(new(State: "va"), 1, 50, CT);
+
+        Assert.Single(result.Items);
+    }
+
+    // ─── Page size clamping ──────────────────────────────────────────────
+
+    [Fact]
+    public async Task List_HugePageSize_ClampedToMax()
+    {
+        await using var h = await TestHarness.CreateAsync();
+        for (var i = 0; i < 5; i++)
+            await h.Service.CreateAsync(
+                new() { FirstName = $"U{i}", LastName = "T" }, CT);
+
+        var result = await h.Service.ListAsync(new(), 1, 999999, CT);
+
+        Assert.Equal(5, result.Items.Count);
+        Assert.Equal(5, result.TotalCount);
+    }
+
+    [Fact]
+    public async Task List_ZeroPageSize_ClampedToOne()
+    {
+        await using var h = await TestHarness.CreateAsync();
+        await h.Service.CreateAsync(
+            new() { FirstName = "A", LastName = "B" }, CT);
+
+        var result = await h.Service.ListAsync(new(), 1, 0, CT);
+
+        Assert.Single(result.Items);
+    }
+
+    // ─── Edge cases ──────────────────────────────────────────────────────
+
+    [Fact]
+    public async Task List_EmptyDatabase_ReturnsEmpty()
+    {
+        await using var h = await TestHarness.CreateAsync();
+
+        var result = await h.Service.ListAsync(new(), 1, 25, CT);
+
+        Assert.Empty(result.Items);
+        Assert.Equal(0, result.TotalCount);
+        Assert.Equal(0, result.TotalPages);
+    }
+
+    [Fact]
+    public async Task List_PageBeyondRange_ReturnsEmpty()
+    {
+        await using var h = await TestHarness.CreateAsync();
+        await h.Service.CreateAsync(
+            new() { FirstName = "A", LastName = "B" }, CT);
+
+        var result = await h.Service.ListAsync(new(), 999, 25, CT);
+
+        Assert.Empty(result.Items);
+        Assert.Equal(1, result.TotalCount);
+    }
+
+    [Fact]
+    public async Task List_WhitespaceOnlyFilter_TreatedAsNoFilter()
+    {
+        await using var h = await TestHarness.CreateAsync();
+        await h.Service.CreateAsync(
+            new() { FirstName = "A", LastName = "B" }, CT);
+
+        var result = await h.Service.ListAsync(new(Name: "   "), 1, 50, CT);
+
+        Assert.Single(result.Items);
+    }
+
+    // ─── Notes ───────────────────────────────────────────────────────────
+
+    [Fact]
+    public async Task AddNote_PersistsAndReturnsInDetail()
+    {
+        await using var h = await TestHarness.CreateAsync();
+        var id = await h.Service.CreateAsync(
+            new() { FirstName = "A", LastName = "B" }, CT);
+
+        var noteId = await h.Service.AddNoteAsync(
+            id, "Hello world", "user-1", "admin@test.com", CT);
+
+        Assert.True(noteId > 0);
+
+        var detail = await h.Service.GetAsync(id, CT);
+        Assert.Single(detail!.Notes);
+        Assert.Equal("Hello world", detail.Notes[0].Content);
+        Assert.Equal("admin@test.com", detail.Notes[0].CreatedByUserName);
+    }
+
+    [Fact]
+    public async Task AddNote_MultipleNotes_OrderedByNewest()
+    {
+        await using var h = await TestHarness.CreateAsync();
+        var id = await h.Service.CreateAsync(
+            new() { FirstName = "A", LastName = "B" }, CT);
+
+        await h.Service.AddNoteAsync(id, "First", "u1", "user1@test.com", CT);
+        await Task.Delay(50, CT);
+        await h.Service.AddNoteAsync(id, "Second", "u2", "user2@test.com", CT);
+
+        var detail = await h.Service.GetAsync(id, CT);
+        Assert.Equal(2, detail!.Notes.Count);
+        Assert.Equal("Second", detail.Notes[0].Content);
+        Assert.Equal("First", detail.Notes[1].Content);
+    }
+
+    [Fact]
+    public async Task AddNote_NonExistentContact_Throws()
+    {
+        await using var h = await TestHarness.CreateAsync();
+
+        await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            h.Service.AddNoteAsync(9999, "Note", "u1", "user@test.com", CT));
+    }
+
+    [Fact]
+    public async Task AddNote_TrimsContent()
+    {
+        await using var h = await TestHarness.CreateAsync();
+        var id = await h.Service.CreateAsync(
+            new() { FirstName = "A", LastName = "B" }, CT);
+
+        await h.Service.AddNoteAsync(id, "  Trimmed  ", "u1", "user@test.com", CT);
+
+        var detail = await h.Service.GetAsync(id, CT);
+        Assert.Equal("Trimmed", detail!.Notes[0].Content);
+    }
+}
+
+
+
+================================================================================
+FILE: Virginia.Tests/DtoMappingTests.cs
+SIZE: 1.77 KB
+MODIFIED: 03/26/2026 20:23:06
+================================================================================
+
+using Virginia.Data;
+using Xunit;
+
+namespace Virginia.Tests;
+
+public sealed class DtoMappingTests
+{
+    [Fact]
+    public void ContactFormModel_FromDetail_MapsCorrectly()
+    {
+        var dto = new ContactDetailDto(
+            Id: 1, FirstName: "Alice", LastName: "Smith",
+            HasPhoto: true, ProfilePictureContentType: "image/png",
+            CreatedAtUtc: DateTime.UtcNow, UpdatedAtUtc: DateTime.UtcNow,
+            Emails: [new(1, "Work", "a@b.com"), new(2, "Home", "a@c.com")],
+            Phones: [new(1, "Mobile", "555-0100")],
+            Addresses:
+            [
+                new(1, "Home", "123 Main", "Richmond", "VA", "23220", "US")
+            ],
+            Notes:
+            [
+                new(1, "Test note", "admin@test.com", DateTime.UtcNow)
+            ]);
+
+        var form = ContactFormModel.FromDetail(dto);
+
+        Assert.Equal("Alice", form.FirstName);
+        Assert.Equal("Smith", form.LastName);
+        Assert.Equal(2, form.Emails.Count);
+        Assert.Equal(1, form.Emails[0].Id);
+        Assert.Equal("Work", form.Emails[0].Label);
+        Assert.Single(form.Phones);
+        Assert.Single(form.Addresses);
+        Assert.Equal("Richmond", form.Addresses[0].City);
+    }
+
+    [Fact]
+    public void PagedResult_CalculatesProperties()
+    {
+        var result = new PagedResult<int>([1, 2, 3], TotalCount: 25, Page: 2, PageSize: 10);
+
+        Assert.Equal(3, result.TotalPages);
+        Assert.True(result.HasPrevious);
+        Assert.True(result.HasNext);
+    }
+
+    [Fact]
+    public void PagedResult_FirstPage_NoPrevious()
+    {
+        var result = new PagedResult<int>([1], TotalCount: 5, Page: 1, PageSize: 10);
+
+        Assert.False(result.HasPrevious);
+        Assert.False(result.HasNext);
+    }
+}
+
+
+
+================================================================================
+FILE: Virginia.Tests/FormValidationTests.cs
+SIZE: 5.51 KB
+MODIFIED: 03/26/2026 18:25:17
+================================================================================
+
+using System.ComponentModel.DataAnnotations;
+using Virginia.Data;
+using Xunit;
+using ValidationResult = System.ComponentModel.DataAnnotations.ValidationResult;
+
+namespace Virginia.Tests;
+
+public sealed class FormValidationTests
+{
+    private static List<ValidationResult> Validate(object model)
+    {
+        var ctx = new ValidationContext(model);
+        var results = new List<ValidationResult>();
+        Validator.TryValidateObject(model, ctx, results, validateAllProperties: true);
+        return results;
+    }
+
+    // ─── ContactFormModel ────────────────────────────────────────────────
+
+    [Fact]
+    public void Contact_RequiresFirstAndLastName()
+    {
+        var errors = Validate(new ContactFormModel { FirstName = "", LastName = "" });
+        Assert.Contains(errors, e => e.MemberNames.Contains("FirstName"));
+        Assert.Contains(errors, e => e.MemberNames.Contains("LastName"));
+    }
+
+    [Fact]
+    public void Contact_ValidForm_Passes()
+    {
+        var errors = Validate(new ContactFormModel { FirstName = "A", LastName = "B" });
+        Assert.Empty(errors);
+    }
+
+    [Fact]
+    public void Contact_MaxLength_Enforced()
+    {
+        var errors = Validate(new ContactFormModel
+        {
+            FirstName = new string('A', 101),
+            LastName = "B"
+        });
+        Assert.Contains(errors, e => e.MemberNames.Contains("FirstName"));
+    }
+
+    // ─── EmailFormModel ──────────────────────────────────────────────────
+
+    [Fact]
+    public void Email_RequiresValidAddress()
+    {
+        var errors = Validate(new EmailFormModel { Label = "Work", Address = "not-email" });
+        Assert.Contains(errors, e => e.MemberNames.Contains("Address"));
+    }
+
+    [Fact]
+    public void Email_ValidAddress_Passes()
+    {
+        var errors = Validate(new EmailFormModel { Label = "Work", Address = "a@b.com" });
+        Assert.Empty(errors);
+    }
+
+    [Fact]
+    public void Email_EmptyLabel_Fails()
+    {
+        var errors = Validate(new EmailFormModel { Label = "", Address = "a@b.com" });
+        Assert.Contains(errors, e => e.MemberNames.Contains("Label"));
+    }
+
+    // ─── PhoneFormModel ──────────────────────────────────────────────────
+
+    [Fact]
+    public void Phone_EmptyNumber_Fails()
+    {
+        var errors = Validate(new PhoneFormModel { Label = "M", Number = "" });
+        Assert.Contains(errors, e => e.MemberNames.Contains("Number"));
+    }
+
+    [Theory]
+    [InlineData("555-0100")]
+    [InlineData("(757) 555-0100")]
+    [InlineData("+1 757 555 0100")]
+    [InlineData("757.555.0100")]
+    public void Phone_ValidFormats_Pass(string number)
+    {
+        var errors = Validate(new PhoneFormModel { Label = "M", Number = number });
+        Assert.Empty(errors);
+    }
+
+    [Theory]
+    [InlineData("abc")]
+    [InlineData("12")]
+    [InlineData("!@#$%")]
+    public void Phone_InvalidFormats_Fail(string number)
+    {
+        var errors = Validate(new PhoneFormModel { Label = "M", Number = number });
+        Assert.Contains(errors, e => e.MemberNames.Contains("Number"));
+    }
+
+    // ─── AddressFormModel ────────────────────────────────────────────────
+
+    [Fact]
+    public void Address_RequiredFieldsMissing_Fails()
+    {
+        var errors = Validate(new AddressFormModel
+        {
+            Label = "Home", Street = "", City = "",
+            PostalCode = "", Country = ""
+        });
+
+        Assert.Contains(errors, e => e.MemberNames.Contains("Street"));
+        Assert.Contains(errors, e => e.MemberNames.Contains("City"));
+        Assert.Contains(errors, e => e.MemberNames.Contains("PostalCode"));
+        Assert.Contains(errors, e => e.MemberNames.Contains("Country"));
+    }
+
+    [Fact]
+    public void Address_ValidData_Passes()
+    {
+        var errors = Validate(new AddressFormModel
+        {
+            Label = "Home", Street = "123 Main St", City = "Newport News",
+            State = "VA", PostalCode = "23601", Country = "US"
+        });
+        Assert.Empty(errors);
+    }
+
+    [Fact]
+    public void Address_StateOptional()
+    {
+        var errors = Validate(new AddressFormModel
+        {
+            Label = "Home", Street = "1 St", City = "X",
+            State = "", PostalCode = "12345", Country = "US"
+        });
+        Assert.Empty(errors);
+    }
+
+    [Theory]
+    [InlineData("23601")]
+    [InlineData("23601-1234")]
+    [InlineData("SW1A 1AA")]
+    [InlineData("H2X 3Y7")]
+    public void Address_ValidPostalCodes_Pass(string code)
+    {
+        var errors = Validate(new AddressFormModel
+        {
+            Label = "H", Street = "1 St", City = "X",
+            PostalCode = code, Country = "US"
+        });
+        Assert.Empty(errors);
+    }
+
+    [Theory]
+    [InlineData("!!!")]
+    [InlineData("ab")]
+    [InlineData("")]
+    public void Address_InvalidPostalCodes_Fail(string code)
+    {
+        var errors = Validate(new AddressFormModel
+        {
+            Label = "H", Street = "1 St", City = "X",
+            PostalCode = code, Country = "US"
+        });
+        Assert.Contains(errors, e => e.MemberNames.Contains("PostalCode"));
+    }
+}
+
+
+
+================================================================================
+FILE: Virginia.Tests/TestInfrastructure.cs
+SIZE: 2.07 KB
+MODIFIED: 03/26/2026 20:58:08
+================================================================================
+
+using System.Diagnostics.Metrics;
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging.Abstractions;
+using Virginia.Data;
+using Virginia.Services;
+using Xunit;
+
+namespace Virginia.Tests;
+
+/// <summary>
+/// Creates a fresh in-memory SQLite database and wired-up service for each test.
+/// </summary>
+public sealed class TestHarness : IAsyncDisposable
+{
+    private readonly SqliteConnection _connection;
+
+    public AppDbContext Db { get; }
+    public IContactService Service { get; }
+
+    private TestHarness(SqliteConnection connection, AppDbContext db, IContactService service)
+    {
+        _connection = connection;
+        Db = db;
+        Service = service;
+    }
+
+    public static async Task<TestHarness> CreateAsync()
+    {
+        var connection = new SqliteConnection("Data Source=:memory:");
+        await connection.OpenAsync(TestContext.Current.CancellationToken);
+
+        var options = new DbContextOptionsBuilder<AppDbContext>()
+            .UseSqlite(connection)
+            .Options;
+
+        var db = new AppDbContext(options);
+        await db.Database.EnsureCreatedAsync(TestContext.Current.CancellationToken);
+
+        var meterFactory = new TestMeterFactory();
+        var telemetry = new ContactTelemetry(meterFactory);
+        IContactService service = new ContactService(
+            db,
+            NullLogger<ContactService>.Instance,
+            telemetry);
+
+        return new TestHarness(connection, db, service);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await Db.DisposeAsync();
+        await _connection.DisposeAsync();
+    }
+}
+
+/// <summary>
+/// Minimal IMeterFactory for unit tests.
+/// </summary>
+internal sealed class TestMeterFactory : IMeterFactory
+{
+    private readonly List<Meter> _meters = [];
+
+    public Meter Create(MeterOptions options)
+    {
+        var meter = new Meter(options);
+        _meters.Add(meter);
+        return meter;
+    }
+
+    public void Dispose()
+    {
+        foreach (var m in _meters) m.Dispose();
+    }
+}
+
+
+
+================================================================================
+FILE: Virginia.Tests/Virginia.Tests.csproj
+SIZE: 0.79 KB
+MODIFIED: 03/26/2026 20:58:05
+================================================================================
+
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <NoWarn>CA1707</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="xunit.runner.visualstudio">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Virginia\Virginia.csproj" />
+  </ItemGroup>
+
+</Project>
+
+
+
+================================================================================
+FILE: Virginia/appsettings.Development.json
+SIZE: 0.19 KB
+MODIFIED: 03/26/2026 17:51:05
+================================================================================
+
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning",
+      "Microsoft.EntityFrameworkCore.Database.Command": "Information"
+    }
+  }
+}
+
+
+================================================================================
+FILE: Virginia/appsettings.json
+SIZE: 0.5 KB
+MODIFIED: 03/26/2026 20:15:50
+================================================================================
+
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning",
+      "Microsoft.EntityFrameworkCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "DefaultConnection": "Data Source=virginia.db"
+  },
+  "ProfilePicture": {
+    "MaxSizeBytes": 2097152,
+    "AllowedContentTypes": [ "image/jpeg", "image/png", "image/webp" ]
+  },
+  "AdminUser": {
+    "Email": "admin@virginia.local",
+    "Password": "Admin123!"
+  }
+}
+
+
+
+================================================================================
+FILE: Virginia/Components/_Imports.razor
+SIZE: 0.58 KB
+MODIFIED: 03/26/2026 20:18:25
+================================================================================
+
+@using System.Net.Http
+@using System.Net.Http.Json
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using static Microsoft.AspNetCore.Components.Web.RenderMode
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.JSInterop
+@using Virginia
+@using Virginia.Components
+@using Virginia.Components.Layout
+@using Virginia.Data
+@using Virginia.Services
+
+
+
+================================================================================
+FILE: Virginia/Components/App.razor
+SIZE: 0.5 KB
+MODIFIED: 03/26/2026 20:18:34
+================================================================================
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    <ResourcePreloader />
+    <link rel="stylesheet" href="@Assets["app.css"]" />
+    <link rel="stylesheet" href="@Assets["Virginia.styles.css"]" />
+    <ImportMap />
+    <HeadOutlet />
+</head>
+<body>
+    <Routes />
+    <ReconnectModal />
+    <script src="@Assets["_framework/blazor.web.js"]"></script>
+</body>
+</html>
+
+
+
+================================================================================
+FILE: Virginia/Components/Layout/MainLayout.razor
+SIZE: 1.41 KB
+MODIFIED: 03/26/2026 20:41:06
+================================================================================
+
+@inherits LayoutComponentBase
+@inject NavigationManager Nav
+
+<div class="app-shell">
+    <header class="app-header">
+        <a href="/" class="app-logo">Virginia</a>
+        <span class="app-subtitle">Address Book</span>
+        <div class="app-header-spacer"></div>
+        <AuthorizeView>
+            <Authorized>
+                <span class="app-user">@context.User.Identity?.Name</span>
+                <AuthorizeView Roles="Admin" Context="adminContext">
+                    <Authorized Context="adminInner">
+                        <a href="/admin/users" class="header-link">Users</a>
+                    </Authorized>
+                </AuthorizeView>
+                <a href="/account/change-password" class="header-link">Password</a>
+                <form method="post" action="/account/perform-logout">
+                    <AntiforgeryToken />
+                    <button type="submit" class="btn-logout">Logout</button>
+                </form>
+            </Authorized>
+        </AuthorizeView>
+    </header>
+    <main class="app-main">
+        @Body
+    </main>
+    <footer class="app-footer">
+        <small>&copy; @DateTime.UtcNow.Year Virginia — Built with .NET 10, Aspire &amp; Blazor</small>
+    </footer>
+</div>
+
+<div id="blazor-error-ui" data-nosnippet>
+    An unhandled error has occurred.
+    <a href="." class="reload">Reload</a>
+    <span class="dismiss">🗙</span>
+</div>
+
+
+
+================================================================================
+FILE: Virginia/Components/Layout/MainLayout.razor.css
+SIZE: 1.9 KB
+MODIFIED: 03/26/2026 20:19:23
+================================================================================
+
+.app-shell {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.app-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1.5rem;
+    background: #1a1a2e;
+    color: #e0e0e0;
+    border-bottom: 2px solid #16213e;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    flex-wrap: wrap;
+}
+
+.app-logo {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #e94560;
+    text-decoration: none;
+}
+
+.app-logo:hover {
+    color: #ff6b81;
+}
+
+.app-subtitle {
+    font-size: 0.85rem;
+    color: #8888a0;
+}
+
+.app-header-spacer {
+    flex: 1;
+}
+
+.app-user {
+    font-size: 0.8rem;
+    color: #aab;
+}
+
+.header-link {
+    font-size: 0.8rem;
+    color: #8ba8d9;
+    text-decoration: none;
+}
+
+.header-link:hover {
+    color: #c0d0f0;
+    text-decoration: underline;
+}
+
+.btn-logout {
+    background: none;
+    border: 1px solid #555;
+    color: #ccc;
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.78rem;
+}
+
+.btn-logout:hover {
+    background: #333;
+    color: #fff;
+}
+
+.app-main {
+    flex: 1;
+    padding: 1.5rem;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.app-footer {
+    text-align: center;
+    padding: 1rem;
+    color: #999;
+    border-top: 1px solid #e0e0e0;
+    background: #fafafa;
+}
+
+#blazor-error-ui {
+    color-scheme: light only;
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+#blazor-error-ui .dismiss {
+    cursor: pointer;
+    position: absolute;
+    right: 0.75rem;
+    top: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .app-main {
+        padding: 1rem 0.75rem;
+    }
+}
+
+
+
+================================================================================
+FILE: Virginia/Components/Layout/ReconnectModal.razor
+SIZE: 1.33 KB
+MODIFIED: 03/26/2026 10:11:10
+================================================================================
+
+<script type="module" src="@Assets["Components/Layout/ReconnectModal.razor.js"]"></script>
+
+<dialog id="components-reconnect-modal" data-nosnippet>
+    <div class="components-reconnect-container">
+        <div class="components-rejoining-animation" aria-hidden="true">
+            <div></div>
+            <div></div>
+        </div>
+        <p class="components-reconnect-first-attempt-visible">
+            Rejoining the server...
+        </p>
+        <p class="components-reconnect-repeated-attempt-visible">
+            Rejoin failed... trying again in <span id="components-seconds-to-next-attempt"></span> seconds.
+        </p>
+        <p class="components-reconnect-failed-visible">
+            Failed to rejoin.<br />Please retry or reload the page.
+        </p>
+        <button id="components-reconnect-button" class="components-reconnect-failed-visible">
+            Retry
+        </button>
+        <p class="components-pause-visible">
+            The session has been paused by the server.
+        </p>
+        <p class="components-resume-failed-visible">
+            Failed to resume the session.<br />Please retry or reload the page.
+        </p>
+        <button id="components-resume-button" class="components-pause-visible components-resume-failed-visible">
+            Resume
+        </button>
+    </div>
+</dialog>
+
+
+
+================================================================================
+FILE: Virginia/Components/Layout/ReconnectModal.razor.css
+SIZE: 3.78 KB
+MODIFIED: 03/26/2026 10:11:10
+================================================================================
+
+.components-reconnect-first-attempt-visible,
+.components-reconnect-repeated-attempt-visible,
+.components-reconnect-failed-visible,
+.components-pause-visible,
+.components-resume-failed-visible,
+.components-rejoining-animation {
+    display: none;
+}
+
+#components-reconnect-modal.components-reconnect-show .components-reconnect-first-attempt-visible,
+#components-reconnect-modal.components-reconnect-show .components-rejoining-animation,
+#components-reconnect-modal.components-reconnect-paused .components-pause-visible,
+#components-reconnect-modal.components-reconnect-resume-failed .components-resume-failed-visible,
+#components-reconnect-modal.components-reconnect-retrying,
+#components-reconnect-modal.components-reconnect-retrying .components-reconnect-repeated-attempt-visible,
+#components-reconnect-modal.components-reconnect-retrying .components-rejoining-animation,
+#components-reconnect-modal.components-reconnect-failed,
+#components-reconnect-modal.components-reconnect-failed .components-reconnect-failed-visible {
+    display: block;
+}
+
+
+#components-reconnect-modal {
+    background-color: white;
+    width: 20rem;
+    margin: 20vh auto;
+    padding: 2rem;
+    border: 0;
+    border-radius: 0.5rem;
+    box-shadow: 0 3px 6px 2px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: display 0.5s allow-discrete, overlay 0.5s allow-discrete;
+    animation: components-reconnect-modal-fadeOutOpacity 0.5s both;
+    &[open]
+
+{
+    animation: components-reconnect-modal-slideUp 1.5s cubic-bezier(.05, .89, .25, 1.02) 0.3s, components-reconnect-modal-fadeInOpacity 0.5s ease-in-out 0.3s;
+    animation-fill-mode: both;
+}
+
+}
+
+#components-reconnect-modal::backdrop {
+    background-color: rgba(0, 0, 0, 0.4);
+    animation: components-reconnect-modal-fadeInOpacity 0.5s ease-in-out;
+    opacity: 1;
+}
+
+@keyframes components-reconnect-modal-slideUp {
+    0% {
+        transform: translateY(30px) scale(0.95);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes components-reconnect-modal-fadeInOpacity {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes components-reconnect-modal-fadeOutOpacity {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.components-reconnect-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+#components-reconnect-modal p {
+    margin: 0;
+    text-align: center;
+}
+
+#components-reconnect-modal button {
+    border: 0;
+    background-color: #6b9ed2;
+    color: white;
+    padding: 4px 24px;
+    border-radius: 4px;
+}
+
+    #components-reconnect-modal button:hover {
+        background-color: #3b6ea2;
+    }
+
+    #components-reconnect-modal button:active {
+        background-color: #6b9ed2;
+    }
+
+.components-rejoining-animation {
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+    .components-rejoining-animation div {
+        position: absolute;
+        border: 3px solid #0087ff;
+        opacity: 1;
+        border-radius: 50%;
+        animation: components-rejoining-animation 1.5s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+    }
+
+        .components-rejoining-animation div:nth-child(2) {
+            animation-delay: -0.5s;
+        }
+
+@keyframes components-rejoining-animation {
+    0% {
+        top: 40px;
+        left: 40px;
+        width: 0;
+        height: 0;
+        opacity: 0;
+    }
+
+    4.9% {
+        top: 40px;
+        left: 40px;
+        width: 0;
+        height: 0;
+        opacity: 0;
+    }
+
+    5% {
+        top: 40px;
+        left: 40px;
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+
+    100% {
+        top: 0px;
+        left: 0px;
+        width: 80px;
+        height: 80px;
+        opacity: 0;
+    }
+}
+
+
+
+================================================================================
+FILE: Virginia/Components/Layout/ReconnectModal.razor.js
+SIZE: 2.39 KB
+MODIFIED: 03/26/2026 10:11:10
+================================================================================
+
+// Set up event handlers
+const reconnectModal = document.getElementById("components-reconnect-modal");
+reconnectModal.addEventListener("components-reconnect-state-changed", handleReconnectStateChanged);
+
+const retryButton = document.getElementById("components-reconnect-button");
+retryButton.addEventListener("click", retry);
+
+const resumeButton = document.getElementById("components-resume-button");
+resumeButton.addEventListener("click", resume);
+
+function handleReconnectStateChanged(event) {
+    if (event.detail.state === "show") {
+        reconnectModal.showModal();
+    } else if (event.detail.state === "hide") {
+        reconnectModal.close();
+    } else if (event.detail.state === "failed") {
+        document.addEventListener("visibilitychange", retryWhenDocumentBecomesVisible);
+    } else if (event.detail.state === "rejected") {
+        location.reload();
+    }
+}
+
+async function retry() {
+    document.removeEventListener("visibilitychange", retryWhenDocumentBecomesVisible);
+
+    try {
+        // Reconnect will asynchronously return:
+        // - true to mean success
+        // - false to mean we reached the server, but it rejected the connection (e.g., unknown circuit ID)
+        // - exception to mean we didn't reach the server (this can be sync or async)
+        const successful = await Blazor.reconnect();
+        if (!successful) {
+            // We have been able to reach the server, but the circuit is no longer available.
+            // We'll reload the page so the user can continue using the app as quickly as possible.
+            const resumeSuccessful = await Blazor.resumeCircuit();
+            if (!resumeSuccessful) {
+                location.reload();
+            } else {
+                reconnectModal.close();
+            }
+        }
+    } catch (err) {
+        // We got an exception, server is currently unavailable
+        document.addEventListener("visibilitychange", retryWhenDocumentBecomesVisible);
+    }
+}
+
+async function resume() {
+    try {
+        const successful = await Blazor.resumeCircuit();
+        if (!successful) {
+            location.reload();
+        }
+    } catch {
+        reconnectModal.classList.replace("components-reconnect-paused", "components-reconnect-resume-failed");
+    }
+}
+
+async function retryWhenDocumentBecomesVisible() {
+    if (document.visibilityState === "visible") {
+        await retry();
+    }
+}
+
+
+
+================================================================================
+FILE: Virginia/Components/Pages/Account/ChangePassword.razor
+SIZE: 2.98 KB
+MODIFIED: 03/26/2026 20:24:19
+================================================================================
+
+@page "/account/change-password"
+@using Microsoft.AspNetCore.Identity
+@attribute [Authorize]
+@rendermode InteractiveServer
+@inject UserManager<AppUser> UserManager
+@inject AuthenticationStateProvider AuthStateProvider
+@inject NavigationManager Nav
+
+<PageTitle>Change Password | Virginia</PageTitle>
+
+<div class="auth-page">
+    <div class="auth-card">
+        <h1>Change Password</h1>
+
+        @if (success)
+        {
+            <div class="banner banner-success" role="status">Password changed successfully.</div>
+        }
+
+        @if (errors.Count > 0)
+        {
+            <div class="banner banner-error" role="alert">
+                @foreach (var err in errors)
+                {
+                    <div>@err</div>
+                }
+            </div>
+        }
+
+        <EditForm Model="model" OnValidSubmit="ChangeAsync" FormName="changepassword">
+            <DataAnnotationsValidator />
+            <div class="field">
+                <label for="current">Current Password</label>
+                <InputText id="current" @bind-Value="model.CurrentPassword" type="password" />
+                <ValidationMessage For="() => model.CurrentPassword" />
+            </div>
+            <div class="field">
+                <label for="newpw">New Password</label>
+                <InputText id="newpw" @bind-Value="model.NewPassword" type="password" />
+                <ValidationMessage For="() => model.NewPassword" />
+            </div>
+            <div class="field">
+                <label for="confirmpw">Confirm New Password</label>
+                <InputText id="confirmpw" @bind-Value="model.ConfirmNewPassword" type="password" />
+                <ValidationMessage For="() => model.ConfirmNewPassword" />
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Change Password</button>
+        </EditForm>
+
+        <p class="auth-link">
+            <a href="/">Back to contacts</a>
+        </p>
+    </div>
+</div>
+
+@code {
+    private ChangePasswordFormModel model = new();
+    private List<string> errors = [];
+    private bool success;
+
+    private async Task ChangeAsync()
+    {
+        errors.Clear();
+        success = false;
+
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var userId = authState.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userId is null)
+        {
+            errors.Add("Unable to determine current user.");
+            return;
+        }
+
+        var user = await UserManager.FindByIdAsync(userId);
+        if (user is null)
+        {
+            errors.Add("User not found.");
+            return;
+        }
+
+        var result = await UserManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+        if (result.Succeeded)
+        {
+            success = true;
+            model = new();
+        }
+        else
+        {
+            errors.AddRange(result.Errors.Select(e => e.Description));
+        }
+    }
+}
+
+
+
+================================================================================
+FILE: Virginia/Components/Pages/Account/Login.razor
+SIZE: 2.73 KB
+MODIFIED: 03/26/2026 21:02:26
+================================================================================
+
+@page "/account/login"
+@using Microsoft.AspNetCore.Identity
+@attribute [AllowAnonymous]
+@layout MainLayout
+@inject SignInManager<AppUser> SignInManager
+@inject NavigationManager Nav
+
+<PageTitle>Login | Virginia</PageTitle>
+
+<div class="auth-page">
+    <div class="auth-card">
+        <h1>Sign In</h1>
+
+        @if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <div class="banner banner-error" role="alert">@errorMessage</div>
+        }
+
+        @if (showRegistered)
+        {
+            <div class="banner banner-success" role="status">
+                Account created. Please wait for an administrator to approve your account, then sign in.
+            </div>
+        }
+
+        <EditForm Model="model" OnValidSubmit="LoginAsync" FormName="login">
+            <DataAnnotationsValidator />
+            <div class="field">
+                <label for="email">Email</label>
+                <InputText id="email" @bind-Value="model.Email" type="email" />
+                <ValidationMessage For="() => model.Email" />
+            </div>
+            <div class="field">
+                <label for="password">Password</label>
+                <InputText id="password" @bind-Value="model.Password" type="password" />
+                <ValidationMessage For="() => model.Password" />
+            </div>
+            <div class="field-check">
+                <InputCheckbox id="remember" @bind-Value="model.RememberMe" />
+                <label for="remember">Remember me</label>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+        </EditForm>
+
+        <p class="auth-link">
+            Don't have an account? <a href="/account/register">Register</a>
+        </p>
+    </div>
+</div>
+
+@code {
+    [CascadingParameter]
+    private HttpContext? HttpContext { get; set; }
+
+    [SupplyParameterFromForm]
+    private LoginFormModel model { get; set; } = null!;
+
+    [SupplyParameterFromQuery(Name = "registered")]
+    private bool showRegistered { get; set; }
+
+    private string? errorMessage;
+
+    protected override void OnInitialized()
+    {
+        model ??= new();
+
+        if (HttpContext?.User.Identity?.IsAuthenticated == true)
+        {
+            Nav.NavigateTo("/", forceLoad: true);
+        }
+    }
+
+    private async Task LoginAsync()
+    {
+        if (HttpContext is null) return;
+
+        var result = await SignInManager.PasswordSignInAsync(
+            model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+
+        if (result.Succeeded)
+        {
+            // Use HttpContext redirect instead of NavigateTo to avoid NavigationException in SSR
+            HttpContext.Response.Redirect("/");
+        }
+        else
+        {
+            errorMessage = "Invalid email or password.";
+        }
+    }
+}
+
+
+
+================================================================================
+FILE: Virginia/Components/Pages/Account/Register.razor
+SIZE: 2.59 KB
+MODIFIED: 03/26/2026 20:41:15
+================================================================================
+
+@page "/account/register"
+@using Microsoft.AspNetCore.Identity
+@attribute [AllowAnonymous]
+@layout MainLayout
+@inject UserManager<AppUser> UserManager
+@inject NavigationManager Nav
+
+<PageTitle>Register | Virginia</PageTitle>
+
+<div class="auth-page">
+    <div class="auth-card">
+        <h1>Register</h1>
+
+        @if (errors.Count > 0)
+        {
+            <div class="banner banner-error" role="alert">
+                @foreach (var err in errors)
+                {
+                    <div>@err</div>
+                }
+            </div>
+        }
+
+        <EditForm Model="model" OnValidSubmit="RegisterAsync" FormName="register">
+            <DataAnnotationsValidator />
+            <div class="field">
+                <label for="email">Email</label>
+                <InputText id="email" @bind-Value="model.Email" type="email" />
+                <ValidationMessage For="() => model.Email" />
+            </div>
+            <div class="field">
+                <label for="password">Password</label>
+                <InputText id="password" @bind-Value="model.Password" type="password" />
+                <ValidationMessage For="() => model.Password" />
+            </div>
+            <div class="field">
+                <label for="confirm">Confirm Password</label>
+                <InputText id="confirm" @bind-Value="model.ConfirmPassword" type="password" />
+                <ValidationMessage For="() => model.ConfirmPassword" />
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Register</button>
+        </EditForm>
+
+        <p class="auth-link">
+            Already have an account? <a href="/account/login">Sign in</a>
+        </p>
+    </div>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private RegisterFormModel model { get; set; } = null!;
+
+    private List<string> errors = [];
+
+    protected override void OnInitialized()
+    {
+        model ??= new();
+    }
+
+    private async Task RegisterAsync()
+    {
+        errors.Clear();
+
+        var user = new AppUser
+        {
+            UserName = model.Email,
+            Email = model.Email,
+            IsApproved = false,
+            CreatedAtUtc = DateTime.UtcNow
+        };
+
+        var result = await UserManager.CreateAsync(user, model.Password);
+
+        if (result.Succeeded)
+        {
+            await UserManager.AddToRoleAsync(user, "User");
+            Nav.NavigateTo("/account/login?registered=true", forceLoad: true);
+        }
+        else
+        {
+            errors.AddRange(result.Errors.Select(e => e.Description));
+        }
+    }
+}
+
+
+
+================================================================================
+FILE: Virginia/Components/Pages/Admin/UserManagement.razor
+SIZE: 5.89 KB
+MODIFIED: 03/26/2026 20:25:03
+================================================================================
+
+@page "/admin/users"
+@using Microsoft.AspNetCore.Identity
+@attribute [Authorize(Roles = "Admin")]
+@rendermode InteractiveServer
+@inject UserManager<AppUser> UserManager
+@inject ILogger<UserManagement> Logger
+
+<PageTitle>User Management | Virginia</PageTitle>
+
+<div class="page">
+    <div class="page-header">
+        <h1>User Management</h1>
+    </div>
+
+    @if (error is not null)
+    {
+        <div class="banner banner-error" role="alert">@error</div>
+    }
+
+    @if (success is not null)
+    {
+        <div class="banner banner-success" role="status">@success</div>
+    }
+
+    @if (users is null)
+    {
+        <div class="status">Loading users...</div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Approved</th>
+                        <th>Created</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var u in users)
+                    {
+                        <tr @key="u.Id">
+                            <td>@u.Email</td>
+                            <td>@u.Role</td>
+                            <td>
+                                @if (u.IsApproved)
+                                {
+                                    <span class="badge badge-ok">Approved</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-pending">Pending</span>
+                                }
+                            </td>
+                            <td>@u.CreatedAtUtc.ToString("yyyy-MM-dd")</td>
+                            <td class="actions-cell">
+                                @if (!u.IsApproved)
+                                {
+                                    <button class="btn btn-sm btn-approve"
+                                            @onclick="() => ApproveAsync(u.Id)">Approve</button>
+                                }
+                                else if (u.Role != "Admin")
+                                {
+                                    <button class="btn btn-sm btn-revoke"
+                                            @onclick="() => RevokeAsync(u.Id)">Revoke</button>
+                                }
+
+                                @if (u.Role != "Admin")
+                                {
+                                    <button class="btn btn-sm btn-promote"
+                                            @onclick="() => PromoteAsync(u.Id)">Make Admin</button>
+                                }
+
+                                @if (u.Role != "Admin")
+                                {
+                                    <button class="btn btn-sm btn-delete"
+                                            @onclick="() => DeleteAsync(u.Id)">Delete</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+@code {
+    private List<UserRow>? users;
+    private string? error;
+    private string? success;
+
+    protected override async Task OnInitializedAsync() => await LoadAsync();
+
+    private async Task LoadAsync()
+    {
+        error = null;
+        var allUsers = UserManager.Users.OrderBy(u => u.Email).ToList();
+        var rows = new List<UserRow>();
+        foreach (var u in allUsers)
+        {
+            var roles = await UserManager.GetRolesAsync(u);
+            rows.Add(new UserRow(
+                u.Id, u.Email ?? "", roles.Contains("Admin") ? "Admin" : "User",
+                u.IsApproved, u.CreatedAtUtc));
+        }
+        users = rows;
+    }
+
+    private async Task ApproveAsync(string userId)
+    {
+        success = null;
+        var user = await UserManager.FindByIdAsync(userId);
+        if (user is null) { error = "User not found."; return; }
+        user.IsApproved = true;
+        await UserManager.UpdateAsync(user);
+        success = $"Approved {user.Email}.";
+        Logger.LogInformation("Approved user {Email}", user.Email);
+        await LoadAsync();
+    }
+
+    private async Task RevokeAsync(string userId)
+    {
+        success = null;
+        var user = await UserManager.FindByIdAsync(userId);
+        if (user is null) { error = "User not found."; return; }
+        user.IsApproved = false;
+        await UserManager.UpdateAsync(user);
+        success = $"Revoked approval for {user.Email}.";
+        Logger.LogInformation("Revoked approval for user {Email}", user.Email);
+        await LoadAsync();
+    }
+
+    private async Task PromoteAsync(string userId)
+    {
+        success = null;
+        var user = await UserManager.FindByIdAsync(userId);
+        if (user is null) { error = "User not found."; return; }
+        await UserManager.RemoveFromRoleAsync(user, "User");
+        await UserManager.AddToRoleAsync(user, "Admin");
+        user.IsApproved = true;
+        await UserManager.UpdateAsync(user);
+        success = $"Promoted {user.Email} to Admin.";
+        Logger.LogInformation("Promoted user {Email} to Admin", user.Email);
+        await LoadAsync();
+    }
+
+    private async Task DeleteAsync(string userId)
+    {
+        success = null;
+        var user = await UserManager.FindByIdAsync(userId);
+        if (user is null) { error = "User not found."; return; }
+        var email = user.Email;
+        await UserManager.DeleteAsync(user);
+        success = $"Deleted {email}.";
+        Logger.LogInformation("Deleted user {Email}", email);
+        await LoadAsync();
+    }
+
+    private sealed record UserRow(
+        string Id, string Email, string Role, bool IsApproved, DateTime CreatedAtUtc);
+}
+
+
+
+================================================================================
+FILE: Virginia/Components/Pages/ContactDetail.razor
+SIZE: 15.38 KB
+MODIFIED: 03/26/2026 20:21:52
+================================================================================
+
+@page "/contacts/new"
+@page "/contacts/{Id:int}"
+@attribute [Authorize(Policy = "Approved")]
+@rendermode InteractiveServer
+@inject IContactService ContactService
+@inject NavigationManager Nav
+@inject ILogger<ContactDetail> Logger
+@inject AuthenticationStateProvider AuthStateProvider
+
+<PageTitle>@(IsNew ? "New Contact" : $"Edit Contact") | Virginia</PageTitle>
+
+<div class="detail">
+    <nav class="detail-nav">
+        <button class="btn btn-ghost" @onclick="GoBack">← Back to list</button>
+    </nav>
+
+    @if (notFound)
+    {
+        <div class="status">Contact not found. <a href="/">Back to list</a></div>
+        return;
+    }
+
+    @if (loading)
+    {
+        <div class="status" aria-live="polite">Loading...</div>
+        return;
+    }
+
+    @if (error is not null)
+    {
+        <div class="banner banner-error" role="alert">@error</div>
+    }
+
+    @if (saved)
+    {
+        <div class="banner banner-success" role="status">Contact saved successfully.</div>
+    }
+
+    <!-- Profile picture (edit mode only) -->
+    @if (!IsNew)
+    {
+        <section class="card">
+            <h2>Profile Picture</h2>
+            <div class="photo-row">
+                @if (detail?.HasPhoto == true)
+                {
+                    <img src="/api/contacts/@Id/photo?v=@photoVer"
+                         alt="@model.FirstName @model.LastName"
+                         class="avatar-lg" />
+                    <button class="btn btn-danger-sm" @onclick="RemovePhoto"
+                            disabled="@saving">Remove</button>
+                }
+                else
+                {
+                    <div class="avatar-lg avatar-empty">No photo</div>
+                }
+                <div class="photo-upload">
+                    <label>Upload (max 2 MB, JPEG/PNG/WebP):</label>
+                    <InputFile OnChange="OnPhotoSelected"
+                               accept="image/jpeg,image/png,image/webp" />
+                </div>
+            </div>
+        </section>
+    }
+
+    <EditForm Model="model" OnValidSubmit="SaveAsync" FormName="contact">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <!-- Basic info -->
+        <section class="card">
+            <h2>Basic Info</h2>
+            <div class="row">
+                <div class="group">
+                    <label for="fn">First Name *</label>
+                    <InputText id="fn" @bind-Value="model.FirstName" />
+                    <ValidationMessage For="() => model.FirstName" />
+                </div>
+                <div class="group">
+                    <label for="ln">Last Name *</label>
+                    <InputText id="ln" @bind-Value="model.LastName" />
+                    <ValidationMessage For="() => model.LastName" />
+                </div>
+            </div>
+        </section>
+
+        <!-- Emails -->
+        <section class="card">
+            <div class="card-head">
+                <h2>Emails</h2>
+                <button type="button" class="btn btn-add"
+                        @onclick="() => model.Emails.Add(new())">+ Add</button>
+            </div>
+            @for (var i = 0; i < model.Emails.Count; i++)
+            {
+                var idx = i;
+                <div class="child-item">
+                    <div class="row">
+                        <div class="group group-sm">
+                            <label>Label</label>
+                            <InputText @bind-Value="model.Emails[idx].Label" />
+                        </div>
+                        <div class="group">
+                            <label>Address</label>
+                            <InputText @bind-Value="model.Emails[idx].Address"
+                                       type="email" />
+                            <ValidationMessage For="() => model.Emails[idx].Address" />
+                        </div>
+                        <button type="button" class="btn-x"
+                                @onclick="() => model.Emails.RemoveAt(idx)"
+                                aria-label="Remove email">✕</button>
+                    </div>
+                </div>
+            }
+            @if (model.Emails.Count == 0)
+            {
+                <p class="hint">No email addresses yet.</p>
+            }
+        </section>
+
+        <!-- Phones -->
+        <section class="card">
+            <div class="card-head">
+                <h2>Phones</h2>
+                <button type="button" class="btn btn-add"
+                        @onclick="() => model.Phones.Add(new())">+ Add</button>
+            </div>
+            @for (var i = 0; i < model.Phones.Count; i++)
+            {
+                var idx = i;
+                <div class="child-item">
+                    <div class="row">
+                        <div class="group group-sm">
+                            <label>Label</label>
+                            <InputText @bind-Value="model.Phones[idx].Label" />
+                        </div>
+                        <div class="group">
+                            <label>Number</label>
+                            <InputText @bind-Value="model.Phones[idx].Number"
+                                       type="tel" />
+                            <ValidationMessage For="() => model.Phones[idx].Number" />
+                        </div>
+                        <button type="button" class="btn-x"
+                                @onclick="() => model.Phones.RemoveAt(idx)"
+                                aria-label="Remove phone">✕</button>
+                    </div>
+                </div>
+            }
+            @if (model.Phones.Count == 0)
+            {
+                <p class="hint">No phone numbers yet.</p>
+            }
+        </section>
+
+        <!-- Addresses -->
+        <section class="card">
+            <div class="card-head">
+                <h2>Addresses</h2>
+                <button type="button" class="btn btn-add"
+                        @onclick="() => model.Addresses.Add(new())">+ Add</button>
+            </div>
+            @for (var i = 0; i < model.Addresses.Count; i++)
+            {
+                var idx = i;
+                <div class="child-item">
+                    <div class="row">
+                        <div class="group group-sm">
+                            <label>Label</label>
+                            <InputText @bind-Value="model.Addresses[idx].Label" />
+                        </div>
+                        <button type="button" class="btn-x"
+                                @onclick="() => model.Addresses.RemoveAt(idx)"
+                                aria-label="Remove address">✕</button>
+                    </div>
+                    <div class="row">
+                        <div class="group">
+                            <label>Street *</label>
+                            <InputText @bind-Value="model.Addresses[idx].Street" />
+                            <ValidationMessage For="() => model.Addresses[idx].Street" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="group">
+                            <label>City *</label>
+                            <InputText @bind-Value="model.Addresses[idx].City" />
+                            <ValidationMessage For="() => model.Addresses[idx].City" />
+                        </div>
+                        <div class="group group-sm">
+                            <label>State</label>
+                            <InputText @bind-Value="model.Addresses[idx].State" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="group group-sm">
+                            <label>Postal Code *</label>
+                            <InputText @bind-Value="model.Addresses[idx].PostalCode" />
+                            <ValidationMessage For="() => model.Addresses[idx].PostalCode" />
+                        </div>
+                        <div class="group group-sm">
+                            <label>Country *</label>
+                            <InputText @bind-Value="model.Addresses[idx].Country" />
+                            <ValidationMessage For="() => model.Addresses[idx].Country" />
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (model.Addresses.Count == 0)
+            {
+                <p class="hint">No mailing addresses yet.</p>
+            }
+        </section>
+
+        <!-- Actions -->
+        <div class="actions">
+            <button type="submit" class="btn btn-primary" disabled="@saving">
+                @(saving ? "Saving..." : "Save")
+            </button>
+            @if (!IsNew)
+            {
+                @if (confirmingDelete)
+                {
+                    <span class="confirm-delete">
+                        Are you sure?
+                        <button type="button" class="btn btn-danger" disabled="@saving"
+                                @onclick="DeleteAsync">Yes, delete</button>
+                        <button type="button" class="btn btn-secondary"
+                                @onclick="() => confirmingDelete = false">Cancel</button>
+                    </span>
+                }
+                else
+                {
+                    <button type="button" class="btn btn-danger" disabled="@saving"
+                            @onclick="() => confirmingDelete = true">Delete</button>
+                }
+            }
+            <button type="button" class="btn btn-secondary" @onclick="GoBack">Cancel</button>
+        </div>
+    </EditForm>
+
+    <!-- Notes (edit mode only) -->
+    @if (!IsNew && detail is not null)
+    {
+        <section class="card">
+            <div class="card-head">
+                <h2>Notes</h2>
+            </div>
+
+            <div class="note-input">
+                <textarea @bind="newNoteContent" placeholder="Add a note..."
+                          rows="3" class="note-textarea"></textarea>
+                <button type="button" class="btn btn-add"
+                        @onclick="AddNoteAsync"
+                        disabled="@(string.IsNullOrWhiteSpace(newNoteContent))">
+                    Save Note
+                </button>
+            </div>
+
+            @if (detail.Notes.Count > 0)
+            {
+                <div class="notes-list">
+                    @foreach (var note in detail.Notes)
+                    {
+                        <div class="note-item" @key="note.Id">
+                            <div class="note-meta">
+                                <strong>@note.CreatedByUserName</strong>
+                                <span class="note-date">@note.CreatedAtUtc.ToString("MMM d, yyyy h:mm tt") UTC</span>
+                            </div>
+                            <div class="note-content">@note.Content</div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <p class="hint">No notes yet.</p>
+            }
+        </section>
+    }
+</div>
+
+@code {
+    [Parameter] public int? Id { get; set; }
+
+    private bool IsNew => Id is null;
+    private ContactFormModel model = new();
+    private ContactDetailDto? detail;
+    private bool loading = true;
+    private bool notFound;
+    private bool saving;
+    private bool saved;
+    private string? error;
+    private int photoVer = 1;
+    private bool confirmingDelete;
+    private string newNoteContent = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!IsNew)
+        {
+            detail = await ContactService.GetAsync(Id!.Value);
+            if (detail is null)
+            {
+                notFound = true;
+                loading = false;
+                return;
+            }
+            model = ContactFormModel.FromDetail(detail);
+        }
+        loading = false;
+    }
+
+    private async Task SaveAsync()
+    {
+        saving = true;
+        saved = false;
+        error = null;
+
+        try
+        {
+            if (IsNew)
+            {
+                var newId = await ContactService.CreateAsync(model);
+                Logger.LogInformation("Created contact {Id}", newId);
+                Nav.NavigateTo($"/contacts/{newId}");
+            }
+            else
+            {
+                await ContactService.UpdateAsync(Id!.Value, model);
+                detail = await ContactService.GetAsync(Id!.Value);
+                saved = true;
+                Logger.LogInformation("Updated contact {Id}", Id);
+            }
+        }
+        catch (Exception ex)
+        {
+            error = $"Save failed: {ex.Message}";
+            Logger.LogError(ex, "Failed to save contact");
+        }
+        finally
+        {
+            saving = false;
+        }
+    }
+
+    private async Task DeleteAsync()
+    {
+        saving = true;
+        error = null;
+
+        try
+        {
+            await ContactService.DeleteAsync(Id!.Value);
+            Logger.LogInformation("Deleted contact {Id}", Id);
+            Nav.NavigateTo("/");
+        }
+        catch (Exception ex)
+        {
+            error = $"Delete failed: {ex.Message}";
+            Logger.LogError(ex, "Failed to delete contact {Id}", Id);
+            saving = false;
+        }
+    }
+
+    private async Task OnPhotoSelected(InputFileChangeEventArgs e)
+    {
+        error = null;
+        var file = e.File;
+        const int maxBytes = 2 * 1024 * 1024;
+
+        if (file.Size > maxBytes)
+        {
+            error = "Image must be under 2 MB.";
+            return;
+        }
+
+        if (file.ContentType is not ("image/jpeg" or "image/png" or "image/webp"))
+        {
+            error = "Only JPEG, PNG, and WebP images are supported.";
+            return;
+        }
+
+        try
+        {
+            using var stream = file.OpenReadStream(maxBytes);
+            using var ms = new MemoryStream();
+            await stream.CopyToAsync(ms);
+
+            await ContactService.SetProfilePictureAsync(Id!.Value, ms.ToArray(), file.ContentType);
+            detail = await ContactService.GetAsync(Id!.Value);
+            photoVer++;
+        }
+        catch (Exception ex)
+        {
+            error = $"Upload failed: {ex.Message}";
+            Logger.LogError(ex, "Failed to upload photo for contact {Id}", Id);
+        }
+    }
+
+    private async Task RemovePhoto()
+    {
+        error = null;
+        await ContactService.RemoveProfilePictureAsync(Id!.Value);
+        detail = await ContactService.GetAsync(Id!.Value);
+        photoVer++;
+    }
+
+    private async Task AddNoteAsync()
+    {
+        if (string.IsNullOrWhiteSpace(newNoteContent)) return;
+        error = null;
+
+        try
+        {
+            var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+            var userId = authState.User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "unknown";
+            var userName = authState.User.Identity?.Name ?? "unknown";
+
+            await ContactService.AddNoteAsync(Id!.Value, newNoteContent, userId, userName);
+            newNoteContent = "";
+            detail = await ContactService.GetAsync(Id!.Value);
+        }
+        catch (Exception ex)
+        {
+            error = $"Failed to add note: {ex.Message}";
+            Logger.LogError(ex, "Failed to add note to contact {Id}", Id);
+        }
+    }
+
+    private void GoBack() => Nav.NavigateTo("/");
+}
+
+
+
+================================================================================
+FILE: Virginia/Components/Pages/ContactDetail.razor.css
+SIZE: 6.68 KB
+MODIFIED: 03/26/2026 20:22:20
+================================================================================
+
+.detail {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 800px;
+}
+
+.detail-nav {
+    margin-bottom: 0.25rem;
+}
+
+.card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1.25rem;
+}
+
+.card h2 {
+    margin: 0 0 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.card-head h2 {
+    margin: 0;
+}
+
+.row {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    flex: 1;
+    min-width: 150px;
+    margin-bottom: 0.5rem;
+}
+
+.group-sm {
+    flex: 0 0 130px;
+    min-width: 110px;
+}
+
+.group label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.group ::deep input,
+.group ::deep select {
+    padding: 0.4rem 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.15s;
+}
+
+.group ::deep input:focus {
+    outline: none;
+    border-color: #4a90d9;
+    box-shadow: 0 0 0 2px rgba(74, 144, 217, 0.15);
+}
+
+.group ::deep .validation-message {
+    color: #c62828;
+    font-size: 0.75rem;
+}
+
+.child-item {
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    background: #fafafa;
+    border: 1px solid #eee;
+    border-radius: 6px;
+}
+
+.hint {
+    color: #aaa;
+    font-size: 0.85rem;
+    font-style: italic;
+    margin: 0;
+}
+
+/* ── Photo ───────────────────────────────────────────────────────────────── */
+
+.photo-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.avatar-lg {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+}
+
+.avatar-empty {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #eee;
+    color: #999;
+    font-size: 0.8rem;
+}
+
+.photo-upload {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: 0.85rem;
+}
+
+/* ── Banners ─────────────────────────────────────────────────────────────── */
+
+.banner {
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.banner-error {
+    background: #ffeaea;
+    color: #c62828;
+    border: 1px solid #f5c6c6;
+}
+
+.banner-success {
+    background: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #c8e6c9;
+}
+
+.status {
+    text-align: center;
+    color: #888;
+    padding: 2rem;
+}
+
+/* ── Actions ─────────────────────────────────────────────────────────────── */
+
+.actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.confirm-delete {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: #c62828;
+    font-weight: 500;
+}
+
+/* ── Notes ────────────────────────────────────────────────────────────────── */
+
+.note-input {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.note-textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 0.875rem;
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+.note-textarea:focus {
+    outline: none;
+    border-color: #4a90d9;
+    box-shadow: 0 0 0 2px rgba(74, 144, 217, 0.15);
+}
+
+.notes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.note-item {
+    padding: 0.75rem;
+    background: #f8f9fa;
+    border: 1px solid #eee;
+    border-radius: 6px;
+}
+
+.note-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.35rem;
+    font-size: 0.78rem;
+    color: #666;
+}
+
+.note-date {
+    color: #999;
+}
+
+.note-content {
+    font-size: 0.875rem;
+    white-space: pre-wrap;
+    line-height: 1.5;
+}
+
+/* ── Buttons (scoped) ────────────────────────────────────────────────────── */
+
+.btn {
+    padding: 0.45rem 0.9rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: background 0.15s;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.btn-primary {
+    background: #e94560;
+    color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: #c73650;
+}
+
+.btn-secondary {
+    background: #e0e0e0;
+    color: #333;
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background: #d0d0d0;
+}
+
+.btn-danger {
+    background: #c62828;
+    color: #fff;
+}
+
+.btn-danger:hover:not(:disabled) {
+    background: #a11b1b;
+}
+
+.btn-danger-sm {
+    background: #ef5350;
+    color: #fff;
+    padding: 0.25rem 0.75rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+.btn-ghost {
+    background: none;
+    color: #4a90d9;
+    padding: 0.25rem 0.5rem;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.btn-ghost:hover {
+    text-decoration: underline;
+}
+
+.btn-add {
+    background: #4a90d9;
+    color: #fff;
+    padding: 0.3rem 0.75rem;
+    font-size: 0.8rem;
+}
+
+.btn-add:hover {
+    background: #3a7ac0;
+}
+
+.btn-x {
+    background: none;
+    border: none;
+    color: #c62828;
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 0.2rem 0.5rem;
+    align-self: center;
+    flex: 0 0 auto;
+    line-height: 1;
+}
+
+.btn-x:hover {
+    color: #e53935;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+
+@media (max-width: 600px) {
+    .group {
+        min-width: 100%;
+    }
+
+    .group-sm {
+        flex: 1;
+        min-width: 100%;
+    }
+
+    .confirm-delete {
+        flex-wrap: wrap;
+    }
+}
+
+
+
+================================================================================
+FILE: Virginia/Components/Pages/ContactList.razor
+SIZE: 9.33 KB
+MODIFIED: 03/26/2026 20:21:24
+================================================================================
+
+@page "/"
+@page "/contacts"
+@attribute [Authorize]
+@rendermode InteractiveServer
+@inject IContactService ContactService
+@inject NavigationManager Nav
+@inject ILogger<ContactList> Logger
+@implements IDisposable
+
+<PageTitle>Contacts | Virginia</PageTitle>
+
+<AuthorizeView Policy="Approved">
+    <NotAuthorized>
+        <div class="status" style="padding:4rem 1rem;">
+            <h2>Account Pending Approval</h2>
+            <p>Your account has been created but is waiting for administrator approval.</p>
+            <p>Please check back later or contact your administrator.</p>
+        </div>
+    </NotAuthorized>
+    <Authorized>
+
+<div class="page">
+    <div class="page-header">
+        <h1>Contacts</h1>
+        <button class="btn btn-primary" @onclick='() => Nav.NavigateTo("/contacts/new")'>
+            + New Contact
+        </button>
+    </div>
+
+    <!-- Filters -->
+    <details class="filter-panel" open>
+        <summary class="filter-toggle">Filters</summary>
+        <div class="filter-grid">
+            <div class="field">
+                <label for="fn">Name</label>
+                <input id="fn" type="text" placeholder="First or last..."
+                       @bind="filterName" @bind:event="oninput"
+                       @bind:after="OnFilterChanged" />
+            </div>
+            <div class="field">
+                <label for="fe">Email</label>
+                <input id="fe" type="email" placeholder="Email..."
+                       @bind="filterEmail" @bind:event="oninput"
+                       @bind:after="OnFilterChanged" />
+            </div>
+            <div class="field">
+                <label for="fp">Phone</label>
+                <input id="fp" type="tel" placeholder="Phone..."
+                       @bind="filterPhone" @bind:event="oninput"
+                       @bind:after="OnFilterChanged" />
+            </div>
+            <div class="field">
+                <label for="fc">City</label>
+                <input id="fc" type="text" placeholder="City..."
+                       @bind="filterCity" @bind:event="oninput"
+                       @bind:after="OnFilterChanged" />
+            </div>
+            <div class="field">
+                <label for="fs">State</label>
+                <input id="fs" type="text" placeholder="State..."
+                       @bind="filterState" @bind:event="oninput"
+                       @bind:after="OnFilterChanged" />
+            </div>
+            <div class="field">
+                <label for="fh">Has Photo</label>
+                <select id="fh" @bind="filterHasPhoto" @bind:after="OnFilterChanged">
+                    <option value="">Any</option>
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                </select>
+            </div>
+        </div>
+        <button class="btn btn-text" @onclick="ClearFilters">Clear all filters</button>
+    </details>
+
+    @if (loadError is not null)
+    {
+        <div class="banner banner-error" role="alert">@loadError</div>
+    }
+
+    @if (isLoading)
+    {
+        <div class="status" aria-live="polite">Loading contacts...</div>
+    }
+    else if (result is null || result.TotalCount == 0)
+    {
+        <div class="status" aria-live="polite">
+            No contacts found.
+            @if (HasActiveFilters)
+            {
+                <button class="btn btn-text" @onclick="ClearFilters">Clear filters</button>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive" role="grid" aria-label="Contact list">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th scope="col" class="col-avatar"></th>
+                        <th scope="col">Name</th>
+                        <th scope="col" class="hide-sm">Email</th>
+                        <th scope="col" class="hide-sm">Phone</th>
+                        <th scope="col" class="hide-md">City</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var c in result.Items)
+                    {
+                        <tr @key="c.Id" tabindex="0" class="row-link"
+                            @onclick='() => Nav.NavigateTo($"/contacts/{c.Id}")'
+                            @onkeydown='e => { if (e.Key == "Enter") Nav.NavigateTo($"/contacts/{c.Id}"); }'>
+                            <td class="col-avatar">
+                                @if (c.HasPhoto)
+                                {
+                                    <img src="/api/contacts/@(c.Id)/photo"
+                                         alt="@c.FirstName @c.LastName"
+                                         class="avatar" loading="lazy" />
+                                }
+                                else
+                                {
+                                    <span class="avatar avatar-initials"
+                                          aria-label="@c.FirstName @c.LastName">
+                                        @Initials(c)
+                                    </span>
+                                }
+                            </td>
+                            <td>
+                                <span class="name-primary">@c.LastName, @c.FirstName</span>
+                                <span class="name-secondary">@(c.PrimaryEmail ?? "")</span>
+                            </td>
+                            <td class="hide-sm">@(c.PrimaryEmail ?? "—")</td>
+                            <td class="hide-sm">@(c.PrimaryPhone ?? "—")</td>
+                            <td class="hide-md">@(c.PrimaryCity ?? "—")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <nav class="pager" aria-label="Pagination">
+            <button class="btn btn-sm" disabled="@(!result.HasPrevious)" @onclick="PrevPage">
+                ← Prev
+            </button>
+            <span class="pager-info">
+                Page @result.Page of @result.TotalPages
+                <span class="hide-sm">(@result.TotalCount contacts)</span>
+            </span>
+            <button class="btn btn-sm" disabled="@(!result.HasNext)" @onclick="NextPage">
+                Next →
+            </button>
+        </nav>
+    }
+</div>
+
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    private PagedResult<ContactListItem>? result;
+    private bool isLoading = true;
+    private int page = 1;
+    private const int PageSize = 25;
+    private string? loadError;
+
+    private string filterName = "";
+    private string filterEmail = "";
+    private string filterPhone = "";
+    private string filterCity = "";
+    private string filterState = "";
+    private string filterHasPhoto = "";
+
+    private CancellationTokenSource? _debounceCts;
+
+    private bool HasActiveFilters =>
+        !string.IsNullOrWhiteSpace(filterName)
+        || !string.IsNullOrWhiteSpace(filterEmail)
+        || !string.IsNullOrWhiteSpace(filterPhone)
+        || !string.IsNullOrWhiteSpace(filterCity)
+        || !string.IsNullOrWhiteSpace(filterState)
+        || filterHasPhoto != "";
+
+    protected override async Task OnInitializedAsync() => await LoadAsync();
+
+    private async Task OnFilterChanged()
+    {
+        _debounceCts?.Cancel();
+        _debounceCts = new CancellationTokenSource();
+        var token = _debounceCts.Token;
+
+        try
+        {
+            await Task.Delay(300, token);
+            page = 1;
+            await LoadAsync();
+        }
+        catch (TaskCanceledException)
+        {
+        }
+    }
+
+    private async Task LoadAsync()
+    {
+        isLoading = true;
+        loadError = null;
+        StateHasChanged();
+
+        try
+        {
+            bool? hasPhoto = filterHasPhoto switch
+            {
+                "true" => true,
+                "false" => false,
+                _ => null
+            };
+
+            var filter = new ContactFilter(
+                Name: NullIfEmpty(filterName),
+                Email: NullIfEmpty(filterEmail),
+                Phone: NullIfEmpty(filterPhone),
+                City: NullIfEmpty(filterCity),
+                State: NullIfEmpty(filterState),
+                HasPhoto: hasPhoto);
+
+            result = await ContactService.ListAsync(filter, page, PageSize);
+        }
+        catch (Exception ex)
+        {
+            loadError = "Failed to load contacts. Please try again.";
+            Logger.LogError(ex, "Failed to load contact list");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task PrevPage() { page--; await LoadAsync(); }
+    private async Task NextPage() { page++; await LoadAsync(); }
+
+    private async Task ClearFilters()
+    {
+        filterName = filterEmail = filterPhone = filterCity = filterState = filterHasPhoto = "";
+        page = 1;
+        await LoadAsync();
+    }
+
+    private static string? NullIfEmpty(string s) =>
+        string.IsNullOrWhiteSpace(s) ? null : s;
+
+    private static string Initials(ContactListItem c)
+    {
+        var f = c.FirstName.Length > 0 ? c.FirstName[0] : '?';
+        var l = c.LastName.Length > 0 ? c.LastName[0] : '?';
+        return $"{f}{l}";
+    }
+
+    public void Dispose()
+    {
+        _debounceCts?.Cancel();
+        _debounceCts?.Dispose();
+    }
+}
+
+
+
+================================================================================
+FILE: Virginia/Components/Pages/ContactList.razor.css
+SIZE: 5.33 KB
+MODIFIED: 03/26/2026 17:59:30
+================================================================================
+
+/* ── Page layout ─────────────────────────────────────────────────────────── */
+
+.page {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.page-header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+/* ── Filters ─────────────────────────────────────────────────────────────── */
+
+.filter-panel {
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+}
+
+.filter-toggle {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    user-select: none;
+}
+
+.filter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.field label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #777;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.field input,
+.field select {
+    padding: 0.4rem 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    transition: border-color 0.15s;
+}
+
+.field input:focus,
+.field select:focus {
+    outline: none;
+    border-color: #4a90d9;
+    box-shadow: 0 0 0 2px rgba(74, 144, 217, 0.15);
+}
+
+/* ── Table ────────────────────────────────────────────────────────────────── */
+
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    white-space: nowrap;
+}
+
+.data-table th {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #888;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    background: #fff;
+}
+
+.row-link {
+    cursor: pointer;
+    transition: background 0.1s;
+}
+
+.row-link:hover {
+    background: #f0f4ff;
+}
+
+.row-link:focus-visible {
+    outline: 2px solid #4a90d9;
+    outline-offset: -2px;
+}
+
+.col-avatar {
+    width: 44px;
+    padding-right: 0;
+}
+
+.avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+
+.avatar-initials {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #e0e4ea;
+    color: #555;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.name-primary {
+    font-weight: 500;
+}
+
+.name-secondary {
+    display: none;
+    font-size: 0.8rem;
+    color: #888;
+}
+
+/* ── Pagination ──────────────────────────────────────────────────────────── */
+
+.pager {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 0;
+}
+
+.pager-info {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+/* ── Status ──────────────────────────────────────────────────────────────── */
+
+.status {
+    text-align: center;
+    color: #888;
+    padding: 3rem 1rem;
+    font-size: 0.95rem;
+}
+
+/* ── Buttons (scoped) ────────────────────────────────────────────────────── */
+
+.btn {
+    padding: 0.45rem 0.9rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: background 0.15s;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.btn-primary {
+    background: #e94560;
+    color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: #c73650;
+}
+
+.btn-sm {
+    padding: 0.3rem 0.7rem;
+    font-size: 0.8rem;
+    background: #e8e8e8;
+    color: #333;
+}
+
+.btn-sm:hover:not(:disabled) {
+    background: #ddd;
+}
+
+.btn-text {
+    background: none;
+    color: #4a90d9;
+    padding: 0.25rem 0;
+    font-size: 0.8rem;
+}
+
+.btn-text:hover {
+    text-decoration: underline;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+    .hide-md {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .hide-sm {
+        display: none;
+    }
+
+    .name-secondary {
+        display: block;
+    }
+
+    .filter-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+
+================================================================================
+FILE: Virginia/Components/Pages/Error.razor
+SIZE: 0.58 KB
+MODIFIED: 03/26/2026 17:58:04
+================================================================================
+
+@page "/Error"
+@using System.Diagnostics
+
+<PageTitle>Error | Virginia</PageTitle>
+
+<h1>Error</h1>
+<p>An error occurred while processing your request.</p>
+
+@if (ShowRequestId)
+{
+    <p><strong>Request ID:</strong> <code>@RequestId</code></p>
+}
+
+@code {
+    [CascadingParameter]
+    private HttpContext? HttpContext { get; set; }
+
+    private string? RequestId { get; set; }
+    private bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+
+    protected override void OnInitialized() =>
+        RequestId = Activity.Current?.Id ?? HttpContext?.TraceIdentifier;
+}
+
+
+
+================================================================================
+FILE: Virginia/Components/Pages/NotFound.razor
+SIZE: 0.21 KB
+MODIFIED: 03/26/2026 17:57:42
+================================================================================
+
+@page "/not-found"
+@layout MainLayout
+
+<PageTitle>Not Found | Virginia</PageTitle>
+
+<h1>Not Found</h1>
+<p>Sorry, the content you are looking for does not exist.</p>
+<p><a href="/">Return to contacts</a></p>
+
+
+
+================================================================================
+FILE: Virginia/Components/RedirectToLogin.razor
+SIZE: 0.16 KB
+MODIFIED: 03/26/2026 20:18:59
+================================================================================
+
+@inject NavigationManager Nav
+
+@code {
+    protected override void OnInitialized()
+    {
+        Nav.NavigateTo("/account/login", forceLoad: true);
+    }
+}
+
+
+
+================================================================================
+FILE: Virginia/Components/Routes.razor
+SIZE: 0.57 KB
+MODIFIED: 03/26/2026 20:18:42
+================================================================================
+
+<Router AppAssembly="typeof(Program).Assembly" NotFoundPage="typeof(Pages.NotFound)">
+    <Found Context="routeData">
+        <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)">
+            <NotAuthorized>
+                <RedirectToLogin />
+            </NotAuthorized>
+            <Authorizing>
+                <div style="text-align:center; padding:3rem; color:#888;">Authorizing...</div>
+            </Authorizing>
+        </AuthorizeRouteView>
+        <FocusOnNavigate RouteData="routeData" Selector="h1" />
+    </Found>
+</Router>
+
+
+
+================================================================================
+FILE: Virginia/Data/AppDbContext.cs
+SIZE: 2.11 KB
+MODIFIED: 03/26/2026 20:41:42
+================================================================================
+
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+
+namespace Virginia.Data;
+
+public sealed class AppDbContext(DbContextOptions<AppDbContext> options)
+    : IdentityDbContext<AppUser, IdentityRole, string>(options)
+{
+    public DbSet<Contact> Contacts => Set<Contact>();
+    public DbSet<ContactEmail> ContactEmails => Set<ContactEmail>();
+    public DbSet<ContactPhone> ContactPhones => Set<ContactPhone>();
+    public DbSet<ContactAddress> ContactAddresses => Set<ContactAddress>();
+    public DbSet<ContactNote> ContactNotes => Set<ContactNote>();
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+
+        builder.Entity<Contact>(entity =>
+        {
+            entity.HasIndex(c => new { c.LastName, c.FirstName });
+
+            entity.HasMany(c => c.Emails)
+                .WithOne(e => e.Contact)
+                .HasForeignKey(e => e.ContactId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasMany(c => c.Phones)
+                .WithOne(p => p.Contact)
+                .HasForeignKey(p => p.ContactId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasMany(c => c.Addresses)
+                .WithOne(a => a.Contact)
+                .HasForeignKey(a => a.ContactId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasMany(c => c.Notes)
+                .WithOne(n => n.Contact)
+                .HasForeignKey(n => n.ContactId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        builder.Entity<ContactEmail>(entity =>
+        {
+            entity.HasIndex(e => e.Address);
+        });
+
+        builder.Entity<ContactPhone>(entity =>
+        {
+            entity.HasIndex(p => p.Number);
+        });
+
+        builder.Entity<ContactAddress>(entity =>
+        {
+            entity.HasIndex(a => new { a.City, a.State });
+        });
+
+        builder.Entity<ContactNote>(entity =>
+        {
+            entity.HasIndex(n => n.ContactId);
+        });
+    }
+}
+
+
+
+================================================================================
+FILE: Virginia/Data/AppUser.cs
+SIZE: 0.2 KB
+MODIFIED: 03/26/2026 20:16:13
+================================================================================
+
+using Microsoft.AspNetCore.Identity;
+
+namespace Virginia.Data;
+
+public sealed class AppUser : IdentityUser
+{
+    public bool IsApproved { get; set; }
+    public DateTime CreatedAtUtc { get; set; }
+}
+
+
+
+================================================================================
+FILE: Virginia/Data/Dtos.cs
+SIZE: 2.53 KB
+MODIFIED: 03/26/2026 20:16:46
+================================================================================
+
+namespace Virginia.Data;
+
+// ─── List projection ─────────────────────────────────────────────────────────
+
+public sealed record ContactListItem(
+    int Id,
+    string FirstName,
+    string LastName,
+    bool HasPhoto,
+    string? PrimaryEmail,
+    string? PrimaryPhone,
+    string? PrimaryCity,
+    DateTime CreatedAtUtc);
+
+// ─── Detail projection ───────────────────────────────────────────────────────
+
+public sealed record ContactDetailDto(
+    int Id,
+    string FirstName,
+    string LastName,
+    bool HasPhoto,
+    string? ProfilePictureContentType,
+    DateTime CreatedAtUtc,
+    DateTime UpdatedAtUtc,
+    List<EmailDto> Emails,
+    List<PhoneDto> Phones,
+    List<AddressDto> Addresses,
+    List<NoteDto> Notes);
+
+public sealed record EmailDto(int Id, string Label, string Address);
+public sealed record PhoneDto(int Id, string Label, string Number);
+
+public sealed record AddressDto(
+    int Id, string Label, string Street,
+    string City, string State, string PostalCode, string Country);
+
+public sealed record NoteDto(
+    int Id, string Content, string CreatedByUserName, DateTime CreatedAtUtc);
+
+// ─── Paging ──────────────────────────────────────────────────────────────────
+
+public sealed record PagedResult<T>(
+    List<T> Items,
+    int TotalCount,
+    int Page,
+    int PageSize)
+{
+    public int TotalPages => (int)Math.Ceiling(TotalCount / (double)PageSize);
+    public bool HasPrevious => Page > 1;
+    public bool HasNext => Page < TotalPages;
+}
+
+// ─── Filter ──────────────────────────────────────────────────────────────────
+
+public sealed record ContactFilter(
+    string? Name = null,
+    string? Email = null,
+    string? Phone = null,
+    string? City = null,
+    string? State = null,
+    bool? HasPhoto = null);
+
+// ─── Profile picture result ──────────────────────────────────────────────────
+
+public sealed record ProfilePictureResult(byte[] Data, string ContentType);
+
+
+
+================================================================================
+FILE: Virginia/Data/Entities.cs
+SIZE: 2.86 KB
+MODIFIED: 03/26/2026 20:16:25
+================================================================================
+
+using System.ComponentModel.DataAnnotations;
+
+namespace Virginia.Data;
+
+// ─── Aggregate Root ──────────────────────────────────────────────────────────
+
+public sealed class Contact
+{
+    public int Id { get; set; }
+
+    [MaxLength(100)]
+    public required string FirstName { get; set; }
+
+    [MaxLength(100)]
+    public required string LastName { get; set; }
+
+    public byte[]? ProfilePicture { get; set; }
+
+    [MaxLength(50)]
+    public string? ProfilePictureContentType { get; set; }
+
+    public DateTime CreatedAtUtc { get; set; }
+    public DateTime UpdatedAtUtc { get; set; }
+
+    public List<ContactEmail> Emails { get; set; } = [];
+    public List<ContactPhone> Phones { get; set; } = [];
+    public List<ContactAddress> Addresses { get; set; } = [];
+    public List<ContactNote> Notes { get; set; } = [];
+
+    public string FullName => $"{FirstName} {LastName}".Trim();
+}
+
+// ─── Child Entities ──────────────────────────────────────────────────────────
+
+public sealed class ContactEmail
+{
+    public int Id { get; set; }
+    public int ContactId { get; set; }
+
+    [MaxLength(50)]
+    public required string Label { get; set; }
+
+    [MaxLength(254)]
+    public required string Address { get; set; }
+
+    public Contact Contact { get; set; } = null!;
+}
+
+public sealed class ContactPhone
+{
+    public int Id { get; set; }
+    public int ContactId { get; set; }
+
+    [MaxLength(50)]
+    public required string Label { get; set; }
+
+    [MaxLength(30)]
+    public required string Number { get; set; }
+
+    public Contact Contact { get; set; } = null!;
+}
+
+public sealed class ContactAddress
+{
+    public int Id { get; set; }
+    public int ContactId { get; set; }
+
+    [MaxLength(50)]
+    public required string Label { get; set; }
+
+    [MaxLength(200)]
+    public required string Street { get; set; }
+
+    [MaxLength(100)]
+    public required string City { get; set; }
+
+    [MaxLength(100)]
+    public string State { get; set; } = "";
+
+    [MaxLength(20)]
+    public required string PostalCode { get; set; }
+
+    [MaxLength(100)]
+    public required string Country { get; set; }
+
+    public Contact Contact { get; set; } = null!;
+}
+
+public sealed class ContactNote
+{
+    public int Id { get; set; }
+    public int ContactId { get; set; }
+
+    [MaxLength(4000)]
+    public required string Content { get; set; }
+
+    [MaxLength(450)]
+    public required string CreatedByUserId { get; set; }
+
+    [MaxLength(256)]
+    public required string CreatedByUserName { get; set; }
+
+    public DateTime CreatedAtUtc { get; set; }
+
+    public Contact Contact { get; set; } = null!;
+}
+
+
+
+================================================================================
+FILE: Virginia/Data/FormModels.cs
+SIZE: 6.33 KB
+MODIFIED: 03/26/2026 20:16:56
+================================================================================
+
+using System.ComponentModel.DataAnnotations;
+
+namespace Virginia.Data;
+
+// ─── Contact ─────────────────────────────────────────────────────────────────
+
+public sealed class ContactFormModel
+{
+    [Required(ErrorMessage = "First name is required.")]
+    [MaxLength(100, ErrorMessage = "First name cannot exceed 100 characters.")]
+    public string FirstName { get; set; } = "";
+
+    [Required(ErrorMessage = "Last name is required.")]
+    [MaxLength(100, ErrorMessage = "Last name cannot exceed 100 characters.")]
+    public string LastName { get; set; } = "";
+
+    public List<EmailFormModel> Emails { get; set; } = [];
+    public List<PhoneFormModel> Phones { get; set; } = [];
+    public List<AddressFormModel> Addresses { get; set; } = [];
+
+    public static ContactFormModel FromDetail(ContactDetailDto dto) => new()
+    {
+        FirstName = dto.FirstName,
+        LastName = dto.LastName,
+        Emails = [.. dto.Emails.Select(e => new EmailFormModel { Id = e.Id, Label = e.Label, Address = e.Address })],
+        Phones = [.. dto.Phones.Select(p => new PhoneFormModel { Id = p.Id, Label = p.Label, Number = p.Number })],
+        Addresses = [.. dto.Addresses
+            .Select(a => new AddressFormModel
+            {
+                Id = a.Id, Label = a.Label, Street = a.Street,
+                City = a.City, State = a.State,
+                PostalCode = a.PostalCode, Country = a.Country
+            })]
+    };
+}
+
+// ─── Email ───────────────────────────────────────────────────────────────────
+
+public sealed class EmailFormModel
+{
+    public int Id { get; set; }
+
+    [Required(ErrorMessage = "Label is required.")]
+    [MaxLength(50)]
+    public string Label { get; set; } = "Personal";
+
+    [Required(ErrorMessage = "Email address is required.")]
+    [EmailAddress(ErrorMessage = "Invalid email address format.")]
+    [MaxLength(254, ErrorMessage = "Email cannot exceed 254 characters.")]
+    public string Address { get; set; } = "";
+}
+
+// ─── Phone ───────────────────────────────────────────────────────────────────
+
+public sealed class PhoneFormModel
+{
+    public int Id { get; set; }
+
+    [Required(ErrorMessage = "Label is required.")]
+    [MaxLength(50)]
+    public string Label { get; set; } = "Mobile";
+
+    [Required(ErrorMessage = "Phone number is required.")]
+    [RegularExpression(
+        @"^[\+]?[\d\s\-\(\)\.]{7,30}$",
+        ErrorMessage = "Enter a valid phone number (digits, spaces, dashes, parens).")]
+    [MaxLength(30)]
+    public string Number { get; set; } = "";
+}
+
+// ─── Address ─────────────────────────────────────────────────────────────────
+
+public sealed class AddressFormModel
+{
+    public int Id { get; set; }
+
+    [Required(ErrorMessage = "Label is required.")]
+    [MaxLength(50)]
+    public string Label { get; set; } = "Home";
+
+    [Required(ErrorMessage = "Street is required.")]
+    [MaxLength(200, ErrorMessage = "Street cannot exceed 200 characters.")]
+    public string Street { get; set; } = "";
+
+    [Required(ErrorMessage = "City is required.")]
+    [MaxLength(100, ErrorMessage = "City cannot exceed 100 characters.")]
+    public string City { get; set; } = "";
+
+    [MaxLength(100)]
+    public string State { get; set; } = "";
+
+    [Required(ErrorMessage = "Postal code is required.")]
+    [RegularExpression(
+        @"^[a-zA-Z0-9\s\-]{3,20}$",
+        ErrorMessage = "Invalid postal code (3–20 alphanumeric characters, spaces, or dashes).")]
+    [MaxLength(20)]
+    public string PostalCode { get; set; } = "";
+
+    [Required(ErrorMessage = "Country is required.")]
+    [MaxLength(100)]
+    public string Country { get; set; } = "US";
+}
+
+// ─── Login ───────────────────────────────────────────────────────────────────
+
+public sealed class LoginFormModel
+{
+    [Required(ErrorMessage = "Email is required.")]
+    [EmailAddress(ErrorMessage = "Invalid email format.")]
+    public string Email { get; set; } = "";
+
+    [Required(ErrorMessage = "Password is required.")]
+    public string Password { get; set; } = "";
+
+    public bool RememberMe { get; set; }
+}
+
+// ─── Register ────────────────────────────────────────────────────────────────
+
+public sealed class RegisterFormModel
+{
+    [Required(ErrorMessage = "Email is required.")]
+    [EmailAddress(ErrorMessage = "Invalid email format.")]
+    [MaxLength(256)]
+    public string Email { get; set; } = "";
+
+    [Required(ErrorMessage = "Password is required.")]
+    [MinLength(8, ErrorMessage = "Password must be at least 8 characters.")]
+    [MaxLength(100)]
+    public string Password { get; set; } = "";
+
+    [Required(ErrorMessage = "Please confirm your password.")]
+    [Compare(nameof(Password), ErrorMessage = "Passwords do not match.")]
+    public string ConfirmPassword { get; set; } = "";
+}
+
+// ─── Change Password ─────────────────────────────────────────────────────────
+
+public sealed class ChangePasswordFormModel
+{
+    [Required(ErrorMessage = "Current password is required.")]
+    public string CurrentPassword { get; set; } = "";
+
+    [Required(ErrorMessage = "New password is required.")]
+    [MinLength(8, ErrorMessage = "Password must be at least 8 characters.")]
+    [MaxLength(100)]
+    public string NewPassword { get; set; } = "";
+
+    [Required(ErrorMessage = "Please confirm your new password.")]
+    [Compare(nameof(NewPassword), ErrorMessage = "Passwords do not match.")]
+    public string ConfirmNewPassword { get; set; } = "";
+}
+
+
+
+================================================================================
+FILE: Virginia/Program.cs
+SIZE: 7.58 KB
+MODIFIED: 03/26/2026 21:08:50
+================================================================================
+
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Virginia.Components;
+using Virginia.Data;
+using Virginia.ServiceDefaults;
+using Virginia.Services;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// ── Aspire service defaults (OTEL, health checks, resilience, discovery) ─────
+builder.AddServiceDefaults();
+
+// ── EF Core + SQLite ─────────────────────────────────────────────────────────
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite(
+        builder.Configuration.GetConnectionString("DefaultConnection")
+            ?? "Data Source=virginia.db"));
+
+// ── ASP.NET Core Identity ────────────────────────────────────────────────────
+builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
+{
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 8;
+    options.User.RequireUniqueEmail = true;
+})
+.AddEntityFrameworkStores<AppDbContext>()
+.AddDefaultTokenProviders();
+
+builder.Services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, AppClaimsPrincipalFactory>();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/account/login";
+    options.AccessDeniedPath = "/account/login";
+    options.ExpireTimeSpan = TimeSpan.FromDays(14);
+    options.SlidingExpiration = true;
+});
+
+// ── Authorization policies ───────────────────────────────────────────────────
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("Admin", policy => policy.RequireRole("Admin"))
+    .AddPolicy("Approved", policy => policy.RequireClaim("approved", "True"));
+
+builder.Services.AddCascadingAuthenticationState();
+
+// ── Application services ─────────────────────────────────────────────────────
+builder.Services.AddScoped<IContactService, ContactService>();
+builder.Services.AddSingleton<ContactTelemetry>();
+
+// ── Register custom OTEL sources/meters ──────────────────────────────────────
+builder.Services.AddOpenTelemetry()
+    .WithTracing(tracing => tracing.AddSource(ContactTelemetry.ServiceName))
+    .WithMetrics(metrics => metrics.AddMeter(ContactTelemetry.ServiceName));
+
+// ── Blazor ───────────────────────────────────────────────────────────────────
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents();
+
+var app = builder.Build();
+
+//// ══════════════════════════════════════════════════════════════════════════════
+//// ██  ONE-TIME DEPLOYMENT: Delete this entire block after successful deploy  ██
+//// ══════════════════════════════════════════════════════════════════════════════
+//{
+//    var connStr = app.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=virginia.db";
+//    var dbPath = connStr.Replace("Data Source=", "", StringComparison.OrdinalIgnoreCase).Trim();
+//    if (File.Exists(dbPath))
+//    {
+//        File.Delete(dbPath);
+//        Console.WriteLine($"*** ONE-TIME: Deleted existing database at {dbPath} ***");
+//    }
+//}
+//// ══════════════════════════════════════════════════════════════════════════════
+//// ██  END ONE-TIME DEPLOYMENT BLOCK — DELETE ABOVE AFTER SUCCESSFUL DEPLOY  ██
+//// ══════════════════════════════════════════════════════════════════════════════
+
+// ── Apply migrations + seed ──────────────────────────────────────────────────
+await using (var scope = app.Services.CreateAsyncScope())
+{
+    //var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    //await db.Database.MigrateAsync();
+
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await db.Database.EnsureCreatedAsync();
+
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    string[] roles = ["Admin", "User"];
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+            await roleManager.CreateAsync(new IdentityRole(role));
+    }
+
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+    var adminSection = app.Configuration.GetSection("AdminUser");
+    var adminEmail = adminSection["Email"] ?? "admin@virginia.local";
+    var adminPassword = adminSection["Password"] ?? "Admin123!";
+
+    var adminUser = await userManager.FindByEmailAsync(adminEmail);
+    if (adminUser is null)
+    {
+        adminUser = new AppUser
+        {
+            UserName = adminEmail,
+            Email = adminEmail,
+            EmailConfirmed = true,
+            IsApproved = true,
+            CreatedAtUtc = DateTime.UtcNow
+        };
+        var createResult = await userManager.CreateAsync(adminUser, adminPassword);
+        if (createResult.Succeeded)
+        {
+            await userManager.AddToRoleAsync(adminUser, "Admin");
+        }
+    }
+}
+
+app.MapDefaultEndpoints();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error", createScopeForErrors: true);
+    app.UseHsts();
+}
+
+app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
+app.UseHttpsRedirection();
+
+app.UseAuthentication();
+app.UseAuthorization();
+app.UseAntiforgery();
+
+// ── Minimal API: profile photo endpoint (authenticated) ──────────────────────
+app.MapGet("/api/contacts/{id:int}/photo", async (
+    int id,
+    IContactService svc,
+    CancellationToken ct) =>
+{
+    var result = await svc.GetProfilePictureAsync(id, ct);
+    return result is null
+        ? Results.NotFound()
+        : Results.File(result.Data, result.ContentType);
+})
+.RequireAuthorization("Approved")
+.CacheOutput(p => p.Expire(TimeSpan.FromMinutes(5)).SetVaryByRouteValue("id"));
+
+// ── Minimal API: logout ──────────────────────────────────────────────────────
+app.MapPost("/account/perform-logout", async (
+    SignInManager<AppUser> signInManager) =>
+{
+    await signInManager.SignOutAsync();
+    return Results.Redirect("/account/login");
+});
+
+app.MapStaticAssets();
+app.MapRazorComponents<App>()
+    .AddInteractiveServerRenderMode();
+
+app.Run();
+
+
+
+================================================================================
+FILE: Virginia/Properties/launchSettings.json
+SIZE: 0.66 KB
+MODIFIED: 03/26/2026 17:51:25
+================================================================================
+
+{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "http": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "applicationUrl": "http://virginia.dev.localhost:5193",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "https": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "applicationUrl": "https://virginia.dev.localhost:7140;http://virginia.dev.localhost:5193",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
+
+
+================================================================================
+FILE: Virginia/Services/AppClaimsPrincipalFactory.cs
+SIZE: 0.68 KB
+MODIFIED: 03/26/2026 20:18:03
+================================================================================
+
+using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
+using Virginia.Data;
+
+namespace Virginia.Services;
+
+public sealed class AppClaimsPrincipalFactory(
+    UserManager<AppUser> userManager,
+    RoleManager<IdentityRole> roleManager,
+    IOptions<IdentityOptions> options)
+    : UserClaimsPrincipalFactory<AppUser, IdentityRole>(userManager, roleManager, options)
+{
+    protected override async Task<ClaimsIdentity> GenerateClaimsAsync(AppUser user)
+    {
+        var identity = await base.GenerateClaimsAsync(user);
+        identity.AddClaim(new Claim("approved", user.IsApproved.ToString()));
+        return identity;
+    }
+}
+
+
+
+================================================================================
+FILE: Virginia/Services/ContactService.cs
+SIZE: 19.54 KB
+MODIFIED: 03/26/2026 20:17:15
+================================================================================
+
+using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
+using Virginia.Data;
+
+namespace Virginia.Services;
+
+public sealed partial class ContactService(
+    AppDbContext db,
+    ILogger<ContactService> logger,
+    ContactTelemetry telemetry) : IContactService
+{
+    private const int MaxPageSize = 100;
+
+    // ─── List ────────────────────────────────────────────────────────────
+
+    public async Task<PagedResult<ContactListItem>> ListAsync(
+        ContactFilter filter, int page, int pageSize, CancellationToken ct)
+    {
+        using var activity = ContactTelemetry.Source.StartActivity("ListContacts");
+        activity?.SetTag("filter.name", filter.Name);
+        activity?.SetTag("filter.city", filter.City);
+        activity?.SetTag("filter.state", filter.State);
+        activity?.SetTag("page", page);
+        activity?.SetTag("pageSize", pageSize);
+
+        page = Math.Max(1, page);
+        pageSize = Math.Clamp(pageSize, 1, MaxPageSize);
+
+        var sw = Stopwatch.StartNew();
+
+        var query = db.Contacts.AsNoTracking().AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(filter.Name))
+        {
+            var pattern = $"%{filter.Name.Trim()}%";
+            query = query.Where(c =>
+                EF.Functions.Like(c.FirstName, pattern)
+                || EF.Functions.Like(c.LastName, pattern));
+        }
+
+        if (!string.IsNullOrWhiteSpace(filter.Email))
+        {
+            var pattern = $"%{filter.Email.Trim()}%";
+            query = query.Where(c =>
+                c.Emails.Any(e => EF.Functions.Like(e.Address, pattern)));
+        }
+
+        if (!string.IsNullOrWhiteSpace(filter.Phone))
+        {
+            var term = filter.Phone.Trim();
+            query = query.Where(c =>
+                c.Phones.Any(p => p.Number.Contains(term)));
+        }
+
+        if (!string.IsNullOrWhiteSpace(filter.City))
+        {
+            var pattern = $"%{filter.City.Trim()}%";
+            query = query.Where(c =>
+                c.Addresses.Any(a => EF.Functions.Like(a.City, pattern)));
+        }
+
+        if (!string.IsNullOrWhiteSpace(filter.State))
+        {
+            var pattern = $"%{filter.State.Trim()}%";
+            query = query.Where(c =>
+                c.Addresses.Any(a => EF.Functions.Like(a.State, pattern)));
+        }
+
+        if (filter.HasPhoto == true)
+            query = query.Where(c => c.ProfilePicture != null);
+        else if (filter.HasPhoto == false)
+            query = query.Where(c => c.ProfilePicture == null);
+
+        var totalCount = await query.CountAsync(ct);
+
+        var items = await query
+            .OrderBy(c => c.LastName)
+            .ThenBy(c => c.FirstName)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .Select(c => new ContactListItem(
+                c.Id,
+                c.FirstName,
+                c.LastName,
+                c.ProfilePicture != null,
+                c.Emails.OrderBy(e => e.Id).Select(e => e.Address).FirstOrDefault(),
+                c.Phones.OrderBy(p => p.Id).Select(p => p.Number).FirstOrDefault(),
+                c.Addresses.OrderBy(a => a.Id).Select(a => a.City).FirstOrDefault(),
+                c.CreatedAtUtc))
+            .ToListAsync(ct);
+
+        sw.Stop();
+
+        activity?.SetTag("result.count", items.Count);
+        activity?.SetTag("result.totalCount", totalCount);
+        telemetry.RecordQueryDuration(sw.Elapsed.TotalMilliseconds);
+
+        Log.ListedContacts(logger, items.Count, totalCount, sw.Elapsed.TotalMilliseconds, page);
+
+        return new PagedResult<ContactListItem>(items, totalCount, page, pageSize);
+    }
+
+    // ─── Get ─────────────────────────────────────────────────────────────
+
+    public async Task<ContactDetailDto?> GetAsync(int id, CancellationToken ct)
+    {
+        using var activity = ContactTelemetry.Source.StartActivity("GetContact");
+        activity?.SetTag("contact.id", id);
+
+        var sw = Stopwatch.StartNew();
+
+        var c = await db.Contacts
+            .AsNoTracking()
+            .Include(x => x.Emails.OrderBy(e => e.Id))
+            .Include(x => x.Phones.OrderBy(p => p.Id))
+            .Include(x => x.Addresses.OrderBy(a => a.Id))
+            .Include(x => x.Notes.OrderByDescending(n => n.CreatedAtUtc))
+            .FirstOrDefaultAsync(x => x.Id == id, ct);
+
+        sw.Stop();
+        telemetry.RecordQueryDuration(sw.Elapsed.TotalMilliseconds);
+
+        if (c is null)
+        {
+            Log.ContactNotFound(logger, id, sw.Elapsed.TotalMilliseconds);
+            return null;
+        }
+
+        Log.RetrievedContact(logger, id, sw.Elapsed.TotalMilliseconds);
+
+        return new ContactDetailDto(
+            c.Id, c.FirstName, c.LastName,
+            c.ProfilePicture is not null, c.ProfilePictureContentType,
+            c.CreatedAtUtc, c.UpdatedAtUtc,
+            [.. c.Emails.Select(e => new EmailDto(e.Id, e.Label, e.Address))],
+            [.. c.Phones.Select(p => new PhoneDto(p.Id, p.Label, p.Number))],
+            [.. c.Addresses.Select(a => new AddressDto(
+                a.Id, a.Label, a.Street, a.City, a.State, a.PostalCode, a.Country))],
+            [.. c.Notes.Select(n => new NoteDto(
+                n.Id, n.Content, n.CreatedByUserName, n.CreatedAtUtc))]);
+    }
+
+    // ─── Create ──────────────────────────────────────────────────────────
+
+    public async Task<int> CreateAsync(ContactFormModel form, CancellationToken ct)
+    {
+        using var activity = ContactTelemetry.Source.StartActivity("CreateContact");
+        var sw = Stopwatch.StartNew();
+
+        await using var tx = await db.Database.BeginTransactionAsync(ct);
+        try
+        {
+            var now = DateTime.UtcNow;
+            var contact = new Contact
+            {
+                FirstName = form.FirstName.Trim(),
+                LastName = form.LastName.Trim(),
+                CreatedAtUtc = now,
+                UpdatedAtUtc = now,
+                Emails = [.. form.Emails.Select(e => new ContactEmail
+                {
+                    Label = e.Label.Trim(),
+                    Address = e.Address.Trim()
+                })],
+                Phones = [.. form.Phones.Select(p => new ContactPhone
+                {
+                    Label = p.Label.Trim(),
+                    Number = p.Number.Trim()
+                })],
+                Addresses = [.. form.Addresses.Select(a => new ContactAddress
+                {
+                    Label = a.Label.Trim(),
+                    Street = a.Street.Trim(),
+                    City = a.City.Trim(),
+                    State = a.State.Trim(),
+                    PostalCode = a.PostalCode.Trim(),
+                    Country = a.Country.Trim()
+                })]
+            };
+
+            db.Contacts.Add(contact);
+            await db.SaveChangesAsync(ct);
+            await tx.CommitAsync(ct);
+
+            sw.Stop();
+            activity?.SetTag("contact.id", contact.Id);
+            telemetry.RecordContactCreated();
+            telemetry.RecordWriteDuration(sw.Elapsed.TotalMilliseconds);
+
+            Log.CreatedContact(logger, contact.Id, contact.FullName,
+                contact.Emails.Count, contact.Phones.Count, contact.Addresses.Count,
+                sw.Elapsed.TotalMilliseconds);
+
+            return contact.Id;
+        }
+        catch (Exception ex)
+        {
+            await tx.RollbackAsync(ct);
+            Log.FailedToCreateContact(logger, ex);
+            throw;
+        }
+    }
+
+    // ─── Update ──────────────────────────────────────────────────────────
+
+    public async Task UpdateAsync(int id, ContactFormModel form, CancellationToken ct)
+    {
+        using var activity = ContactTelemetry.Source.StartActivity("UpdateContact");
+        activity?.SetTag("contact.id", id);
+        var sw = Stopwatch.StartNew();
+
+        await using var tx = await db.Database.BeginTransactionAsync(ct);
+        try
+        {
+            var contact = await db.Contacts
+                .Include(c => c.Emails)
+                .Include(c => c.Phones)
+                .Include(c => c.Addresses)
+                .FirstOrDefaultAsync(c => c.Id == id, ct)
+                ?? throw new InvalidOperationException($"Contact {id} not found.");
+
+            contact.FirstName = form.FirstName.Trim();
+            contact.LastName = form.LastName.Trim();
+            contact.UpdatedAtUtc = DateTime.UtcNow;
+
+            SyncChildren(contact.Emails, form.Emails,
+                (e, m) => e.Id == m.Id && m.Id != 0,
+                (e, m) => { e.Label = m.Label.Trim(); e.Address = m.Address.Trim(); },
+                m => new ContactEmail
+                {
+                    ContactId = id,
+                    Label = m.Label.Trim(),
+                    Address = m.Address.Trim()
+                });
+
+            SyncChildren(contact.Phones, form.Phones,
+                (e, m) => e.Id == m.Id && m.Id != 0,
+                (e, m) => { e.Label = m.Label.Trim(); e.Number = m.Number.Trim(); },
+                m => new ContactPhone
+                {
+                    ContactId = id,
+                    Label = m.Label.Trim(),
+                    Number = m.Number.Trim()
+                });
+
+            SyncChildren(contact.Addresses, form.Addresses,
+                (e, m) => e.Id == m.Id && m.Id != 0,
+                (e, m) =>
+                {
+                    e.Label = m.Label.Trim();
+                    e.Street = m.Street.Trim();
+                    e.City = m.City.Trim();
+                    e.State = m.State.Trim();
+                    e.PostalCode = m.PostalCode.Trim();
+                    e.Country = m.Country.Trim();
+                },
+                m => new ContactAddress
+                {
+                    ContactId = id,
+                    Label = m.Label.Trim(),
+                    Street = m.Street.Trim(),
+                    City = m.City.Trim(),
+                    State = m.State.Trim(),
+                    PostalCode = m.PostalCode.Trim(),
+                    Country = m.Country.Trim()
+                });
+
+            await db.SaveChangesAsync(ct);
+            await tx.CommitAsync(ct);
+
+            sw.Stop();
+            telemetry.RecordContactUpdated();
+            telemetry.RecordWriteDuration(sw.Elapsed.TotalMilliseconds);
+
+            Log.UpdatedContact(logger, id, contact.FullName, sw.Elapsed.TotalMilliseconds);
+        }
+        catch (Exception ex) when (ex is not InvalidOperationException)
+        {
+            await tx.RollbackAsync(ct);
+            Log.FailedToUpdateContact(logger, id, ex);
+            throw;
+        }
+    }
+
+    // ─── Delete ──────────────────────────────────────────────────────────
+
+    public async Task DeleteAsync(int id, CancellationToken ct)
+    {
+        using var activity = ContactTelemetry.Source.StartActivity("DeleteContact");
+        activity?.SetTag("contact.id", id);
+        var sw = Stopwatch.StartNew();
+
+        var rows = await db.Contacts.Where(c => c.Id == id).ExecuteDeleteAsync(ct);
+
+        sw.Stop();
+
+        if (rows == 0)
+        {
+            Log.DeleteContactNotFound(logger, id);
+            return;
+        }
+
+        telemetry.RecordContactDeleted();
+        telemetry.RecordWriteDuration(sw.Elapsed.TotalMilliseconds);
+        Log.DeletedContact(logger, id, sw.Elapsed.TotalMilliseconds);
+    }
+
+    // ─── Profile picture ─────────────────────────────────────────────────
+
+    public async Task SetProfilePictureAsync(
+        int id, byte[] data, string contentType, CancellationToken ct)
+    {
+        using var activity = ContactTelemetry.Source.StartActivity("SetProfilePicture");
+        activity?.SetTag("contact.id", id);
+        activity?.SetTag("picture.bytes", data.Length);
+        activity?.SetTag("picture.contentType", contentType);
+        var sw = Stopwatch.StartNew();
+
+        var rows = await db.Contacts.Where(c => c.Id == id)
+            .ExecuteUpdateAsync(s => s
+                .SetProperty(c => c.ProfilePicture, data)
+                .SetProperty(c => c.ProfilePictureContentType, contentType)
+                .SetProperty(c => c.UpdatedAtUtc, DateTime.UtcNow), ct);
+
+        sw.Stop();
+
+        if (rows == 0)
+            throw new InvalidOperationException($"Contact {id} not found.");
+
+        Log.SetProfilePicture(logger, id, data.Length, sw.Elapsed.TotalMilliseconds);
+    }
+
+    public async Task<ProfilePictureResult?> GetProfilePictureAsync(int id, CancellationToken ct)
+    {
+        var result = await db.Contacts
+            .AsNoTracking()
+            .Where(c => c.Id == id && c.ProfilePicture != null)
+            .Select(c => new { c.ProfilePicture, c.ProfilePictureContentType })
+            .FirstOrDefaultAsync(ct);
+
+        if (result?.ProfilePicture is null)
+            return null;
+
+        return new ProfilePictureResult(
+            result.ProfilePicture,
+            result.ProfilePictureContentType ?? "image/jpeg");
+    }
+
+    public async Task RemoveProfilePictureAsync(int id, CancellationToken ct)
+    {
+        using var activity = ContactTelemetry.Source.StartActivity("RemoveProfilePicture");
+        activity?.SetTag("contact.id", id);
+        var sw = Stopwatch.StartNew();
+
+        await db.Contacts.Where(c => c.Id == id)
+            .ExecuteUpdateAsync(s => s
+                .SetProperty(c => c.ProfilePicture, (byte[]?)null)
+                .SetProperty(c => c.ProfilePictureContentType, (string?)null)
+                .SetProperty(c => c.UpdatedAtUtc, DateTime.UtcNow), ct);
+
+        sw.Stop();
+        Log.RemovedProfilePicture(logger, id, sw.Elapsed.TotalMilliseconds);
+    }
+
+    // ─── Notes ───────────────────────────────────────────────────────────
+
+    public async Task<int> AddNoteAsync(
+        int contactId, string content, string userId, string userName,
+        CancellationToken ct)
+    {
+        using var activity = ContactTelemetry.Source.StartActivity("AddContactNote");
+        activity?.SetTag("contact.id", contactId);
+        var sw = Stopwatch.StartNew();
+
+        var contactExists = await db.Contacts.AnyAsync(c => c.Id == contactId, ct);
+        if (!contactExists)
+            throw new InvalidOperationException($"Contact {contactId} not found.");
+
+        var note = new ContactNote
+        {
+            ContactId = contactId,
+            Content = content.Trim(),
+            CreatedByUserId = userId,
+            CreatedByUserName = userName,
+            CreatedAtUtc = DateTime.UtcNow
+        };
+
+        db.ContactNotes.Add(note);
+        await db.SaveChangesAsync(ct);
+
+        sw.Stop();
+        Log.AddedNote(logger, note.Id, contactId, userName, sw.Elapsed.TotalMilliseconds);
+
+        return note.Id;
+    }
+
+    // ─── Private helper ──────────────────────────────────────────────────
+
+    private void SyncChildren<TEntity, TModel>(
+        List<TEntity> entities,
+        List<TModel> models,
+        Func<TEntity, TModel, bool> match,
+        Action<TEntity, TModel> update,
+        Func<TModel, TEntity> create) where TEntity : class
+    {
+        var toRemove = entities.Where(e => !models.Any(m => match(e, m))).ToList();
+        foreach (var item in toRemove)
+        {
+            entities.Remove(item);
+            db.Remove(item);
+        }
+
+        foreach (var model in models)
+        {
+            var existing = entities.FirstOrDefault(e => match(e, model));
+            if (existing is not null)
+                update(existing, model);
+            else
+                entities.Add(create(model));
+        }
+    }
+
+    // ─── Source-generated log messages ────────────────────────────────────
+
+    private static partial class Log
+    {
+        [LoggerMessage(Level = LogLevel.Information,
+            Message = "Listed {Count}/{Total} contacts in {ElapsedMs:F1}ms (page {Page})")]
+        public static partial void ListedContacts(
+            ILogger logger, int count, int total, double elapsedMs, int page);
+
+        [LoggerMessage(Level = LogLevel.Warning,
+            Message = "Contact {Id} not found ({ElapsedMs:F1}ms)")]
+        public static partial void ContactNotFound(
+            ILogger logger, int id, double elapsedMs);
+
+        [LoggerMessage(Level = LogLevel.Information,
+            Message = "Retrieved contact {Id} in {ElapsedMs:F1}ms")]
+        public static partial void RetrievedContact(
+            ILogger logger, int id, double elapsedMs);
+
+        [LoggerMessage(Level = LogLevel.Information,
+            Message = "Created contact {Id} ({Name}) with {Emails}e/{Phones}p/{Addresses}a in {ElapsedMs:F1}ms")]
+        public static partial void CreatedContact(
+            ILogger logger, int id, string name,
+            int emails, int phones, int addresses, double elapsedMs);
+
+        [LoggerMessage(Level = LogLevel.Error,
+            Message = "Failed to create contact")]
+        public static partial void FailedToCreateContact(
+            ILogger logger, Exception ex);
+
+        [LoggerMessage(Level = LogLevel.Information,
+            Message = "Updated contact {Id} ({Name}) in {ElapsedMs:F1}ms")]
+        public static partial void UpdatedContact(
+            ILogger logger, int id, string name, double elapsedMs);
+
+        [LoggerMessage(Level = LogLevel.Error,
+            Message = "Failed to update contact {Id}")]
+        public static partial void FailedToUpdateContact(
+            ILogger logger, int id, Exception ex);
+
+        [LoggerMessage(Level = LogLevel.Warning,
+            Message = "Delete: contact {Id} not found")]
+        public static partial void DeleteContactNotFound(
+            ILogger logger, int id);
+
+        [LoggerMessage(Level = LogLevel.Information,
+            Message = "Deleted contact {Id} in {ElapsedMs:F1}ms")]
+        public static partial void DeletedContact(
+            ILogger logger, int id, double elapsedMs);
+
+        [LoggerMessage(Level = LogLevel.Information,
+            Message = "Set profile picture for contact {Id} ({Bytes} bytes) in {ElapsedMs:F1}ms")]
+        public static partial void SetProfilePicture(
+            ILogger logger, int id, int bytes, double elapsedMs);
+
+        [LoggerMessage(Level = LogLevel.Information,
+            Message = "Removed profile picture for contact {Id} in {ElapsedMs:F1}ms")]
+        public static partial void RemovedProfilePicture(
+            ILogger logger, int id, double elapsedMs);
+
+        [LoggerMessage(Level = LogLevel.Information,
+            Message = "Added note {NoteId} to contact {ContactId} by {UserName} in {ElapsedMs:F1}ms")]
+        public static partial void AddedNote(
+            ILogger logger, int noteId, int contactId, string userName, double elapsedMs);
+    }
+}
+
+
+
+================================================================================
+FILE: Virginia/Services/ContactTelemetry.cs
+SIZE: 1.47 KB
+MODIFIED: 03/26/2026 17:55:45
+================================================================================
+
+using System.Diagnostics;
+using System.Diagnostics.Metrics;
+
+namespace Virginia.Services;
+
+public sealed class ContactTelemetry
+{
+    public const string ServiceName = "Virginia.Contacts";
+    public static readonly ActivitySource Source = new(ServiceName);
+
+    private readonly Counter<long> _created;
+    private readonly Counter<long> _updated;
+    private readonly Counter<long> _deleted;
+    private readonly Histogram<double> _queryDuration;
+    private readonly Histogram<double> _writeDuration;
+
+    public ContactTelemetry(IMeterFactory meterFactory)
+    {
+        var meter = meterFactory.Create(ServiceName);
+        _created = meter.CreateCounter<long>("contacts.created", "contacts", "Contacts created");
+        _updated = meter.CreateCounter<long>("contacts.updated", "contacts", "Contacts updated");
+        _deleted = meter.CreateCounter<long>("contacts.deleted", "contacts", "Contacts deleted");
+        _queryDuration = meter.CreateHistogram<double>("contacts.query.duration", "ms", "Query duration");
+        _writeDuration = meter.CreateHistogram<double>("contacts.write.duration", "ms", "Write duration");
+    }
+
+    public void RecordContactCreated() => _created.Add(1);
+    public void RecordContactUpdated() => _updated.Add(1);
+    public void RecordContactDeleted() => _deleted.Add(1);
+    public void RecordQueryDuration(double ms) => _queryDuration.Record(ms);
+    public void RecordWriteDuration(double ms) => _writeDuration.Record(ms);
+}
+
+
+
+================================================================================
+FILE: Virginia/Services/IContactService.cs
+SIZE: 0.97 KB
+MODIFIED: 03/26/2026 20:17:07
+================================================================================
+
+using Virginia.Data;
+
+namespace Virginia.Services;
+
+public interface IContactService
+{
+    Task<PagedResult<ContactListItem>> ListAsync(
+        ContactFilter filter, int page, int pageSize, CancellationToken ct = default);
+
+    Task<ContactDetailDto?> GetAsync(int id, CancellationToken ct = default);
+
+    Task<int> CreateAsync(ContactFormModel form, CancellationToken ct = default);
+
+    Task UpdateAsync(int id, ContactFormModel form, CancellationToken ct = default);
+
+    Task DeleteAsync(int id, CancellationToken ct = default);
+
+    Task SetProfilePictureAsync(
+        int id, byte[] data, string contentType, CancellationToken ct = default);
+
+    Task<ProfilePictureResult?> GetProfilePictureAsync(int id, CancellationToken ct = default);
+
+    Task RemoveProfilePictureAsync(int id, CancellationToken ct = default);
+
+    Task<int> AddNoteAsync(
+        int contactId, string content, string userId, string userName,
+        CancellationToken ct = default);
+}
+
+
+
+================================================================================
+FILE: Virginia/Virginia.csproj
+SIZE: 0.7 KB
+MODIFIED: 03/26/2026 20:15:15
+================================================================================
+
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <UserSecretsId>3bd1a45e-843a-4d99-9252-6da6a15767b7</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Virginia.ServiceDefaults\Virginia.ServiceDefaults.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>
+
+
+
+================================================================================
+FILE: Virginia/wwwroot/app.css
+SIZE: 5.23 KB
+MODIFIED: 03/26/2026 20:22:32
+================================================================================
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                 Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #222;
+    background: #f5f5f5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    margin: 0;
+}
+
+h1:focus {
+    outline: none;
+}
+
+a {
+    color: #4a90d9;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.valid.modified:not([type=checkbox]) {
+    outline: 1px solid #26b050;
+}
+
+.invalid {
+    outline: 1px solid #e50000;
+}
+
+.validation-message {
+    color: #c62828;
+    font-size: 0.8rem;
+}
+
+.blazor-error-boundary {
+    background: #b32121;
+    padding: 1rem;
+    color: #fff;
+    border-radius: 4px;
+}
+
+.blazor-error-boundary::after {
+    content: "An error has occurred.";
+}
+
+/* ── Auth pages ──────────────────────────────────────────────────────────── */
+
+.auth-page {
+    display: flex;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+.auth-card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 420px;
+}
+
+.auth-card h1 {
+    margin: 0 0 1.25rem;
+    font-size: 1.4rem;
+    text-align: center;
+}
+
+.auth-card .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    margin-bottom: 0.75rem;
+}
+
+.auth-card .field label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.auth-card .field input {
+    padding: 0.5rem 0.7rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.auth-card .field input:focus {
+    outline: none;
+    border-color: #4a90d9;
+    box-shadow: 0 0 0 2px rgba(74, 144, 217, 0.15);
+}
+
+.auth-card .field-check {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+}
+
+.auth-card .btn-block {
+    width: 100%;
+    padding: 0.6rem;
+    font-size: 0.95rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.auth-card .btn-primary {
+    background: #e94560;
+    color: #fff;
+}
+
+.auth-card .btn-primary:hover {
+    background: #c73650;
+}
+
+.auth-link {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+/* ── Banners (global) ────────────────────────────────────────────────────── */
+
+.banner {
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+}
+
+.banner-error {
+    background: #ffeaea;
+    color: #c62828;
+    border: 1px solid #f5c6c6;
+}
+
+.banner-success {
+    background: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #c8e6c9;
+}
+
+/* ── Admin table ─────────────────────────────────────────────────────────── */
+
+.badge {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.badge-ok {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.badge-pending {
+    background: #fff3e0;
+    color: #e65100;
+}
+
+.actions-cell {
+    display: flex;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+}
+
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-approve {
+    background: #4caf50;
+    color: #fff;
+}
+
+.btn-approve:hover {
+    background: #388e3c;
+}
+
+.btn-revoke {
+    background: #ff9800;
+    color: #fff;
+}
+
+.btn-revoke:hover {
+    background: #f57c00;
+}
+
+.btn-promote {
+    background: #2196f3;
+    color: #fff;
+}
+
+.btn-promote:hover {
+    background: #1976d2;
+}
+
+.btn-delete {
+    background: #f44336;
+    color: #fff;
+}
+
+.btn-delete:hover {
+    background: #d32f2f;
+}
+
+/* ── Shared table/page ───────────────────────────────────────────────────── */
+
+.page {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.page-header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.data-table th {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #888;
+    font-weight: 600;
+}
+
+.status {
+    text-align: center;
+    color: #888;
+    padding: 3rem 1rem;
+    font-size: 0.95rem;
+}
+
+
+
+===============================================================================
+EXPORT COMPLETED: 03/26/2026 21:11:22
+Total Files Exported: 53
+Output File: D:\DEV\personal\Virginia\docs\llm\dump.txt
+===============================================================================
+
+I need to research .NET Aspire, Podman, containerization, and the current state of these technologies before writing.Now let me fetch the Virginia repo to verify its contents:Good, I now have comprehensive research on Aspire 13.x, Podman vs Docker, self-hosted deployment, and the Virginia sample app. Let me also check the Aspire initial release history:Now I have all the research I need. Let me write the article.The article is ready. Save it as `content/blog/2026-03-29-aspire-containers-self-hosting-guide.md`.
+
+Here's a summary of what's covered:
+
+**12 parts**, roughly **8,000+ words**, covering Aspire from first principles through full VPS deployment:
+
+1. **What Is Aspire?** — History (preview in Nov 2023, GA May 2024, up to 13.2 released March 23, 2026), the three pillars (orchestration, integrations, deployment), and how Virginia uses it
+2. **OCI Containers — Vendor-Neutral Thinking** — Terminology cleanup (Containerfile not Dockerfile), why Podman over Docker (daemonless, rootless, free), installation on every platform
+3. **Writing a Containerfile for Virginia** — Full multi-stage build with layer caching, non-root user, volume-based SQLite persistence
+4. **Composing with podman-compose** — Complete compose.yaml with Caddy for automatic HTTPS
+5. **Aspire's Docker Compose Publisher** — How to let Aspire generate compose files, and the current Podman caveat
+6. **Repository Structure** — Where everything lives, .env handling, CI/CD with GitHub Actions
+7. **Do You Need Kubernetes?** — A clear "no" with honest discussion of when you would
+8. **Advanced Containerfile Techniques** — Health checks, SQLite backup strategies, OpenTelemetry in production
+9. **Security Considerations** — SSH hardening, firewall, rootless containers, application security
+10. **Troubleshooting** — Common failure modes and fixes
+11. **Complete Deployment Walkthrough** — Step-by-step from fresh VPS to running application
+12. **Summary and Resources** — All official links
+
+All version numbers and release dates were verified via web search. The article uses exclusively vendor-neutral language (Containerfile, OCI, container runtime) and never assumes Docker is installed.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
