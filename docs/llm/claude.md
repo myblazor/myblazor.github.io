@@ -30803,3 +30803,23 @@ for github actions to do its thing.
 
 (Opus 4.6, not extended thinking)
 
+I'll start by reading the full project knowledge dump and doing research on .NET 10 and C# 14.Now let me do the research on .NET 10 and C# 14 current state:Now I have comprehensive research. Let me also check one more thing about ASP.NET Core 10 and Blazor 10 specifics, then I'll write the article.I now have extensive research material. Let me also check the .NET 10 SDK features (file-based apps, SLNX, etc.):I now have all the research I need. Let me write this comprehensive article. This is going to be a very large piece covering the full breadth and depth of .NET and C# — from .NET Framework history through to .NET 10 and C# 14.Here is your complete article for `content/blog/2026-04-11-dotnet10-csharp14-complete-guide.md`. 
+
+It covers the full scope you asked for — not just "what's new in .NET 10" but everything a developer coming from .NET Framework needs to get fully current. The article walks through:
+
+1. **Complete .NET history** from Framework 1.0 (2002) through .NET 10 (2025), including every major release and what it brought
+2. **Every significant C# feature** from 1.0 through 13, with working code examples — so someone stuck on C# 7.3 can catch up on seven missed versions in one read
+3. **C# 14 in full detail** — extension members, the `field` keyword, null-conditional assignment, implicit span conversions, partial constructors/events, `nameof` with unbound generics, and user-defined compound assignment operators
+4. **The .NET 10 runtime** — JIT improvements, array devirtualization, NativeAOT, hardware acceleration, GC improvements
+5. **The .NET 10 SDK** — SLNX solution format, file-based apps, CLI improvements, `Directory.Build.props`, Central Package Management
+6. **ASP.NET Core 10** — minimal API validation, OpenAPI 3.1, passkey authentication, security
+7. **Blazor .NET 10** — `[PersistentState]`, reconnection UI, WebAssembly preloading, QuickGrid
+8. **EF Core 10** — vector search, JSON type, named query filters, LINQ improvements
+9. **BCL updates** — post-quantum cryptography, JSON serialization, collections, networking
+10. **Migration guide** from .NET Framework 4.8, with practical steps
+11. **Modern project structure**, testing, OpenTelemetry, breaking changes, and practical recommendations
+
+All version numbers, release dates, and support timelines were verified via web search against current Microsoft documentation. Just commit and push.
+
+84
+28
