@@ -33967,3 +33967,21 @@ as it is not essential to write new blog posts or to edit code
 you should not have to read every single blog post ever to process prompts
 make sure you have a file structure or tree at the top first, looks like that is missing from our dump now 
 include everything that is tracked in git in this tree 
+
+Here's the fully updated `export.sh`:Here's what changed and why:
+
+**Directory tree at the top** — The script now generates a full tree of every git-tracked file as the first section of the dump. It tries to use the `tree` command with `--fromfile` for nice formatting (works on most Linux/macOS installs including GitHub Actions runners). If `tree` isn't available, it falls back to a sorted list with indentation plus the raw file paths for unambiguous reference.
+
+**Blog posts: front matter only** — Any file matching `content/blog/*.md` gets the `extract_front_matter` function instead of `cat`. This reads line by line from the opening `---` to the closing `---` and stops, so the body text (which can be 5,000–15,000+ words per article) is completely omitted. The file header in the dump says `[FRONT MATTER ONLY — body omitted to save context space]` so it's obvious when reading.
+
+**Other improvements:**
+- `set -euo pipefail` at the top for safer bash execution
+- UTC timestamp instead of locale-dependent `date` output
+- The `file` command grep now also matches `yaml` and `empty` (catches empty files and YAML files that some `file` versions classify differently)
+- Arithmetic uses `$((…))` instead of `((…))` for POSIX compatibility
+- The footer now breaks down the counts (blog front-matter-only vs full content vs skipped binary)
+
+Run `bash export.sh` and the dump should be dramatically smaller while still giving full context on your project structure, configuration, source code, tests, CI, and blog post metadata.
+
+46
+55
