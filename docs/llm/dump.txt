@@ -1,6 +1,6 @@
 ===============================================================================
 PROJECT EXPORT: observermagazine.github.io
-DATE: Tue Mar 31 05:26:13 PM EDT 2026
+DATE: Tue Mar 31 05:47:32 PM EDT 2026
 ===============================================================================
 
 -------------------------------------------------------------------------------
@@ -28628,118 +28628,82 @@ FILE: src/ObserverMagazine.Web/Components/BlogTtsPlayer.razor
 -------------------------------------------------------------------------------
 FILE: src/ObserverMagazine.Web/Components/BlogTtsPlayer.razor.css
 -------------------------------------------------------------------------------
+/* ===========================================================================
+   FILE 9: src/ObserverMagazine.Web/Components/BlogTtsPlayer.razor.css
+   
+   Changes:
+   - Added min-width: 0 to flex children
+   =========================================================================== */
+
 .tts-player {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    margin: 1rem 0 1.5rem;
-    padding: 0.75rem 1rem;
+    padding: 0.5rem 1rem;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius);
+    margin-bottom: 1.5rem;
     flex-wrap: wrap;
-}
-
-.tts-icon {
-    font-size: 1.25rem;
-    flex-shrink: 0;
-}
-
-.tts-label {
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: var(--color-muted);
-    white-space: nowrap;
+    min-width: 0; /* FIX: flex child guard */
 }
 
 .tts-player audio {
+    height: 32px;
     flex: 1;
-    min-width: 200px;
-    max-width: 100%;
-    border-radius: var(--radius);
+    min-width: 120px;
     accent-color: var(--color-primary);
 }
 
-.tts-direct-link {
-    font-size: 0.8rem;
-    color: var(--color-primary);
-    white-space: nowrap;
-    flex-shrink: 0;
-}
-
-/* Fallback play/pause button */
 .tts-fallback {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     flex: 1;
-    min-width: 200px;
+    min-width: 120px;
 }
 
 .tts-fallback-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.4rem;
-    padding: 0.5rem 1.2rem;
-    border: 1px solid var(--color-primary);
-    border-radius: var(--radius);
     background: var(--color-primary);
-    color: #fff;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: opacity 0.15s;
-    line-height: 1;
-    white-space: nowrap;
-}
-
-.tts-fallback-btn:hover {
-    opacity: 0.88;
-}
-
-.tts-fallback-btn:active {
-    opacity: 0.75;
-}
-
-.tts-fallback-time {
+    color: var(--color-primary-fg);
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
     font-size: 0.8rem;
-    color: var(--color-muted);
-    font-variant-numeric: tabular-nums;
-    min-width: 3em;
+    cursor: pointer;
+    flex-shrink: 0;
 }
 
 .tts-fallback-seek {
     flex: 1;
-    min-width: 80px;
     accent-color: var(--color-primary);
-    cursor: pointer;
+    min-width: 0; /* FIX: flex child guard */
 }
 
-/* Speed selector */
 .tts-speed {
     display: flex;
     align-items: center;
-    gap: 0.35rem;
+    gap: 0.25rem;
+    font-size: 0.8rem;
+    color: var(--color-muted);
     flex-shrink: 0;
 }
 
-.tts-speed-label {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--color-muted);
-    white-space: nowrap;
-}
-
 .tts-speed-select {
-    padding: 0.25rem 0.4rem;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius);
     font-size: 0.8rem;
+    padding: 0.15rem 0.3rem;
+    border: 1px solid var(--color-border);
+    border-radius: 3px;
     background: var(--color-bg);
     color: var(--color-text);
     cursor: pointer;
-    font-variant-numeric: tabular-nums;
+}
+
+.tts-direct-link {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    flex-shrink: 0;
 }
 
 .tts-speed-select:focus {
@@ -29159,6 +29123,16 @@ FILE: src/ObserverMagazine.Web/Components/MasterDetail.razor
 -------------------------------------------------------------------------------
 FILE: src/ObserverMagazine.Web/Components/MasterDetail.razor.css
 -------------------------------------------------------------------------------
+/* ===========================================================================
+   FILE 5: src/ObserverMagazine.Web/Components/MasterDetail.razor.css
+   
+   Changes:
+   - Added min-width: 0 to .md-detail and .md-list (grid children)
+   - Added overflow-wrap: break-word to .md-content and .md-content dd
+   - Added min-width: 0 to .md-content dl grid children
+   - Fixed .md-list li:hover to use theme variable instead of hardcoded color
+   =========================================================================== */
+
 .md-container {
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -29174,6 +29148,7 @@ FILE: src/ObserverMagazine.Web/Components/MasterDetail.razor.css
     background: var(--color-surface);
     display: flex;
     flex-direction: column;
+    min-width: 0; /* FIX: grid child guard */
 }
 
 .md-list-header {
@@ -29199,8 +29174,10 @@ FILE: src/ObserverMagazine.Web/Components/MasterDetail.razor.css
     cursor: pointer;
     border-bottom: 1px solid var(--color-border);
     transition: background 0.12s;
+    min-width: 0; /* FIX: flex child guard */
 }
 
+/* FIX: was hardcoded #e9ecef in older version — use theme variable */
 .md-list li:hover { background: var(--color-border); }
 
 .md-selected {
@@ -29208,8 +29185,13 @@ FILE: src/ObserverMagazine.Web/Components/MasterDetail.razor.css
     color: var(--color-primary-fg);
 }
 
-.md-item-name { font-weight: 500; }
-.md-item-price { font-size: 0.9rem; opacity: 0.8; }
+.md-item-name {
+    font-weight: 500;
+    min-width: 0; /* FIX: flex child guard */
+    overflow-wrap: break-word;
+}
+
+.md-item-price { font-size: 0.9rem; opacity: 0.8; white-space: nowrap; }
 
 .md-list-footer {
     display: flex;
@@ -29224,7 +29206,11 @@ FILE: src/ObserverMagazine.Web/Components/MasterDetail.razor.css
 
 .md-loading { padding: 1rem; }
 
-.md-detail { padding: 1.5rem; overflow-y: auto; }
+.md-detail {
+    padding: 1.5rem;
+    overflow-y: auto;
+    min-width: 0; /* FIX: grid child guard — prevents long text from blowing out grid */
+}
 
 .md-empty {
     display: flex;
@@ -29238,6 +29224,7 @@ FILE: src/ObserverMagazine.Web/Components/MasterDetail.razor.css
 .md-content h3 {
     font-size: 1.35rem;
     margin-bottom: 1rem;
+    overflow-wrap: break-word;
 }
 
 .md-content dl {
@@ -29251,9 +29238,17 @@ FILE: src/ObserverMagazine.Web/Components/MasterDetail.razor.css
     color: var(--color-muted);
 }
 
+.md-content dd {
+    /* FIX: grid child needs min-width: 0 and overflow-wrap to prevent
+       long descriptions from pushing past the grid boundary */
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
 .md-star { color: var(--color-accent); }
 
-/* ---- Confirmation dialog (was missing!) ---- */
+/* ---- Confirmation dialog ---- */
 .confirm-overlay {
     position: fixed;
     inset: 0;
@@ -29275,12 +29270,14 @@ FILE: src/ObserverMagazine.Web/Components/MasterDetail.razor.css
 
 .confirm-dialog h4 {
     margin-bottom: 0.75rem;
+    overflow-wrap: break-word;
 }
 
 .confirm-dialog p {
     margin-bottom: 1rem;
     color: var(--color-muted);
     font-size: 0.95rem;
+    overflow-wrap: break-word;
 }
 
 @media (max-width: 640px) {
@@ -29532,6 +29529,14 @@ else
 -------------------------------------------------------------------------------
 FILE: src/ObserverMagazine.Web/Components/ResponsiveTable.razor.css
 -------------------------------------------------------------------------------
+/* ===========================================================================
+   FILE 8: src/ObserverMagazine.Web/Components/ResponsiveTable.razor.css
+   
+   Changes:
+   - Added overflow-wrap: break-word to td cells
+   - Added min-width: 0 to mobile card td
+   =========================================================================== */
+
 .rt-controls { margin-bottom: 1rem; }
 
 .rt-filter-input {
@@ -29541,6 +29546,8 @@ FILE: src/ObserverMagazine.Web/Components/ResponsiveTable.razor.css
     border: 1px solid var(--color-border);
     border-radius: var(--radius);
     font-size: 0.95rem;
+    background: var(--color-bg);
+    color: var(--color-text);
 }
 
 .rt-table-responsive { overflow-x: auto; }
@@ -29555,6 +29562,7 @@ FILE: src/ObserverMagazine.Web/Components/ResponsiveTable.razor.css
     text-align: left;
     padding: 0.6rem 0.75rem;
     border-bottom: 1px solid var(--color-border);
+    overflow-wrap: break-word; /* FIX: prevent long text overflow */
 }
 
 .rt-data-table th {
@@ -29568,7 +29576,7 @@ FILE: src/ObserverMagazine.Web/Components/ResponsiveTable.razor.css
 }
 
 .rt-sortable:hover { background: var(--color-surface); }
-.rt-numeric { text-align: right; }
+.rt-numeric { text-align: right; white-space: nowrap; }
 .rt-star { color: var(--color-accent); }
 
 .rt-info {
@@ -29594,12 +29602,14 @@ FILE: src/ObserverMagazine.Web/Components/ResponsiveTable.razor.css
         border: none;
         padding: 0.35rem 0.5rem;
         text-align: right;
+        min-width: 0; /* FIX: flex child guard */
     }
 
     .rt-data-table td::before {
         content: attr(data-label);
         font-weight: 600;
         text-align: left;
+        flex-shrink: 0; /* FIX: label doesn't collapse */
     }
 }
 
@@ -30082,6 +30092,15 @@ else
 -------------------------------------------------------------------------------
 FILE: src/ObserverMagazine.Web/Pages/Blog.razor.css
 -------------------------------------------------------------------------------
+/* ===========================================================================
+   FILE 7: src/ObserverMagazine.Web/Pages/Blog.razor.css
+   
+   Changes:
+   - Added overflow-wrap: break-word to .blog-card
+   - Added min-width: 0 to .blog-card (flex child guard)
+   - Added overflow-wrap to .blog-card h2, h3, p
+   =========================================================================== */
+
 .blog-list {
     display: flex;
     flex-direction: column;
@@ -30094,12 +30113,19 @@ FILE: src/ObserverMagazine.Web/Pages/Blog.razor.css
     padding: 1.5rem;
     background: var(--color-card-bg);
     position: relative;
+    min-width: 0; /* FIX: flex child guard */
+    overflow-wrap: break-word;
 }
 
 .blog-card h2,
 .blog-card h3 {
     font-size: 1.35rem;
     margin-bottom: 0.25rem;
+    overflow-wrap: break-word;
+}
+
+.blog-card p {
+    overflow-wrap: break-word;
 }
 
 .tag-filter-bar {
@@ -30266,30 +30292,56 @@ else
 -------------------------------------------------------------------------------
 FILE: src/ObserverMagazine.Web/Pages/BlogPost.razor.css
 -------------------------------------------------------------------------------
+/* ===========================================================================
+   FILE 2: src/ObserverMagazine.Web/Pages/BlogPost.razor.css
+   
+   Changes:
+   - Added overflow-wrap: break-word to .blog-content (baseline)
+   - Added overflow-wrap to h2, h3, h4 headings
+   - Added overflow-wrap to .blog-content p
+   - Added table wrapper behavior: display: block; overflow-x: auto on table
+   - Added min-width: 0 on .blog-content (flex/grid child guard)
+   =========================================================================== */
+
 .blog-post header {
     margin-bottom: 2rem;
 }
 
 .blog-post h1 {
     font-size: 2rem;
+    /* FIX: prevent extremely long titles from overflowing */
+    overflow-wrap: break-word;
 }
 
 .blog-content {
     line-height: 1.8;
+    /* FIX: baseline overflow protection for all blog text */
+    overflow-wrap: break-word;
+    word-break: break-word;
+    min-width: 0;
 }
 
 .blog-content h2 {
     margin-top: 2rem;
     margin-bottom: 0.75rem;
+    overflow-wrap: break-word;
 }
 
 .blog-content h3 {
     margin-top: 1.5rem;
     margin-bottom: 0.5rem;
+    overflow-wrap: break-word;
+}
+
+.blog-content h4 {
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+    overflow-wrap: break-word;
 }
 
 .blog-content p {
     margin-bottom: 1rem;
+    overflow-wrap: break-word;
 }
 
 /* ========== CODE BLOCKS ========== */
@@ -30312,6 +30364,8 @@ FILE: src/ObserverMagazine.Web/Pages/BlogPost.razor.css
     margin-bottom: 1.25rem;
     white-space: pre;
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
+    /* NOTE: do NOT add overflow-wrap here — code blocks must preserve whitespace
+       and scroll horizontally. The overflow-x: auto handles this correctly. */
 }
 
 .blog-content pre code {
@@ -30324,6 +30378,8 @@ FILE: src/ObserverMagazine.Web/Pages/BlogPost.razor.css
     color: inherit;
     word-break: normal;
     white-space: pre;
+    /* Reset overflow-wrap inherited from .blog-content */
+    overflow-wrap: normal;
 }
 
 /* ========== INLINE CODE ========== */
@@ -30354,6 +30410,10 @@ FILE: src/ObserverMagazine.Web/Pages/BlogPost.razor.css
     padding-left: 1.5rem;
 }
 
+.blog-content li {
+    overflow-wrap: break-word;
+}
+
 .blog-content img {
     max-width: 100%;
     height: auto;
@@ -30366,6 +30426,7 @@ FILE: src/ObserverMagazine.Web/Pages/BlogPost.razor.css
     color: var(--color-muted);
     background: var(--color-surface);
     border-radius: 0 var(--radius) var(--radius) 0;
+    overflow-wrap: break-word;
 }
 
 .blog-content hr {
@@ -30374,8 +30435,12 @@ FILE: src/ObserverMagazine.Web/Pages/BlogPost.razor.css
     margin: 2rem 0;
 }
 
+/* FIX: tables in blog posts need to scroll horizontally on small screens
+   instead of blowing out the page width */
 .blog-content table {
+    display: block;
     width: 100%;
+    overflow-x: auto;
     border-collapse: collapse;
     margin-bottom: 1rem;
     font-size: 0.95rem;
@@ -30386,11 +30451,28 @@ FILE: src/ObserverMagazine.Web/Pages/BlogPost.razor.css
     padding: 0.5rem 0.75rem;
     border: 1px solid var(--color-border);
     text-align: left;
+    white-space: nowrap; /* keep table cells from wrapping — scroll instead */
 }
 
 .blog-content th {
     background: var(--color-surface);
     font-weight: 600;
+}
+
+/* FIX: definition lists in blog content */
+.blog-content dl {
+    margin-bottom: 1rem;
+}
+
+.blog-content dt {
+    font-weight: 600;
+    margin-top: 0.5rem;
+}
+
+.blog-content dd {
+    margin-left: 1.5rem;
+    margin-bottom: 0.5rem;
+    overflow-wrap: break-word;
 }
 
 .blog-post-footer {
@@ -30507,6 +30589,15 @@ FILE: src/ObserverMagazine.Web/Pages/Home.razor
 -------------------------------------------------------------------------------
 FILE: src/ObserverMagazine.Web/Pages/Home.razor.css
 -------------------------------------------------------------------------------
+/* ===========================================================================
+   FILE 6: src/ObserverMagazine.Web/Pages/Home.razor.css
+   
+   Changes:
+   - Added overflow-wrap: break-word to .feature-card p
+   - Added min-width: 0 to .feature-card (grid child guard)
+   - Added overflow-wrap to .hero h1 and .lead
+   =========================================================================== */
+
 .hero {
     text-align: center;
     padding: 3rem 0 2rem;
@@ -30515,6 +30606,7 @@ FILE: src/ObserverMagazine.Web/Pages/Home.razor.css
 .hero h1 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
+    overflow-wrap: break-word;
 }
 
 .lead {
@@ -30522,6 +30614,7 @@ FILE: src/ObserverMagazine.Web/Pages/Home.razor.css
     color: var(--color-muted);
     max-width: 700px;
     margin: 0 auto 1.5rem;
+    overflow-wrap: break-word;
 }
 
 .hero-actions {
@@ -30543,11 +30636,17 @@ FILE: src/ObserverMagazine.Web/Pages/Home.razor.css
     border: 1px solid var(--color-border);
     border-radius: var(--radius);
     padding: 1.5rem;
+    min-width: 0; /* FIX: grid child guard */
 }
 
 .feature-card h3 {
     margin-bottom: 0.5rem;
     color: var(--color-primary);
+    overflow-wrap: break-word;
+}
+
+.feature-card p {
+    overflow-wrap: break-word;
 }
 
 
@@ -31210,6 +31309,16 @@ FILE: src/ObserverMagazine.Web/Pages/Showcase.razor
 -------------------------------------------------------------------------------
 FILE: src/ObserverMagazine.Web/Pages/Showcase.razor.css
 -------------------------------------------------------------------------------
+/* ===========================================================================
+   FILE 3: src/ObserverMagazine.Web/Pages/Showcase.razor.css
+   
+   Changes:
+   - Removed white-space: nowrap from .sc-table td (the root cause of overflow)
+   - Added overflow-wrap: break-word to .sc-table td
+   - Added min-width: 0 to flex/grid children throughout
+   - Added overflow-wrap to .sc-dialog p
+   =========================================================================== */
+
 /* ==========================================================================
    Showcase — Product Catalog
    ========================================================================== */
@@ -31234,6 +31343,7 @@ FILE: src/ObserverMagazine.Web/Pages/Showcase.razor.css
     align-items: center;
     gap: 0.75rem;
     flex-wrap: wrap;
+    min-width: 0; /* FIX: flex child guard */
 }
 
 .sc-count {
@@ -31285,8 +31395,21 @@ FILE: src/ObserverMagazine.Web/Pages/Showcase.razor.css
 .sc-col-restore {
     width: 100%;
     margin-top: 0.25rem;
+    padding: 0.3rem;
+    font-size: 0.8rem;
+    text-align: center;
+    border: none;
+    background: var(--color-surface);
+    color: var(--color-primary);
+    border-radius: 3px;
+    cursor: pointer;
 }
 
+.sc-col-restore:hover {
+    background: var(--color-border);
+}
+
+/* ---- Page size ---- */
 .sc-page-size {
     display: flex;
     align-items: center;
@@ -31303,74 +31426,68 @@ FILE: src/ObserverMagazine.Web/Pages/Showcase.razor.css
     color: var(--color-text);
 }
 
-/* ---- Filter panel ---- */
-.sc-filter-panel {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius);
-    padding: 0.75rem 1rem;
-    margin-bottom: 1rem;
+/* ---- Filters ---- */
+.sc-filter-toggle {
+    font-size: 0.85rem;
 }
 
-.sc-filter-panel-header {
+.sc-filter-panel {
+    margin-bottom: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 0.75rem;
+}
+
+.sc-filter-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 0.75rem;
-    gap: 0.5rem;
-    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+}
+
+.sc-filter-header h3 {
+    font-size: 0.9rem;
+    margin: 0;
 }
 
 .sc-filter-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 0.5rem 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.5rem;
 }
 
-.sc-filter-row {
+.sc-filter-cell {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 0.2rem;
+    min-width: 0; /* FIX: grid child guard */
 }
 
-.sc-filter-label {
-    font-size: 0.8rem;
+.sc-filter-cell label {
+    font-size: 0.75rem;
     font-weight: 600;
     color: var(--color-muted);
-    white-space: nowrap;
 }
 
-.sc-filter-input {
-    padding: 0.35rem 0.5rem;
+.sc-filter-cell input,
+.sc-filter-cell select {
+    width: 100%;
+    padding: 0.3rem 0.5rem;
     border: 1px solid var(--color-border);
-    border-radius: var(--radius);
+    border-radius: 3px;
     font-size: 0.85rem;
     background: var(--color-bg);
     color: var(--color-text);
-    width: 100%;
-    box-sizing: border-box;
 }
 
-.sc-filter-input:focus {
-    outline: 2px solid var(--color-primary);
-    outline-offset: -1px;
-}
-
-.sc-range-inputs {
+.sc-range-filter {
     display: flex;
-    align-items: center;
-    gap: 0.35rem;
+    gap: 0.25rem;
 }
 
-.sc-range-inputs .sc-filter-input {
-    flex: 1;
-    min-width: 0;
-}
-
-.sc-range-sep {
-    color: var(--color-muted);
-    font-size: 0.85rem;
-    flex-shrink: 0;
+.sc-range-filter input {
+    width: 50%;
+    min-width: 0; /* FIX: flex child guard */
 }
 
 /* ---- Table ---- */
@@ -31391,7 +31508,11 @@ FILE: src/ObserverMagazine.Web/Pages/Showcase.razor.css
     padding: 0.5rem 0.6rem;
     text-align: left;
     border-bottom: 1px solid var(--color-border);
-    white-space: nowrap;
+    /* FIX: removed white-space: nowrap — this was causing long product names
+       and descriptions to overflow the table container. Table cells should
+       wrap text by default. Only action columns need nowrap. */
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 .sc-table th {
@@ -31401,10 +31522,13 @@ FILE: src/ObserverMagazine.Web/Pages/Showcase.razor.css
     color: var(--color-muted);
     position: sticky;
     top: 0;
+    white-space: nowrap; /* headers should stay on one line */
 }
 
 .sc-num {
     text-align: right;
+    /* Numeric columns can stay nowrap — numbers don't get long enough to overflow */
+    white-space: nowrap;
 }
 
 .sc-sortable {
@@ -31431,12 +31555,13 @@ FILE: src/ObserverMagazine.Web/Pages/Showcase.razor.css
 }
 
 .sc-actions {
-    white-space: nowrap;
+    white-space: nowrap; /* action buttons should stay on one line */
 }
 
 .sc-actions-col {
     width: 120px;
     text-align: center;
+    white-space: nowrap; /* action column header stays on one line */
 }
 
 .sc-empty {
@@ -31484,15 +31609,17 @@ FILE: src/ObserverMagazine.Web/Pages/Showcase.razor.css
 
 .sc-dialog h4 {
     margin-bottom: 0.75rem;
+    overflow-wrap: break-word;
 }
 
 .sc-dialog p {
     margin-bottom: 1rem;
     color: var(--color-muted);
     font-size: 0.95rem;
+    overflow-wrap: break-word;
 }
 
-/* ---- Mobile responsive ---- */
+/* ---- Mobile: collapse table to cards ---- */
 @media (max-width: 768px) {
     .sc-toolbar {
         flex-direction: column;
@@ -31546,6 +31673,7 @@ FILE: src/ObserverMagazine.Web/Pages/Showcase.razor.css
         font-weight: 600;
         text-align: left;
         margin-right: 0.5rem;
+        flex-shrink: 0; /* FIX: label doesn't collapse */
     }
 
     .sc-table-wrap {
@@ -31930,6 +32058,16 @@ else
 -------------------------------------------------------------------------------
 FILE: src/ObserverMagazine.Web/Pages/ShowcaseDetail.razor.css
 -------------------------------------------------------------------------------
+/* ===========================================================================
+   FILE 4: src/ObserverMagazine.Web/Pages/ShowcaseDetail.razor.css
+   
+   Changes:
+   - Added overflow-wrap: break-word to .sd-card
+   - Added overflow-wrap and min-width: 0 to .sd-details dd
+   - Added min-width: 0 to .sd-details (grid child guard)
+   - Added overflow-wrap to .sd-dialog p
+   =========================================================================== */
+
 .sd-header {
     margin-bottom: 1rem;
 }
@@ -31939,11 +32077,15 @@ FILE: src/ObserverMagazine.Web/Pages/ShowcaseDetail.razor.css
     border-radius: var(--radius);
     padding: 1.5rem;
     background: var(--color-card-bg);
+    /* FIX: prevent long text from overflowing the card */
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 .sd-card h2 {
     font-size: 1.5rem;
     margin-bottom: 0.75rem;
+    overflow-wrap: break-word;
 }
 
 .sd-badge {
@@ -31957,6 +32099,7 @@ FILE: src/ObserverMagazine.Web/Pages/ShowcaseDetail.razor.css
 }
 
 .sd-badge-active { background: #22c55e; color: #fff; }
+.sd-badge-discontinued { background: #ef4444; color: #fff; }
 .sd-badge-draft { background: var(--color-muted); color: #fff; }
 .sd-badge-archived { background: #6b7280; color: #fff; }
 .sd-badge-out-of-stock { background: #ef4444; color: #fff; }
@@ -31973,6 +32116,13 @@ FILE: src/ObserverMagazine.Web/Pages/ShowcaseDetail.razor.css
     color: var(--color-muted);
 }
 
+.sd-details dd {
+    /* FIX: prevent long descriptions or values from overflowing the grid */
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
 .sd-star {
     color: var(--color-accent);
 }
@@ -31987,6 +32137,11 @@ FILE: src/ObserverMagazine.Web/Pages/ShowcaseDetail.razor.css
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
+}
+
+/* FIX: form groups inside grid need min-width: 0 */
+.sd-form-row .form-group {
+    min-width: 0;
 }
 
 .sd-overlay {
@@ -32008,8 +32163,16 @@ FILE: src/ObserverMagazine.Web/Pages/ShowcaseDetail.razor.css
     width: 90%;
 }
 
-.sd-dialog h4 { margin-bottom: 0.75rem; }
-.sd-dialog p { margin-bottom: 1rem; color: var(--color-muted); }
+.sd-dialog h4 {
+    margin-bottom: 0.75rem;
+    overflow-wrap: break-word;
+}
+
+.sd-dialog p {
+    margin-bottom: 1rem;
+    color: var(--color-muted);
+    overflow-wrap: break-word;
+}
 
 @media (max-width: 640px) {
     .sd-details {
@@ -32614,6 +32777,19 @@ FILE: src/ObserverMagazine.Web/wwwroot/404.html
 -------------------------------------------------------------------------------
 FILE: src/ObserverMagazine.Web/wwwroot/css/app.css
 -------------------------------------------------------------------------------
+/* ===========================================================================
+   FILE 1: src/ObserverMagazine.Web/wwwroot/css/app.css
+   
+   Changes from current version:
+   - Added overflow-wrap: break-word to body
+   - Added overflow-wrap: break-word to .container
+   - Added overflow-wrap: break-word + word-break: break-word to .form-group textarea
+   - Added overflow-wrap: break-word to .form-group input (for displayed value text)
+   - Added word-break: break-word to global code fallback
+   - Added min-width: 0 to .top-bar-inner flex children
+   - Added width: 100%; max-width: 100vw to body (already present, confirmed)
+   =========================================================================== */
+
 /* ========== DESIGN TOKENS (Light — default) ========== */
 :root,
 [data-theme="light"] {
@@ -32836,6 +33012,9 @@ body {
     overflow-x: hidden;
     width: 100%;
     max-width: 100vw;
+    /* FIX: baseline word-wrap safety net for all content */
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 a { color: var(--color-primary); text-decoration: none; }
@@ -32843,7 +33022,13 @@ a:hover { text-decoration: underline; }
 
 img { max-width: 100%; height: auto; }
 
-.container { max-width: var(--max-width); margin: 0 auto; padding: 0 1rem; }
+.container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 1rem;
+    /* FIX: prevent long unbroken strings from blowing out the container */
+    overflow-wrap: break-word;
+}
 
 /* ========== GLOBAL CODE DEFAULTS ========== */
 
@@ -32868,11 +33053,13 @@ pre {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    min-width: 0; /* FIX: prevent flex children from overflowing */
 }
 
 .brand {
     color: var(--color-header-fg);
     font-size: 1.25rem;
+    min-width: 0; /* FIX: flex child guard */
 }
 .brand:hover { text-decoration: none; opacity: 0.9; }
 
@@ -32881,6 +33068,7 @@ pre {
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    min-width: 0; /* FIX: flex child guard */
 }
 
 .nav-toggle {
@@ -33054,6 +33242,9 @@ a.tag:hover {
     font-family: var(--font-sans);
     background: var(--color-bg);
     color: var(--color-text);
+    /* FIX: prevent long unbroken words from overflowing form inputs */
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 .form-group input:focus,
 .form-group textarea:focus {
@@ -33061,7 +33252,14 @@ a.tag:hover {
     border-color: var(--color-primary);
     box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
 }
-.form-group textarea { resize: vertical; min-height: 80px; }
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+    /* FIX: ensure textarea wraps long lines */
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
 .form-actions {
     display: flex;
     gap: 0.5rem;
