@@ -31398,3 +31398,125 @@ The article is timed for publication on April 13, 2026 (Chaitra 30, 2082 BS — 
 
 
 
+71
+41
+
+If any file needs changing, always return the FULL file so it is easy to copy paste.
+Please do not hallucinate.
+Take some more time up front to save time and effort for the humans.
+When in doubt, use your best judgment.
+Use best engineering practices within the limits of this project.
+
+Write a long, comprehensive blog article for Observer Magazine on the following topic:
+
+**Topic**: 
+Web browser technology
+visit it from the perspective of end users, web developers, web browser vendor, as well as ALL the other stakeholders
+Mozilla Firefox, 
+Google Chrome,
+Apple Safari,
+Ladybird, 
+also chrome, firefox, safari derivatives 
+both desktop and mobile
+do not be afraid to get into the gory details 
+remember to make it as comprehensive as possible 
+a one stop shop for all the information 
+if you think it is long enough, it is not 
+make it even longer
+as long as possible 
+don't stop until you drop 
+I am serious, include all the details 
+everything we need to know and everything we don't need to know 
+all the inside baseball 
+all the javascript engine technology talk 
+all the css engine 
+upcoming web standards 
+deprecated web standards 
+obsolete web standards
+current web standards 
+EVERYTHING about web browsers 
+yes, I know it is a tall order 
+you might want to make it short
+don't do it 
+make it as long and comprehensive as possible 
+do not hallucinate though
+
+use this as the publish date and file name date 
+2026-04-14
+
+**Key areas to cover** (this may differ based on subject matter, use your best judgment):
+- [AREA 1 — e.g., "history and evolution of the technology"]
+- [AREA 2 — e.g., "getting started from scratch, assume no prior knowledge"]
+- [AREA 3 — e.g., "advanced features and configuration options"]
+- [AREA 4 — e.g., "best practices for production use"]
+- [AREA 5 — e.g., "common pitfalls and how to avoid them"]
+- [AREA 6 — e.g., "comparison with alternatives"]
+- [ADD OR REMOVE AREAS AS NEEDED]
+
+**Publish date**: [YYYY-MM-DD]
+**Author**: observer-team
+
+## Writing requirements
+
+Follow these rules exactly. They are non-negotiable:
+
+### Front matter format
+The file MUST start with YAML front matter in this exact schema:
+```yaml
+---
+title: "[A descriptive, compelling title — can include a subtitle after a colon]"
+date: [YYYY-MM-DD]
+author: observer-team
+summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
+tags:
+  - [tag1]
+  - [tag2]
+  - [tag3-etc]
+---
+```
+
+CRITICAL front matter rules:
+- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
+- If the article IS featured, include `featured: true`.
+- Do NOT include `draft: true` unless I explicitly ask for a draft.
+- Tags should be lowercase, hyphenated (e.g., `aspnet`, `best-practices`, `deep-dive`).
+
+### File naming
+The output file should be saved as: `content/blog/[YYYY-MM-DD]-[slug].md`
+where `[slug]` is a short, hyphenated, lowercase description of the article (e.g., `typescript-comprehensive-guide`, `sql-server-complete-guide`).
+
+### Writing style and structure
+
+1. **Be exhaustive.** This is a long-form technical article. Do not summarize. Do not truncate. Do not say "and so on" or "etc." Cover every relevant detail. If you are writing about a technology with 30 configuration options, cover all 30. If there are 8 major versions, cover all 8. The target length is 5,000–15,000+ words depending on topic scope.
+
+2. **Be patient.** Do not tire. Do not rush the ending. The conclusion should be as thoughtful as the introduction. If the article needs 12 major sections, write all 12 with equal depth and care.
+
+3. **Target audience.** The primary reader is a .NET / C# / ASP.NET web developer. You can assume basic C# syntax literacy and web development knowledge. Do NOT assume familiarity with the specific topic being covered — explain everything from first principles, then build up to advanced material.
+
+4. **Code examples are mandatory.** Include real, working code examples throughout. Not just C# — include whatever is relevant: SQL, YAML, JSON, bash commands, configuration files, AXAML, TypeScript, etc. Code examples should be complete enough to copy-paste and run (or at least understand in context), not pseudocode snippets.
+
+5. **Use anecdotes and analogies.** Start sections with relatable scenarios. Compare unfamiliar concepts to things the reader already knows. Use concrete examples ("imagine you are building a blog engine" or "picture a Thursday afternoon deploy") rather than abstract descriptions.
+
+6. **Structure with numbered parts.** Organize the article into clearly titled parts (Part 1, Part 2, etc.) using `##` headers. Use `###` for subsections within parts. This helps readers navigate and bookmark.
+
+7. **Cite your sources.** When stating version numbers, release dates, performance claims, or statistics, verify them with web search first. If something has changed since your knowledge cutoff, search for the current state. Do not guess at version numbers or release dates.
+
+8. **Include practical recommendations.** Don't just describe — advise. Tell the reader what to do, what to avoid, and why. Include "do this, not that" comparisons where appropriate.
+
+9. **End with resources.** Close with a short list of official documentation links, GitHub repos, or other authoritative references the reader can follow up on.
+
+### What to verify via web search before writing
+- Current stable version numbers of all technologies mentioned
+- Release dates for major versions
+- Any breaking changes or deprecations in recent releases
+- Performance benchmarks or statistics you plan to cite
+- Correct URLs for documentation and resources
+
+### Delivery format
+Return the complete article as a single markdown artifact. The artifact should contain the FULL file content — from the opening `---` of the front matter to the last line of the article. No truncation. No "continued in next message." The entire article in one artifact.
+
+After saving the file, I will 
+simply commit this new markdown file and push it 
+for github actions to do its thing. 
+
