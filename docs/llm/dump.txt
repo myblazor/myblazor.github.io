@@ -1,6 +1,6 @@
 ===============================================================================
 PROJECT EXPORT: observermagazine.github.io
-DATE: Tue Mar 31 07:39:20 AM EDT 2026
+DATE: Tue Mar 31 07:52:46 AM EDT 2026
 ===============================================================================
 
 -------------------------------------------------------------------------------
@@ -28388,6 +28388,23 @@ FILE: src/ObserverMagazine.Web/Components/BlogTtsPlayer.razor
             </audio>
         }
 
+        @* Playback speed selector — shared across both native and fallback modes *@
+        <div class="tts-speed">
+            <label class="tts-speed-label" for="tts-speed-@Slug">Speed</label>
+            <select id="tts-speed-@Slug"
+                    class="tts-speed-select"
+                    value="@currentRate.ToString("0.##")"
+                    @onchange="OnSpeedChange">
+                @foreach (var rate in PlaybackRates)
+                {
+                    <option value="@rate.ToString("0.##")"
+                            selected="@(Math.Abs(rate - currentRate) < 0.01)">
+                        @(rate.ToString("0.##"))x
+                    </option>
+                }
+            </select>
+        </div>
+
         <a class="tts-direct-link" href="blog-data/@(Slug).mp3" target="_blank" rel="noopener noreferrer"
            title="Open audio file directly in a new tab">
             Open audio ↗
@@ -28405,8 +28422,12 @@ FILE: src/ObserverMagazine.Web/Components/BlogTtsPlayer.razor
     private bool fallbackPlaying;
     private int fallbackCurrentTime;
     private int fallbackDuration = 1; // avoid div-by-zero on range
+    private double currentRate = 1.0;
 
     private System.Threading.Timer? _pollTimer;
+
+    /// <summary>Available playback speed options.</summary>
+    private static readonly double[] PlaybackRates = [0.75, 1.0, 1.25, 1.5, 1.75, 2.0];
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -28424,6 +28445,15 @@ FILE: src/ObserverMagazine.Web/Components/BlogTtsPlayer.razor
                     return;
                 }
 
+                // Restore saved playback rate from localStorage
+                var savedRate = await JS.InvokeAsync<double>("observerAudio.getSavedPlaybackRate");
+                if (savedRate > 0)
+                {
+                    currentRate = savedRate;
+                    await JS.InvokeVoidAsync("observerAudio.setPlaybackRate",
+                        $"tts-audio-{Slug}", currentRate);
+                }
+
                 // Check if native controls rendered properly (height > 0).
                 // Chrome Android clips the controls to 0px height in some CSS scenarios.
                 var controlsRendered = await JS.InvokeAsync<bool>("observerAudio.checkControlsRendered",
@@ -28439,6 +28469,11 @@ FILE: src/ObserverMagazine.Web/Components/BlogTtsPlayer.razor
                     var dur = await JS.InvokeAsync<double>("observerAudio.getDuration", $"tts-audio-{Slug}");
                     if (dur > 0)
                         fallbackDuration = (int)Math.Ceiling(dur);
+
+                    // Re-apply playback rate after fallback switch (new audio element may have reset)
+                    await JS.InvokeVoidAsync("observerAudio.setPlaybackRate",
+                        $"tts-audio-{Slug}", currentRate);
+
                     StateHasChanged();
                 }
             }
@@ -28455,6 +28490,28 @@ FILE: src/ObserverMagazine.Web/Components/BlogTtsPlayer.razor
         useFallbackControls = false;
         fallbackPlaying = false;
         fallbackCurrentTime = 0;
+    }
+
+    // --- Speed control ---
+
+    private async Task OnSpeedChange(ChangeEventArgs e)
+    {
+        if (double.TryParse(e.Value?.ToString(), System.Globalization.NumberStyles.Float,
+            System.Globalization.CultureInfo.InvariantCulture, out var rate) && rate >= 0.5 && rate <= 3.0)
+        {
+            currentRate = rate;
+            try
+            {
+                await JS.InvokeVoidAsync("observerAudio.setPlaybackRate", $"tts-audio-{Slug}", rate);
+                await JS.InvokeVoidAsync("observerAudio.savePlaybackRate", rate);
+                Logger.LogInformation("TTS speed changed to {Rate}x for {Slug}", rate, Slug);
+                await Analytics.TrackInteractionAsync("TTS.SpeedChange", $"{Slug}:{rate}x");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogDebug(ex, "Failed to set playback rate for {Slug}", Slug);
+            }
+        }
     }
 
     // --- Fallback controls ---
@@ -28659,6 +28716,37 @@ FILE: src/ObserverMagazine.Web/Components/BlogTtsPlayer.razor.css
     cursor: pointer;
 }
 
+/* Speed selector */
+.tts-speed {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-shrink: 0;
+}
+
+.tts-speed-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-muted);
+    white-space: nowrap;
+}
+
+.tts-speed-select {
+    padding: 0.25rem 0.4rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    font-size: 0.8rem;
+    background: var(--color-bg);
+    color: var(--color-text);
+    cursor: pointer;
+    font-variant-numeric: tabular-nums;
+}
+
+.tts-speed-select:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -1px;
+}
+
 @media (max-width: 480px) {
     .tts-player {
         flex-direction: column;
@@ -28673,6 +28761,10 @@ FILE: src/ObserverMagazine.Web/Components/BlogTtsPlayer.razor.css
 
     .tts-fallback {
         width: 100%;
+    }
+
+    .tts-speed {
+        align-self: flex-start;
     }
 
     .tts-direct-link {
@@ -33167,6 +33259,25 @@ FILE: src/ObserverMagazine.Web/wwwroot/index.html
             setCurrentTime: function (elementId, time) {
                 var audio = document.getElementById(elementId);
                 if (audio) audio.currentTime = time;
+            },
+            setPlaybackRate: function (elementId, rate) {
+                var audio = document.getElementById(elementId);
+                if (audio) audio.playbackRate = rate;
+            },
+            getPlaybackRate: function (elementId) {
+                var audio = document.getElementById(elementId);
+                return audio ? audio.playbackRate : 1.0;
+            },
+            getSavedPlaybackRate: function () {
+                var stored = localStorage.getItem('observer-audio-speed');
+                if (stored) {
+                    var rate = parseFloat(stored);
+                    if (isFinite(rate) && rate >= 0.5 && rate <= 3.0) return rate;
+                }
+                return 1.0;
+            },
+            savePlaybackRate: function (rate) {
+                localStorage.setItem('observer-audio-speed', rate.toString());
             }
         };
     </script>
