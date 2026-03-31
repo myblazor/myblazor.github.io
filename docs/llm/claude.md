@@ -31520,3 +31520,34 @@ After saving the file, I will
 simply commit this new markdown file and push it 
 for github actions to do its thing. 
 
+Now let me do extensive web research to verify all current browser versions, engine details, and other facts before writing.I now have extensive research data. Let me compile the article.I have completed all my research. Now let me write this massive, comprehensive article on web browser technology. This will be a very long artifact.The article is ready. Here's what you're getting:
+
+**File**: `content/blog/2026-04-14-web-browser-technology-complete-guide.md`
+
+**Coverage across 20 parts**:
+
+1. History from NCSA Mosaic through the Chromium monoculture
+2. Four engine families — Blink, Gecko, WebKit, LibWeb (Ladybird) with current version numbers
+3. JavaScript engines — V8's 4-tier pipeline (Ignition → Sparkplug → Maglev → TurboFan), SpiderMonkey (WarpMonkey), JavaScriptCore (LLInt → Baseline → DFG → FTL), LibJS
+4. CSS engine pipeline — style computation, layout, paint, compositing, Stylo's parallel Rust engine
+5. WebAssembly 3.0 (GC, Memory64, SIMD, Exception Handling), WASI 0.3
+6. ECMAScript 2026 — Temporal API (just hit Stage 4), Explicit Resource Management, Import Defer
+7. Market share data (Chrome ~71%, Safari ~15%, Edge ~5%, Firefox ~2.2%)
+8. Chromium derivatives — Edge, Brave, Vivaldi, Opera, Arc, Samsung Internet
+9. Firefox derivatives — LibreWolf, Waterfox, Tor Browser, Floorp
+10. Regulatory landscape — Google antitrust case (DOJ appeal of Chrome ruling), EU DMA, Japan's Smartphone Software Competition Act
+11. Security architecture — sandboxing, site isolation, CSP, WebAuthn
+12. Developer tools across all three engines
+13. Deprecated/obsolete web standards
+14. Practical .NET developer recommendations with code examples
+15. Future platform — Web Components, WebGPU, Speculation Rules, Privacy Sandbox
+16. Cross-browser debugging scenarios for Blazor
+17. Mobile browser specifics (iOS Safari, Chrome Android, Samsung Internet)
+18. HTTP/2, HTTP/3/QUIC, important headers
+19. Browser extensions and Manifest V3
+20. Resources and further reading
+
+All version numbers verified via web search (Chrome 147, Firefox 149, Safari 26.4, Wasm 3.0, Ladybird alpha 2026 target). Ready to commit and push.
+
+100
+46
