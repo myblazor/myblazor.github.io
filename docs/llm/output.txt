@@ -1,19 +1,19 @@
 kushal@fedora:~/src/dotnet/network-monitor/src/NetworkMonitor.Console$ cd /home/kushal/src/dotnet/observermagazine.github.io/; time dotnet format; time dotnet restore; dotnet run --project tools/ObserverMagazine.ContentProcessor -- --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot; time dotnet test; time dotnet list package; time dotnet list package --outdated; time bash export.sh;
 
-real	0m8.296s
-user	0m12.717s
-sys	0m1.045s
+real	0m7.657s
+user	0m11.966s
+sys	0m1.028s
 Restore complete (0.5s)
 
 Build succeeded in 0.6s
 
-real	0m0.790s
-user	0m0.834s
-sys	0m0.147s
+real	0m0.759s
+user	0m0.793s
+sys	0m0.163s
 Content directory: content/blog
 Output directory:  src/ObserverMagazine.Web/wwwroot
 Authors directory: content/authors
-Publish before:    2026-03-31 22:07:51 UTC
+Publish before:    2026-03-31 22:19:42 UTC
 Found 3 author profile(s)
   Loaded author: observer-team (Observer Team)
   Loaded author: kushal (kushal)
@@ -94,26 +94,26 @@ Content processing complete.
 Restore complete (0.5s)
   ObserverMagazine.Integration.Tests net10.0 succeeded (0.4s) → tests/ObserverMagazine.Integration.Tests/bin/Debug/net10.0/ObserverMagazine.Integration.Tests.dll
 [xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.4)
-[xUnit.net 00:00:00.16]   Discovering: ObserverMagazine.Integration.Tests
-[xUnit.net 00:00:00.34]   Discovered:  ObserverMagazine.Integration.Tests
-[xUnit.net 00:00:00.50]   Starting:    ObserverMagazine.Integration.Tests
-[xUnit.net 00:00:00.76]   Finished:    ObserverMagazine.Integration.Tests (ID = 'a11f17fc47145796b425f2f6072a7236e3de3115aec6d32144ce1d1b834d5009')
+[xUnit.net 00:00:00.15]   Discovering: ObserverMagazine.Integration.Tests
+[xUnit.net 00:00:00.33]   Discovered:  ObserverMagazine.Integration.Tests
+[xUnit.net 00:00:00.49]   Starting:    ObserverMagazine.Integration.Tests
+[xUnit.net 00:00:00.74]   Finished:    ObserverMagazine.Integration.Tests (ID = 'a11f17fc47145796b425f2f6072a7236e3de3115aec6d32144ce1d1b834d5009')
   ObserverMagazine.Integration.Tests test net10.0 succeeded (1.3s)
   ObserverMagazine.Web net10.0 browser-wasm succeeded (3.7s) → src/ObserverMagazine.Web/bin/Debug/net10.0/wwwroot
-  ObserverMagazine.Web.Tests net10.0 succeeded (0.4s) → tests/ObserverMagazine.Web.Tests/bin/Debug/net10.0/ObserverMagazine.Web.Tests.dll
+  ObserverMagazine.Web.Tests net10.0 succeeded (0.3s) → tests/ObserverMagazine.Web.Tests/bin/Debug/net10.0/ObserverMagazine.Web.Tests.dll
 [xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.4)
-[xUnit.net 00:00:00.13]   Discovering: ObserverMagazine.Web.Tests
+[xUnit.net 00:00:00.14]   Discovering: ObserverMagazine.Web.Tests
 [xUnit.net 00:00:00.30]   Discovered:  ObserverMagazine.Web.Tests
 [xUnit.net 00:00:00.46]   Starting:    ObserverMagazine.Web.Tests
-[xUnit.net 00:00:00.96]   Finished:    ObserverMagazine.Web.Tests (ID = '3bfa85c2f37e8d5c8068cb834c3ae337cb6e3533a98dd06391782e4f8f42ef98')
-  ObserverMagazine.Web.Tests test net10.0 succeeded (1.5s)
+[xUnit.net 00:00:00.91]   Finished:    ObserverMagazine.Web.Tests (ID = '3bfa85c2f37e8d5c8068cb834c3ae337cb6e3533a98dd06391782e4f8f42ef98')
+  ObserverMagazine.Web.Tests test net10.0 succeeded (1.4s)
 
 Test summary: total: 81, failed: 0, succeeded: 81, skipped: 0, duration: 5.2s
 Build succeeded in 6.3s
 
-real	0m6.474s
-user	0m3.702s
-sys	0m0.491s
+real	0m6.412s
+user	0m3.498s
+sys	0m0.436s
 Restore complete (0.5s)
 
 Build succeeded in 0.6s
@@ -154,9 +154,9 @@ Project 'ObserverMagazine.ContentProcessor' has the following package references
 
 (A) : Auto-referenced package.
 
-real	0m1.649s
-user	0m1.618s
-sys	0m0.341s
+real	0m1.598s
+user	0m1.582s
+sys	0m0.352s
 Restore complete (0.5s)
 
 Build succeeded in 0.6s
@@ -169,14 +169,14 @@ The given project `ObserverMagazine.Integration.Tests` has no updates given the 
 The given project `ObserverMagazine.Web.Tests` has no updates given the current sources.
 The given project `ObserverMagazine.ContentProcessor` has no updates given the current sources.
 
-real	0m2.822s
-user	0m2.093s
-sys	0m0.417s
+real	0m1.747s
+user	0m1.746s
+sys	0m0.330s
 🚀 Starting export of git-tracked files...
 📄 Adding: .github/workflows/deploy.yml
 📄 Adding: .github/workflows/pr-check.yml
 📄 Adding: .gitignore
-⏩ Skipping binary: .nojekyll
+📄 Adding: .nojekyll
 📄 Adding: Directory.Build.props
 📄 Adding: Directory.Packages.props
 📄 Adding: ObserverMagazine.slnx
@@ -184,40 +184,40 @@ sys	0m0.417s
 📄 Adding: content/authors/abraham-lincoln.yml
 📄 Adding: content/authors/kushal.yml
 📄 Adding: content/authors/observer-team.yml
-📄 Adding: content/blog/2026-01-15-welcome-to-observer-magazine.md
-📄 Adding: content/blog/2026-02-20-getting-started-with-blazor-wasm.md
-📄 Adding: content/blog/2026-03-10-responsive-design-patterns.md
-📄 Adding: content/blog/2026-03-20-hello-world.md
-📄 Adding: content/blog/2026-03-21-aspnet-lifecycle-deep-dive.md
-📄 Adding: content/blog/2026-03-22-good-morning.md
-📄 Adding: content/blog/2026-03-22-modernizing-to-dotnet-10.md
-📄 Adding: content/blog/2026-03-22-the-year-2025-in-review.md
-📄 Adding: content/blog/2026-03-23-honk-drive.md
-📄 Adding: content/blog/2026-03-24-avalonia-ui-comprehensive-guide.md
-📄 Adding: content/blog/2026-03-25-git-and-trunk-based-development.md
-📄 Adding: content/blog/2026-03-26-typescript-comprehensive-guide.md
-📄 Adding: content/blog/2026-03-27-sql-server-complete-guide.md
-📄 Adding: content/blog/2026-03-28-postgresql-npgsql-comprehensive-guide.md
-📄 Adding: content/blog/2026-03-29-why-qa-matters-more-than-ever.md
-📄 Adding: content/blog/2026-03-30-the-cloud-toilet-problem.md
-📄 Adding: content/blog/2026-03-31-solid-principles.md
-📄 Adding: content/blog/2026-04-01-single-responsibility-principle-complete-guide.md
-📄 Adding: content/blog/2026-04-02-open-closed-principle.md
-📄 Adding: content/blog/2026-04-03-liskov-substitution.md
-📄 Adding: content/blog/2026-04-04-interface-segregation.md
-📄 Adding: content/blog/2026-04-05-dependency-injection.md
-📄 Adding: content/blog/2026-04-06-most-important-solid-principle.md
-📄 Adding: content/blog/2026-04-07-2007-toyota-camry-complete-guide.md
-📄 Adding: content/blog/2026-04-08-aspire-containers-self-hosting-guide.md
-📄 Adding: content/blog/2026-04-09-dotnet-data-structures-complete-guide.md
-📄 Adding: content/blog/2026-04-10-relational-databases-normalization-guide.md
-📄 Adding: content/blog/2026-04-11-dotnet10-csharp14-complete-guide.md
-📄 Adding: content/blog/2026-04-12-dfw-home-buying-complete-guide.md
-📄 Adding: content/blog/2026-04-13-bikram-sambat-nepal-sambat-comprehensive-guide.md
-📄 Adding: content/blog/2026-04-14-happy-new-year.md
-📄 Adding: content/blog/2026-04-14-web-browser-technology-complete-guide.md
-📄 Adding: content/blog/2027-01-01-happy-new-year-2027.md
-📄 Adding: content/blog/2099-01-01-draft-template.md
+📝 Adding (front matter only): content/blog/2026-01-15-welcome-to-observer-magazine.md
+📝 Adding (front matter only): content/blog/2026-02-20-getting-started-with-blazor-wasm.md
+📝 Adding (front matter only): content/blog/2026-03-10-responsive-design-patterns.md
+📝 Adding (front matter only): content/blog/2026-03-20-hello-world.md
+📝 Adding (front matter only): content/blog/2026-03-21-aspnet-lifecycle-deep-dive.md
+📝 Adding (front matter only): content/blog/2026-03-22-good-morning.md
+📝 Adding (front matter only): content/blog/2026-03-22-modernizing-to-dotnet-10.md
+📝 Adding (front matter only): content/blog/2026-03-22-the-year-2025-in-review.md
+📝 Adding (front matter only): content/blog/2026-03-23-honk-drive.md
+📝 Adding (front matter only): content/blog/2026-03-24-avalonia-ui-comprehensive-guide.md
+📝 Adding (front matter only): content/blog/2026-03-25-git-and-trunk-based-development.md
+📝 Adding (front matter only): content/blog/2026-03-26-typescript-comprehensive-guide.md
+📝 Adding (front matter only): content/blog/2026-03-27-sql-server-complete-guide.md
+📝 Adding (front matter only): content/blog/2026-03-28-postgresql-npgsql-comprehensive-guide.md
+📝 Adding (front matter only): content/blog/2026-03-29-why-qa-matters-more-than-ever.md
+📝 Adding (front matter only): content/blog/2026-03-30-the-cloud-toilet-problem.md
+📝 Adding (front matter only): content/blog/2026-03-31-solid-principles.md
+📝 Adding (front matter only): content/blog/2026-04-01-single-responsibility-principle-complete-guide.md
+📝 Adding (front matter only): content/blog/2026-04-02-open-closed-principle.md
+📝 Adding (front matter only): content/blog/2026-04-03-liskov-substitution.md
+📝 Adding (front matter only): content/blog/2026-04-04-interface-segregation.md
+📝 Adding (front matter only): content/blog/2026-04-05-dependency-injection.md
+📝 Adding (front matter only): content/blog/2026-04-06-most-important-solid-principle.md
+📝 Adding (front matter only): content/blog/2026-04-07-2007-toyota-camry-complete-guide.md
+📝 Adding (front matter only): content/blog/2026-04-08-aspire-containers-self-hosting-guide.md
+📝 Adding (front matter only): content/blog/2026-04-09-dotnet-data-structures-complete-guide.md
+📝 Adding (front matter only): content/blog/2026-04-10-relational-databases-normalization-guide.md
+📝 Adding (front matter only): content/blog/2026-04-11-dotnet10-csharp14-complete-guide.md
+📝 Adding (front matter only): content/blog/2026-04-12-dfw-home-buying-complete-guide.md
+📝 Adding (front matter only): content/blog/2026-04-13-bikram-sambat-nepal-sambat-comprehensive-guide.md
+📝 Adding (front matter only): content/blog/2026-04-14-happy-new-year.md
+📝 Adding (front matter only): content/blog/2026-04-14-web-browser-technology-complete-guide.md
+📝 Adding (front matter only): content/blog/2027-01-01-happy-new-year-2027.md
+📝 Adding (front matter only): content/blog/2099-01-01-draft-template.md
 📄 Adding: global.json
 📄 Adding: src/ObserverMagazine.Web/App.razor
 📄 Adding: src/ObserverMagazine.Web/Components/AuthorCard.razor
@@ -283,9 +283,13 @@ sys	0m0.417s
 📄 Adding: tools/generate_audio.py
 📄 Adding: tools/requirements-audio.txt
 
-✅ Export complete! 106 files written to docs/llm/dump.txt
+✅ Export complete!
+   107 files written to docs/llm/dump.txt
+   34 blog posts (front matter only)
+   73 full content files
+   2 binary files skipped
 
-real	0m0.670s
-user	0m0.374s
-sys	0m0.390s
+real	0m0.678s
+user	0m0.346s
+sys	0m0.421s
 kushal@fedora:~/src/dotnet/observermagazine.github.io$ 
