@@ -1,115 +1,79 @@
+/* ===========================================================================
+   FILE 9: src/ObserverMagazine.Web/Components/BlogTtsPlayer.razor.css
+   
+   Changes:
+   - Added min-width: 0 to flex children
+   =========================================================================== */
+
 .tts-player {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    margin: 1rem 0 1.5rem;
-    padding: 0.75rem 1rem;
+    padding: 0.5rem 1rem;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius);
+    margin-bottom: 1.5rem;
     flex-wrap: wrap;
-}
-
-.tts-icon {
-    font-size: 1.25rem;
-    flex-shrink: 0;
-}
-
-.tts-label {
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: var(--color-muted);
-    white-space: nowrap;
+    min-width: 0; /* FIX: flex child guard */
 }
 
 .tts-player audio {
+    height: 32px;
     flex: 1;
-    min-width: 200px;
-    max-width: 100%;
-    border-radius: var(--radius);
+    min-width: 120px;
     accent-color: var(--color-primary);
 }
 
-.tts-direct-link {
-    font-size: 0.8rem;
-    color: var(--color-primary);
-    white-space: nowrap;
-    flex-shrink: 0;
-}
-
-/* Fallback play/pause button */
 .tts-fallback {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     flex: 1;
-    min-width: 200px;
+    min-width: 120px;
 }
 
 .tts-fallback-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.4rem;
-    padding: 0.5rem 1.2rem;
-    border: 1px solid var(--color-primary);
-    border-radius: var(--radius);
     background: var(--color-primary);
-    color: #fff;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: opacity 0.15s;
-    line-height: 1;
-    white-space: nowrap;
-}
-
-.tts-fallback-btn:hover {
-    opacity: 0.88;
-}
-
-.tts-fallback-btn:active {
-    opacity: 0.75;
-}
-
-.tts-fallback-time {
+    color: var(--color-primary-fg);
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
     font-size: 0.8rem;
-    color: var(--color-muted);
-    font-variant-numeric: tabular-nums;
-    min-width: 3em;
+    cursor: pointer;
+    flex-shrink: 0;
 }
 
 .tts-fallback-seek {
     flex: 1;
-    min-width: 80px;
     accent-color: var(--color-primary);
-    cursor: pointer;
+    min-width: 0; /* FIX: flex child guard */
 }
 
-/* Speed selector */
 .tts-speed {
     display: flex;
     align-items: center;
-    gap: 0.35rem;
+    gap: 0.25rem;
+    font-size: 0.8rem;
+    color: var(--color-muted);
     flex-shrink: 0;
 }
 
-.tts-speed-label {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--color-muted);
-    white-space: nowrap;
-}
-
 .tts-speed-select {
-    padding: 0.25rem 0.4rem;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius);
     font-size: 0.8rem;
+    padding: 0.15rem 0.3rem;
+    border: 1px solid var(--color-border);
+    border-radius: 3px;
     background: var(--color-bg);
     color: var(--color-text);
     cursor: pointer;
-    font-variant-numeric: tabular-nums;
+}
+
+.tts-direct-link {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    flex-shrink: 0;
 }
 
 .tts-speed-select:focus {

@@ -1,3 +1,13 @@
+/* ===========================================================================
+   FILE 3: src/ObserverMagazine.Web/Pages/Showcase.razor.css
+   
+   Changes:
+   - Removed white-space: nowrap from .sc-table td (the root cause of overflow)
+   - Added overflow-wrap: break-word to .sc-table td
+   - Added min-width: 0 to flex/grid children throughout
+   - Added overflow-wrap to .sc-dialog p
+   =========================================================================== */
+
 /* ==========================================================================
    Showcase — Product Catalog
    ========================================================================== */
@@ -22,6 +32,7 @@
     align-items: center;
     gap: 0.75rem;
     flex-wrap: wrap;
+    min-width: 0; /* FIX: flex child guard */
 }
 
 .sc-count {
@@ -73,8 +84,21 @@
 .sc-col-restore {
     width: 100%;
     margin-top: 0.25rem;
+    padding: 0.3rem;
+    font-size: 0.8rem;
+    text-align: center;
+    border: none;
+    background: var(--color-surface);
+    color: var(--color-primary);
+    border-radius: 3px;
+    cursor: pointer;
 }
 
+.sc-col-restore:hover {
+    background: var(--color-border);
+}
+
+/* ---- Page size ---- */
 .sc-page-size {
     display: flex;
     align-items: center;
@@ -91,74 +115,68 @@
     color: var(--color-text);
 }
 
-/* ---- Filter panel ---- */
-.sc-filter-panel {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius);
-    padding: 0.75rem 1rem;
-    margin-bottom: 1rem;
+/* ---- Filters ---- */
+.sc-filter-toggle {
+    font-size: 0.85rem;
 }
 
-.sc-filter-panel-header {
+.sc-filter-panel {
+    margin-bottom: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 0.75rem;
+}
+
+.sc-filter-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 0.75rem;
-    gap: 0.5rem;
-    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+}
+
+.sc-filter-header h3 {
+    font-size: 0.9rem;
+    margin: 0;
 }
 
 .sc-filter-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 0.5rem 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.5rem;
 }
 
-.sc-filter-row {
+.sc-filter-cell {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 0.2rem;
+    min-width: 0; /* FIX: grid child guard */
 }
 
-.sc-filter-label {
-    font-size: 0.8rem;
+.sc-filter-cell label {
+    font-size: 0.75rem;
     font-weight: 600;
     color: var(--color-muted);
-    white-space: nowrap;
 }
 
-.sc-filter-input {
-    padding: 0.35rem 0.5rem;
+.sc-filter-cell input,
+.sc-filter-cell select {
+    width: 100%;
+    padding: 0.3rem 0.5rem;
     border: 1px solid var(--color-border);
-    border-radius: var(--radius);
+    border-radius: 3px;
     font-size: 0.85rem;
     background: var(--color-bg);
     color: var(--color-text);
-    width: 100%;
-    box-sizing: border-box;
 }
 
-.sc-filter-input:focus {
-    outline: 2px solid var(--color-primary);
-    outline-offset: -1px;
-}
-
-.sc-range-inputs {
+.sc-range-filter {
     display: flex;
-    align-items: center;
-    gap: 0.35rem;
+    gap: 0.25rem;
 }
 
-.sc-range-inputs .sc-filter-input {
-    flex: 1;
-    min-width: 0;
-}
-
-.sc-range-sep {
-    color: var(--color-muted);
-    font-size: 0.85rem;
-    flex-shrink: 0;
+.sc-range-filter input {
+    width: 50%;
+    min-width: 0; /* FIX: flex child guard */
 }
 
 /* ---- Table ---- */
@@ -179,7 +197,11 @@
     padding: 0.5rem 0.6rem;
     text-align: left;
     border-bottom: 1px solid var(--color-border);
-    white-space: nowrap;
+    /* FIX: removed white-space: nowrap — this was causing long product names
+       and descriptions to overflow the table container. Table cells should
+       wrap text by default. Only action columns need nowrap. */
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 .sc-table th {
@@ -189,10 +211,13 @@
     color: var(--color-muted);
     position: sticky;
     top: 0;
+    white-space: nowrap; /* headers should stay on one line */
 }
 
 .sc-num {
     text-align: right;
+    /* Numeric columns can stay nowrap — numbers don't get long enough to overflow */
+    white-space: nowrap;
 }
 
 .sc-sortable {
@@ -219,12 +244,13 @@
 }
 
 .sc-actions {
-    white-space: nowrap;
+    white-space: nowrap; /* action buttons should stay on one line */
 }
 
 .sc-actions-col {
     width: 120px;
     text-align: center;
+    white-space: nowrap; /* action column header stays on one line */
 }
 
 .sc-empty {
@@ -272,15 +298,17 @@
 
 .sc-dialog h4 {
     margin-bottom: 0.75rem;
+    overflow-wrap: break-word;
 }
 
 .sc-dialog p {
     margin-bottom: 1rem;
     color: var(--color-muted);
     font-size: 0.95rem;
+    overflow-wrap: break-word;
 }
 
-/* ---- Mobile responsive ---- */
+/* ---- Mobile: collapse table to cards ---- */
 @media (max-width: 768px) {
     .sc-toolbar {
         flex-direction: column;
@@ -334,6 +362,7 @@
         font-weight: 600;
         text-align: left;
         margin-right: 0.5rem;
+        flex-shrink: 0; /* FIX: label doesn't collapse */
     }
 
     .sc-table-wrap {

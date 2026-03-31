@@ -1,3 +1,12 @@
+/* ===========================================================================
+   FILE 7: src/ObserverMagazine.Web/Pages/Blog.razor.css
+   
+   Changes:
+   - Added overflow-wrap: break-word to .blog-card
+   - Added min-width: 0 to .blog-card (flex child guard)
+   - Added overflow-wrap to .blog-card h2, h3, p
+   =========================================================================== */
+
 .blog-list {
     display: flex;
     flex-direction: column;
@@ -10,12 +19,19 @@
     padding: 1.5rem;
     background: var(--color-card-bg);
     position: relative;
+    min-width: 0; /* FIX: flex child guard */
+    overflow-wrap: break-word;
 }
 
 .blog-card h2,
 .blog-card h3 {
     font-size: 1.35rem;
     margin-bottom: 0.25rem;
+    overflow-wrap: break-word;
+}
+
+.blog-card p {
+    overflow-wrap: break-word;
 }
 
 .tag-filter-bar {

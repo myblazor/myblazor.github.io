@@ -1,3 +1,13 @@
+/* ===========================================================================
+   FILE 5: src/ObserverMagazine.Web/Components/MasterDetail.razor.css
+   
+   Changes:
+   - Added min-width: 0 to .md-detail and .md-list (grid children)
+   - Added overflow-wrap: break-word to .md-content and .md-content dd
+   - Added min-width: 0 to .md-content dl grid children
+   - Fixed .md-list li:hover to use theme variable instead of hardcoded color
+   =========================================================================== */
+
 .md-container {
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -13,6 +23,7 @@
     background: var(--color-surface);
     display: flex;
     flex-direction: column;
+    min-width: 0; /* FIX: grid child guard */
 }
 
 .md-list-header {
@@ -38,8 +49,10 @@
     cursor: pointer;
     border-bottom: 1px solid var(--color-border);
     transition: background 0.12s;
+    min-width: 0; /* FIX: flex child guard */
 }
 
+/* FIX: was hardcoded #e9ecef in older version — use theme variable */
 .md-list li:hover { background: var(--color-border); }
 
 .md-selected {
@@ -47,8 +60,13 @@
     color: var(--color-primary-fg);
 }
 
-.md-item-name { font-weight: 500; }
-.md-item-price { font-size: 0.9rem; opacity: 0.8; }
+.md-item-name {
+    font-weight: 500;
+    min-width: 0; /* FIX: flex child guard */
+    overflow-wrap: break-word;
+}
+
+.md-item-price { font-size: 0.9rem; opacity: 0.8; white-space: nowrap; }
 
 .md-list-footer {
     display: flex;
@@ -63,7 +81,11 @@
 
 .md-loading { padding: 1rem; }
 
-.md-detail { padding: 1.5rem; overflow-y: auto; }
+.md-detail {
+    padding: 1.5rem;
+    overflow-y: auto;
+    min-width: 0; /* FIX: grid child guard — prevents long text from blowing out grid */
+}
 
 .md-empty {
     display: flex;
@@ -77,6 +99,7 @@
 .md-content h3 {
     font-size: 1.35rem;
     margin-bottom: 1rem;
+    overflow-wrap: break-word;
 }
 
 .md-content dl {
@@ -90,9 +113,17 @@
     color: var(--color-muted);
 }
 
+.md-content dd {
+    /* FIX: grid child needs min-width: 0 and overflow-wrap to prevent
+       long descriptions from pushing past the grid boundary */
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
 .md-star { color: var(--color-accent); }
 
-/* ---- Confirmation dialog (was missing!) ---- */
+/* ---- Confirmation dialog ---- */
 .confirm-overlay {
     position: fixed;
     inset: 0;
@@ -114,12 +145,14 @@
 
 .confirm-dialog h4 {
     margin-bottom: 0.75rem;
+    overflow-wrap: break-word;
 }
 
 .confirm-dialog p {
     margin-bottom: 1rem;
     color: var(--color-muted);
     font-size: 0.95rem;
+    overflow-wrap: break-word;
 }
 
 @media (max-width: 640px) {

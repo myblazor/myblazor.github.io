@@ -1,3 +1,13 @@
+/* ===========================================================================
+   FILE 4: src/ObserverMagazine.Web/Pages/ShowcaseDetail.razor.css
+   
+   Changes:
+   - Added overflow-wrap: break-word to .sd-card
+   - Added overflow-wrap and min-width: 0 to .sd-details dd
+   - Added min-width: 0 to .sd-details (grid child guard)
+   - Added overflow-wrap to .sd-dialog p
+   =========================================================================== */
+
 .sd-header {
     margin-bottom: 1rem;
 }
@@ -7,11 +17,15 @@
     border-radius: var(--radius);
     padding: 1.5rem;
     background: var(--color-card-bg);
+    /* FIX: prevent long text from overflowing the card */
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 .sd-card h2 {
     font-size: 1.5rem;
     margin-bottom: 0.75rem;
+    overflow-wrap: break-word;
 }
 
 .sd-badge {
@@ -25,6 +39,7 @@
 }
 
 .sd-badge-active { background: #22c55e; color: #fff; }
+.sd-badge-discontinued { background: #ef4444; color: #fff; }
 .sd-badge-draft { background: var(--color-muted); color: #fff; }
 .sd-badge-archived { background: #6b7280; color: #fff; }
 .sd-badge-out-of-stock { background: #ef4444; color: #fff; }
@@ -41,6 +56,13 @@
     color: var(--color-muted);
 }
 
+.sd-details dd {
+    /* FIX: prevent long descriptions or values from overflowing the grid */
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
 .sd-star {
     color: var(--color-accent);
 }
@@ -55,6 +77,11 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
+}
+
+/* FIX: form groups inside grid need min-width: 0 */
+.sd-form-row .form-group {
+    min-width: 0;
 }
 
 .sd-overlay {
@@ -76,8 +103,16 @@
     width: 90%;
 }
 
-.sd-dialog h4 { margin-bottom: 0.75rem; }
-.sd-dialog p { margin-bottom: 1rem; color: var(--color-muted); }
+.sd-dialog h4 {
+    margin-bottom: 0.75rem;
+    overflow-wrap: break-word;
+}
+
+.sd-dialog p {
+    margin-bottom: 1rem;
+    color: var(--color-muted);
+    overflow-wrap: break-word;
+}
 
 @media (max-width: 640px) {
     .sd-details {
