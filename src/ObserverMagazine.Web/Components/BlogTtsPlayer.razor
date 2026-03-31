@@ -45,6 +45,23 @@
             </audio>
         }
 
+        @* Playback speed selector — shared across both native and fallback modes *@
+        <div class="tts-speed">
+            <label class="tts-speed-label" for="tts-speed-@Slug">Speed</label>
+            <select id="tts-speed-@Slug"
+                    class="tts-speed-select"
+                    value="@currentRate.ToString("0.##")"
+                    @onchange="OnSpeedChange">
+                @foreach (var rate in PlaybackRates)
+                {
+                    <option value="@rate.ToString("0.##")"
+                            selected="@(Math.Abs(rate - currentRate) < 0.01)">
+                        @(rate.ToString("0.##"))x
+                    </option>
+                }
+            </select>
+        </div>
+
         <a class="tts-direct-link" href="blog-data/@(Slug).mp3" target="_blank" rel="noopener noreferrer"
            title="Open audio file directly in a new tab">
             Open audio ↗
@@ -62,8 +79,12 @@
     private bool fallbackPlaying;
     private int fallbackCurrentTime;
     private int fallbackDuration = 1; // avoid div-by-zero on range
+    private double currentRate = 1.0;
 
     private System.Threading.Timer? _pollTimer;
+
+    /// <summary>Available playback speed options.</summary>
+    private static readonly double[] PlaybackRates = [0.75, 1.0, 1.25, 1.5, 1.75, 2.0];
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -81,6 +102,15 @@
                     return;
                 }
 
+                // Restore saved playback rate from localStorage
+                var savedRate = await JS.InvokeAsync<double>("observerAudio.getSavedPlaybackRate");
+                if (savedRate > 0)
+                {
+                    currentRate = savedRate;
+                    await JS.InvokeVoidAsync("observerAudio.setPlaybackRate",
+                        $"tts-audio-{Slug}", currentRate);
+                }
+
                 // Check if native controls rendered properly (height > 0).
                 // Chrome Android clips the controls to 0px height in some CSS scenarios.
                 var controlsRendered = await JS.InvokeAsync<bool>("observerAudio.checkControlsRendered",
@@ -96,6 +126,11 @@
                     var dur = await JS.InvokeAsync<double>("observerAudio.getDuration", $"tts-audio-{Slug}");
                     if (dur > 0)
                         fallbackDuration = (int)Math.Ceiling(dur);
+
+                    // Re-apply playback rate after fallback switch (new audio element may have reset)
+                    await JS.InvokeVoidAsync("observerAudio.setPlaybackRate",
+                        $"tts-audio-{Slug}", currentRate);
+
                     StateHasChanged();
                 }
             }
@@ -112,6 +147,28 @@
         useFallbackControls = false;
         fallbackPlaying = false;
         fallbackCurrentTime = 0;
+    }
+
+    // --- Speed control ---
+
+    private async Task OnSpeedChange(ChangeEventArgs e)
+    {
+        if (double.TryParse(e.Value?.ToString(), System.Globalization.NumberStyles.Float,
+            System.Globalization.CultureInfo.InvariantCulture, out var rate) && rate >= 0.5 && rate <= 3.0)
+        {
+            currentRate = rate;
+            try
+            {
+                await JS.InvokeVoidAsync("observerAudio.setPlaybackRate", $"tts-audio-{Slug}", rate);
+                await JS.InvokeVoidAsync("observerAudio.savePlaybackRate", rate);
+                Logger.LogInformation("TTS speed changed to {Rate}x for {Slug}", rate, Slug);
+                await Analytics.TrackInteractionAsync("TTS.SpeedChange", $"{Slug}:{rate}x");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogDebug(ex, "Failed to set playback rate for {Slug}", Slug);
+            }
+        }
     }
 
     // --- Fallback controls ---

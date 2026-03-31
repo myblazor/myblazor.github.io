@@ -31551,3 +31551,150 @@ All version numbers verified via web search (Chrome 147, Firefox 149, Safari 26.
 
 100
 46
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+00
+46
+
+I've gotten feedback that the spoken word speed is too slow and there needs to be a way to speed up the audio in the blog. Is it better to generate different audio at different speeds or speed up and slow down the same audio using a custom player? 
+
+I couldn't get deep into the repo's file tree directly, but I have enough context from the readme (Blazor WASM, static GitHub Pages, no external service dependencies) to give you a solid answer.
+
+**Short answer: custom player with `playbackRate` is the right call.** Here's why.
+
+**The case against multiple audio files at different speeds:**
+
+The blog is static, deploys to GitHub Pages, and audio is presumably pre-generated (TTS). Generating multiple versions per post (e.g., 0.75x, 1x, 1.25x, 1.5x, 2x) means 5x the storage, 5x the CI pipeline time if audio is generated at build time, and a coordination headache if post content ever changes — you'd have to regenerate all variants. It also doesn't scale gracefully; users might want 1.3x, not just preset steps.
+
+**The case for `playbackRate` on the same audio element:**
+
+The HTML `<audio>` element has a `playbackRate` property that's universally supported across all modern browsers. Setting it is trivial via JS interop:
+
+```js
+// audio-player.js
+export function setPlaybackRate(elementId, rate) {
+    document.getElementById(elementId).playbackRate = rate;
+}
+```
+
+```razor
+// AudioPlayer.razor
+await JS.InvokeVoidAsync("audioPlayer.setPlaybackRate", elementId, rate);
+```
+
+You can expose a simple rate selector (0.75x / 1x / 1.25x / 1.5x / 2x) as buttons or a `<select>`, persist the preference in `localStorage` so it sticks across posts, and the whole thing is maybe 30 lines. It also fits your zero-external-dependencies philosophy — no library needed.
+
+**One caveat to know:** at very high speeds (2x+), some TTS voices can get garbled because the browser is doing naive time-stretching rather than pitch-corrected stretching. The Web Audio API's `AudioWorklet` can do proper pitch-preserved time-stretching, but that's significantly more complex and probably overkill unless users are asking for 2x+. For 0.75–1.5x, raw `playbackRate` sounds fine.
+
+**Recommendation:** `playbackRate` + a small rate picker UI, with the selected rate persisted in `localStorage`. One audio file per post, clean and simple.
+
+Now I have a complete picture of the codebase. Three files need to change:
+
+1. **`index.html`** — add `setPlaybackRate` and `getPlaybackRate` to the `observerAudio` JS object
+2. **`BlogTtsPlayer.razor`** — add a speed selector that persists to localStorage, works in both native and fallback modes
+3. **`BlogTtsPlayer.razor.css`** — add styles for the speed control
+
+Here are the full files:
+
+---
+
+**File 1: `src/ObserverMagazine.Web/wwwroot/index.html`****File 2: `src/ObserverMagazine.Web/Components/BlogTtsPlayer.razor`****File 3: `src/ObserverMagazine.Web/Components/BlogTtsPlayer.razor.css`**Here's a summary of exactly what changed and why:
+
+**`index.html`** — Added three new functions to `window.observerAudio`:
+- `setPlaybackRate(elementId, rate)` — sets `audio.playbackRate` on the element
+- `getPlaybackRate(elementId)` — reads current playback rate
+- `getSavedPlaybackRate()` — reads from `localStorage` with validation (clamped to 0.5–3.0, defaults to 1.0)
+- `savePlaybackRate(rate)` — persists to `localStorage` under key `observer-audio-speed`
+
+**`BlogTtsPlayer.razor`** — Added:
+- A `currentRate` field (defaults to 1.0) and a static `PlaybackRates` array with options `[0.75, 1.0, 1.25, 1.5, 1.75, 2.0]`
+- A `<select>` dropdown rendered for both native and fallback modes, positioned between the audio controls and the "Open audio" link
+- `OnSpeedChange` handler that parses the selected value, calls `setPlaybackRate` via JS interop, persists via `savePlaybackRate`, and fires an analytics event
+- On first render, after confirming audio is available, it calls `getSavedPlaybackRate` and applies the restored rate immediately — so the preference sticks across posts and sessions
+- After fallback switch, it re-applies the rate (since the audio element may have been recreated in the DOM)
+
+**`BlogTtsPlayer.razor.css`** — Added `.tts-speed`, `.tts-speed-label`, and `.tts-speed-select` styles that match the existing design tokens, plus a mobile breakpoint rule so the speed selector aligns left when the player stacks vertically.
+
+No other files need to change. The existing `BlogPost.razor` already renders `<BlogTtsPlayer Slug="@Slug" />` and doesn't need modification. No new NuGet packages, no new JS libraries — just `audio.playbackRate` which is supported in every modern browser.
+
+13
+48
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -114,6 +114,25 @@
             setCurrentTime: function (elementId, time) {
                 var audio = document.getElementById(elementId);
                 if (audio) audio.currentTime = time;
+            },
+            setPlaybackRate: function (elementId, rate) {
+                var audio = document.getElementById(elementId);
+                if (audio) audio.playbackRate = rate;
+            },
+            getPlaybackRate: function (elementId) {
+                var audio = document.getElementById(elementId);
+                return audio ? audio.playbackRate : 1.0;
+            },
+            getSavedPlaybackRate: function () {
+                var stored = localStorage.getItem('observer-audio-speed');
+                if (stored) {
+                    var rate = parseFloat(stored);
+                    if (isFinite(rate) && rate >= 0.5 && rate <= 3.0) return rate;
+                }
+                return 1.0;
+            },
+            savePlaybackRate: function (rate) {
+                localStorage.setItem('observer-audio-speed', rate.toString());
             }
         };
     </script>
