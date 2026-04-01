@@ -303,19 +303,17 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html {
-    overflow-x: hidden;
+    /* overflow-x: hidden removed to prevent viewport scaling bugs on mobile */
 }
 
 body {
-    font-family: var(--font-sans);
+    font-family: var(--font-sans), sans-serif;
     background: var(--color-bg);
     color: var(--color-text);
     line-height: 1.6;
-    overflow-x: hidden;
-    width: 100%;
-    max-width: 100vw;
     overflow-wrap: break-word;
     word-break: normal;
+    /* Removed width: 100%, max-width: 100vw, and overflow-x: hidden */
 }
 
 a { color: var(--color-primary); text-decoration: none; }
@@ -323,7 +321,8 @@ a:hover { text-decoration: underline; }
 
 img { max-width: 100%; height: auto; }
 
-code { font-family: var(--font-mono); }
+code {
+    font-family: var(--font-mono), monospace; }
 pre { min-width: 0; }
 
 .container {

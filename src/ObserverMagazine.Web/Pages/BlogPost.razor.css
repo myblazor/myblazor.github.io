@@ -22,8 +22,7 @@
     overflow-wrap: break-word;
     word-break: normal;
     min-width: 0;
-    max-width: 100%;
-    overflow-x: hidden;    /* contain code blocks / tables so they cannot widen the page */
+    width: 100%; /* Stops the container from inflating to match wide code */
 }
 
 .blog-content ::deep h2 {
@@ -60,7 +59,8 @@
 .blog-content ::deep .code-block-wrap {
     position: relative;
     margin-bottom: 1.25rem;
-    max-width: 100%;
+    min-width: 0;
+    width: 100%;
 }
 
 /* Right-edge fade gradient — signals more content to the right */
@@ -116,7 +116,7 @@
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     min-width: 0;
-    max-width: 100%;
+    width: 100%; /* Forces overflow to trigger inside the box */
     font-family: var(--font-mono);
     font-size: 0.875rem;
     line-height: 1.7;
@@ -198,11 +198,13 @@
    scrolls horizontally on narrow screens without widening the page.
    ================================================================= */
 
+/* ---- Table Wrapper ---- */
 .blog-content ::deep .table-scroll-wrap {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     margin-bottom: 1rem;
-    max-width: 100%;
+    min-width: 0;
+    width: 100%;
 }
 
 /* ---- Tables ---- */
