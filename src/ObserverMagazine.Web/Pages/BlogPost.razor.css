@@ -23,6 +23,7 @@
     word-break: normal;
     min-width: 0;
     max-width: 100%;
+    overflow-x: hidden;    /* contain code blocks / tables so they cannot widen the page */
 }
 
 .blog-content ::deep h2 {

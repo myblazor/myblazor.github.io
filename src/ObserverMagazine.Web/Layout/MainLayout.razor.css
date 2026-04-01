@@ -34,6 +34,8 @@
 .main-content {
     flex: 1;
     padding: 2rem 1rem;
+    min-width: 0;          /* KEY FIX: allow flex item to shrink below content width */
+    overflow-x: hidden;    /* clip any descendant that still overflows horizontally */
 }
 
 /* ========== FOOTER ========== */

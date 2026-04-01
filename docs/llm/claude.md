@@ -37717,3 +37717,841 @@ please use it and please properly fix ALL errors
 and please return full files 
 don't tell me oh change this line or add this line after this line 
 do not take shortcuts 
+
+I see the problem clearly from the screenshot. The root cause is that `.main-content` is a flex item inside `.page` (a flex column), and flex items default to `min-width: auto` — which means a `<pre>` with a long line forces the flex item wider than the viewport, pushing EVERYTHING (title, tags, text, player) past the screen edge. Adding `overflow-x: clip` on `<html>` just hid the overflow instead of fixing the layout.
+
+The fix is two lines — `min-width: 0` + `overflow-x: hidden` on `.main-content` — but you want full files, so here they are.
+
+---
+
+## File 1: `src/ObserverMagazine.Web/Layout/MainLayout.razor.css`
+
+This is THE fix. `min-width: 0` tells the flex item "you may shrink below your content's intrinsic width."---
+
+## File 2: `src/ObserverMagazine.Web/Pages/BlogPost.razor.css`
+
+Added `overflow-x: hidden` to `.blog-content` as secondary containment.
+
+```css
+/* BlogPost.razor.css — Blog post layout + ::deep for MarkupString content */
+
+.blog-post header { margin-bottom: 2rem; }
+
+.blog-post h1 {
+    font-size: clamp(1.4rem, 4.5vw, 2rem);
+    line-height: 1.25;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.blog-post-footer {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+}
+
+/* ========== BLOG CONTENT (MarkupString — requires ::deep) ========== */
+
+.blog-content {
+    line-height: 1.8;
+    overflow-wrap: break-word;
+    word-break: normal;
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: hidden;    /* contain code blocks / tables so they cannot widen the page */
+}
+
+.blog-content ::deep h2 {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    overflow-wrap: break-word;
+}
+
+.blog-content ::deep h3 {
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    overflow-wrap: break-word;
+}
+
+.blog-content ::deep h4 {
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+    overflow-wrap: break-word;
+}
+
+.blog-content ::deep p {
+    margin-bottom: 1rem;
+    overflow-wrap: break-word;
+}
+
+/* =================================================================
+   CODE BLOCK SCROLL WRAPPER
+   Inserted by C# PostProcessHtml — wraps every <pre> with a
+   container that provides a right-edge fade gradient and a
+   "scroll →" hint label. The outer page NEVER scrolls horizontally;
+   only the <pre> inside scrolls.
+   ================================================================= */
+
+.blog-content ::deep .code-block-wrap {
+    position: relative;
+    margin-bottom: 1.25rem;
+    max-width: 100%;
+}
+
+/* Right-edge fade gradient — signals more content to the right */
+.blog-content ::deep .code-block-wrap::after {
+    content: '';
+    position: absolute;
+    top: 1px;                /* inside the <pre> border */
+    right: 1px;
+    bottom: 1px;
+    width: 2.5rem;
+    background: linear-gradient(to right, transparent, var(--hl-bg, #f3f4f6));
+    border-radius: 0 calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0;
+    pointer-events: none;
+    z-index: 1;
+    transition: opacity 0.3s ease;
+}
+
+/* Hide gradient when content does not overflow or user scrolled to the end */
+.blog-content ::deep .code-block-wrap.no-overflow::after,
+.blog-content ::deep .code-block-wrap.scrolled-end::after {
+    opacity: 0;
+}
+
+/* "scroll →" hint label — disappears once the user scrolls or if no overflow */
+.blog-content ::deep .code-scroll-hint {
+    position: absolute;
+    bottom: 0.75rem;
+    right: 0.75rem;
+    font-size: 0.7rem;
+    font-family: var(--font-sans);
+    color: var(--color-muted);
+    background: var(--hl-bg, #f3f4f6);
+    padding: 0.1rem 0.45rem;
+    border-radius: 3px;
+    opacity: 0.7;
+    pointer-events: none;
+    z-index: 2;
+    transition: opacity 0.3s ease;
+}
+
+.blog-content ::deep .code-block-wrap.scrolled .code-scroll-hint,
+.blog-content ::deep .code-block-wrap.no-overflow .code-scroll-hint {
+    opacity: 0;
+}
+
+/* ---- Code blocks ---- */
+.blog-content ::deep pre {
+    background: var(--hl-bg);
+    color: var(--hl-fg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 1.15rem 1.25rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    min-width: 0;
+    max-width: 100%;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    line-height: 1.7;
+    tab-size: 4;
+    -moz-tab-size: 4;
+    margin-bottom: 1.25rem;
+    white-space: pre;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+/* When inside the scroll wrapper the wrapper owns the bottom margin */
+.blog-content ::deep .code-block-wrap pre {
+    margin-bottom: 0;
+}
+
+.blog-content ::deep pre code {
+    background: none;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+    word-break: normal;
+    white-space: pre;
+    overflow-wrap: normal;
+}
+
+/* ---- Inline code ---- */
+.blog-content ::deep code {
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+    background: var(--color-inline-code-bg, var(--color-surface));
+    color: var(--color-inline-code-fg, var(--color-text));
+    border: 1px solid var(--color-inline-code-border, var(--color-border));
+    border-radius: 4px;
+    padding: 0.15em 0.4em;
+    word-break: break-all;
+    white-space: normal;
+}
+
+/* Reset inline styles inside pre (must come after the inline code rule) */
+.blog-content ::deep pre code {
+    word-break: normal;
+    white-space: pre;
+}
+
+/* ---- Lists ---- */
+.blog-content ::deep ul,
+.blog-content ::deep ol {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+}
+
+.blog-content ::deep li { overflow-wrap: break-word; }
+
+.blog-content ::deep img { max-width: 100%; height: auto; }
+
+/* ---- Blockquote ---- */
+.blog-content ::deep blockquote {
+    border-left: 3px solid var(--color-primary);
+    margin: 1rem 0;
+    padding: 0.5rem 1rem;
+    color: var(--color-muted);
+    background: var(--color-surface);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    overflow-wrap: break-word;
+}
+
+.blog-content ::deep hr {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: 2rem 0;
+}
+
+/* =================================================================
+   TABLE SCROLL WRAPPER
+   Inserted by C# PostProcessHtml — wraps every <table> so it
+   scrolls horizontally on narrow screens without widening the page.
+   ================================================================= */
+
+.blog-content ::deep .table-scroll-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 1rem;
+    max-width: 100%;
+}
+
+/* ---- Tables ---- */
+.blog-content ::deep table {
+    width: max-content;
+    min-width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+/* Wrapper owns the margin */
+.blog-content ::deep .table-scroll-wrap table {
+    margin-bottom: 0;
+}
+
+.blog-content ::deep th,
+.blog-content ::deep td {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--color-border);
+    text-align: left;
+    white-space: nowrap;
+}
+
+.blog-content ::deep th {
+    background: var(--color-surface);
+    font-weight: 600;
+}
+
+/* ---- Definition lists ---- */
+.blog-content ::deep dl { margin-bottom: 1rem; }
+.blog-content ::deep dt { font-weight: 600; margin-top: 0.5rem; }
+.blog-content ::deep dd {
+    margin-left: 1.5rem;
+    margin-bottom: 0.5rem;
+    overflow-wrap: break-word;
+}
+
+/* ========== SYNTAX HIGHLIGHTING TOKENS ========== */
+
+.blog-content ::deep .hl-keyword  { color: var(--hl-keyword); }
+.blog-content ::deep .hl-string   { color: var(--hl-string); }
+.blog-content ::deep .hl-comment  { color: var(--hl-comment); font-style: italic; }
+.blog-content ::deep .hl-number   { color: var(--hl-number); }
+.blog-content ::deep .hl-function { color: var(--hl-function); }
+.blog-content ::deep .hl-type     { color: var(--hl-type); }
+.blog-content ::deep .hl-literal  { color: var(--hl-literal); }
+.blog-content ::deep .hl-attr     { color: var(--hl-attr); }
+.blog-content ::deep .hl-built-in { color: var(--hl-built-in); }
+.blog-content ::deep .hl-title    { color: var(--hl-title); }
+.blog-content ::deep .hl-tag      { color: var(--hl-tag); }
+.blog-content ::deep .hl-selector { color: var(--hl-selector); }
+.blog-content ::deep .hl-property { color: var(--hl-property); }
+.blog-content ::deep .hl-punctuation { color: var(--hl-punctuation); }
+
+/* ========== TERMINAL BOX ========== */
+
+.blog-content ::deep .terminal-box {
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    line-height: 1.65;
+    border: 1px solid var(--color-border);
+}
+
+.blog-content ::deep .terminal-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--terminal-header-bg);
+}
+
+.blog-content ::deep .terminal-dot {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    display: inline-block;
+}
+.blog-content ::deep .td-red   { background: var(--terminal-dot-red); }
+.blog-content ::deep .td-amber { background: var(--terminal-dot-amber); }
+.blog-content ::deep .td-green { background: var(--terminal-dot-green); }
+
+.blog-content ::deep .terminal-title {
+    margin-left: auto;
+    font-size: 0.75rem;
+    color: var(--terminal-title-fg);
+}
+
+.blog-content ::deep .terminal-body {
+    background: var(--terminal-bg);
+    color: var(--terminal-fg);
+    padding: 0.75rem 1rem;
+    overflow-x: auto;
+    white-space: pre;
+}
+
+.blog-content ::deep .terminal-prompt { color: var(--terminal-prompt); font-weight: 700; }
+.blog-content ::deep .terminal-out    { color: var(--terminal-out); }
+.blog-content ::deep .terminal-ok     { color: var(--terminal-ok); }
+```
+
+---
+
+## File 3: `src/ObserverMagazine.Web/wwwroot/css/app.css`
+
+Removed `overflow-x: clip` from `html` (it was hiding the symptom, not fixing the cause). Kept `overflow-x: hidden` as a safety net.
+
+```css
+/* ===========================================================================
+   app.css — Global design tokens, reset, and shared utilities ONLY.
+   Component-specific styles live in their .razor.css files.
+   =========================================================================== */
+
+/* ========== DESIGN TOKENS (Light — default) ========== */
+:root,
+[data-theme="light"] {
+    --color-bg: #ffffff;
+    --color-text: #1a1a2e;
+    --color-muted: #6b7280;
+    --color-primary: #2563eb;
+    --color-primary-fg: #ffffff;
+    --color-accent: #3b82f6;
+    --color-surface: #f3f4f6;
+    --color-border: #e5e7eb;
+    --color-card-bg: #ffffff;
+    --color-header-bg: #2563eb;
+    --color-header-fg: #ffffff;
+    --color-footer-bg: #f3f4f6;
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", "Courier New", monospace;
+    --radius: 0.375rem;
+    --max-width: 60rem;
+
+    /* Inline code */
+    --color-inline-code-bg: #eff1f5;
+    --color-inline-code-fg: #1a1a2e;
+    --color-inline-code-border: #dde0e6;
+
+    /* Syntax highlighting tokens (bg #f3f4f6) — contrast verified vs bg */
+    --hl-bg: #f3f4f6;
+    --hl-fg: #1a1a2e;
+    --hl-keyword: #6f42c1;
+    --hl-string: #0a3069;
+    --hl-comment: #636c76;
+    --hl-number: #cf7700;
+    --hl-function: #0550ae;
+    --hl-title: #c11e3a;
+    --hl-type: #0b6e6e;
+    --hl-literal: #cf7700;
+    --hl-attr: #4f46e5;
+    --hl-built-in: #0b6e6e;
+    --hl-tag: #0550ae;
+    --hl-selector: #6f42c1;
+    --hl-property: #4f46e5;
+    --hl-punctuation: #1a1a2e;
+
+    /* Terminal box — always dark-tinted */
+    --terminal-bg: #1e1e2e;
+    --terminal-fg: #cdd6f4;
+    --terminal-prompt: #a6e3a1;
+    --terminal-ok: #a6e3a1;
+    --terminal-out: #cdd6f4;
+    --terminal-dot-red: #f38ba8;
+    --terminal-dot-amber: #f9e2af;
+    --terminal-dot-green: #a6e3a1;
+    --terminal-header-bg: #313244;
+    --terminal-title-fg: #bac2de;
+}
+
+/* ---- Dark ---- */
+[data-theme="dark"] {
+    --color-bg: #0f172a;
+    --color-text: #e2e8f0;
+    --color-muted: #94a3b8;
+    --color-primary: #60a5fa;
+    --color-primary-fg: #0f172a;
+    --color-accent: #3b82f6;
+    --color-surface: #1e293b;
+    --color-border: #334155;
+    --color-card-bg: #1e293b;
+    --color-header-bg: #1e293b;
+    --color-header-fg: #e2e8f0;
+    --color-footer-bg: #1e293b;
+
+    --color-inline-code-bg: #1c2433;
+    --color-inline-code-fg: #e2e8f0;
+    --color-inline-code-border: #2d3a4d;
+
+    --hl-bg: #1e293b;
+    --hl-fg: #e2e8f0;
+    --hl-keyword: #c084fc;
+    --hl-string: #7ee7a8;
+    --hl-comment: #8b949e;
+    --hl-number: #fbbf24;
+    --hl-function: #6cb6ff;
+    --hl-title: #f87171;
+    --hl-type: #22d3ee;
+    --hl-literal: #fbbf24;
+    --hl-attr: #a5b4fc;
+    --hl-built-in: #22d3ee;
+    --hl-tag: #6cb6ff;
+    --hl-selector: #c084fc;
+    --hl-property: #a5b4fc;
+    --hl-punctuation: #e2e8f0;
+
+    --terminal-bg: #11111b;
+    --terminal-fg: #cdd6f4;
+    --terminal-prompt: #a6e3a1;
+    --terminal-ok: #a6e3a1;
+    --terminal-out: #cdd6f4;
+    --terminal-dot-red: #f38ba8;
+    --terminal-dot-amber: #f9e2af;
+    --terminal-dot-green: #a6e3a1;
+    --terminal-header-bg: #1e1e2e;
+    --terminal-title-fg: #bac2de;
+}
+
+/* ---- Sepia ---- */
+[data-theme="sepia"] {
+    --color-bg: #f4ecd8;
+    --color-text: #433422;
+    --color-muted: #7a6652;
+    --color-primary: #8b4513;
+    --color-primary-fg: #ffffff;
+    --color-accent: #a0522d;
+    --color-surface: #ede0c8;
+    --color-border: #d4c4a8;
+    --color-card-bg: #f4ecd8;
+    --color-header-bg: #6b3410;
+    --color-header-fg: #f4ecd8;
+    --color-footer-bg: #ede0c8;
+
+    --color-inline-code-bg: #e8dbc3;
+    --color-inline-code-fg: #433422;
+    --color-inline-code-border: #cdbfa5;
+
+    --hl-bg: #ede0c8;
+    --hl-fg: #433422;
+    --hl-keyword: #7a3510;
+    --hl-string: #2e6e32;
+    --hl-comment: #8a7a66;
+    --hl-number: #b05800;
+    --hl-function: #6b3410;
+    --hl-title: #a01c1c;
+    --hl-type: #006050;
+    --hl-literal: #b05800;
+    --hl-attr: #4a148c;
+    --hl-built-in: #006050;
+    --hl-tag: #6b3410;
+    --hl-selector: #7a3510;
+    --hl-property: #4a148c;
+    --hl-punctuation: #433422;
+
+    --terminal-bg: #2a2013;
+    --terminal-fg: #d4c4a8;
+    --terminal-prompt: #6b8e23;
+    --terminal-ok: #6b8e23;
+    --terminal-out: #d4c4a8;
+    --terminal-dot-red: #cd5c5c;
+    --terminal-dot-amber: #daa520;
+    --terminal-dot-green: #6b8e23;
+    --terminal-header-bg: #3a2d1a;
+    --terminal-title-fg: #b8a88a;
+}
+
+/* ---- Solarized Light ---- */
+[data-theme="solarized-light"] {
+    --color-bg: #fdf6e3;
+    --color-text: #657b83;
+    --color-muted: #93a1a1;
+    --color-primary: #268bd2;
+    --color-primary-fg: #fdf6e3;
+    --color-accent: #2aa198;
+    --color-surface: #eee8d5;
+    --color-border: #d6cdb5;
+    --color-card-bg: #fdf6e3;
+    --color-header-bg: #073642;
+    --color-header-fg: #eee8d5;
+    --color-footer-bg: #eee8d5;
+
+    --color-inline-code-bg: #e8e1cc;
+    --color-inline-code-fg: #586e75;
+    --color-inline-code-border: #d0c8b0;
+
+    --hl-bg: #eee8d5;
+    --hl-fg: #657b83;
+    --hl-keyword: #859900;
+    --hl-string: #2aa198;
+    --hl-comment: #93a1a1;
+    --hl-number: #d33682;
+    --hl-function: #268bd2;
+    --hl-title: #cb4b16;
+    --hl-type: #b58900;
+    --hl-literal: #d33682;
+    --hl-attr: #6c71c4;
+    --hl-built-in: #b58900;
+    --hl-tag: #268bd2;
+    --hl-selector: #859900;
+    --hl-property: #6c71c4;
+    --hl-punctuation: #657b83;
+
+    --terminal-bg: #002b36;
+    --terminal-fg: #839496;
+    --terminal-prompt: #859900;
+    --terminal-ok: #859900;
+    --terminal-out: #839496;
+    --terminal-dot-red: #dc322f;
+    --terminal-dot-amber: #b58900;
+    --terminal-dot-green: #859900;
+    --terminal-header-bg: #073642;
+    --terminal-title-fg: #93a1a1;
+}
+
+/* ---- Solarized Dark ---- */
+[data-theme="solarized-dark"] {
+    --color-bg: #002b36;
+    --color-text: #839496;
+    --color-muted: #586e75;
+    --color-primary: #268bd2;
+    --color-primary-fg: #002b36;
+    --color-accent: #2aa198;
+    --color-surface: #073642;
+    --color-border: #2a4a53;
+    --color-card-bg: #073642;
+    --color-header-bg: #073642;
+    --color-header-fg: #93a1a1;
+    --color-footer-bg: #073642;
+
+    --color-inline-code-bg: #0a3440;
+    --color-inline-code-fg: #93a1a1;
+    --color-inline-code-border: #1f4852;
+
+    --hl-bg: #073642;
+    --hl-fg: #839496;
+    --hl-keyword: #859900;
+    --hl-string: #2aa198;
+    --hl-comment: #586e75;
+    --hl-number: #d33682;
+    --hl-function: #268bd2;
+    --hl-title: #cb4b16;
+    --hl-type: #b58900;
+    --hl-literal: #d33682;
+    --hl-attr: #6c71c4;
+    --hl-built-in: #b58900;
+    --hl-tag: #268bd2;
+    --hl-selector: #859900;
+    --hl-property: #6c71c4;
+    --hl-punctuation: #839496;
+
+    --terminal-bg: #00212b;
+    --terminal-fg: #839496;
+    --terminal-prompt: #859900;
+    --terminal-ok: #859900;
+    --terminal-out: #839496;
+    --terminal-dot-red: #dc322f;
+    --terminal-dot-amber: #b58900;
+    --terminal-dot-green: #859900;
+    --terminal-header-bg: #002b36;
+    --terminal-title-fg: #93a1a1;
+}
+
+/* ---- High Contrast ---- */
+[data-theme="high-contrast"] {
+    --color-bg: #000000;
+    --color-text: #ffffff;
+    --color-muted: #cccccc;
+    --color-primary: #ffff00;
+    --color-primary-fg: #000000;
+    --color-accent: #00ffff;
+    --color-surface: #1a1a1a;
+    --color-border: #666666;
+    --color-card-bg: #111111;
+    --color-header-bg: #1a1a1a;
+    --color-header-fg: #ffffff;
+    --color-footer-bg: #1a1a1a;
+
+    --color-inline-code-bg: #1a1a1a;
+    --color-inline-code-fg: #ffffff;
+    --color-inline-code-border: #555555;
+
+    --hl-bg: #1a1a1a;
+    --hl-fg: #ffffff;
+    --hl-keyword: #ffff00;
+    --hl-string: #00ff00;
+    --hl-comment: #888888;
+    --hl-number: #ff6600;
+    --hl-function: #00ffff;
+    --hl-title: #ff4444;
+    --hl-type: #44ffff;
+    --hl-literal: #ff6600;
+    --hl-attr: #ffff00;
+    --hl-built-in: #44ffff;
+    --hl-tag: #00ffff;
+    --hl-selector: #ffff00;
+    --hl-property: #ffff00;
+    --hl-punctuation: #ffffff;
+
+    --terminal-bg: #000000;
+    --terminal-fg: #ffffff;
+    --terminal-prompt: #00ff00;
+    --terminal-ok: #00ff00;
+    --terminal-out: #ffffff;
+    --terminal-dot-red: #ff0000;
+    --terminal-dot-amber: #ffff00;
+    --terminal-dot-green: #00ff00;
+    --terminal-header-bg: #111111;
+    --terminal-title-fg: #cccccc;
+}
+
+/* ========== RESET ========== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+    overflow-x: hidden;
+}
+
+body {
+    font-family: var(--font-sans);
+    background: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.6;
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+    overflow-wrap: break-word;
+    word-break: normal;
+}
+
+a { color: var(--color-primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img { max-width: 100%; height: auto; }
+
+code { font-family: var(--font-mono); }
+pre { min-width: 0; }
+
+.container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 1rem;
+    overflow-wrap: break-word;
+}
+
+/* ========== BUTTONS (shared utility) ========== */
+.btn {
+    display: inline-block;
+    padding: 0.625rem 1.5rem;
+    border-radius: var(--radius);
+    font-weight: 600;
+    text-decoration: none;
+    transition: opacity 0.15s;
+    border: none;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+.btn:hover { opacity: 0.88; text-decoration: none; }
+.btn-primary { background: var(--color-primary); color: var(--color-primary-fg); }
+.btn-secondary { background: var(--color-accent); color: #fff; }
+.btn-danger { background: #dc2626; color: #fff; }
+.btn-outline {
+    background: transparent;
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+}
+.btn-sm {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.85rem;
+}
+
+/* ========== SHARED BLOG / TAG STYLES (used in Blog, BlogPost, Home) ========== */
+.blog-meta { color: var(--color-muted); font-size: 0.875rem; margin-bottom: 0.75rem; }
+
+.tag-list { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem; }
+
+.tag {
+    display: inline-block;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 3px;
+    padding: 0.15rem 0.5rem;
+    font-size: 0.8rem;
+    color: var(--color-text);
+    text-decoration: none;
+    transition: background 0.15s, border-color 0.15s;
+}
+a.tag:hover {
+    background: var(--color-primary);
+    color: var(--color-primary-fg);
+    border-color: var(--color-primary);
+    text-decoration: none;
+}
+
+.featured-badge {
+    display: inline-block;
+    background: var(--color-accent);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+    margin-bottom: 0.5rem;
+}
+
+/* ========== FORMS (shared across MasterDetail, Showcase, ShowcaseDetail) ========== */
+.form-group { margin-bottom: 1rem; }
+.form-group label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+    color: var(--color-muted);
+}
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    font-size: 0.95rem;
+    font-family: var(--font-sans);
+    background: var(--color-bg);
+    color: var(--color-text);
+    overflow-wrap: break-word;
+}
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+.form-group textarea {
+    resize: vertical;
+    min-height: 5rem;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+}
+.form-actions { display: flex; gap: 0.5rem; margin-top: 1rem; }
+.form-validation { color: #dc2626; font-size: 0.8rem; margin-top: 0.25rem; }
+
+/* ========== LOADING ========== */
+.loading { text-align: center; padding: 2rem; color: var(--color-muted); }
+```
+
+---
+
+## What was actually wrong
+
+The `.page` element is `display: flex; flex-direction: column`. Inside it, `.main-content` is a flex item with `flex: 1`. In CSS flexbox, flex items default to `min-width: auto`, which means "don't shrink narrower than your content's intrinsic minimum width."
+
+A `<pre>` element with `white-space: pre` and a long code line has an intrinsic minimum width of that line's full rendered width (say 800px). This propagates up the DOM: `<pre>` → `.code-block-wrap` → `.blog-content` → `<article>` → `.main-content`. Because `.main-content` has `min-width: auto`, the flex container (`.page`) must accommodate 800px, which pushes `<body>` and `<html>` wider than the viewport.
+
+Once the body is wider than 375px, *everything* on the page — title, tags, meta line, TTS player, body text — is laid out within an 800px-wide container. Text that would normally wrap at 343px instead wraps at 768px. The viewport only shows the left 375px, so everything appears cut off on the right.
+
+My previous fix (`overflow-x: clip` on `<html>`) just made the overflow invisible. It didn't change the layout.
+
+The real fix: `min-width: 0` on `.main-content`. This tells the flex algorithm "this item can be narrower than its content." Now `.main-content` stays at 375px regardless of what's inside it. The `<pre>` elements are constrained to that width, and their `overflow-x: auto` creates horizontal scrollbars within the code blocks only. The `overflow-x: hidden` on `.blog-content` provides a second containment layer.
+
+No other files need to change. The `BlogPost.razor`, `BlogTtsPlayer.razor.css`, and `index.html` from the previous round are all correct — they just needed this one layout fix to work properly.
+
+/* MainLayout.razor.css — Header, footer, and main content area */
+
+.page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100dvh;
+}
+
+/* ========== HEADER ========== */
+.top-bar {
+    background: var(--color-header-bg);
+    padding: 0.75rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.top-bar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 0;
+}
+
+.brand {
+    color: var(--color-header-fg);
+    font-size: 1.25rem;
+    min-width: 0;
+}
+.brand:hover { text-decoration: none; opacity: 0.9; }
+
+/* ========== MAIN CONTENT ========== */
+.main-content {
+    flex: 1;
+    padding: 2rem 1rem;
+    min-width: 0;          /* KEY FIX: allow flex item to shrink below content width */
+    overflow-x: hidden;    /* clip any descendant that still overflows horizontally */
+}
+
+/* ========== FOOTER ========== */
+.site-footer {
+    background: var(--color-footer-bg);
+    border-top: 1px solid var(--color-border);
+    padding: 1.5rem 0;
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--color-muted);
+}
+.site-footer a { margin: 0 0.25rem; }
+
+87
+77

@@ -30,17 +30,17 @@
 
     /* Syntax highlighting tokens (bg #f3f4f6) — contrast verified vs bg */
     --hl-bg: #f3f4f6;
-    --hl-fg: #1a1a2e;       /* ~15:1 */
-    --hl-keyword: #6f42c1;  /* ~6.2:1  purple  */
-    --hl-string: #0a3069;   /* ~12.5:1 dark blue */
-    --hl-comment: #636c76;  /* ~4.7:1  gray — WCAG AA */
-    --hl-number: #cf7700;   /* ~4.5:1  amber */
-    --hl-function: #0550ae; /* ~7.1:1  blue */
-    --hl-title: #c11e3a;    /* ~5.5:1  red */
-    --hl-type: #0b6e6e;     /* ~5.3:1  teal */
-    --hl-literal: #cf7700;  /* ~4.5:1  amber */
-    --hl-attr: #4f46e5;     /* ~5.8:1  indigo */
-    --hl-built-in: #0b6e6e; /* ~5.3:1  teal */
+    --hl-fg: #1a1a2e;
+    --hl-keyword: #6f42c1;
+    --hl-string: #0a3069;
+    --hl-comment: #636c76;
+    --hl-number: #cf7700;
+    --hl-function: #0550ae;
+    --hl-title: #c11e3a;
+    --hl-type: #0b6e6e;
+    --hl-literal: #cf7700;
+    --hl-attr: #4f46e5;
+    --hl-built-in: #0b6e6e;
     --hl-tag: #0550ae;
     --hl-selector: #6f42c1;
     --hl-property: #4f46e5;
@@ -78,19 +78,18 @@
     --color-inline-code-fg: #e2e8f0;
     --color-inline-code-border: #2d3a4d;
 
-    /* Syntax tokens (bg #1e293b) */
     --hl-bg: #1e293b;
-    --hl-fg: #e2e8f0;       /* ~11:1 */
-    --hl-keyword: #c084fc;  /* ~5.8:1  purple */
-    --hl-string: #7ee7a8;   /* ~7.9:1  green */
-    --hl-comment: #8b949e;  /* ~4.8:1  gray — WCAG AA */
-    --hl-number: #fbbf24;   /* ~9.5:1  amber */
-    --hl-function: #6cb6ff; /* ~6.5:1  blue */
-    --hl-title: #f87171;    /* ~5.5:1  red */
-    --hl-type: #22d3ee;     /* ~8.6:1  cyan */
-    --hl-literal: #fbbf24;  /* ~9.5:1  amber */
-    --hl-attr: #a5b4fc;     /* ~6.4:1  indigo */
-    --hl-built-in: #22d3ee; /* ~8.6:1  cyan */
+    --hl-fg: #e2e8f0;
+    --hl-keyword: #c084fc;
+    --hl-string: #7ee7a8;
+    --hl-comment: #8b949e;
+    --hl-number: #fbbf24;
+    --hl-function: #6cb6ff;
+    --hl-title: #f87171;
+    --hl-type: #22d3ee;
+    --hl-literal: #fbbf24;
+    --hl-attr: #a5b4fc;
+    --hl-built-in: #22d3ee;
     --hl-tag: #6cb6ff;
     --hl-selector: #c084fc;
     --hl-property: #a5b4fc;
@@ -305,7 +304,6 @@
 
 html {
     overflow-x: hidden;
-    overflow-x: clip;   /* modern browsers: clips without creating a scroll container */
 }
 
 body {
