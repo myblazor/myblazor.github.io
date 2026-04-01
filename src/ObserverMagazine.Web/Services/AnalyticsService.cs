@@ -8,38 +8,38 @@ public sealed class AnalyticsService(HttpClient http, ILogger<AnalyticsService> 
     private const string BackendBaseUrl = "https://my-api.2w7sp317.workers.dev";
     private static readonly TimeSpan HealthCacheDuration = TimeSpan.FromMinutes(5);
 
-    private bool backendAvailable;
-    private DateTime lastHealthCheck = DateTime.MinValue;
+    private bool _backendAvailable;
+    private DateTime _lastHealthCheck = DateTime.MinValue;
 
-    public bool IsBackendAvailable => backendAvailable;
+    public bool IsBackendAvailable => _backendAvailable;
 
     public async Task CheckHealthAsync()
     {
         // Cache health check result for 5 minutes
-        if (DateTime.UtcNow - lastHealthCheck < HealthCacheDuration)
+        if (DateTime.UtcNow - _lastHealthCheck < HealthCacheDuration)
             return;
 
         try
         {
             var response = await http.GetAsync($"{BackendBaseUrl}/api/health");
-            backendAvailable = response.IsSuccessStatusCode;
-            logger.LogInformation("Backend health check: {Status}", backendAvailable ? "available" : "unavailable");
+            _backendAvailable = response.IsSuccessStatusCode;
+            logger.LogInformation("Backend health check: {Status}", _backendAvailable ? "available" : "unavailable");
         }
         catch (Exception ex)
         {
-            backendAvailable = false;
+            _backendAvailable = false;
             logger.LogDebug(ex, "Backend health check failed — running without backend");
         }
         finally
         {
-            lastHealthCheck = DateTime.UtcNow;
+            _lastHealthCheck = DateTime.UtcNow;
         }
     }
 
     public async Task TrackPageViewAsync(string pageName, string? detail = null)
     {
         await EnsureHealthChecked();
-        if (!backendAvailable) return;
+        if (!_backendAvailable) return;
 
         var content = detail is not null
             ? $"[PageView] {pageName} — {detail}"
@@ -51,7 +51,7 @@ public sealed class AnalyticsService(HttpClient http, ILogger<AnalyticsService> 
     public async Task TrackInteractionAsync(string action, string? detail = null)
     {
         await EnsureHealthChecked();
-        if (!backendAvailable) return;
+        if (!_backendAvailable) return;
 
         var content = detail is not null
             ? $"[Interaction] {action} — {detail}"
@@ -63,7 +63,7 @@ public sealed class AnalyticsService(HttpClient http, ILogger<AnalyticsService> 
     public async Task IncrementViewAsync(string slug)
     {
         await EnsureHealthChecked();
-        if (!backendAvailable) return;
+        if (!_backendAvailable) return;
 
         try
         {
@@ -78,7 +78,7 @@ public sealed class AnalyticsService(HttpClient http, ILogger<AnalyticsService> 
     public async Task<int?> GetViewCountAsync(string slug)
     {
         await EnsureHealthChecked();
-        if (!backendAvailable) return null;
+        if (!_backendAvailable) return null;
 
         try
         {
@@ -95,7 +95,7 @@ public sealed class AnalyticsService(HttpClient http, ILogger<AnalyticsService> 
     public async Task AddReactionAsync(string slug, string reactionType)
     {
         await EnsureHealthChecked();
-        if (!backendAvailable) return;
+        if (!_backendAvailable) return;
 
         try
         {
@@ -111,7 +111,7 @@ public sealed class AnalyticsService(HttpClient http, ILogger<AnalyticsService> 
     public async Task<Dictionary<string, int>?> GetReactionsAsync(string slug)
     {
         await EnsureHealthChecked();
-        if (!backendAvailable) return null;
+        if (!_backendAvailable) return null;
 
         try
         {
@@ -126,7 +126,7 @@ public sealed class AnalyticsService(HttpClient http, ILogger<AnalyticsService> 
 
     private async Task EnsureHealthChecked()
     {
-        if (lastHealthCheck == DateTime.MinValue)
+        if (_lastHealthCheck == DateTime.MinValue)
             await CheckHealthAsync();
     }
 

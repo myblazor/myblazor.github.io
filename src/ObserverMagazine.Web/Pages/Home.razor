@@ -17,12 +17,12 @@
     </div>
 </section>
 
-@if (featuredPosts is { Length: > 0 })
+@if (_featuredPosts is { Length: > 0 })
 {
     <section>
         <h2>Featured</h2>
         <div class="blog-list">
-            @foreach (var post in featuredPosts)
+            @foreach (var post in _featuredPosts)
             {
                 <article class="blog-card">
                     <span class="featured-badge">Featured</span>
@@ -80,7 +80,7 @@
 </section>
 
 @code {
-    private BlogPostMetadata[]? featuredPosts;
+    private BlogPostMetadata[]? _featuredPosts;
 
     protected override async Task OnInitializedAsync()
     {
@@ -89,11 +89,11 @@
         try
         {
             var allPosts = await BlogService.GetPostsAsync();
-            featuredPosts = allPosts.Where(p => p.Featured).Take(3).ToArray();
+            _featuredPosts = allPosts.Where(p => p.Featured).Take(3).ToArray();
         }
         catch
         {
-            featuredPosts = [];
+            _featuredPosts = [];
         }
     }
 }

@@ -10,7 +10,7 @@ namespace ObserverMagazine.Web.Tests.Components;
 
 public class MasterDetailTests : IDisposable
 {
-    private readonly BunitContext ctx = new();
+    private readonly BunitContext _ctx = new();
 
     private const string SampleProductsJson = """
         [
@@ -23,21 +23,21 @@ public class MasterDetailTests : IDisposable
     {
         var fakeHandler = new MasterDetailFakeHttpHandler(SampleProductsJson);
         var httpClient = new HttpClient(fakeHandler) { BaseAddress = new Uri("https://test.local/") };
-        ctx.Services.AddSingleton(httpClient);
-        ctx.Services.AddSingleton<IAnalyticsService>(new NoOpAnalyticsService());
+        _ctx.Services.AddSingleton(httpClient);
+        _ctx.Services.AddSingleton<IAnalyticsService>(new NoOpAnalyticsService());
 
         // bUnit provides JSInterop mocking automatically.
         // Set up the localStorage calls the component makes.
-        ctx.JSInterop.SetupVoid("localStorage.setItem", _ => true);
-        ctx.JSInterop.SetupVoid("localStorage.removeItem", _ => true);
-        ctx.JSInterop.Setup<string?>("localStorage.getItem", _ => true).SetResult(null);
+        _ctx.JSInterop.SetupVoid("localStorage.setItem", _ => true);
+        _ctx.JSInterop.SetupVoid("localStorage.removeItem", _ => true);
+        _ctx.JSInterop.Setup<string?>("localStorage.getItem", _ => true).SetResult(null);
     }
 
     [Fact]
     public void MasterDetail_RendersProductList()
     {
         SetupServices();
-        var cut = ctx.Render<MasterDetail>();
+        var cut = _ctx.Render<MasterDetail>();
 
         // Wait for async load
         cut.WaitForState(() => cut.Markup.Contains("Widget A"));
@@ -50,7 +50,7 @@ public class MasterDetailTests : IDisposable
     public void MasterDetail_ShowsEmptyDetailOnLoad()
     {
         SetupServices();
-        var cut = ctx.Render<MasterDetail>();
+        var cut = _ctx.Render<MasterDetail>();
 
         cut.WaitForState(() => cut.Markup.Contains("Widget A"));
 
@@ -61,7 +61,7 @@ public class MasterDetailTests : IDisposable
     public void MasterDetail_SelectProductShowsDetail()
     {
         SetupServices();
-        var cut = ctx.Render<MasterDetail>();
+        var cut = _ctx.Render<MasterDetail>();
 
         cut.WaitForState(() => cut.Markup.Contains("Widget A"));
 
@@ -77,7 +77,7 @@ public class MasterDetailTests : IDisposable
     public void MasterDetail_AddButtonShowsForm()
     {
         SetupServices();
-        var cut = ctx.Render<MasterDetail>();
+        var cut = _ctx.Render<MasterDetail>();
 
         cut.WaitForState(() => cut.Markup.Contains("Widget A"));
 
@@ -93,23 +93,23 @@ public class MasterDetailTests : IDisposable
     public void MasterDetail_HasResetButton()
     {
         SetupServices();
-        var cut = ctx.Render<MasterDetail>();
+        var cut = _ctx.Render<MasterDetail>();
 
         cut.WaitForState(() => cut.Markup.Contains("Widget A"));
 
         Assert.Contains("Reset to Defaults", cut.Markup);
     }
 
-    public void Dispose() => ctx.Dispose();
+    public void Dispose() => _ctx.Dispose();
 }
 
 internal sealed class MasterDetailFakeHttpHandler : HttpMessageHandler
 {
-    private readonly HttpResponseMessage response;
+    private readonly HttpResponseMessage _response;
 
     public MasterDetailFakeHttpHandler(string json)
     {
-        response = new HttpResponseMessage(System.Net.HttpStatusCode.OK)
+        _response = new HttpResponseMessage(System.Net.HttpStatusCode.OK)
         {
             Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json")
         };
@@ -118,6 +118,6 @@ internal sealed class MasterDetailFakeHttpHandler : HttpMessageHandler
     protected override Task<HttpResponseMessage> SendAsync(
         HttpRequestMessage request, CancellationToken cancellationToken)
     {
-        return Task.FromResult(response);
+        return Task.FromResult(_response);
     }
 }

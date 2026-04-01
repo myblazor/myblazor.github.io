@@ -6,28 +6,28 @@ namespace ObserverMagazine.Web.Services;
 
 public sealed class BlogService(HttpClient http, ILogger<BlogService> logger) : IBlogService
 {
-    private BlogPostMetadata[]? cachedIndex;
-    private AuthorProfile[]? cachedAuthors;
+    private BlogPostMetadata[]? _cachedIndex;
+    private AuthorProfile[]? _cachedAuthors;
 
     public async Task<BlogPostMetadata[]> GetPostsAsync()
     {
-        if (cachedIndex is not null) return cachedIndex;
+        if (_cachedIndex is not null) return _cachedIndex;
 
         logger.LogInformation("Fetching blog posts index");
         try
         {
             var posts = await http.GetFromJsonAsync<BlogPostMetadata[]>("blog-data/posts-index.json");
-            cachedIndex = posts?
+            _cachedIndex = posts?
                 .OrderByDescending(p => p.Date)
                 .ToArray() ?? [];
-            logger.LogInformation("Loaded {Count} blog posts", cachedIndex.Length);
-            return cachedIndex;
+            logger.LogInformation("Loaded {Count} blog posts", _cachedIndex.Length);
+            return _cachedIndex;
         }
         catch (HttpRequestException ex)
         {
             logger.LogWarning(ex, "Blog index not found — content processor may not have run");
-            cachedIndex = [];
-            return cachedIndex;
+            _cachedIndex = [];
+            return _cachedIndex;
         }
     }
 
@@ -54,21 +54,21 @@ public sealed class BlogService(HttpClient http, ILogger<BlogService> logger) : 
 
     public async Task<AuthorProfile[]> GetAllAuthorsAsync()
     {
-        if (cachedAuthors is not null) return cachedAuthors;
+        if (_cachedAuthors is not null) return _cachedAuthors;
 
         logger.LogInformation("Fetching authors index");
         try
         {
             var authors = await http.GetFromJsonAsync<AuthorProfile[]>("blog-data/authors.json");
-            cachedAuthors = authors ?? [];
-            logger.LogInformation("Loaded {Count} author profiles", cachedAuthors.Length);
-            return cachedAuthors;
+            _cachedAuthors = authors ?? [];
+            logger.LogInformation("Loaded {Count} author profiles", _cachedAuthors.Length);
+            return _cachedAuthors;
         }
         catch (HttpRequestException ex)
         {
             logger.LogWarning(ex, "Authors index not found");
-            cachedAuthors = [];
-            return cachedAuthors;
+            _cachedAuthors = [];
+            return _cachedAuthors;
         }
     }
 

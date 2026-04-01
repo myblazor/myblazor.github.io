@@ -3,15 +3,15 @@
 @inject ILogger<BlogPost> Logger
 @inject NavigationManager Nav
 @inject IAnalyticsService Analytics
-@inject IJSRuntime JS
+@inject IJSRuntime Js
 
-<PageTitle>@(metadata?.Title ?? "Post") — Observer Magazine</PageTitle>
+<PageTitle>@(_metadata?.Title ?? "Post") — Observer Magazine</PageTitle>
 
-@if (loading)
+@if (_loading)
 {
     <p><em>Loading...</em></p>
 }
-else if (metadata is null)
+else if (_metadata is null)
 {
     <h1>Post Not Found</h1>
     <p>Sorry, we couldn't find that post. <a href="blog">Back to Blog</a></p>
@@ -20,32 +20,32 @@ else
 {
     <article class="blog-post">
         <header>
-            <h1>@metadata.Title</h1>
+            <h1>@_metadata.Title</h1>
             <div class="blog-meta">
-                <time datetime="@metadata.Date.ToString("yyyy-MM-dd")">
-                    @metadata.Date.ToString("MMMM d, yyyy")
+                <time datetime="@_metadata.Date.ToString("yyyy-MM-dd")">
+                    @_metadata.Date.ToString("MMMM d, yyyy")
                 </time>
-                @if (metadata.Updated.HasValue)
+                @if (_metadata.Updated.HasValue)
                 {
-                    <span> · Updated @metadata.Updated.Value.ToString("MMMM d, yyyy")</span>
+                    <span> · Updated @_metadata.Updated.Value.ToString("MMMM d, yyyy")</span>
                 }
-                @if (!string.IsNullOrEmpty(metadata.AuthorName))
+                @if (!string.IsNullOrEmpty(_metadata.AuthorName))
                 {
-                    <span> · @metadata.AuthorName</span>
+                    <span> · @_metadata.AuthorName</span>
                 }
-                @if (metadata.ReadingTimeMinutes > 0)
+                @if (_metadata.ReadingTimeMinutes > 0)
                 {
-                    <span> · @metadata.ReadingTimeMinutes min read</span>
+                    <span> · @_metadata.ReadingTimeMinutes min read</span>
                 }
-                @if (viewCount.HasValue)
+                @if (_viewCount.HasValue)
                 {
-                    <span> · @viewCount views</span>
+                    <span> · @_viewCount views</span>
                 }
             </div>
-            @if (metadata.Tags is { Length: > 0 })
+            @if (_metadata.Tags is { Length: > 0 })
             {
                 <div class="tag-list">
-                    @foreach (var tag in metadata.Tags)
+                    @foreach (var tag in _metadata.Tags)
                     {
                         <a class="tag" href="blog/tag/@Uri.EscapeDataString(tag)">@tag</a>
                     }
@@ -56,12 +56,12 @@ else
         <BlogTtsPlayer Slug="@Slug" />
 
         <div class="blog-content">
-            @((MarkupString)htmlContent)
+            @((MarkupString)_htmlContent)
         </div>
 
         <Reactions Slug="@Slug" />
 
-        <AuthorCard Author="authorProfile" />
+        <AuthorCard Author="_authorProfile" />
 
         <footer class="blog-post-footer">
             <a href="blog">&larr; Back to Blog</a>
@@ -72,55 +72,55 @@ else
 @code {
     [Parameter] public string Slug { get; set; } = "";
 
-    private BlogPostMetadata? metadata;
-    private string htmlContent = "";
-    private bool loading = true;
-    private AuthorProfile? authorProfile;
-    private int? viewCount;
+    private BlogPostMetadata? _metadata;
+    private string _htmlContent = "";
+    private bool _loading = true;
+    private AuthorProfile? _authorProfile;
+    private int? _viewCount;
 
     protected override async Task OnParametersSetAsync()
     {
-        loading = true;
+        _loading = true;
         Logger.LogInformation("Loading blog post: {Slug}", Slug);
 
         try
         {
-            metadata = await BlogService.GetPostMetadataAsync(Slug);
-            if (metadata is not null)
+            _metadata = await BlogService.GetPostMetadataAsync(Slug);
+            if (_metadata is not null)
             {
                 var rawHtml = await BlogService.GetPostHtmlAsync(Slug);
-                htmlContent = PostProcessHtml(rawHtml);
+                _htmlContent = PostProcessHtml(rawHtml);
 
-                if (!string.IsNullOrEmpty(metadata.Author))
+                if (!string.IsNullOrEmpty(_metadata.Author))
                 {
-                    authorProfile = await BlogService.GetAuthorAsync(metadata.Author);
+                    _authorProfile = await BlogService.GetAuthorAsync(_metadata.Author);
                 }
 
-                await Analytics.TrackPageViewAsync("BlogPost", $"{metadata.Title} ({Slug})");
+                await Analytics.TrackPageViewAsync("BlogPost", $"{_metadata.Title} ({Slug})");
                 await Analytics.IncrementViewAsync(Slug);
-                viewCount = await Analytics.GetViewCountAsync(Slug);
+                _viewCount = await Analytics.GetViewCountAsync(Slug);
             }
         }
         catch (Exception ex)
         {
             Logger.LogError(ex, "Failed to load post {Slug}", Slug);
-            metadata = null;
+            _metadata = null;
         }
         finally
         {
-            loading = false;
+            _loading = false;
         }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         // Trigger syntax highlighting and scroll-detection after content renders
-        if (!loading && metadata is not null)
+        if (!_loading && _metadata is not null)
         {
             try
             {
-                await JS.InvokeVoidAsync("observerHighlight.highlightAll");
-                await JS.InvokeVoidAsync("observerCodeScroll.init");
+                await Js.InvokeVoidAsync("observerHighlight.highlightAll");
+                await Js.InvokeVoidAsync("observerCodeScroll.init");
             }
             catch (Exception ex)
             {

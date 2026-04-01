@@ -18,18 +18,18 @@
     </div>
 }
 
-@if (posts is null)
+@if (_posts is null)
 {
     <p><em>Loading posts...</em></p>
 }
-else if (filteredPosts.Length == 0)
+else if (_filteredPosts.Length == 0)
 {
     <p>No posts found. <a href="blog">View all posts</a></p>
 }
 else
 {
     <div class="blog-list">
-        @foreach (var post in filteredPosts)
+        @foreach (var post in _filteredPosts)
         {
             <article class="blog-card">
                 @if (post.Featured)
@@ -72,21 +72,21 @@ else
 @code {
     [Parameter] public string? Tag { get; set; }
 
-    private BlogPostMetadata[]? posts;
-    private BlogPostMetadata[] filteredPosts = [];
+    private BlogPostMetadata[]? _posts;
+    private BlogPostMetadata[] _filteredPosts = [];
 
     protected override async Task OnInitializedAsync()
     {
         Logger.LogInformation("Loading blog index");
         try
         {
-            posts = await BlogService.GetPostsAsync();
-            await Analytics.TrackPageViewAsync("Blog", $"{posts?.Length ?? 0} posts");
+            _posts = await BlogService.GetPostsAsync();
+            await Analytics.TrackPageViewAsync("Blog", $"{_posts?.Length ?? 0} posts");
         }
         catch (Exception ex)
         {
             Logger.LogError(ex, "Failed to load blog index");
-            posts = [];
+            _posts = [];
         }
         ApplyFilter();
     }
@@ -98,15 +98,15 @@ else
 
     private void ApplyFilter()
     {
-        if (posts is null)
+        if (_posts is null)
         {
-            filteredPosts = [];
+            _filteredPosts = [];
             return;
         }
 
-        filteredPosts = string.IsNullOrEmpty(Tag)
-            ? posts
-            : posts.Where(p =>
+        _filteredPosts = string.IsNullOrEmpty(Tag)
+            ? _posts
+            : _posts.Where(p =>
                 p.Tags.Any(t => string.Equals(t, Tag, StringComparison.OrdinalIgnoreCase)))
               .ToArray();
     }

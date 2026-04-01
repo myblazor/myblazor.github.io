@@ -1,7 +1,7 @@
 @page "/showcase"
 @inject ILogger<Showcase> Logger
 @inject IAnalyticsService Analytics
-@inject IJSRuntime JS
+@inject IJSRuntime Js
 @inject NavigationManager Nav
 @implements IDisposable
 
@@ -19,19 +19,19 @@
     <div class="sc-toolbar-left">
         <button class="btn btn-primary btn-sm" @onclick="NavigateToNew">+ New Product</button>
         <button class="btn btn-outline btn-sm" @onclick="ResetData">Reset Data</button>
-        <span class="sc-count">@filteredProducts.Count of @allProducts.Count items</span>
+        <span class="sc-count">@_filteredProducts.Count of @_allProducts.Count items</span>
     </div>
     <div class="sc-toolbar-right">
         <button class="btn btn-outline btn-sm" @onclick="ToggleFilters">
-            @(showFilters ? "Hide Filters" : "Show Filters")
+            @(_showFilters ? "Hide Filters" : "Show Filters")
         </button>
         <div class="sc-col-toggle">
             <button class="btn btn-outline btn-sm" @onclick="ToggleColumnPicker">Columns ▾</button>
-            @if (showColumnPicker)
+            @if (_showColumnPicker)
             {
-                <div class="sc-col-backdrop" @onclick="() => showColumnPicker = false"></div>
+                <div class="sc-col-backdrop" @onclick="() => _showColumnPicker = false"></div>
                 <div class="sc-col-dropdown" @onclick:stopPropagation="true">
-                    @foreach (var col in columns)
+                    @foreach (var col in _columns)
                     {
                         <label class="sc-col-option">
                             <input type="checkbox" checked="@col.Visible"
@@ -48,7 +48,7 @@
         </div>
         <div class="sc-page-size">
             <label>Per page:</label>
-            <select value="@pageSize" @onchange="OnPageSizeChanged">
+            <select value="@_pageSize" @onchange="OnPageSizeChanged">
                 <option value="10">10</option>
                 <option value="20">20</option>
                 <option value="50">50</option>
@@ -59,7 +59,7 @@
 </div>
 
 @* ---- Filter panel (collapsible, works on desktop + mobile) ---- *@
-@if (showFilters)
+@if (_showFilters)
 {
     <div class="sc-filter-panel">
         <div class="sc-filter-panel-header">
@@ -69,7 +69,7 @@
             </button>
         </div>
         <div class="sc-filter-grid">
-            @foreach (var col in columns.Where(c => c.Visible))
+            @foreach (var col in _columns.Where(c => c.Visible))
             {
                 @if (col.FilterKind == FilterKind.Text)
                 {
@@ -123,15 +123,15 @@
     <table class="sc-table">
         <thead>
             <tr>
-                @foreach (var col in columns.Where(c => c.Visible))
+                @foreach (var col in _columns.Where(c => c.Visible))
                 {
                     <th class="@(col.Numeric ? "sc-num" : string.Empty) sc-sortable"
                         style="@ColStyle(col)"
                         @onclick="() => SortBy(col)">
                         @col.Header
-                        @if (sortColumn == col.Key)
+                        @if (_sortColumn == col.Key)
                         {
-                            <span class="sc-sort-arrow">@(sortAsc ? "▲" : "▼")</span>
+                            <span class="sc-sort-arrow">@(_sortAsc ? "▲" : "▼")</span>
                         }
                     </th>
                 }
@@ -139,18 +139,18 @@
             </tr>
         </thead>
         <tbody>
-            @if (pagedProducts.Count == 0)
+            @if (_pagedProducts.Count == 0)
             {
                 <tr>
-                    <td colspan="@(columns.Count(c => c.Visible) + 1)" class="sc-empty">
+                    <td colspan="@(_columns.Count(c => c.Visible) + 1)" class="sc-empty">
                         No products match your filters.
                     </td>
                 </tr>
             }
-            @foreach (var p in pagedProducts)
+            @foreach (var p in _pagedProducts)
             {
                 <tr @onclick="() => NavigateToDetail(p.Id)" class="sc-clickable-row">
-                    @foreach (var col in columns.Where(c => c.Visible))
+                    @foreach (var col in _columns.Where(c => c.Visible))
                     {
                         <td class="@(col.Numeric ? "sc-num" : string.Empty)"
                             data-label="@col.Header">
@@ -169,20 +169,20 @@
 
 @* ---- Pagination ---- *@
 <div class="sc-pagination">
-    <button class="btn btn-outline btn-sm" @onclick="FirstPage" disabled="@(currentPage <= 1)">« First</button>
-    <button class="btn btn-outline btn-sm" @onclick="PrevPage" disabled="@(currentPage <= 1)">‹ Prev</button>
-    <span class="sc-page-info">Page @currentPage of @totalPages</span>
-    <button class="btn btn-outline btn-sm" @onclick="NextPage" disabled="@(currentPage >= totalPages)">Next ›</button>
-    <button class="btn btn-outline btn-sm" @onclick="LastPage" disabled="@(currentPage >= totalPages)">Last »</button>
+    <button class="btn btn-outline btn-sm" @onclick="FirstPage" disabled="@(_currentPage <= 1)">« First</button>
+    <button class="btn btn-outline btn-sm" @onclick="PrevPage" disabled="@(_currentPage <= 1)">‹ Prev</button>
+    <span class="sc-page-info">Page @_currentPage of @_totalPages</span>
+    <button class="btn btn-outline btn-sm" @onclick="NextPage" disabled="@(_currentPage >= _totalPages)">Next ›</button>
+    <button class="btn btn-outline btn-sm" @onclick="LastPage" disabled="@(_currentPage >= _totalPages)">Last »</button>
 </div>
 
 @* ---- Delete confirmation overlay ---- *@
-@if (deleteTarget is not null)
+@if (_deleteTarget is not null)
 {
     <div class="sc-overlay" @onclick="CancelDelete">
         <div class="sc-dialog" @onclick:stopPropagation="true">
             <h4>Delete product?</h4>
-            <p>Are you sure you want to delete <strong>@deleteTarget.Name</strong> (@deleteTarget.Sku)?</p>
+            <p>Are you sure you want to delete <strong>@_deleteTarget.Name</strong> (@_deleteTarget.Sku)?</p>
             <div style="display:flex;gap:0.5rem;justify-content:flex-end;">
                 <button class="btn btn-outline btn-sm" @onclick="CancelDelete">Cancel</button>
                 <button class="btn btn-danger btn-sm" @onclick="ExecuteDelete">Delete</button>
@@ -195,24 +195,24 @@
     private const string StorageKey = "observer-catalog-products";
     private const string PrefsKey = "observer-showcase-prefs";
 
-    private List<CatalogProduct> allProducts = [];
-    private List<CatalogProduct> filteredProducts = [];
-    private List<CatalogProduct> pagedProducts = [];
+    private List<CatalogProduct> _allProducts = [];
+    private List<CatalogProduct> _filteredProducts = [];
+    private List<CatalogProduct> _pagedProducts = [];
 
-    private int pageSize = 20;
-    private int currentPage = 1;
-    private int totalPages = 1;
-    private string sortColumn = "Name";
-    private bool sortAsc = true;
-    private bool showColumnPicker;
-    private bool showFilters = true;
-    private CatalogProduct? deleteTarget;
+    private int _pageSize = 20;
+    private int _currentPage = 1;
+    private int _totalPages = 1;
+    private string _sortColumn = "Name";
+    private bool _sortAsc = true;
+    private bool _showColumnPicker;
+    private bool _showFilters = true;
+    private CatalogProduct? _deleteTarget;
 
     // --- Column definitions ---
-    private List<ColumnDef> columns = [];
+    private List<ColumnDef> _columns = [];
 
     // Track default visibility for "Restore Defaults"
-    private Dictionary<string, bool> defaultVisibility = new();
+    private Dictionary<string, bool> _defaultVisibility = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -225,7 +225,7 @@
 
     private void InitColumns()
     {
-        columns =
+        _columns =
         [
             new("Sku", "SKU", p => p.Sku, false, FilterKind.Text) { MinWidth = "90px" },
             new("Name", "Name", p => p.Name, false, FilterKind.Text) { MinWidth = "160px" },
@@ -259,7 +259,7 @@
         ];
 
         // Save defaults
-        defaultVisibility = columns.ToDictionary(c => c.Key, c => c.Visible);
+        _defaultVisibility = _columns.ToDictionary(c => c.Key, c => c.Visible);
     }
 
     // --- Product persistence ---
@@ -268,14 +268,14 @@
     {
         try
         {
-            var json = await JS.InvokeAsync<string?>("localStorage.getItem", StorageKey);
+            var json = await Js.InvokeAsync<string?>("localStorage.getItem", StorageKey);
             if (!string.IsNullOrEmpty(json))
             {
                 var loaded = System.Text.Json.JsonSerializer.Deserialize<List<CatalogProduct>>(json,
                     new System.Text.Json.JsonSerializerOptions { PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase });
                 if (loaded is { Count: > 0 })
                 {
-                    allProducts = loaded;
+                    _allProducts = loaded;
                     return;
                 }
             }
@@ -285,7 +285,7 @@
             Logger.LogWarning(ex, "Could not load catalog from local storage");
         }
 
-        allProducts = ProductDataGenerator.Generate(2000);
+        _allProducts = ProductDataGenerator.Generate(2000);
         await SaveProducts();
     }
 
@@ -293,9 +293,9 @@
     {
         try
         {
-            var json = System.Text.Json.JsonSerializer.Serialize(allProducts,
+            var json = System.Text.Json.JsonSerializer.Serialize(_allProducts,
                 new System.Text.Json.JsonSerializerOptions { PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase });
-            await JS.InvokeVoidAsync("localStorage.setItem", StorageKey, json);
+            await Js.InvokeVoidAsync("localStorage.setItem", StorageKey, json);
         }
         catch (Exception ex)
         {
@@ -309,21 +309,21 @@
     {
         try
         {
-            var json = await JS.InvokeAsync<string?>("localStorage.getItem", PrefsKey);
+            var json = await Js.InvokeAsync<string?>("localStorage.getItem", PrefsKey);
             if (string.IsNullOrEmpty(json)) return;
 
             var prefs = System.Text.Json.JsonSerializer.Deserialize<ShowcasePrefs>(json,
                 new System.Text.Json.JsonSerializerOptions { PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase });
             if (prefs is null) return;
 
-            if (prefs.PageSize is > 0) pageSize = prefs.PageSize.Value;
-            if (!string.IsNullOrEmpty(prefs.SortColumn)) sortColumn = prefs.SortColumn;
-            if (prefs.SortAsc is not null) sortAsc = prefs.SortAsc.Value;
-            if (prefs.ShowFilters is not null) showFilters = prefs.ShowFilters.Value;
+            if (prefs.PageSize is > 0) _pageSize = prefs.PageSize.Value;
+            if (!string.IsNullOrEmpty(prefs.SortColumn)) _sortColumn = prefs.SortColumn;
+            if (prefs.SortAsc is not null) _sortAsc = prefs.SortAsc.Value;
+            if (prefs.ShowFilters is not null) _showFilters = prefs.ShowFilters.Value;
 
             if (prefs.ColumnVisibility is not null)
             {
-                foreach (var col in columns)
+                foreach (var col in _columns)
                 {
                     if (prefs.ColumnVisibility.TryGetValue(col.Key, out var vis))
                         col.Visible = vis;
@@ -332,7 +332,7 @@
 
             if (prefs.Filters is not null)
             {
-                foreach (var col in columns)
+                foreach (var col in _columns)
                 {
                     if (prefs.Filters.TryGetValue(col.Key, out var f))
                     {
@@ -355,12 +355,12 @@
         {
             var prefs = new ShowcasePrefs
             {
-                PageSize = pageSize,
-                SortColumn = sortColumn,
-                SortAsc = sortAsc,
-                ShowFilters = showFilters,
-                ColumnVisibility = columns.ToDictionary(c => c.Key, c => c.Visible),
-                Filters = columns
+                PageSize = _pageSize,
+                SortColumn = _sortColumn,
+                SortAsc = _sortAsc,
+                ShowFilters = _showFilters,
+                ColumnVisibility = _columns.ToDictionary(c => c.Key, c => c.Visible),
+                Filters = _columns
                     .Where(c => !string.IsNullOrEmpty(c.FilterText) || !string.IsNullOrEmpty(c.FilterMin) || !string.IsNullOrEmpty(c.FilterMax))
                     .ToDictionary(c => c.Key, c => new FilterState
                     {
@@ -372,7 +372,7 @@
 
             var json = System.Text.Json.JsonSerializer.Serialize(prefs,
                 new System.Text.Json.JsonSerializerOptions { PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase });
-            await JS.InvokeVoidAsync("localStorage.setItem", PrefsKey, json);
+            await Js.InvokeVoidAsync("localStorage.setItem", PrefsKey, json);
         }
         catch (Exception ex)
         {
@@ -384,9 +384,9 @@
 
     private void ApplyFilterAndSort()
     {
-        IEnumerable<CatalogProduct> result = allProducts;
+        IEnumerable<CatalogProduct> result = _allProducts;
 
-        foreach (var col in columns)
+        foreach (var col in _columns)
         {
             if (col.FilterKind == FilterKind.Text && !string.IsNullOrWhiteSpace(col.FilterText))
             {
@@ -444,32 +444,32 @@
         }
 
         // Sort
-        result = sortColumn switch
+        result = _sortColumn switch
         {
-            "Sku" => sortAsc ? result.OrderBy(p => p.Sku) : result.OrderByDescending(p => p.Sku),
-            "Name" => sortAsc ? result.OrderBy(p => p.Name) : result.OrderByDescending(p => p.Name),
-            "Brand" => sortAsc ? result.OrderBy(p => p.Brand) : result.OrderByDescending(p => p.Brand),
-            "Category" => sortAsc ? result.OrderBy(p => p.Category) : result.OrderByDescending(p => p.Category),
-            "Price" => sortAsc ? result.OrderBy(p => p.Price) : result.OrderByDescending(p => p.Price),
-            "Stock" => sortAsc ? result.OrderBy(p => p.Stock) : result.OrderByDescending(p => p.Stock),
-            "Rating" => sortAsc ? result.OrderBy(p => p.Rating) : result.OrderByDescending(p => p.Rating),
-            "ReviewCount" => sortAsc ? result.OrderBy(p => p.ReviewCount) : result.OrderByDescending(p => p.ReviewCount),
-            "WeightKg" => sortAsc ? result.OrderBy(p => p.WeightKg) : result.OrderByDescending(p => p.WeightKg),
-            "Color" => sortAsc ? result.OrderBy(p => p.Color) : result.OrderByDescending(p => p.Color),
-            "WarrantyMonths" => sortAsc ? result.OrderBy(p => p.WarrantyMonths) : result.OrderByDescending(p => p.WarrantyMonths),
-            "DateAdded" => sortAsc ? result.OrderBy(p => p.DateAdded) : result.OrderByDescending(p => p.DateAdded),
-            "Status" => sortAsc ? result.OrderBy(p => p.Status) : result.OrderByDescending(p => p.Status),
+            "Sku" => _sortAsc ? result.OrderBy(p => p.Sku) : result.OrderByDescending(p => p.Sku),
+            "Name" => _sortAsc ? result.OrderBy(p => p.Name) : result.OrderByDescending(p => p.Name),
+            "Brand" => _sortAsc ? result.OrderBy(p => p.Brand) : result.OrderByDescending(p => p.Brand),
+            "Category" => _sortAsc ? result.OrderBy(p => p.Category) : result.OrderByDescending(p => p.Category),
+            "Price" => _sortAsc ? result.OrderBy(p => p.Price) : result.OrderByDescending(p => p.Price),
+            "Stock" => _sortAsc ? result.OrderBy(p => p.Stock) : result.OrderByDescending(p => p.Stock),
+            "Rating" => _sortAsc ? result.OrderBy(p => p.Rating) : result.OrderByDescending(p => p.Rating),
+            "ReviewCount" => _sortAsc ? result.OrderBy(p => p.ReviewCount) : result.OrderByDescending(p => p.ReviewCount),
+            "WeightKg" => _sortAsc ? result.OrderBy(p => p.WeightKg) : result.OrderByDescending(p => p.WeightKg),
+            "Color" => _sortAsc ? result.OrderBy(p => p.Color) : result.OrderByDescending(p => p.Color),
+            "WarrantyMonths" => _sortAsc ? result.OrderBy(p => p.WarrantyMonths) : result.OrderByDescending(p => p.WarrantyMonths),
+            "DateAdded" => _sortAsc ? result.OrderBy(p => p.DateAdded) : result.OrderByDescending(p => p.DateAdded),
+            "Status" => _sortAsc ? result.OrderBy(p => p.Status) : result.OrderByDescending(p => p.Status),
             _ => result
         };
 
-        filteredProducts = result.ToList();
-        totalPages = Math.Max(1, (int)Math.Ceiling(filteredProducts.Count / (double)pageSize));
-        if (currentPage > totalPages) currentPage = totalPages;
-        if (currentPage < 1) currentPage = 1;
+        _filteredProducts = result.ToList();
+        _totalPages = Math.Max(1, (int)Math.Ceiling(_filteredProducts.Count / (double)_pageSize));
+        if (_currentPage > _totalPages) _currentPage = _totalPages;
+        if (_currentPage < 1) _currentPage = 1;
 
-        pagedProducts = filteredProducts
-            .Skip((currentPage - 1) * pageSize)
-            .Take(pageSize)
+        _pagedProducts = _filteredProducts
+            .Skip((_currentPage - 1) * _pageSize)
+            .Take(_pageSize)
             .ToList();
     }
 
@@ -477,14 +477,14 @@
 
     private async Task SortBy(ColumnDef col)
     {
-        if (sortColumn == col.Key)
-            sortAsc = !sortAsc;
+        if (_sortColumn == col.Key)
+            _sortAsc = !_sortAsc;
         else
         {
-            sortColumn = col.Key;
-            sortAsc = true;
+            _sortColumn = col.Key;
+            _sortAsc = true;
         }
-        currentPage = 1;
+        _currentPage = 1;
         ApplyFilterAndSort();
         await SavePrefs();
     }
@@ -492,7 +492,7 @@
     private async Task OnFilterTextChanged(ColumnDef col, string value)
     {
         col.FilterText = value;
-        currentPage = 1;
+        _currentPage = 1;
         ApplyFilterAndSort();
         await SavePrefs();
     }
@@ -500,7 +500,7 @@
     private async Task OnFilterMinChanged(ColumnDef col, string value)
     {
         col.FilterMin = value;
-        currentPage = 1;
+        _currentPage = 1;
         ApplyFilterAndSort();
         await SavePrefs();
     }
@@ -508,20 +508,20 @@
     private async Task OnFilterMaxChanged(ColumnDef col, string value)
     {
         col.FilterMax = value;
-        currentPage = 1;
+        _currentPage = 1;
         ApplyFilterAndSort();
         await SavePrefs();
     }
 
     private async Task ClearFilters()
     {
-        foreach (var col in columns)
+        foreach (var col in _columns)
         {
             col.FilterText = string.Empty;
             col.FilterMin = string.Empty;
             col.FilterMax = string.Empty;
         }
-        currentPage = 1;
+        _currentPage = 1;
         ApplyFilterAndSort();
         await SavePrefs();
     }
@@ -530,25 +530,25 @@
     {
         if (int.TryParse(e.Value?.ToString(), out var size) && size > 0)
         {
-            pageSize = size;
-            currentPage = 1;
+            _pageSize = size;
+            _currentPage = 1;
             ApplyFilterAndSort();
             await SavePrefs();
         }
     }
 
-    private void FirstPage() { currentPage = 1; ApplyFilterAndSort(); }
-    private void PrevPage() { if (currentPage > 1) { currentPage--; ApplyFilterAndSort(); } }
-    private void NextPage() { if (currentPage < totalPages) { currentPage++; ApplyFilterAndSort(); } }
-    private void LastPage() { currentPage = totalPages; ApplyFilterAndSort(); }
+    private void FirstPage() { _currentPage = 1; ApplyFilterAndSort(); }
+    private void PrevPage() { if (_currentPage > 1) { _currentPage--; ApplyFilterAndSort(); } }
+    private void NextPage() { if (_currentPage < _totalPages) { _currentPage++; ApplyFilterAndSort(); } }
+    private void LastPage() { _currentPage = _totalPages; ApplyFilterAndSort(); }
 
     private async Task ToggleFilters()
     {
-        showFilters = !showFilters;
+        _showFilters = !_showFilters;
         await SavePrefs();
     }
 
-    private void ToggleColumnPicker() => showColumnPicker = !showColumnPicker;
+    private void ToggleColumnPicker() => _showColumnPicker = !_showColumnPicker;
 
     private async Task ToggleColumn(ColumnDef col, bool visible)
     {
@@ -558,19 +558,19 @@
 
     private async Task RestoreColumnDefaults()
     {
-        foreach (var col in columns)
+        foreach (var col in _columns)
         {
-            if (defaultVisibility.TryGetValue(col.Key, out var vis))
+            if (_defaultVisibility.TryGetValue(col.Key, out var vis))
                 col.Visible = vis;
             col.FilterText = string.Empty;
             col.FilterMin = string.Empty;
             col.FilterMax = string.Empty;
         }
-        sortColumn = "Name";
-        sortAsc = true;
-        pageSize = 20;
-        currentPage = 1;
-        showColumnPicker = false;
+        _sortColumn = "Name";
+        _sortAsc = true;
+        _pageSize = 20;
+        _currentPage = 1;
+        _showColumnPicker = false;
         ApplyFilterAndSort();
         await SavePrefs();
     }
@@ -578,15 +578,15 @@
     private void NavigateToDetail(Guid id) => Nav.NavigateTo($"showcase/{id}");
     private void NavigateToNew() => Nav.NavigateTo("showcase/new");
 
-    private void ConfirmDelete(CatalogProduct p) => deleteTarget = p;
-    private void CancelDelete() => deleteTarget = null;
+    private void ConfirmDelete(CatalogProduct p) => _deleteTarget = p;
+    private void CancelDelete() => _deleteTarget = null;
 
     private async Task ExecuteDelete()
     {
-        if (deleteTarget is not null)
+        if (_deleteTarget is not null)
         {
-            allProducts.RemoveAll(p => p.Id == deleteTarget.Id);
-            deleteTarget = null;
+            _allProducts.RemoveAll(p => p.Id == _deleteTarget.Id);
+            _deleteTarget = null;
             ApplyFilterAndSort();
             await SaveProducts();
         }
@@ -594,11 +594,11 @@
 
     private async Task ResetData()
     {
-        try { await JS.InvokeVoidAsync("localStorage.removeItem", StorageKey); }
+        try { await Js.InvokeVoidAsync("localStorage.removeItem", StorageKey); }
         catch { /* best effort */ }
 
-        allProducts = ProductDataGenerator.Generate(2000);
-        currentPage = 1;
+        _allProducts = ProductDataGenerator.Generate(2000);
+        _currentPage = 1;
         await ClearFilters();
         await SaveProducts();
     }

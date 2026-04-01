@@ -180,11 +180,11 @@ public class BlogServiceTests
 /// </summary>
 internal sealed class FakeHttpHandler : HttpMessageHandler
 {
-    private readonly HttpResponseMessage response;
+    private readonly HttpResponseMessage _response;
 
     public FakeHttpHandler(string content, string mediaType)
     {
-        response = new HttpResponseMessage(HttpStatusCode.OK)
+        _response = new HttpResponseMessage(HttpStatusCode.OK)
         {
             Content = new StringContent(content, System.Text.Encoding.UTF8, mediaType)
         };
@@ -192,12 +192,12 @@ internal sealed class FakeHttpHandler : HttpMessageHandler
 
     public FakeHttpHandler(HttpStatusCode statusCode)
     {
-        response = new HttpResponseMessage(statusCode);
+        _response = new HttpResponseMessage(statusCode);
     }
 
     protected override Task<HttpResponseMessage> SendAsync(
         HttpRequestMessage request, CancellationToken cancellationToken)
     {
-        return Task.FromResult(response);
+        return Task.FromResult(_response);
     }
 }

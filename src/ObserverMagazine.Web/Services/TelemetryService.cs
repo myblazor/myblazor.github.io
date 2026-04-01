@@ -9,8 +9,8 @@ namespace ObserverMagazine.Web.Services;
 /// </summary>
 public sealed class TelemetryService(ILogger<TelemetryService> logger)
 {
-    private readonly Dictionary<string, long> counters = new();
-    private readonly object lockObj = new();
+    private readonly Dictionary<string, long> _counters = new();
+    private readonly object _lockObj = new();
 
     public void TrackEvent(string eventName, IDictionary<string, string>? properties = null)
     {
@@ -22,19 +22,19 @@ public sealed class TelemetryService(ILogger<TelemetryService> logger)
 
     public void IncrementCounter(string counterName, long value = 1)
     {
-        lock (lockObj)
+        lock (_lockObj)
         {
-            counters.TryGetValue(counterName, out var current);
-            counters[counterName] = current + value;
+            _counters.TryGetValue(counterName, out var current);
+            _counters[counterName] = current + value;
         }
         logger.LogDebug("[Telemetry] Counter: {CounterName} += {Value}", counterName, value);
     }
 
     public long GetCounter(string counterName)
     {
-        lock (lockObj)
+        lock (_lockObj)
         {
-            return counters.GetValueOrDefault(counterName, 0);
+            return _counters.GetValueOrDefault(counterName, 0);
         }
     }
 

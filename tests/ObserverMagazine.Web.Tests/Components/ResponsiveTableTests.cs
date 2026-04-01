@@ -9,7 +9,7 @@ namespace ObserverMagazine.Web.Tests.Components;
 
 public class ResponsiveTableTests : IDisposable
 {
-    private readonly BunitContext ctx = new();
+    private readonly BunitContext _ctx = new();
 
     private const string SampleProductsJson = """
         [
@@ -22,8 +22,8 @@ public class ResponsiveTableTests : IDisposable
     {
         var fakeHandler = new ComponentFakeHttpHandler(SampleProductsJson);
         var httpClient = new HttpClient(fakeHandler) { BaseAddress = new Uri("https://test.local/") };
-        ctx.Services.AddSingleton(httpClient);
-        ctx.Services.AddSingleton<IAnalyticsService, NoOpAnalyticsService>();
+        _ctx.Services.AddSingleton(httpClient);
+        _ctx.Services.AddSingleton<IAnalyticsService, NoOpAnalyticsService>();
     }
 
     [Fact]
@@ -31,7 +31,7 @@ public class ResponsiveTableTests : IDisposable
     {
         SetupServices();
 
-        var cut = ctx.Render<ResponsiveTable>();
+        var cut = _ctx.Render<ResponsiveTable>();
         cut.WaitForElement(".rt-data-table");
 
         Assert.Contains("Widget A", cut.Markup);
@@ -43,7 +43,7 @@ public class ResponsiveTableTests : IDisposable
     {
         SetupServices();
 
-        var cut = ctx.Render<ResponsiveTable>();
+        var cut = _ctx.Render<ResponsiveTable>();
         cut.WaitForElement(".rt-data-table");
 
         var filterInput = cut.Find(".rt-filter-input");
@@ -58,7 +58,7 @@ public class ResponsiveTableTests : IDisposable
     {
         SetupServices();
 
-        var cut = ctx.Render<ResponsiveTable>();
+        var cut = _ctx.Render<ResponsiveTable>();
         cut.WaitForElement(".rt-data-table");
 
         var priceHeader = cut.FindAll("th.rt-sortable")[2];
@@ -67,16 +67,16 @@ public class ResponsiveTableTests : IDisposable
         Assert.Contains("▲", cut.Markup);
     }
 
-    public void Dispose() => ctx.Dispose();
+    public void Dispose() => _ctx.Dispose();
 }
 
 internal sealed class ComponentFakeHttpHandler : HttpMessageHandler
 {
-    private readonly HttpResponseMessage response;
+    private readonly HttpResponseMessage _response;
 
     public ComponentFakeHttpHandler(string json)
     {
-        response = new HttpResponseMessage(System.Net.HttpStatusCode.OK)
+        _response = new HttpResponseMessage(System.Net.HttpStatusCode.OK)
         {
             Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json")
         };
@@ -85,6 +85,6 @@ internal sealed class ComponentFakeHttpHandler : HttpMessageHandler
     protected override Task<HttpResponseMessage> SendAsync(
         HttpRequestMessage request, CancellationToken cancellationToken)
     {
-        return Task.FromResult(response);
+        return Task.FromResult(_response);
     }
 }

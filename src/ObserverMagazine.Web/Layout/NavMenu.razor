@@ -1,4 +1,4 @@
-@inject IJSRuntime JS
+@inject IJSRuntime Js
 @inject NavigationManager Nav
 @implements IDisposable
 
@@ -7,12 +7,12 @@
         ☰
     </button>
 
-    @if (isOpen)
+    @if (_isOpen)
     {
         <div class="nav-overlay" @onclick="CloseMenu"></div>
     }
 
-    <ul class="nav-links @(isOpen ? "open" : "")">
+    <ul class="nav-links @(_isOpen ? "open" : "")">
         <li><NavLink href="" Match="NavLinkMatch.All">Home</NavLink></li>
         <li><NavLink href="blog">Blog</NavLink></li>
         <li><NavLink href="showcase">Showcase</NavLink></li>
@@ -38,7 +38,7 @@
         </li>
         <li>
             <select class="theme-select"
-                    value="@currentTheme"
+                    value="@_currentTheme"
                     @onchange="OnThemeChanged"
                     aria-label="Choose theme">
                 <option value="system">System</option>
@@ -54,23 +54,23 @@
 </nav>
 
 @code {
-    private bool isOpen;
-    private string currentTheme = "system";
+    private bool _isOpen;
+    private string _currentTheme = "system";
 
     protected override void OnInitialized()
     {
         Nav.LocationChanged += OnLocationChanged;
     }
 
-    private void ToggleMenu() => isOpen = !isOpen;
+    private void ToggleMenu() => _isOpen = !_isOpen;
 
-    private void CloseMenu() => isOpen = false;
+    private void CloseMenu() => _isOpen = false;
 
     private void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
     {
-        if (isOpen)
+        if (_isOpen)
         {
-            isOpen = false;
+            _isOpen = false;
             InvokeAsync(StateHasChanged);
         }
     }
@@ -79,15 +79,15 @@
     {
         if (firstRender)
         {
-            currentTheme = await JS.InvokeAsync<string>("observerTheme.get");
+            _currentTheme = await Js.InvokeAsync<string>("observerTheme.get");
             StateHasChanged();
         }
     }
 
     private async Task OnThemeChanged(ChangeEventArgs e)
     {
-        currentTheme = e.Value?.ToString() ?? "system";
-        await JS.InvokeVoidAsync("observerTheme.set", currentTheme);
+        _currentTheme = e.Value?.ToString() ?? "system";
+        await Js.InvokeVoidAsync("observerTheme.set", _currentTheme);
     }
 
     public void Dispose()

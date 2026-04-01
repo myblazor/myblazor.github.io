@@ -1,12 +1,12 @@
 @inject IAnalyticsService Analytics
 
-@if (reactions is not null)
+@if (_reactions is not null)
 {
     <div class="reactions-bar">
-        @foreach (var (emoji, type) in reactionTypes)
+        @foreach (var (emoji, type) in ReactionTypes)
         {
-            var count = reactions.GetValueOrDefault(type, 0);
-            <button class="reaction-btn @(userReacted == type ? "reacted" : "")"
+            var count = _reactions.GetValueOrDefault(type, 0);
+            <button class="reaction-btn @(_userReacted == type ? "reacted" : "")"
                     @onclick="() => React(type)"
                     title="@type">
                 <span class="reaction-emoji">@emoji</span>
@@ -22,7 +22,7 @@
 @code {
     [Parameter] public string Slug { get; set; } = "";
 
-    private static readonly (string Emoji, string Type)[] reactionTypes =
+    private static readonly (string Emoji, string Type)[] ReactionTypes =
     [
         ("👍", "like"),
         ("❤️", "love"),
@@ -30,26 +30,26 @@
         ("🤔", "thinking")
     ];
 
-    private Dictionary<string, int>? reactions;
-    private string? userReacted;
+    private Dictionary<string, int>? _reactions;
+    private string? _userReacted;
 
     protected override async Task OnParametersSetAsync()
     {
         if (string.IsNullOrEmpty(Slug)) return;
 
-        reactions = await Analytics.GetReactionsAsync(Slug);
+        _reactions = await Analytics.GetReactionsAsync(Slug);
         // If backend returned null, reactions stays null and the UI is hidden
     }
 
     private async Task React(string type)
     {
-        if (reactions is null || userReacted == type) return;
+        if (_reactions is null || _userReacted == type) return;
 
-        userReacted = type;
+        _userReacted = type;
         await Analytics.AddReactionAsync(Slug, type);
 
         // Optimistic update
-        reactions[type] = reactions.GetValueOrDefault(type, 0) + 1;
+        _reactions[type] = _reactions.GetValueOrDefault(type, 0) + 1;
         await Analytics.TrackInteractionAsync("Reaction", $"{Slug}: {type}");
     }
 }

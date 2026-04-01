@@ -2,7 +2,7 @@
 @inject ILogger<ResponsiveTable> Logger
 @inject IAnalyticsService Analytics
 
-@if (products is null)
+@if (_products is null)
 {
     <p><em>Loading data...</em></p>
 }
@@ -11,7 +11,7 @@ else
     <div class="rt-controls">
         <input type="text"
                placeholder="Filter by name..."
-               @bind="filterText"
+               @bind="_filterText"
                @bind:event="oninput"
                class="rt-filter-input" />
     </div>
@@ -56,27 +56,27 @@ else
     </div>
 
     <p class="rt-info">
-        Showing @FilteredAndSorted.Count() of @products.Length items
+        Showing @FilteredAndSorted.Count() of @_products.Length items
     </p>
 }
 
 @code {
-    private Product[]? products;
-    private string filterText = "";
-    private string sortColumn = "Name";
-    private bool sortAscending = true;
+    private Product[]? _products;
+    private string _filterText = "";
+    private string _sortColumn = "Name";
+    private bool _sortAscending = true;
 
     protected override async Task OnInitializedAsync()
     {
         Logger.LogInformation("Loading product data for responsive table");
         try
         {
-            products = await Http.GetFromJsonAsync<Product[]>("sample-data/products.json");
+            _products = await Http.GetFromJsonAsync<Product[]>("sample-data/products.json");
         }
         catch (Exception ex)
         {
             Logger.LogError(ex, "Failed to load products");
-            products = [];
+            _products = [];
         }
     }
 
@@ -84,19 +84,19 @@ else
     {
         get
         {
-            if (products is null) return [];
+            if (_products is null) return [];
 
-            var filtered = string.IsNullOrWhiteSpace(filterText)
-                ? products.AsEnumerable()
-                : products.Where(p =>
-                    p.Name.Contains(filterText, StringComparison.OrdinalIgnoreCase));
+            var filtered = string.IsNullOrWhiteSpace(_filterText)
+                ? _products.AsEnumerable()
+                : _products.Where(p =>
+                    p.Name.Contains(_filterText, StringComparison.OrdinalIgnoreCase));
 
-            return sortColumn switch
+            return _sortColumn switch
             {
-                "Name" => sortAscending ? filtered.OrderBy(p => p.Name) : filtered.OrderByDescending(p => p.Name),
-                "Category" => sortAscending ? filtered.OrderBy(p => p.Category) : filtered.OrderByDescending(p => p.Category),
-                "Price" => sortAscending ? filtered.OrderBy(p => p.Price) : filtered.OrderByDescending(p => p.Price),
-                "Stock" => sortAscending ? filtered.OrderBy(p => p.Stock) : filtered.OrderByDescending(p => p.Stock),
+                "Name" => _sortAscending ? filtered.OrderBy(p => p.Name) : filtered.OrderByDescending(p => p.Name),
+                "Category" => _sortAscending ? filtered.OrderBy(p => p.Category) : filtered.OrderByDescending(p => p.Category),
+                "Price" => _sortAscending ? filtered.OrderBy(p => p.Price) : filtered.OrderByDescending(p => p.Price),
+                "Stock" => _sortAscending ? filtered.OrderBy(p => p.Stock) : filtered.OrderByDescending(p => p.Stock),
                 _ => filtered
             };
         }
@@ -104,22 +104,22 @@ else
 
     private async Task Sort(string column)
     {
-        if (sortColumn == column)
+        if (_sortColumn == column)
         {
-            sortAscending = !sortAscending;
+            _sortAscending = !_sortAscending;
         }
         else
         {
-            sortColumn = column;
-            sortAscending = true;
+            _sortColumn = column;
+            _sortAscending = true;
         }
-        Logger.LogInformation("Sorted by {Column} {Direction}", column, sortAscending ? "asc" : "desc");
-        await Analytics.TrackInteractionAsync("TableSort", $"{column} {(sortAscending ? "asc" : "desc")}");
+        Logger.LogInformation("Sorted by {Column} {Direction}", column, _sortAscending ? "asc" : "desc");
+        await Analytics.TrackInteractionAsync("TableSort", $"{column} {(_sortAscending ? "asc" : "desc")}");
     }
 
     private string SortIndicator(string column)
     {
-        if (sortColumn != column) return "";
-        return sortAscending ? "▲" : "▼";
+        if (_sortColumn != column) return "";
+        return _sortAscending ? "▲" : "▼";
     }
 }

@@ -1,15 +1,15 @@
 @implements IDisposable
 @inject IAnalyticsService Analytics
 @inject ILogger<BlogTtsPlayer> Logger
-@inject IJSRuntime JS
+@inject IJSRuntime Js
 
-@if (!hidden)
+@if (!_hidden)
 {
     <div class="tts-player">
         <span class="tts-icon" aria-hidden="true">🔊</span>
         <span class="tts-label">Listen to this post</span>
 
-        @if (useFallbackControls)
+        @if (_useFallbackControls)
         {
             @* Fallback: custom play/pause + seek when native controls don't render *@
             <audio id="tts-audio-@Slug"
@@ -21,13 +21,13 @@
             </audio>
             <div class="tts-fallback">
                 <button class="tts-fallback-btn" @onclick="ToggleFallbackPlay">
-                    @(fallbackPlaying ? "⏸ Pause" : "▶ Play")
+                    @(_fallbackPlaying ? "⏸ Pause" : "▶ Play")
                 </button>
                 <input type="range" class="tts-fallback-seek"
-                       min="0" max="@fallbackDuration" step="1"
-                       value="@fallbackCurrentTime"
+                       min="0" max="@_fallbackDuration" step="1"
+                       value="@_fallbackCurrentTime"
                        @oninput="OnSeek" />
-                <span class="tts-fallback-time">@FormatTime(fallbackCurrentTime)</span>
+                <span class="tts-fallback-time">@FormatTime(_fallbackCurrentTime)</span>
             </div>
         }
         else
@@ -50,12 +50,12 @@
             <label class="tts-speed-label" for="tts-speed-@Slug">Speed</label>
             <select id="tts-speed-@Slug"
                     class="tts-speed-select"
-                    value="@currentRate.ToString("0.##")"
+                    value="@_currentRate.ToString("0.##")"
                     @onchange="OnSpeedChange">
                 @foreach (var rate in PlaybackRates)
                 {
                     <option value="@rate.ToString("0.##")"
-                            selected="@(Math.Abs(rate - currentRate) < 0.01)">
+                            selected="@(Math.Abs(rate - _currentRate) < 0.01)">
                         @(rate.ToString("0.##"))x
                     </option>
                 }
@@ -74,12 +74,12 @@
     [Parameter, EditorRequired]
     public string Slug { get; set; } = string.Empty;
 
-    private bool hidden;
-    private bool useFallbackControls;
-    private bool fallbackPlaying;
-    private int fallbackCurrentTime;
-    private int fallbackDuration = 1; // avoid div-by-zero on range
-    private double currentRate = 1.0;
+    private bool _hidden;
+    private bool _useFallbackControls;
+    private bool _fallbackPlaying;
+    private int _fallbackCurrentTime;
+    private int _fallbackDuration = 1; // avoid div-by-zero on range
+    private double _currentRate = 1.0;
 
     private System.Threading.Timer? _pollTimer;
 
@@ -93,43 +93,43 @@
             try
             {
                 // Check if the audio source is available at all
-                var canPlay = await JS.InvokeAsync<bool>("observerAudio.checkAvailability",
+                var canPlay = await Js.InvokeAsync<bool>("observerAudio.checkAvailability",
                     $"tts-audio-{Slug}");
                 if (!canPlay)
                 {
-                    hidden = true;
+                    _hidden = true;
                     StateHasChanged();
                     return;
                 }
 
                 // Restore saved playback rate from localStorage
-                var savedRate = await JS.InvokeAsync<double>("observerAudio.getSavedPlaybackRate");
+                var savedRate = await Js.InvokeAsync<double>("observerAudio.getSavedPlaybackRate");
                 if (savedRate > 0)
                 {
-                    currentRate = savedRate;
-                    await JS.InvokeVoidAsync("observerAudio.setPlaybackRate",
-                        $"tts-audio-{Slug}", currentRate);
+                    _currentRate = savedRate;
+                    await Js.InvokeVoidAsync("observerAudio.setPlaybackRate",
+                        $"tts-audio-{Slug}", _currentRate);
                 }
 
                 // Check if native controls rendered properly (height > 0).
                 // Chrome Android clips the controls to 0px height in some CSS scenarios.
-                var controlsRendered = await JS.InvokeAsync<bool>("observerAudio.checkControlsRendered",
+                var controlsRendered = await Js.InvokeAsync<bool>("observerAudio.checkControlsRendered",
                     $"tts-audio-{Slug}");
                 if (!controlsRendered)
                 {
                     Logger.LogInformation("Native audio controls not rendered for {Slug}, using fallback", Slug);
-                    useFallbackControls = true;
+                    _useFallbackControls = true;
                     StateHasChanged();
 
                     // After switching to fallback, get duration
                     await Task.Delay(100); // let DOM update
-                    var dur = await JS.InvokeAsync<double>("observerAudio.getDuration", $"tts-audio-{Slug}");
+                    var dur = await Js.InvokeAsync<double>("observerAudio.getDuration", $"tts-audio-{Slug}");
                     if (dur > 0)
-                        fallbackDuration = (int)Math.Ceiling(dur);
+                        _fallbackDuration = (int)Math.Ceiling(dur);
 
                     // Re-apply playback rate after fallback switch (new audio element may have reset)
-                    await JS.InvokeVoidAsync("observerAudio.setPlaybackRate",
-                        $"tts-audio-{Slug}", currentRate);
+                    await Js.InvokeVoidAsync("observerAudio.setPlaybackRate",
+                        $"tts-audio-{Slug}", _currentRate);
 
                     StateHasChanged();
                 }
@@ -143,10 +143,10 @@
 
     protected override void OnParametersSet()
     {
-        hidden = false;
-        useFallbackControls = false;
-        fallbackPlaying = false;
-        fallbackCurrentTime = 0;
+        _hidden = false;
+        _useFallbackControls = false;
+        _fallbackPlaying = false;
+        _fallbackCurrentTime = 0;
     }
 
     // --- Speed control ---
@@ -156,11 +156,11 @@
         if (double.TryParse(e.Value?.ToString(), System.Globalization.NumberStyles.Float,
             System.Globalization.CultureInfo.InvariantCulture, out var rate) && rate >= 0.5 && rate <= 3.0)
         {
-            currentRate = rate;
+            _currentRate = rate;
             try
             {
-                await JS.InvokeVoidAsync("observerAudio.setPlaybackRate", $"tts-audio-{Slug}", rate);
-                await JS.InvokeVoidAsync("observerAudio.savePlaybackRate", rate);
+                await Js.InvokeVoidAsync("observerAudio.setPlaybackRate", $"tts-audio-{Slug}", rate);
+                await Js.InvokeVoidAsync("observerAudio.savePlaybackRate", rate);
                 Logger.LogInformation("TTS speed changed to {Rate}x for {Slug}", rate, Slug);
                 await Analytics.TrackInteractionAsync("TTS.SpeedChange", $"{Slug}:{rate}x");
             }
@@ -177,17 +177,17 @@
     {
         try
         {
-            if (fallbackPlaying)
+            if (_fallbackPlaying)
             {
-                await JS.InvokeVoidAsync("observerAudio.pause", $"tts-audio-{Slug}");
-                fallbackPlaying = false;
+                await Js.InvokeVoidAsync("observerAudio.pause", $"tts-audio-{Slug}");
+                _fallbackPlaying = false;
                 StopPolling();
                 await OnPause();
             }
             else
             {
-                await JS.InvokeVoidAsync("observerAudio.play", $"tts-audio-{Slug}");
-                fallbackPlaying = true;
+                await Js.InvokeVoidAsync("observerAudio.play", $"tts-audio-{Slug}");
+                _fallbackPlaying = true;
                 StartPolling();
                 await OnPlay();
             }
@@ -202,10 +202,10 @@
     {
         if (double.TryParse(e.Value?.ToString(), out var time))
         {
-            fallbackCurrentTime = (int)time;
+            _fallbackCurrentTime = (int)time;
             try
             {
-                await JS.InvokeVoidAsync("observerAudio.setCurrentTime", $"tts-audio-{Slug}", time);
+                await Js.InvokeVoidAsync("observerAudio.setCurrentTime", $"tts-audio-{Slug}", time);
             }
             catch (Exception ex)
             {
@@ -221,14 +221,14 @@
         {
             try
             {
-                var time = await JS.InvokeAsync<double>("observerAudio.getCurrentTime", $"tts-audio-{Slug}");
-                var ended = await JS.InvokeAsync<bool>("observerAudio.hasEnded", $"tts-audio-{Slug}");
+                var time = await Js.InvokeAsync<double>("observerAudio.getCurrentTime", $"tts-audio-{Slug}");
+                var ended = await Js.InvokeAsync<bool>("observerAudio.hasEnded", $"tts-audio-{Slug}");
                 await InvokeAsync(() =>
                 {
-                    fallbackCurrentTime = (int)time;
+                    _fallbackCurrentTime = (int)time;
                     if (ended)
                     {
-                        fallbackPlaying = false;
+                        _fallbackPlaying = false;
                         StopPolling();
                         _ = OnEnded();
                     }
