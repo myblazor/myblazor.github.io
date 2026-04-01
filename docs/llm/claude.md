@@ -37698,3 +37698,22 @@ Add this script block **immediately after** the existing `window.observerHighlig
 
 
 
+50
+72
+
+I don't know what you did but blog posts are still completely broken on mobile. 
+Please do not hallucinate. 
+Even the title is cut off. 
+and the tags under the title should reflow correctly 
+and so should the text 
+like if it is a small phone, I should still be able to read the text 
+it should go to the next line, not be hidden on the right 
+also the listen to the audio thing is still fubar
+I don't see the dropdown on the right 
+like it should go to the next line if it doesn't fit on the same line 
+please don't hallucinate and please don't waste my tokens 
+you have the full context and the full text of the code
+please use it and please properly fix ALL errors 
+and please return full files 
+don't tell me oh change this line or add this line after this line 
+do not take shortcuts 
