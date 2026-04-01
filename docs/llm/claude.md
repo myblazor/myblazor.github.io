@@ -36498,7 +36498,7 @@ Custom syntax highlighter replaces highlight.js. No external dependencies.
 
 
 
-100
+00
 65
 
 The css code is broken now. 
@@ -36524,3 +36524,5 @@ Clean, honest, widely understood.
 in fact, please review the code 
 so we do as much as we can in c sharp dotnet web assembly 
 instead of javascript where possible 
+remember, the outer shell of the page should NEVER EVER have side scroll or jank
+but the code blocks can side scroll if necessary to show all the code 
