@@ -1,6 +1,6 @@
 ===============================================================================
 PROJECT EXPORT: observermagazine.github.io
-DATE: 2026-04-02 04:08:37 UTC
+DATE: 2026-04-02 11:53:21 UTC
 ===============================================================================
 
 ===============================================================================
@@ -6123,7 +6123,7 @@ namespace ObserverMagazine.Web.Services;
 
 /// <summary>
 /// Generates deterministic sample product data for the showcase catalog.
-/// Uses a seeded Random so the same 2000 products are generated every time.
+/// Uses a seeded Random so the same 20_000 products are generated every time.
 /// </summary>
 public static class ProductDataGenerator
 {
