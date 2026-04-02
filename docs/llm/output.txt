@@ -364,4 +364,190 @@ Export complete: docs/llm/dump.txt
 real	0m0.106s
 user	0m0.043s
 sys	0m0.049s
+kushal@fedora:~/src/dotnet/observermagazine.github.io$ cd /home/kushal/src/dotnet/observermagazine.github.io/; time dotnet format; time dotnet restore; dotnet run --project tools/ObserverMagazine.ContentProcessor -- --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot; time dotnet test; time dotnet list package; time dotnet list package --outdated; time bash export.sh;
+
+real	0m8.338s
+user	0m13.304s
+sys	0m1.028s
+Restore complete (0.5s)
+
+Build succeeded in 0.6s
+
+real	0m0.828s
+user	0m0.859s
+sys	0m0.186s
+Content directory: content/blog
+Output directory:  src/ObserverMagazine.Web/wwwroot
+Authors directory: content/authors
+Publish before:    2026-04-02 01:54:15 UTC
+Found 3 author profile(s)
+  Loaded author: observer-team (Observer Team)
+  Loaded author: kushal (kushal)
+  Loaded author: abraham-lincoln (Abraham Lincoln)
+Wrote authors index: src/ObserverMagazine.Web/wwwroot/blog-data/authors.json (3 authors)
+Found 36 markdown files
+Processing: 2026-01-15-welcome-to-observer-magazine.md
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/welcome-to-observer-magazine.html (~1 min read)
+Processing: 2026-02-20-getting-started-with-blazor-wasm.md
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/getting-started-with-blazor-wasm.html (~1 min read)
+Processing: 2026-03-10-responsive-design-patterns.md
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/responsive-design-patterns.html (~1 min read)
+Processing: 2026-03-20-hello-world.md
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/hello-world.html (~1 min read)
+Processing: 2026-03-21-aspnet-lifecycle-deep-dive.md
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/aspnet-lifecycle-deep-dive.html (~16 min read)
+Processing: 2099-01-01-draft-template.md
+  SKIPPED: Draft post 'Your Post Title Here'
+Processing: 2027-01-01-happy-new-year-2027.md
+  SKIPPED: Future post 'Happy New Year 2027: A Look Back and a Look Ahead' (date: 2027-01-01, publish-before: 2026-04-02)
+Processing: 2026-03-22-good-morning.md
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/good-morning.html (~1 min read)
+Processing: 2026-03-22-the-year-2025-in-review.md
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/the-year-2025-in-review.html (~14 min read)
+Processing: 2026-03-22-modernizing-to-dotnet-10.md
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/modernizing-to-dotnet-10.html (~13 min read)
+Processing: 2026-03-23-honk-drive.md
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/honk-drive.html (~7 min read)
+Processing: 2026-03-24-avalonia-ui-comprehensive-guide.md
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/avalonia-ui-comprehensive-guide.html (~35 min read)
+Processing: 2026-03-25-git-and-trunk-based-development.md
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/git-and-trunk-based-development.html (~31 min read)
+Processing: 2026-03-26-typescript-comprehensive-guide.md
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/typescript-comprehensive-guide.html (~38 min read)
+Processing: 2026-03-27-sql-server-complete-guide.md
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/sql-server-complete-guide.html (~48 min read)
+Processing: 2026-03-28-postgresql-npgsql-comprehensive-guide.md
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/postgresql-npgsql-comprehensive-guide.html (~42 min read)
+Processing: 2026-03-29-why-qa-matters-more-than-ever.md
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/why-qa-matters-more-than-ever.html (~29 min read)
+Processing: 2026-03-30-the-cloud-toilet-problem.md
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/the-cloud-toilet-problem.html (~17 min read)
+Processing: 2026-03-31-solid-principles.md
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/solid-principles.html (~44 min read)
+Processing: 2026-04-02-open-closed-principle.md
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/open-closed-principle.html (~41 min read)
+Processing: 2026-04-01-single-responsibility-principle-complete-guide.md
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/single-responsibility-principle-complete-guide.html (~47 min read)
+Processing: 2026-04-03-liskov-substitution.md
+  SKIPPED: Future post 'The Liskov Substitution Principle: A Complete Guide for .NET Developers' (date: 2026-04-03, publish-before: 2026-04-02)
+Processing: 2026-04-04-interface-segregation.md
+  SKIPPED: Future post 'The Interface Segregation Principle: A Complete Guide for .NET Developers' (date: 2026-04-04, publish-before: 2026-04-02)
+Processing: 2026-04-05-dependency-injection.md
+  SKIPPED: Future post 'The Dependency Inversion Principle: A Comprehensive Guide for .NET Developers' (date: 2026-04-05, publish-before: 2026-04-02)
+Processing: 2026-04-06-most-important-solid-principle.md
+  SKIPPED: Future post 'The Most Important SOLID Principle: Why Dependency Inversion Changes Everything' (date: 2026-04-06, publish-before: 2026-04-02)
+Processing: 2026-04-07-2007-toyota-camry-complete-guide.md
+  SKIPPED: Future post 'Your 2007 Toyota Camry: The Complete Owner's Guide to Driving, Maintaining, and Eventually Replacing Your Kentucky-Built Sedan' (date: 2026-04-07, publish-before: 2026-04-02)
+Processing: 2026-04-08-aspire-containers-self-hosting-guide.md
+  SKIPPED: Future post 'Aspire, Containers, and Self-Hosting: A Complete Guide to Deploying .NET Applications on Your Own Hardware' (date: 2026-04-08, publish-before: 2026-04-02)
+Processing: 2026-04-09-dotnet-data-structures-complete-guide.md
+  SKIPPED: Future post 'Data Structures in .NET: A Comprehensive Guide from Primitives to Advanced Collections' (date: 2026-04-09, publish-before: 2026-04-02)
+Processing: 2026-04-10-relational-databases-normalization-guide.md
+  SKIPPED: Future post 'Relational Databases and Normalization: A Complete Guide from Messy Spreadsheets to Sixth Normal Form' (date: 2026-04-10, publish-before: 2026-04-02)
+Processing: 2026-04-11-dotnet10-csharp14-complete-guide.md
+  SKIPPED: Future post 'The Complete .NET 10 and C# 14 Guide: Everything You Need to Know from Framework to Modern .NET' (date: 2026-04-11, publish-before: 2026-04-02)
+Processing: 2026-04-14-happy-new-year.md
+  SKIPPED: Future post 'Happy New Year!' (date: 2026-04-14, publish-before: 2026-04-02)
+Processing: 2026-04-12-dfw-home-buying-complete-guide.md
+  SKIPPED: Future post 'The Complete Guide to Buying a Home in Dallas–Fort Worth: Single-Family, Multigenerational, Duplex, Barndominium, and Everything In Between' (date: 2026-04-12, publish-before: 2026-04-02)
+Processing: 2026-04-13-bikram-sambat-nepal-sambat-comprehensive-guide.md
+  SKIPPED: Future post 'Bikram Sambat and Nepal Sambat: A Comprehensive Guide to Nepal's Calendars, Their Mathematics, and What They Mean for Programmers' (date: 2026-04-13, publish-before: 2026-04-02)
+Processing: 2026-04-14-web-browser-technology-complete-guide.md
+  SKIPPED: Future post 'Web Browser Technology: The Complete Guide to Engines, Standards, and the Future of the Web Platform' (date: 2026-04-14, publish-before: 2026-04-02)
+Processing: 2026-04-15-blazor-not-found-page-postmortem.md
+  SKIPPED: Future post 'Post-Mortem: How We Broke Observer Magazine With a Missing @page Directive and What We Learned About Blazor's NotFoundPage in .NET 10' (date: 2026-04-15, publish-before: 2026-04-02)
+Processing: 2026-04-16-global-money-machine-currency-payments-remittance-nepal.md
+  SKIPPED: Future post 'The Global Money Machine: Currency, Digital Payments, Remittance, and Nepal's Place in a Changing World' (date: 2026-04-16, publish-before: 2026-04-02)
+Wrote posts index: src/ObserverMagazine.Web/wwwroot/blog-data/posts-index.json (19 posts, 1 drafts skipped, 16 future posts skipped)
+Wrote RSS feed: src/ObserverMagazine.Web/wwwroot/feed.xml
+Content processing complete.
+Restore complete (0.6s)
+  ObserverMagazine.Integration.Tests net10.0 succeeded (0.4s) → tests/ObserverMagazine.Integration.Tests/bin/Debug/net10.0/ObserverMagazine.Integration.Tests.dll
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.4)
+[xUnit.net 00:00:00.15]   Discovering: ObserverMagazine.Integration.Tests
+[xUnit.net 00:00:00.33]   Discovered:  ObserverMagazine.Integration.Tests
+[xUnit.net 00:00:00.49]   Starting:    ObserverMagazine.Integration.Tests
+[xUnit.net 00:00:00.74]   Finished:    ObserverMagazine.Integration.Tests (ID = 'a11f17fc47145796b425f2f6072a7236e3de3115aec6d32144ce1d1b834d5009')
+  ObserverMagazine.Integration.Tests test net10.0 succeeded (1.3s)
+  ObserverMagazine.Web net10.0 browser-wasm succeeded (3.7s) → src/ObserverMagazine.Web/bin/Debug/net10.0/wwwroot
+  ObserverMagazine.Web.Tests net10.0 succeeded (0.4s) → tests/ObserverMagazine.Web.Tests/bin/Debug/net10.0/ObserverMagazine.Web.Tests.dll
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.4)
+[xUnit.net 00:00:00.13]   Discovering: ObserverMagazine.Web.Tests
+[xUnit.net 00:00:00.31]   Discovered:  ObserverMagazine.Web.Tests
+[xUnit.net 00:00:00.47]   Starting:    ObserverMagazine.Web.Tests
+[xUnit.net 00:00:01.26]   Finished:    ObserverMagazine.Web.Tests (ID = '3bfa85c2f37e8d5c8068cb834c3ae337cb6e3533a98dd06391782e4f8f42ef98')
+  ObserverMagazine.Web.Tests test net10.0 succeeded (1.8s)
+
+Test summary: total: 81, failed: 0, succeeded: 81, skipped: 0, duration: 5.5s
+Build succeeded in 6.7s
+
+real	0m6.854s
+user	0m3.663s
+sys	0m0.429s
+Restore complete (0.5s)
+
+Build succeeded in 0.6s
+Project 'ObserverMagazine.Web' has the following package references
+   [net10.0]: 
+   Top-level Package                                        Requested      Resolved
+   > Microsoft.AspNetCore.App.Internal.Assets         (A)   [10.0.4, )     10.0.4  
+   > Microsoft.AspNetCore.Components.WebAssembly            10.0.5         10.0.5  
+   > Microsoft.DotNet.HotReload.WebAssembly.Browser   (A)   [10.0.104, )   10.0.104
+   > Microsoft.Extensions.Http                              10.0.5         10.0.5  
+   > Microsoft.Extensions.Logging.Configuration             10.0.5         10.0.5  
+   > Microsoft.NET.ILLink.Tasks                       (A)   [10.0.4, )     10.0.4  
+   > Microsoft.NET.Sdk.WebAssembly.Pack               (A)   [10.0.1, )     10.0.1  
+
+Project 'ObserverMagazine.Integration.Tests' has the following package references
+   [net10.0]: 
+   Top-level Package                Requested   Resolved
+   > Markdig                        1.1.2       1.1.2   
+   > Microsoft.NET.Test.Sdk         18.3.0      18.3.0  
+   > xunit.runner.visualstudio      3.1.5       3.1.5   
+   > xunit.v3                       3.2.2       3.2.2   
+   > YamlDotNet                     16.3.0      16.3.0  
+
+Project 'ObserverMagazine.Web.Tests' has the following package references
+   [net10.0]: 
+   Top-level Package                Requested   Resolved
+   > bunit                          2.7.2       2.7.2   
+   > Microsoft.NET.Test.Sdk         18.3.0      18.3.0  
+   > xunit.runner.visualstudio      3.1.5       3.1.5   
+   > xunit.v3                       3.2.2       3.2.2   
+
+Project 'ObserverMagazine.ContentProcessor' has the following package references
+   [net10.0]: 
+   Top-level Package      Requested   Resolved
+   > Markdig              1.1.2       1.1.2   
+   > YamlDotNet           16.3.0      16.3.0  
+
+(A) : Auto-referenced package.
+
+real	0m1.578s
+user	0m1.568s
+sys	0m0.361s
+Restore complete (0.5s)
+
+Build succeeded in 0.6s
+
+The following sources were used:
+   https://api.nuget.org/v3/index.json
+
+The given project `ObserverMagazine.Web` has no updates given the current sources.
+The given project `ObserverMagazine.Integration.Tests` has no updates given the current sources.
+The given project `ObserverMagazine.Web.Tests` has no updates given the current sources.
+The given project `ObserverMagazine.ContentProcessor` has no updates given the current sources.
+
+real	0m3.143s
+user	0m2.408s
+sys	0m0.462s
+Export complete: docs/llm/dump.txt
+  Total files: 114
+  Blog posts (front matter only): 36
+  Full content files: 76
+  Binary files skipped: 2
+
+real	0m0.100s
+user	0m0.040s
+sys	0m0.051s
 kushal@fedora:~/src/dotnet/observermagazine.github.io$ 
