@@ -23,7 +23,7 @@ public class ProductDataGeneratorTests
     public void Generate_DefaultCountIs20_000()
     {
         var products = ProductDataGenerator.Generate();
-        Assert.Equal(200_000, products.Count);
+        Assert.Equal(20_000, products.Count);
     }
 
     [Fact]

@@ -4,7 +4,7 @@ namespace ObserverMagazine.Web.Services;
 
 /// <summary>
 /// Generates deterministic sample product data for the showcase catalog.
-/// Uses a seeded Random so the same 2000 products are generated every time.
+/// Uses a seeded Random so the same 20_000 products are generated every time.
 /// </summary>
 public static class ProductDataGenerator
 {
@@ -60,7 +60,7 @@ public static class ProductDataGenerator
          3.99m, 149.99m, 0.02, 2.0, 0, 12)
     ];
 
-    public static List<CatalogProduct> Generate(int count = 200_000, int seed = 42)
+    public static List<CatalogProduct> Generate(int count = 20_000, int seed = 42)
     {
         var rng = new Random(seed);
         var products = new List<CatalogProduct>(count);
