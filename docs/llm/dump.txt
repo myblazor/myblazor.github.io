@@ -1,6 +1,6 @@
 ===============================================================================
 PROJECT EXPORT: observermagazine.github.io
-DATE: 2026-04-02 00:54:06 UTC
+DATE: 2026-04-02 00:57:00 UTC
 ===============================================================================
 
 ===============================================================================
@@ -6116,7 +6116,7 @@ public static class ProductDataGenerator
          3.99m, 149.99m, 0.02, 2.0, 0, 12)
     ];
 
-    public static List<CatalogProduct> Generate(int count = 2_000_000, int seed = 42)
+    public static List<CatalogProduct> Generate(int count = 200_000, int seed = 42)
     {
         var rng = new Random(seed);
         var products = new List<CatalogProduct>(count);
@@ -8130,10 +8130,10 @@ public class ProductDataGeneratorTests
     }
 
     [Fact]
-    public void Generate_DefaultCountIs2000()
+    public void Generate_DefaultCountIs20_000()
     {
         var products = ProductDataGenerator.Generate();
-        Assert.Equal(2000, products.Count);
+        Assert.Equal(200_000, products.Count);
     }
 
     [Fact]
