@@ -39940,7 +39940,7 @@ tags:
 
 ### Writing style and structure
 
-1. **Be exhaustive.** This is a long-form technical article. Do not summarize. Cover every frequency band (L1 C/A, L2C, L5), every signal structure, and every major constellation update as of 2026. The target length is 5,000–10,000+ words.
+1. **Be exhaustive.** This is a long-form technical article. Do not summarize. Cover every frequency band (L1 C/A, L2C, L5), every signal structure, and every major constellation update as of 2026. The target length is 50,000–100,000+ words.
 2. **Be patient.** Do not rush the ending. Treat the explanation of Japan’s QZSS "Pulsed" signal with as much detail as the US GPS section.
 3. **Target audience.** The reader is a .NET developer. Use analogies they understand (e.g., comparing satellite signal acquisition to service discovery or distributed clock drift in a database cluster).
 4. **Code examples are mandatory.** Include complete C# classes for NMEA parsing and coordinate math. Include a sample of how to handle high-precision `DateTimeOffset` and the `TimeSpan` nuances of GPS Leap Seconds.
