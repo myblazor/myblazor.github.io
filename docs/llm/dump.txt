@@ -1,6 +1,6 @@
 ===============================================================================
 PROJECT EXPORT: observermagazine.github.io
-DATE: 2026-04-04 01:33:21 UTC
+DATE: 2026-04-04 03:09:52 UTC
 ===============================================================================
 
 ===============================================================================
@@ -51,6 +51,7 @@ DIRECTORY TREE (all git-tracked files)
 │       ├── 2026-04-17-grand-unified-novel-timeline.md
 │       ├── 2026-04-18-global-gnss-and-atomic-synchronization.md
 │       ├── 2026-04-19-sql-server-connection-pooling-complete-guide.md
+│       ├── 2026-04-20-httpclientfactory-typed-clients-deep-dive.md
 │       ├── 2027-01-01-happy-new-year-2027.md
 │       └── 2099-01-01-draft-template.md
 ├── Directory.Build.props
@@ -159,7 +160,7 @@ DIRECTORY TREE (all git-tracked files)
     │   └── RssGenerator.cs
     └── requirements-audio.txt
 
-28 directories, 123 files
+28 directories, 124 files
 
 
 -------------------------------------------------------------------------------
@@ -942,6 +943,25 @@ tags:
   - best-practices
   - architecture
   - csharp
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-04-20-httpclientfactory-typed-clients-deep-dive.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "HttpClientFactory and Typed Clients: The Complete Guide to HTTP Connection Management in .NET"
+date: 2026-04-20
+author: observer-team
+summary: "Socket exhaustion is to HttpClient what connection pool exhaustion is to SQL Server — a silent killer that only reveals itself under load. This exhaustive guide covers the full lifecycle of HttpMessageHandler, DNS staleness, the IHttpClientFactory handler pool, and every pattern from Basic to Typed Clients, from .NET Framework 4.8 to .NET 10."
+tags:
+  - aspnet
+  - dotnet
+  - csharp
+  - deep-dive
+  - best-practices
+  - architecture
+  - guide
 ---
 
 
@@ -9968,8 +9988,8 @@ num2words>=0.5.14
 
 ===============================================================================
 EXPORT COMPLETED
-Total Files Exported: 117
-  Blog posts (front matter only): 39
+Total Files Exported: 118
+  Blog posts (front matter only): 40
   Full content files: 76
   Binary files skipped: 2
 Output File: docs/llm/dump.txt
