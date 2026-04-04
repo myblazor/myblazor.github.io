@@ -1,19 +1,19 @@
 kushal@fedora:~/src/dotnet/network-monitor/src/NetworkMonitor.Console$ cd /home/kushal/src/dotnet/observermagazine.github.io/; time dotnet format; time dotnet restore; dotnet run --project tools/ObserverMagazine.ContentProcessor -- --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot; time dotnet test; time dotnet list package; time dotnet list package --outdated; time bash export.sh;
 
-real	0m8.860s
-user	0m14.067s
-sys	0m1.161s
-Restore complete (0.6s)
+real	0m7.682s
+user	0m12.309s
+sys	0m0.940s
+Restore complete (0.5s)
 
-Build succeeded in 0.7s
+Build succeeded in 0.6s
 
-real	0m0.860s
-user	0m0.880s
-sys	0m0.170s
+real	0m0.735s
+user	0m0.784s
+sys	0m0.141s
 Content directory: content/blog
 Output directory:  src/ObserverMagazine.Web/wwwroot
 Authors directory: content/authors
-Publish before:    2026-04-03 02:41:10 UTC
+Publish before:    2026-04-04 01:02:42 UTC
 Found 3 author profile(s)
   Loaded author: observer-team (Observer Team)
   Loaded author: kushal (kushal)
@@ -33,7 +33,7 @@ Processing: 2026-03-21-aspnet-lifecycle-deep-dive.md
 Processing: 2099-01-01-draft-template.md
   SKIPPED: Draft post 'Your Post Title Here'
 Processing: 2027-01-01-happy-new-year-2027.md
-  SKIPPED: Future post 'Happy New Year 2027: A Look Back and a Look Ahead' (date: 2027-01-01, publish-before: 2026-04-03)
+  SKIPPED: Future post 'Happy New Year 2027: A Look Back and a Look Ahead' (date: 2027-01-01, publish-before: 2026-04-04)
 Processing: 2026-03-22-good-morning.md
   Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/good-morning.html (~1 min read)
 Processing: 2026-03-22-the-year-2025-in-review.md
@@ -65,66 +65,66 @@ Processing: 2026-04-01-single-responsibility-principle-complete-guide.md
 Processing: 2026-04-03-liskov-substitution.md
   Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/liskov-substitution.html (~42 min read)
 Processing: 2026-04-04-interface-segregation.md
-  SKIPPED: Future post 'The Interface Segregation Principle: A Complete Guide for .NET Developers' (date: 2026-04-04, publish-before: 2026-04-03)
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/interface-segregation.html (~34 min read)
 Processing: 2026-04-05-dependency-injection.md
-  SKIPPED: Future post 'The Dependency Inversion Principle: A Comprehensive Guide for .NET Developers' (date: 2026-04-05, publish-before: 2026-04-03)
+  SKIPPED: Future post 'The Dependency Inversion Principle: A Comprehensive Guide for .NET Developers' (date: 2026-04-05, publish-before: 2026-04-04)
 Processing: 2026-04-06-most-important-solid-principle.md
-  SKIPPED: Future post 'The Most Important SOLID Principle: Why Dependency Inversion Changes Everything' (date: 2026-04-06, publish-before: 2026-04-03)
+  SKIPPED: Future post 'The Most Important SOLID Principle: Why Dependency Inversion Changes Everything' (date: 2026-04-06, publish-before: 2026-04-04)
 Processing: 2026-04-07-2007-toyota-camry-complete-guide.md
-  SKIPPED: Future post 'Your 2007 Toyota Camry: The Complete Owner's Guide to Driving, Maintaining, and Eventually Replacing Your Kentucky-Built Sedan' (date: 2026-04-07, publish-before: 2026-04-03)
+  SKIPPED: Future post 'Your 2007 Toyota Camry: The Complete Owner's Guide to Driving, Maintaining, and Eventually Replacing Your Kentucky-Built Sedan' (date: 2026-04-07, publish-before: 2026-04-04)
 Processing: 2026-04-08-aspire-containers-self-hosting-guide.md
-  SKIPPED: Future post 'Aspire, Containers, and Self-Hosting: A Complete Guide to Deploying .NET Applications on Your Own Hardware' (date: 2026-04-08, publish-before: 2026-04-03)
+  SKIPPED: Future post 'Aspire, Containers, and Self-Hosting: A Complete Guide to Deploying .NET Applications on Your Own Hardware' (date: 2026-04-08, publish-before: 2026-04-04)
 Processing: 2026-04-09-dotnet-data-structures-complete-guide.md
-  SKIPPED: Future post 'Data Structures in .NET: A Comprehensive Guide from Primitives to Advanced Collections' (date: 2026-04-09, publish-before: 2026-04-03)
+  SKIPPED: Future post 'Data Structures in .NET: A Comprehensive Guide from Primitives to Advanced Collections' (date: 2026-04-09, publish-before: 2026-04-04)
 Processing: 2026-04-10-relational-databases-normalization-guide.md
-  SKIPPED: Future post 'Relational Databases and Normalization: A Complete Guide from Messy Spreadsheets to Sixth Normal Form' (date: 2026-04-10, publish-before: 2026-04-03)
+  SKIPPED: Future post 'Relational Databases and Normalization: A Complete Guide from Messy Spreadsheets to Sixth Normal Form' (date: 2026-04-10, publish-before: 2026-04-04)
 Processing: 2026-04-11-dotnet10-csharp14-complete-guide.md
-  SKIPPED: Future post 'The Complete .NET 10 and C# 14 Guide: Everything You Need to Know from Framework to Modern .NET' (date: 2026-04-11, publish-before: 2026-04-03)
+  SKIPPED: Future post 'The Complete .NET 10 and C# 14 Guide: Everything You Need to Know from Framework to Modern .NET' (date: 2026-04-11, publish-before: 2026-04-04)
 Processing: 2026-04-14-happy-new-year.md
-  SKIPPED: Future post 'Happy New Year!' (date: 2026-04-14, publish-before: 2026-04-03)
+  SKIPPED: Future post 'Happy New Year!' (date: 2026-04-14, publish-before: 2026-04-04)
 Processing: 2026-04-12-dfw-home-buying-complete-guide.md
-  SKIPPED: Future post 'The Complete Guide to Buying a Home in Dallas–Fort Worth: Single-Family, Multigenerational, Duplex, Barndominium, and Everything In Between' (date: 2026-04-12, publish-before: 2026-04-03)
+  SKIPPED: Future post 'The Complete Guide to Buying a Home in Dallas–Fort Worth: Single-Family, Multigenerational, Duplex, Barndominium, and Everything In Between' (date: 2026-04-12, publish-before: 2026-04-04)
 Processing: 2026-04-13-bikram-sambat-nepal-sambat-comprehensive-guide.md
-  SKIPPED: Future post 'Bikram Sambat and Nepal Sambat: A Comprehensive Guide to Nepal's Calendars, Their Mathematics, and What They Mean for Programmers' (date: 2026-04-13, publish-before: 2026-04-03)
+  SKIPPED: Future post 'Bikram Sambat and Nepal Sambat: A Comprehensive Guide to Nepal's Calendars, Their Mathematics, and What They Mean for Programmers' (date: 2026-04-13, publish-before: 2026-04-04)
 Processing: 2026-04-14-web-browser-technology-complete-guide.md
-  SKIPPED: Future post 'Web Browser Technology: The Complete Guide to Engines, Standards, and the Future of the Web Platform' (date: 2026-04-14, publish-before: 2026-04-03)
+  SKIPPED: Future post 'Web Browser Technology: The Complete Guide to Engines, Standards, and the Future of the Web Platform' (date: 2026-04-14, publish-before: 2026-04-04)
 Processing: 2026-04-15-blazor-not-found-page-postmortem.md
-  SKIPPED: Future post 'Post-Mortem: How We Broke Observer Magazine With a Missing @page Directive and What We Learned About Blazor's NotFoundPage in .NET 10' (date: 2026-04-15, publish-before: 2026-04-03)
+  SKIPPED: Future post 'Post-Mortem: How We Broke Observer Magazine With a Missing @page Directive and What We Learned About Blazor's NotFoundPage in .NET 10' (date: 2026-04-15, publish-before: 2026-04-04)
 Processing: 2026-04-16-global-money-machine-currency-payments-remittance-nepal.md
-  SKIPPED: Future post 'The Global Money Machine: Currency, Digital Payments, Remittance, and Nepal's Place in a Changing World' (date: 2026-04-16, publish-before: 2026-04-03)
+  SKIPPED: Future post 'The Global Money Machine: Currency, Digital Payments, Remittance, and Nepal's Place in a Changing World' (date: 2026-04-16, publish-before: 2026-04-04)
 Processing: 2026-04-17-grand-unified-novel-timeline.md
-  SKIPPED: Future post 'The Grand Human Story: A Unified Chronicle Drawn from the Nine Greatest Novels Ever Written' (date: 2026-04-17, publish-before: 2026-04-03)
+  SKIPPED: Future post 'The Grand Human Story: A Unified Chronicle Drawn from the Nine Greatest Novels Ever Written' (date: 2026-04-17, publish-before: 2026-04-04)
 Processing: 2026-04-18-global-gnss-and-atomic-synchronization.md
-  SKIPPED: Future post 'The Global Positioning Engine: Atomic Clocks, Trilateration, and the Invisible Infrastructure of Time' (date: 2026-04-18, publish-before: 2026-04-03)
-Wrote posts index: src/ObserverMagazine.Web/wwwroot/blog-data/posts-index.json (20 posts, 1 drafts skipped, 17 future posts skipped)
+  SKIPPED: Future post 'The Global Positioning Engine: Atomic Clocks, Trilateration, and the Invisible Infrastructure of Time' (date: 2026-04-18, publish-before: 2026-04-04)
+Wrote posts index: src/ObserverMagazine.Web/wwwroot/blog-data/posts-index.json (21 posts, 1 drafts skipped, 16 future posts skipped)
 Wrote RSS feed: src/ObserverMagazine.Web/wwwroot/feed.xml
 Content processing complete.
-Restore complete (0.6s)
+Restore complete (0.5s)
   ObserverMagazine.Integration.Tests net10.0 succeeded (0.4s) → tests/ObserverMagazine.Integration.Tests/bin/Debug/net10.0/ObserverMagazine.Integration.Tests.dll
 [xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.4)
-[xUnit.net 00:00:00.16]   Discovering: ObserverMagazine.Integration.Tests
-[xUnit.net 00:00:00.33]   Discovered:  ObserverMagazine.Integration.Tests
-[xUnit.net 00:00:00.50]   Starting:    ObserverMagazine.Integration.Tests
-[xUnit.net 00:00:00.76]   Finished:    ObserverMagazine.Integration.Tests (ID = 'a11f17fc47145796b425f2f6072a7236e3de3115aec6d32144ce1d1b834d5009')
-  ObserverMagazine.Integration.Tests test net10.0 succeeded (1.4s)
-  ObserverMagazine.Web net10.0 browser-wasm succeeded (3.9s) → src/ObserverMagazine.Web/bin/Debug/net10.0/wwwroot
+[xUnit.net 00:00:00.14]   Discovering: ObserverMagazine.Integration.Tests
+[xUnit.net 00:00:00.30]   Discovered:  ObserverMagazine.Integration.Tests
+[xUnit.net 00:00:00.45]   Starting:    ObserverMagazine.Integration.Tests
+[xUnit.net 00:00:00.69]   Finished:    ObserverMagazine.Integration.Tests (ID = 'a11f17fc47145796b425f2f6072a7236e3de3115aec6d32144ce1d1b834d5009')
+  ObserverMagazine.Integration.Tests test net10.0 succeeded (1.2s)
+  ObserverMagazine.Web net10.0 browser-wasm succeeded (3.4s) → src/ObserverMagazine.Web/bin/Debug/net10.0/wwwroot
   ObserverMagazine.Web.Tests net10.0 succeeded (0.3s) → tests/ObserverMagazine.Web.Tests/bin/Debug/net10.0/ObserverMagazine.Web.Tests.dll
 [xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.4)
-[xUnit.net 00:00:00.13]   Discovering: ObserverMagazine.Web.Tests
-[xUnit.net 00:00:00.31]   Discovered:  ObserverMagazine.Web.Tests
-[xUnit.net 00:00:00.47]   Starting:    ObserverMagazine.Web.Tests
-[xUnit.net 00:00:00.96]   Finished:    ObserverMagazine.Web.Tests (ID = '3bfa85c2f37e8d5c8068cb834c3ae337cb6e3533a98dd06391782e4f8f42ef98')
-  ObserverMagazine.Web.Tests test net10.0 succeeded (1.5s)
+[xUnit.net 00:00:00.14]   Discovering: ObserverMagazine.Web.Tests
+[xUnit.net 00:00:00.30]   Discovered:  ObserverMagazine.Web.Tests
+[xUnit.net 00:00:00.45]   Starting:    ObserverMagazine.Web.Tests
+[xUnit.net 00:00:00.90]   Finished:    ObserverMagazine.Web.Tests (ID = '3bfa85c2f37e8d5c8068cb834c3ae337cb6e3533a98dd06391782e4f8f42ef98')
+  ObserverMagazine.Web.Tests test net10.0 succeeded (1.4s)
 
-Test summary: total: 81, failed: 0, succeeded: 81, skipped: 0, duration: 5.4s
-Build succeeded in 6.5s
+Test summary: total: 81, failed: 0, succeeded: 81, skipped: 0, duration: 4.8s
+Build succeeded in 5.9s
 
-real	0m6.709s
-user	0m3.877s
-sys	0m0.522s
+real	0m6.043s
+user	0m3.311s
+sys	0m0.408s
 Restore complete (0.5s)
 
-Build succeeded in 0.7s
+Build succeeded in 0.6s
 Project 'ObserverMagazine.Web' has the following package references
    [net10.0]: 
    Top-level Package                                        Requested      Resolved
@@ -161,9 +161,9 @@ Project 'ObserverMagazine.ContentProcessor' has the following package references
 
 (A) : Auto-referenced package.
 
-real	0m1.788s
-user	0m1.700s
-sys	0m0.410s
+real	0m1.511s
+user	0m1.522s
+sys	0m0.299s
 Restore complete (0.5s)
 
 Build succeeded in 0.6s
@@ -176,16 +176,16 @@ The given project `ObserverMagazine.Integration.Tests` has no updates given the 
 The given project `ObserverMagazine.Web.Tests` has no updates given the current sources.
 The given project `ObserverMagazine.ContentProcessor` has no updates given the current sources.
 
-real	0m2.945s
-user	0m2.226s
-sys	0m0.468s
+real	0m2.715s
+user	0m2.162s
+sys	0m0.439s
 Export complete: docs/llm/dump.txt
   Total files: 116
   Blog posts (front matter only): 38
   Full content files: 76
   Binary files skipped: 2
 
-real	0m0.109s
-user	0m0.044s
-sys	0m0.051s
+real	0m0.106s
+user	0m0.050s
+sys	0m0.043s
 kushal@fedora:~/src/dotnet/observermagazine.github.io$ 
