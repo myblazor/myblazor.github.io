@@ -1,6 +1,6 @@
 ===============================================================================
 PROJECT EXPORT: observermagazine.github.io
-DATE: 2026-04-04 15:20:52 UTC
+DATE: 2026-04-04 15:42:53 UTC
 ===============================================================================
 
 ===============================================================================
@@ -53,6 +53,7 @@ DIRECTORY TREE (all git-tracked files)
 │       ├── 2026-04-19-sql-server-connection-pooling-complete-guide.md
 │       ├── 2026-04-20-httpclientfactory-typed-clients-deep-dive.md
 │       ├── 2026-04-21-threadpool-starvation-and-connection-pooling.md
+│       ├── 2026-04-22-git-comprehensive-guide.md
 │       ├── 2027-01-01-happy-new-year-2027.md
 │       └── 2099-01-01-draft-template.md
 ├── Directory.Build.props
@@ -161,7 +162,7 @@ DIRECTORY TREE (all git-tracked files)
     │   └── RssGenerator.cs
     └── requirements-audio.txt
 
-28 directories, 125 files
+28 directories, 126 files
 
 
 -------------------------------------------------------------------------------
@@ -982,6 +983,24 @@ tags:
   - best-practices
   - csharp
   - architecture
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-04-22-git-comprehensive-guide.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Git: The Complete Guide — Internals, Misconceptions, Branches, Commits, Tags, and Everything In Between"
+date: 2026-04-22
+author: observer-team
+summary: A deep, exhaustive guide to Git covering its history, object model, and every major concept — with special focus on the most common and damaging misconceptions about branches, commits, tags, merging, and rebasing. Includes a full worked scenario demonstrating exactly how diverged branches conflict, how 3-way merge works under the hood, and how to reason about Git's DAG.
+tags:
+  - git
+  - version-control
+  - deep-dive
+  - best-practices
+  - software-engineering
+  - devops
 ---
 
 
@@ -10008,8 +10027,8 @@ num2words>=0.5.14
 
 ===============================================================================
 EXPORT COMPLETED
-Total Files Exported: 119
-  Blog posts (front matter only): 41
+Total Files Exported: 120
+  Blog posts (front matter only): 42
   Full content files: 76
   Binary files skipped: 2
 Output File: docs/llm/dump.txt
