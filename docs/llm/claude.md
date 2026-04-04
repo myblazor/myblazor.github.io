@@ -40879,3 +40879,122 @@ After saving the file, I will
 simply commit this new markdown file and push it 
 for github actions to do its thing.
 
+Now I have enough context. Let me do targeted research on Git internals for factual accuracy before writing.I now have more than enough research. Let me write the comprehensive article.The article is ready. Save it as `content/blog/2026-04-22-git-comprehensive-guide.md` and commit — GitHub Actions will handle the rest.
+
+Here's a summary of what's in the article (it runs approximately 18,000–20,000 words across 20 parts):
+
+**Part 1** — The history: CVS, Subversion, BitKeeper, and why Linus wrote Git in 10 days in April 2005. Grounded in actual dates (Git 1.0 first commit was April 7, 2005) and the BitKeeper licensing dispute.
+
+**Part 2** — The object model from first principles: blobs, trees, commits, tag objects, references, and HEAD. How the `.git/objects/` directory works, why branches are 41-byte files, and how to inspect everything with plumbing commands.
+
+**Parts 3–5** — Deep dives on commits (snapshot vs. diff misconception, the index, the DAG), branches (the mutable-pointer mental model, detached HEAD, remote tracking branches), and tags (lightweight vs. annotated, the "not actually immutable" truth, push behavior).
+
+**Part 6** — Your specific scenario, worked through in full detail: why merging siblings conflicts, why GitHub says "Can't automatically merge," what happens after merging branch-1 first, and the critical point about silent semantic conflicts that Git's 3-way algorithm cannot detect.
+
+**Parts 7–11** — Merge strategies (ort, resolve, octopus, squash), rebasing (the golden rule, interactive rebase, `--onto`), cherry-pick, bisect, and the reflog.
+
+**Parts 12–20** — Workflows, configuration, `.gitignore`/`.gitattributes`, remote collaboration mechanics, common pitfalls, hooks, submodules, worktrees, SHA-1/SHA-256 transition, CI/CD patterns, .NET-specific guidance, and a final misconception debunking section.
+
+19
+11
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
