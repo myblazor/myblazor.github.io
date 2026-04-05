@@ -1,6 +1,6 @@
 ===============================================================================
 PROJECT EXPORT: observermagazine.github.io
-DATE: 2026-04-05 19:46:46 UTC
+DATE: 2026-04-05 20:14:50 UTC
 ===============================================================================
 
 ===============================================================================
@@ -54,6 +54,8 @@ DIRECTORY TREE (all git-tracked files)
 │       ├── 2026-04-20-httpclientfactory-typed-clients-deep-dive.md
 │       ├── 2026-04-21-threadpool-starvation-and-connection-pooling.md
 │       ├── 2026-04-22-git-comprehensive-guide.md
+│       ├── 2026-04-23-git-sha1-vs-sha256.md
+│       ├── 2026-04-24-clojure-beginners-guide.md
 │       ├── 2027-01-01-happy-new-year-2027.md
 │       └── 2099-01-01-draft-template.md
 ├── Directory.Build.props
@@ -162,7 +164,7 @@ DIRECTORY TREE (all git-tracked files)
     │   └── RssGenerator.cs
     └── requirements-audio.txt
 
-28 directories, 126 files
+28 directories, 128 files
 
 
 -------------------------------------------------------------------------------
@@ -1001,6 +1003,47 @@ tags:
   - best-practices
   - software-engineering
   - devops
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-04-23-git-sha1-vs-sha256.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Git's Hash Revolution: SHA-1, SHA-256, and the Long Road to a More Secure Version Control System"
+date: 2026-04-23
+author: observer-team
+summary: A comprehensive, deeply technical exploration of how Git's choice of SHA-1 in 2005 shaped its entire architecture, why the SHAttered attack of 2017 changed everything, and what the slow, careful transition to SHA-256 looks like from the inside — including full command walkthroughs, C# tooling examples, migration strategies, and the state of the ecosystem in 2026.
+tags:
+  - git
+  - security
+  - cryptography
+  - sha-256
+  - sha-1
+  - version-control
+  - deep-dive
+  - best-practices
+  - devops
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-04-24-clojure-beginners-guide.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Clojure: A Beginner's Guide for the C# ASP.NET Developer Who Has Been Doing Everything Wrong"
+date: 2026-04-24
+author: observer-team
+summary: "A comprehensive, from-the-ground-up introduction to Clojure for C# and ASP.NET web developers — covering what the JVM is, why Lisp matters, how to think in data instead of objects, immutability, concurrency, the REPL, functional programming, persistent data structures, macros, and how to unlearn the bad habits that years of enterprise OOP have cemented into your brain."
+tags:
+  - clojure
+  - functional-programming
+  - jvm
+  - deep-dive
+  - best-practices
+  - csharp
+  - software-engineering
+  - beginner
 ---
 
 
@@ -10027,8 +10070,8 @@ num2words>=0.5.14
 
 ===============================================================================
 EXPORT COMPLETED
-Total Files Exported: 120
-  Blog posts (front matter only): 42
+Total Files Exported: 122
+  Blog posts (front matter only): 44
   Full content files: 76
   Binary files skipped: 2
 Output File: docs/llm/dump.txt
