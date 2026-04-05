@@ -1,19 +1,19 @@
 kushal@fedora:~/src/dotnet/observermagazine.github.io$ cd /home/kushal/src/dotnet/observermagazine.github.io/; time dotnet format; time dotnet restore; dotnet run --project tools/ObserverMagazine.ContentProcessor -- --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot; time dotnet test; time dotnet list package; time dotnet list package --outdated; time bash export.sh;
 
-real	0m7.622s
-user	0m12.250s
-sys	0m0.971s
+real	0m7.278s
+user	0m11.689s
+sys	0m0.918s
 Restore complete (0.5s)
 
 Build succeeded in 0.6s
 
-real	0m0.800s
-user	0m0.843s
-sys	0m0.148s
+real	0m0.780s
+user	0m0.815s
+sys	0m0.144s
 Content directory: content/blog
 Output directory:  src/ObserverMagazine.Web/wwwroot
 Authors directory: content/authors
-Publish before:    2026-04-05 21:28:27 UTC
+Publish before:    2026-04-05 21:44:40 UTC
 Found 3 author profile(s)
   Loaded author: observer-team (Observer Team)
   Loaded author: kushal (kushal)
@@ -114,26 +114,26 @@ Content processing complete.
 Restore complete (0.5s)
   ObserverMagazine.Integration.Tests net10.0 succeeded (0.4s) → tests/ObserverMagazine.Integration.Tests/bin/Debug/net10.0/ObserverMagazine.Integration.Tests.dll
 [xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.4)
-[xUnit.net 00:00:00.15]   Discovering: ObserverMagazine.Integration.Tests
-[xUnit.net 00:00:00.32]   Discovered:  ObserverMagazine.Integration.Tests
-[xUnit.net 00:00:00.48]   Starting:    ObserverMagazine.Integration.Tests
-[xUnit.net 00:00:00.73]   Finished:    ObserverMagazine.Integration.Tests (ID = 'a11f17fc47145796b425f2f6072a7236e3de3115aec6d32144ce1d1b834d5009')
-  ObserverMagazine.Integration.Tests test net10.0 succeeded (1.3s)
+[xUnit.net 00:00:00.13]   Discovering: ObserverMagazine.Integration.Tests
+[xUnit.net 00:00:00.29]   Discovered:  ObserverMagazine.Integration.Tests
+[xUnit.net 00:00:00.44]   Starting:    ObserverMagazine.Integration.Tests
+[xUnit.net 00:00:00.67]   Finished:    ObserverMagazine.Integration.Tests (ID = 'a11f17fc47145796b425f2f6072a7236e3de3115aec6d32144ce1d1b834d5009')
+  ObserverMagazine.Integration.Tests test net10.0 succeeded (1.2s)
   ObserverMagazine.Web net10.0 browser-wasm succeeded (3.5s) → src/ObserverMagazine.Web/bin/Debug/net10.0/wwwroot
   ObserverMagazine.Web.Tests net10.0 succeeded (0.3s) → tests/ObserverMagazine.Web.Tests/bin/Debug/net10.0/ObserverMagazine.Web.Tests.dll
 [xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.4)
 [xUnit.net 00:00:00.13]   Discovering: ObserverMagazine.Web.Tests
-[xUnit.net 00:00:00.30]   Discovered:  ObserverMagazine.Web.Tests
-[xUnit.net 00:00:00.45]   Starting:    ObserverMagazine.Web.Tests
-[xUnit.net 00:00:00.90]   Finished:    ObserverMagazine.Web.Tests (ID = '3bfa85c2f37e8d5c8068cb834c3ae337cb6e3533a98dd06391782e4f8f42ef98')
+[xUnit.net 00:00:00.29]   Discovered:  ObserverMagazine.Web.Tests
+[xUnit.net 00:00:00.44]   Starting:    ObserverMagazine.Web.Tests
+[xUnit.net 00:00:00.89]   Finished:    ObserverMagazine.Web.Tests (ID = '3bfa85c2f37e8d5c8068cb834c3ae337cb6e3533a98dd06391782e4f8f42ef98')
   ObserverMagazine.Web.Tests test net10.0 succeeded (1.4s)
 
-Test summary: total: 81, failed: 0, succeeded: 81, skipped: 0, duration: 4.9s
-Build succeeded in 6.0s
+Test summary: total: 81, failed: 0, succeeded: 81, skipped: 0, duration: 4.8s
+Build succeeded in 5.9s
 
-real	0m6.162s
-user	0m3.286s
-sys	0m0.433s
+real	0m6.094s
+user	0m3.266s
+sys	0m0.416s
 Restore complete (0.5s)
 
 Build succeeded in 0.6s
@@ -173,9 +173,9 @@ Project 'ObserverMagazine.ContentProcessor' has the following package references
 
 (A) : Auto-referenced package.
 
-real	0m1.551s
-user	0m1.527s
-sys	0m0.326s
+real	0m1.580s
+user	0m1.537s
+sys	0m0.324s
 Restore complete (0.5s)
 
 Build succeeded in 0.6s
@@ -188,16 +188,16 @@ The given project `ObserverMagazine.Integration.Tests` has no updates given the 
 The given project `ObserverMagazine.Web.Tests` has no updates given the current sources.
 The given project `ObserverMagazine.ContentProcessor` has no updates given the current sources.
 
-real	0m2.606s
-user	0m1.962s
-sys	0m0.384s
+real	0m1.708s
+user	0m1.701s
+sys	0m0.323s
 Export complete: docs/llm/dump.txt
   Total files: 122
   Blog posts (front matter only): 44
   Full content files: 76
   Binary files skipped: 2
 
-real	0m0.103s
-user	0m0.041s
-sys	0m0.050s
+real	0m0.113s
+user	0m0.053s
+sys	0m0.044s
 kushal@fedora:~/src/dotnet/observermagazine.github.io$ 

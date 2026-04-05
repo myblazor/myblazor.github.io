@@ -15,7 +15,7 @@ The script:
     1. Reads each .md file from content-dir
     2. Strips YAML front matter and markdown formatting → plain text
     3. Generates speech audio with KittenTTS (nano model, CPU-only, ~25MB)
-    4. Converts WAV → MP3 at 64kbps mono via ffmpeg (keeps files small)
+    4. Converts WAV → MP3 at 24kbps mono via ffmpeg (keeps files small)
     5. Skips regeneration if the content hash matches the manifest
 """
 
@@ -276,7 +276,7 @@ def generate_audio(text: str, output_mp3: str, voice: str = "Bella", model_name:
         1. Chunk text into TTS-friendly segments
         2. Generate WAV audio for each chunk
         3. Concatenate chunks
-        4. Convert combined WAV → MP3 via ffmpeg at 64kbps mono
+        4. Convert combined WAV → MP3 via ffmpeg at 24kbps mono
 
     Returns True on success, False on failure.
     """
@@ -325,7 +325,7 @@ def generate_audio(text: str, output_mp3: str, voice: str = "Bella", model_name:
         sf.write(tmp_wav, combined, 24000)
 
     try:
-        # Convert to MP3 using ffmpeg: 64kbps mono (good quality for speech, small file)
+        # Convert to MP3 using ffmpeg: 24kbps mono (good quality for speech, small file)
         os.makedirs(os.path.dirname(output_mp3), exist_ok=True)
         result = subprocess.run(
             [
