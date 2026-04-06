@@ -1,8 +1,8 @@
 ---
-title: Welcome to Observer Magazine
+title: Welcome to My Blazor Magazine
 date: 2026-01-15
-author: observer-team
-summary: Our first post — introducing Observer Magazine and what we're building.
+author: myblazor-team
+summary: Our first post — introducing My Blazor Magazine and what we're building.
 tags:
   - announcement
   - introduction
@@ -10,7 +10,7 @@ tags:
 
 ## Hello, World!
 
-Welcome to **Observer Magazine**, a free and open-source web application built with Blazor WebAssembly on .NET 10.
+Welcome to **My Blazor Magazine**, a free and open-source web application built with Blazor WebAssembly on .NET 10.
 
 This project serves two purposes:
 

@@ -1,7 +1,7 @@
 ---
 title: "The Liskov Substitution Principle: A Complete Guide for .NET Developers"
 date: 2026-04-03
-author: observer-team
+author: myblazor-team
 summary: "A deep dive into the Liskov Substitution Principle — from Barbara Liskov's 1987 keynote to practical C# code, real-world violations, design-by-contract rules, and strategies for writing substitutable types in modern .NET."
 tags:
   - solid

@@ -1,7 +1,7 @@
 ---
 title: "PostgreSQL, Npgsql, and Open-Source IDEs: The Definitive Guide for .NET Developers on Linux"
 date: 2026-03-28
-author: observer-team
+author: myblazor-team
 summary: A comprehensive, leave-no-stone-unturned guide to PostgreSQL 17 and 18, Npgsql with Dapper and EF Core, terminal workflows, configuration, transactions, networking, sessions, debugging, Docker/Podman setup, and every free open-source IDE available — all from the perspective of a .NET C# ASP.NET web developer working on Linux.
 tags:
   - postgresql

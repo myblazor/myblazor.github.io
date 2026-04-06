@@ -1,7 +1,7 @@
 ---
 title: The Green Light Doesn't Mean Go — It Means You May Go
 date: 2026-03-23
-author: observer-team
+author: myblazor-team
 summary: A lesson learned at a red light that applies to every decision you will ever make in life, work, and everything in between.
 tags:
   - life-lessons
@@ -130,7 +130,7 @@ That is not hesitation. That is wisdom.
 
 ---
 
-*Published in Observer Magazine. We welcome your thoughts — reach out through the contact page or find us on GitHub at [ObserverMagazine](https://github.com/ObserverMagazine/observermagazine.github.io).*
+*Published in My Blazor Magazine. We welcome your thoughts — reach out through the contact page or find us on GitHub at [ObserverMagazine](https://github.com/ObserverMagazine/observermagazine.github.io).*
 
 
 

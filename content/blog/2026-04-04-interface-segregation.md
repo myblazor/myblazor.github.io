@@ -1,7 +1,7 @@
 ---
 title: "The Interface Segregation Principle: A Complete Guide for .NET Developers"
 date: 2026-04-04
-author: observer-team
+author: myblazor-team
 summary: "A deep dive into the Interface Segregation Principle (ISP), the 'I' in SOLID. Covers the origin story at Xerox, what ISP really means (and what it does not mean), how it manifests in the .NET Base Class Library, practical C# refactoring walkthroughs, its relationship to the other SOLID principles, and how to apply it in modern .NET 10 applications."
 tags:
   - solid
@@ -597,7 +597,7 @@ ISP is about behavioral contracts — methods and their dependencies. It does no
 
 ## Part 10: ISP in Blazor WebAssembly
 
-For those of us building Blazor WebAssembly applications — like this very blog you are reading on Observer Magazine — ISP has practical implications for how we structure our services.
+For those of us building Blazor WebAssembly applications — like this very blog you are reading on My Blazor Magazine — ISP has practical implications for how we structure our services.
 
 ### Service interfaces for Blazor components
 
@@ -705,7 +705,7 @@ When someone asks to add a method to an existing interface, ask yourself: "Will 
 
 ## Part 12: A Real-World Example from This Project
 
-Observer Magazine itself — the Blazor WebAssembly application you are reading right now — applies ISP throughout its service layer. Here is a concrete example.
+My Blazor Magazine itself — the Blazor WebAssembly application you are reading right now — applies ISP throughout its service layer. Here is a concrete example.
 
 The application has an analytics service for tracking page views and reactions. The original design might have been a single `IAnalyticsService`:
 

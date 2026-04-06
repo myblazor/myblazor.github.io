@@ -171,7 +171,7 @@ Console.WriteLine($"Wrote posts index: {indexPath} ({allPostMetadata.Count} post
 // Generate RSS feed with full post content
 var feedPath = Path.Combine(outputDir, "feed.xml");
 var rssXml = RssGenerator.Generate(
-    title: "Observer Magazine",
+    title: "My Blazor Magazine",
     description: "A free, open-source Blazor WebAssembly showcase on .NET 10",
     siteUrl: "https://observermagazine.github.io",
     posts: allPostMetadata,

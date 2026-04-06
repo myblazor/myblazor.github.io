@@ -1,7 +1,7 @@
 ---
 title: Hello, world!
 date: 2026-03-20
-author: observer-team
+author: myblazor-team
 summary: In which I say Hello to you
 tags:
   - introductions
@@ -9,7 +9,7 @@ tags:
 
 ## Hello, and welcome
 
-Welcome to Observer Magazine.
+Welcome to My Blazor Magazine.
 It is great to have you with me here.
 I hope you enjoy this website.
 

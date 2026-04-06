@@ -1,7 +1,7 @@
 ---
 title: "The Year 2025 in Review: A Comprehensive Retrospective"
 date: 2026-03-22
-author: observer-team
+author: myblazor-team
 summary: A thorough look back at the major political, economic, technological, scientific, and cultural events that defined the year 2025.
 tags:
   - retrospective

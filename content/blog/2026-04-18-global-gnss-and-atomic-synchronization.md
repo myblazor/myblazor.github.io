@@ -1,7 +1,7 @@
 ---
 title: "The Global Positioning Engine: Atomic Clocks, Trilateration, and the Invisible Infrastructure of Time"
 date: 2026-04-18
-author: observer-team
+author: myblazor-team
 summary: An exhaustive technical exploration of the world's GNSS constellations, the relativistic physics of atomic clocks, and the C# logic required to turn satellite signals into coordinates — covering GPS, GLONASS, Galileo, BeiDou, QZSS, and NavIC, plus financial market timing, trilateration math, NMEA parsing, and the mounting crisis of spoofing.
 tags:
   - gnss

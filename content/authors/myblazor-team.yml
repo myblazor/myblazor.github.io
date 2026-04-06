@@ -1,0 +1,6 @@
+name: My Blazor Team
+email: hello@myblazor.example
+bio: The team behind My Blazor Magazine — building free, open-source tools with .NET 10 and Blazor WebAssembly.
+avatar: images/authors/myblazor-team.png
+socials:
+  github: MyBlazor

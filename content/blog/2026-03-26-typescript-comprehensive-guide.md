@@ -1,7 +1,7 @@
 ---
 title: "TypeScript: The Comprehensive Guide — From JavaScript's Quirks to the Go Rewrite"
 date: 2026-03-26
-author: observer-team
+author: myblazor-team
 summary: Everything a programmer should know about TypeScript — its history, what JavaScript gets wrong, what TypeScript fixes (and does not fix), every major feature from version 1.0 through 6.0, the complete tsconfig.json reference, the tooling ecosystem, and the historic Go rewrite coming in TypeScript 7.
 tags:
   - typescript

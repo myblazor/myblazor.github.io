@@ -17,7 +17,7 @@ public class ContentProcessorTests
             ---
             title: Test Post
             date: 2026-03-01
-            author: observer-team
+            author: myblazor-team
             summary: A test summary
             tags:
               - test
@@ -35,7 +35,7 @@ public class ContentProcessorTests
 
         Assert.Equal("Test Post", frontMatter.Title);
         Assert.Equal(new DateTime(2026, 3, 1), frontMatter.Date);
-        Assert.Equal("observer-team", frontMatter.Author);
+        Assert.Equal("myblazor-team", frontMatter.Author);
         Assert.Equal("A test summary", frontMatter.Summary);
         Assert.Equal(["test", "integration"], frontMatter.Tags!);
         Assert.True(frontMatter.Featured);

@@ -1,7 +1,7 @@
 ---
 title: "The Global Money Machine: Currency, Digital Payments, Remittance, and Nepal's Place in a Changing World"
 date: 2026-04-16
-author: observer-team
+author: myblazor-team
 summary: An exhaustive exploration of how money moves around the world — from SWIFT messages and card networks to Brazil's Pix, India's UPI, China's digital yuan, Europe's Wero, and CBDCs — with a deep focus on remittance, foreign exchange, and what all of it means for Nepal.
 tags:
   - finance

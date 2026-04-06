@@ -1,7 +1,7 @@
 ---
 title: "The Complete Guide to SQL Server Connection Pooling in ASP.NET: From Framework 4.8 to .NET 10"
 date: 2026-04-19
-author: observer-team
+author: myblazor-team
 summary: An exhaustive, deeply practical guide to SQL Server connection pooling in ASP.NET applications — covering ADO.NET, Dapper, Entity Framework Core, every configuration knob, monitoring strategies, common failure modes, and when to raise or lower the default pool size of 100.
 tags:
   - aspnet
@@ -2678,4 +2678,4 @@ PostgreSQL has better support for connection multiplexing, and the `Npgsql` libr
 
 ---
 
-*Published by Observer Magazine. All code examples are provided for educational purposes and should be reviewed and adapted to your specific security and operational requirements before use in production systems.*
+*Published by My Blazor Magazine. All code examples are provided for educational purposes and should be reviewed and adapted to your specific security and operational requirements before use in production systems.*

@@ -1,7 +1,7 @@
 ---
 title: "Avalonia UI: The Complete Guide — From Hello World to Cross-Platform Mastery"
 date: 2026-03-24
-author: observer-team
+author: myblazor-team
 summary: Everything you need to know about Avalonia UI — what it is today, how to build desktop and mobile apps with AXAML and C#, why desktop and mobile need different layouts, what is coming in Avalonia 12, and the rendering revolution beyond. Packed with code examples.
 tags:
   - avalonia
@@ -1433,7 +1433,7 @@ This work has also been driving improvements back into Avalonia itself, with new
 
 ## Licensing and Costs
 
-This is an important topic for the Observer Magazine audience, since our philosophy is that everything should be free — no "free for non-commercial" caveats.
+This is an important topic for the My Blazor Magazine audience, since our philosophy is that everything should be free — no "free for non-commercial" caveats.
 
 **Avalonia UI core framework: MIT license, free forever.** You can build and ship commercial applications with it, no payment required, no restrictions. This is not changing.
 
@@ -1445,7 +1445,7 @@ For our project, we can use Avalonia without any cost, forever. The core framewo
 
 ## Setting Up an Avalonia Project with Modern .NET Practices
 
-Here is how to set up an Avalonia project using the same modern .NET practices we use in Observer Magazine — `.slnx` solution format, `Directory.Build.props`, and central package management:
+Here is how to set up an Avalonia project using the same modern .NET practices we use in My Blazor Magazine — `.slnx` solution format, `Directory.Build.props`, and central package management:
 
 ### global.json
 

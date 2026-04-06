@@ -1,7 +1,7 @@
 ---
 title: "The ASP.NET Request Lifecycle: Why Cold Starts Are Slow and How .NET 10 Changes Everything"
 date: 2026-03-21
-author: observer-team
+author: myblazor-team
 summary: A deep dive into the ASP.NET request lifecycle across both .NET Framework and modern .NET 10, explaining why cold starts have historically been slow, what you can do about it, and how Native AOT and other advances have fundamentally changed the equation.
 tags:
   - dotnet

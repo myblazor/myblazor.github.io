@@ -74,7 +74,7 @@ The CI pipeline (`.github/workflows/deploy.yml`) runs the content processor, the
 35
 40
 
-# Observer Magazine — Full Project Source
+# My Blazor Magazine — Full Project Source
 
 > Blazor WebAssembly on .NET 10, deployed to GitHub Pages  
 > Repository: https://github.com/ObserverMagazine/observermagazine.github.io  
@@ -300,7 +300,7 @@ src/ObserverMagazine.Web/wwwroot/feed.xml
 ## FILE: `README.md`
 
 ```markdown
-# Observer Magazine
+# My Blazor Magazine
 
 A free, open-source Blazor WebAssembly application deployed to GitHub Pages.
 
@@ -460,7 +460,7 @@ var host = builder.Build();
 
 // Log application startup
 var logger = host.Services.GetRequiredService<ILoggerFactory>().CreateLogger("App");
-logger.LogInformation("Observer Magazine started at {Time}", DateTime.UtcNow);
+logger.LogInformation("My Blazor Magazine started at {Time}", DateTime.UtcNow);
 
 var telemetry = host.Services.GetRequiredService<TelemetryService>();
 telemetry.TrackEvent("AppStarted");
@@ -501,7 +501,7 @@ await host.RunAsync();
         <FocusOnNavigate RouteData="routeData" Selector="h1" />
     </Found>
     <NotFound>
-        <PageTitle>Not Found — Observer Magazine</PageTitle>
+        <PageTitle>Not Found — My Blazor Magazine</PageTitle>
         <LayoutView Layout="typeof(MainLayout)">
             <div class="container text-center" style="padding: 4rem 1rem;">
                 <h1>404 — Page Not Found</h1>
@@ -550,7 +550,7 @@ await host.RunAsync();
 
     <footer class="site-footer">
         <div class="container">
-            <p>&copy; @DateTime.UtcNow.Year Observer Magazine &mdash; Built with
+            <p>&copy; @DateTime.UtcNow.Year My Blazor Magazine &mdash; Built with
                 <a href="https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor" target="_blank"
                    rel="noopener noreferrer">Blazor WebAssembly</a>
                 on .NET 10.
@@ -591,10 +591,10 @@ await host.RunAsync();
 ```razor
 @page "/"
 
-<PageTitle>Observer Magazine</PageTitle>
+<PageTitle>My Blazor Magazine</PageTitle>
 
 <section class="hero">
-    <h1>Observer Magazine</h1>
+    <h1>My Blazor Magazine</h1>
     <p class="lead">
         A free, open-source Blazor WebAssembly showcase built on .NET 10.
         Explore modern web patterns, read our blog, and use this as a starting point
@@ -643,7 +643,7 @@ await host.RunAsync();
 @inject IBlogService BlogService
 @inject ILogger<Blog> Logger
 
-<PageTitle>Blog — Observer Magazine</PageTitle>
+<PageTitle>Blog — My Blazor Magazine</PageTitle>
 
 <h1>Blog</h1>
 
@@ -715,7 +715,7 @@ else
 @inject ILogger<BlogPost> Logger
 @inject NavigationManager Nav
 
-<PageTitle>@(metadata?.Title ?? "Post") — Observer Magazine</PageTitle>
+<PageTitle>@(metadata?.Title ?? "Post") — My Blazor Magazine</PageTitle>
 
 @if (loading)
 {
@@ -799,7 +799,7 @@ else
 ```razor
 @page "/showcase"
 
-<PageTitle>Showcase — Observer Magazine</PageTitle>
+<PageTitle>Showcase — My Blazor Magazine</PageTitle>
 
 <h1>Web Technology Showcase</h1>
 <p>Demonstrating common web UI patterns built with Blazor WebAssembly.</p>
@@ -826,12 +826,12 @@ else
 ```razor
 @page "/about"
 
-<PageTitle>About — Observer Magazine</PageTitle>
+<PageTitle>About — My Blazor Magazine</PageTitle>
 
-<h1>About Observer Magazine</h1>
+<h1>About My Blazor Magazine</h1>
 
 <p>
-    Observer Magazine is a free, open-source sample project demonstrating how to build
+    My Blazor Magazine is a free, open-source sample project demonstrating how to build
     a modern static web application using <strong>Blazor WebAssembly</strong> on
     <strong>.NET 10</strong>.
 </p>
@@ -1272,16 +1272,16 @@ public sealed class TelemetryService(ILogger<TelemetryService> logger)
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Observer Magazine</title>
+    <title>My Blazor Magazine</title>
     <base href="/" />
-    <link rel="alternate" type="application/rss+xml" title="Observer Magazine RSS" href="/feed.xml" />
+    <link rel="alternate" type="application/rss+xml" title="My Blazor Magazine RSS" href="/feed.xml" />
     <link rel="stylesheet" href="css/app.css" />
     <link rel="stylesheet" href="ObserverMagazine.Web.styles.css" />
 </head>
 <body>
     <div id="app">
         <div style="display:flex;align-items:center;justify-content:center;height:100vh;">
-            <p>Loading Observer Magazine...</p>
+            <p>Loading My Blazor Magazine...</p>
         </div>
     </div>
 
@@ -1315,7 +1315,7 @@ public sealed class TelemetryService(ILogger<TelemetryService> logger)
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Observer Magazine</title>
+    <title>My Blazor Magazine</title>
     <script>
         // Single-page app redirect for GitHub Pages.
         // Stores the path and redirects to index.html which picks it up.
@@ -1856,7 +1856,7 @@ Console.WriteLine($"Wrote posts index: {indexPath} ({allPostMetadata.Count} post
 // Generate RSS feed
 var feedPath = Path.Combine(outputDir, "feed.xml");
 var rssXml = RssGenerator.Generate(
-    title: "Observer Magazine",
+    title: "My Blazor Magazine",
     description: "A free, open-source Blazor WebAssembly showcase on .NET 10",
     siteUrl: "https://observermagazine.github.io",
     posts: allPostMetadata
@@ -2025,10 +2025,10 @@ public static class RssGenerator
 
 ```markdown
 ---
-title: Welcome to Observer Magazine
+title: Welcome to My Blazor Magazine
 date: 2026-01-15
 author: Observer Team
-summary: Our first post — introducing Observer Magazine and what we're building.
+summary: Our first post — introducing My Blazor Magazine and what we're building.
 tags:
   - announcement
   - introduction
@@ -2036,7 +2036,7 @@ tags:
 
 ## Hello, World!
 
-Welcome to **Observer Magazine**, a free and open-source web application built with Blazor WebAssembly on .NET 10.
+Welcome to **My Blazor Magazine**, a free and open-source web application built with Blazor WebAssembly on .NET 10.
 
 This project serves two purposes:
 
@@ -2081,7 +2081,7 @@ Blazor WebAssembly (WASM) lets you build interactive web UIs using C# instead of
 
 ## Why We Chose It
 
-For Observer Magazine, Blazor WASM is ideal because:
+For My Blazor Magazine, Blazor WASM is ideal because:
 
 - **Static hosting** — The compiled output is plain HTML, CSS, JS, and WASM files. Perfect for GitHub Pages.
 - **Full .NET ecosystem** — We use the same language, tooling, and libraries as backend .NET developers.
@@ -3116,7 +3116,7 @@ tags:
 
 ## Hello, and welcome 
 
-Welcome to Observer Magazine. 
+Welcome to My Blazor Magazine. 
 It is great to have you with me here. 
 I hope you enjoy this website. 
 
@@ -3187,15 +3187,15 @@ Let me generate every changed file:Here's a summary of everything I changed and 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Observer Magazine</title>
+    <title>My Blazor Magazine</title>
     <base href="/" />
-    <link rel="alternate" type="application/rss+xml" title="Observer Magazine RSS" href="/feed.xml" />
+    <link rel="alternate" type="application/rss+xml" title="My Blazor Magazine RSS" href="/feed.xml" />
     <link rel="stylesheet" href="css/app.css" />
 </head>
 <body>
     <div id="app">
         <div style="display:flex;align-items:center;justify-content:center;height:100vh;">
-            <p>Loading Observer Magazine...</p>
+            <p>Loading My Blazor Magazine...</p>
         </div>
     </div>
 
@@ -3250,7 +3250,7 @@ var host = builder.Build();
 
 // Log application startup
 var logger = host.Services.GetRequiredService<ILoggerFactory>().CreateLogger("App");
-logger.LogInformation("Observer Magazine started at {Time}", DateTime.UtcNow);
+logger.LogInformation("My Blazor Magazine started at {Time}", DateTime.UtcNow);
 
 var telemetry = host.Services.GetRequiredService<TelemetryService>();
 telemetry.TrackEvent("AppStarted");
@@ -3399,10 +3399,10 @@ public sealed class AnalyticsService : IAnalyticsService
 @page "/"
 @inject IAnalyticsService Analytics
 
-<PageTitle>Observer Magazine</PageTitle>
+<PageTitle>My Blazor Magazine</PageTitle>
 
 <section class="hero">
-    <h1>Observer Magazine</h1>
+    <h1>My Blazor Magazine</h1>
     <p class="lead">
         A free, open-source Blazor WebAssembly showcase built on .NET 10.
         Explore modern web patterns, read our blog, and use this as a starting point
@@ -3459,7 +3459,7 @@ public sealed class AnalyticsService : IAnalyticsService
 @inject ILogger<Blog> Logger
 @inject IAnalyticsService Analytics
 
-<PageTitle>Blog — Observer Magazine</PageTitle>
+<PageTitle>Blog — My Blazor Magazine</PageTitle>
 
 <h1>Blog</h1>
 
@@ -3533,7 +3533,7 @@ else
 @inject NavigationManager Nav
 @inject IAnalyticsService Analytics
 
-<PageTitle>@(metadata?.Title ?? "Post") — Observer Magazine</PageTitle>
+<PageTitle>@(metadata?.Title ?? "Post") — My Blazor Magazine</PageTitle>
 
 @if (loading)
 {
@@ -3619,7 +3619,7 @@ else
 @page "/showcase"
 @inject IAnalyticsService Analytics
 
-<PageTitle>Showcase — Observer Magazine</PageTitle>
+<PageTitle>Showcase — My Blazor Magazine</PageTitle>
 
 <h1>Web Technology Showcase</h1>
 <p>Demonstrating common web UI patterns built with Blazor WebAssembly.</p>
@@ -3654,12 +3654,12 @@ else
 @page "/about"
 @inject IAnalyticsService Analytics
 
-<PageTitle>About — Observer Magazine</PageTitle>
+<PageTitle>About — My Blazor Magazine</PageTitle>
 
-<h1>About Observer Magazine</h1>
+<h1>About My Blazor Magazine</h1>
 
 <p>
-    Observer Magazine is a free, open-source sample project demonstrating how to build
+    My Blazor Magazine is a free, open-source sample project demonstrating how to build
     a modern static web application using <strong>Blazor WebAssembly</strong> on
     <strong>.NET 10</strong>.
 </p>
@@ -4496,7 +4496,7 @@ Console.WriteLine($"Wrote posts index: {indexPath} ({allPostMetadata.Count} post
 // Generate RSS feed with full post content
 var feedPath = Path.Combine(outputDir, "feed.xml");
 var rssXml = RssGenerator.Generate(
-    title: "Observer Magazine",
+    title: "My Blazor Magazine",
     description: "A free, open-source Blazor WebAssembly showcase on .NET 10",
     siteUrl: "https://observermagazine.github.io",
     posts: allPostMetadata,
@@ -5140,7 +5140,7 @@ Here are all the files that need to change or be created:
 
 ```js
 // =============================================================================
-// TTS Module for Observer Magazine
+// TTS Module for My Blazor Magazine
 // =============================================================================
 // Uses the Web Speech API (SpeechSynthesis) for text-to-speech.
 // Designed with an abstraction layer so KittenTTS (ONNX-based, on-device)
@@ -5625,7 +5625,7 @@ Processing: 2026-01-15-welcome-to-observer-magazine.md → welcome-to-observer-m
   Model loaded in 2.6s
   Processing 3 text chunk(s), voice=Bella
     Chunk 1/3: 487 chars
-Generating audio for text: Hello, World!. Welcome to Observer Magazine, a free and open-source web application built with Blazor WebAssembly on .NET ten.. This project serves two purposes: A learning resource for developers exploring Blazor WASM, modern .NET tooling (slnx, Directory.Build.props, central package management), and static site deployment on GitHub Pages. A starting point you can fork and adapt for your own projects — whether that's a personal blog, a product showcase, or a full SaaS application..
+Generating audio for text: Hello, World!. Welcome to My Blazor Magazine, a free and open-source web application built with Blazor WebAssembly on .NET ten.. This project serves two purposes: A learning resource for developers exploring Blazor WASM, modern .NET tooling (slnx, Directory.Build.props, central package management), and static site deployment on GitHub Pages. A starting point you can fork and adapt for your own projects — whether that's a personal blog, a product showcase, or a full SaaS application..
     Chunk 2/3: 463 chars
 Generating audio for text: What's Inside A responsive, accessible UI built entirely in C# and Razor A blog engine powered by Markdown files with YAML front matter An auto-generated RSS feed Showcases of common web patterns: responsive tables, master-detail flows Structured logging ready for OpenTelemetry A full test suite using xUnit v3 and bUnit. Philosophy. Every dependency we use is truly free — no "free for non-commercial" restrictions. We will never charge money for this software.
     Chunk 3/3: 72 chars
@@ -5709,10 +5709,10 @@ Explain everything in detail.
 here is the format 
 date is today 2026-03-21 
 ---
-title: Welcome to Observer Magazine
+title: Welcome to My Blazor Magazine
 date: 2026-01-15
 author: Observer Team
-summary: Our first post — introducing Observer Magazine and what we're building.
+summary: Our first post — introducing My Blazor Magazine and what we're building.
 tags:
   - announcement
   - introduction
@@ -5720,7 +5720,7 @@ tags:
 
 ## Hello, World!
 
-Welcome to **Observer Magazine**, a free and open-source web application built with Blazor WebAssembly on .NET 10.
+Welcome to **My Blazor Magazine**, a free and open-source web application built with Blazor WebAssembly on .NET 10.
 
 This project serves two purposes:
 
@@ -5850,16 +5850,16 @@ Separate from scheduled publishing: a `draft: true` field in front matter that t
 
 Currently `author` is just a string. You could expand this to a richer model:
 
-- A separate `content/authors/` directory with YAML files like `observer-team.yml`:
+- A separate `content/authors/` directory with YAML files like `myblazor-team.yml`:
   ```yaml
   name: Observer Team
   email: hello@observermagazine.example
-  bio: The team behind Observer Magazine.
+  bio: The team behind My Blazor Magazine.
   socials:
     github: ObserverMagazine
     twitter: observermag
     mastodon: "@observer@mastodon.social"
-  avatar: /images/authors/observer-team.jpg
+  avatar: /images/authors/myblazor-team.jpg
   ```
 - The content processor would resolve `author: Observer Team` → the full author record, and include it in the post metadata JSON.
 - The Blazor app could then render author bios, social links, email (with `mailto:`), and avatar images on each post.
@@ -6031,7 +6031,7 @@ please give me full files for all files that would need to change
 
 I've read the full dump.txt carefully. Let me now generate every changed and new file. This is a substantial set of changes across ~29 files, so I'll organize them by category.
 
-**Avatar image placement:** Put a placeholder image at `src/ObserverMagazine.Web/wwwroot/images/authors/observer-team.jpg` (you'll need to create the `images/authors/` directory). Any square-ish JPG or PNG works — 200×200px is plenty.
+**Avatar image placement:** Put a placeholder image at `src/ObserverMagazine.Web/wwwroot/images/authors/myblazor-team.jpg` (you'll need to create the `images/authors/` directory). Any square-ish JPG or PNG works — 200×200px is plenty.
 
 **PR preview answer:** GitHub Pages doesn't support deploy previews from pull requests natively. What we *can* do is build the full site in the PR check workflow and upload it as a downloadable artifact — reviewers download the zip, unzip, and open `index.html` locally. The PR check also runs all tests, so you know the code is sound before merging.
 
@@ -6039,7 +6039,7 @@ Here are all the files:
 
 ---
 
-## FILE: `content/authors/observer-team.yml` (NEW)To copy-paste a new author, duplicate this file as `content/authors/your-name.yml` and fill in the fields.
+## FILE: `content/authors/myblazor-team.yml` (NEW)To copy-paste a new author, duplicate this file as `content/authors/your-name.yml` and fill in the fields.
 
 Now here are all the remaining files. I'll give you each one in full:
 
@@ -6453,7 +6453,7 @@ Console.WriteLine($"Wrote posts index: {indexPath} ({allPostMetadata.Count} post
 // Generate RSS feed with full post content
 var feedPath = Path.Combine(outputDir, "feed.xml");
 var rssXml = RssGenerator.Generate(
-    title: "Observer Magazine",
+    title: "My Blazor Magazine",
     description: "A free, open-source Blazor WebAssembly showcase on .NET 10",
     siteUrl: "https://observermagazine.github.io",
     posts: allPostMetadata,
@@ -7122,7 +7122,7 @@ public sealed class AnalyticsService(HttpClient http, ILogger<AnalyticsService> 
 @inject ILogger<Blog> Logger
 @inject IAnalyticsService Analytics
 
-<PageTitle>Blog — Observer Magazine</PageTitle>
+<PageTitle>Blog — My Blazor Magazine</PageTitle>
 
 <h1>Blog</h1>
 
@@ -7208,7 +7208,7 @@ else
 @inject NavigationManager Nav
 @inject IAnalyticsService Analytics
 
-<PageTitle>@(metadata?.Title ?? "Post") — Observer Magazine</PageTitle>
+<PageTitle>@(metadata?.Title ?? "Post") — My Blazor Magazine</PageTitle>
 
 @if (loading)
 {
@@ -7327,10 +7327,10 @@ else
 @inject IAnalyticsService Analytics
 @inject IBlogService BlogService
 
-<PageTitle>Observer Magazine</PageTitle>
+<PageTitle>My Blazor Magazine</PageTitle>
 
 <section class="hero">
-    <h1>Observer Magazine</h1>
+    <h1>My Blazor Magazine</h1>
     <p class="lead">
         A free, open-source Blazor WebAssembly showcase built on .NET 10.
         Explore modern web patterns, read our blog, and use this as a starting point
@@ -7648,10 +7648,10 @@ a:hover { text-decoration: underline; }
 
 ```markdown
 ---
-title: Welcome to Observer Magazine
+title: Welcome to My Blazor Magazine
 date: 2026-01-15
-author: observer-team
-summary: Our first post — introducing Observer Magazine and what we're building.
+author: myblazor-team
+summary: Our first post — introducing My Blazor Magazine and what we're building.
 featured: true
 tags:
   - announcement
@@ -7660,7 +7660,7 @@ tags:
 
 ## Hello, World!
 
-Welcome to **Observer Magazine**, a free and open-source web application built with Blazor WebAssembly on .NET 10.
+Welcome to **My Blazor Magazine**, a free and open-source web application built with Blazor WebAssembly on .NET 10.
 
 This project serves two purposes:
 
@@ -7691,7 +7691,7 @@ Stay tuned for more posts!
 ---
 title: Getting Started with Blazor WebAssembly
 date: 2026-02-20
-author: observer-team
+author: myblazor-team
 summary: A quick tour of how Blazor WASM works and why it's a great choice for static sites.
 tags:
   - blazor
@@ -7705,7 +7705,7 @@ Blazor WebAssembly (WASM) lets you build interactive web UIs using C# instead of
 
 ## Why We Chose It
 
-For Observer Magazine, Blazor WASM is ideal because:
+For My Blazor Magazine, Blazor WASM is ideal because:
 
 - **Static hosting** — The compiled output is plain HTML, CSS, JS, and WASM files. Perfect for GitHub Pages.
 - **Full .NET ecosystem** — We use the same language, tooling, and libraries as backend .NET developers.
@@ -7736,7 +7736,7 @@ Check out the [Showcase](/showcase) to see responsive tables and master-detail f
 ---
 title: Responsive Design Patterns in Blazor
 date: 2026-03-10
-author: observer-team
+author: myblazor-team
 summary: How we built mobile-friendly data tables and master-detail layouts in pure Blazor.
 tags:
   - blazor
@@ -7784,7 +7784,7 @@ See all these patterns live on the [Showcase page](/showcase).
 ---
 title: Hello, world!
 date: 2026-03-20
-author: observer-team
+author: myblazor-team
 summary: In which I say Hello to you
 tags:
   - introductions
@@ -7792,7 +7792,7 @@ tags:
 
 ## Hello, and welcome
 
-Welcome to Observer Magazine.
+Welcome to My Blazor Magazine.
 It is great to have you with me here.
 I hope you enjoy this website.
 
@@ -7906,7 +7906,7 @@ public class BlogServiceTests
             Slug = "first-post",
             Title = "First Post",
             Date = new DateTime(2026, 1, 15),
-            Author = "observer-team",
+            Author = "myblazor-team",
             AuthorName = "Observer Team",
             Summary = "The first post",
             Tags = ["test", "intro"],
@@ -7918,7 +7918,7 @@ public class BlogServiceTests
             Slug = "second-post",
             Title = "Second Post",
             Date = new DateTime(2026, 2, 20),
-            Author = "observer-team",
+            Author = "myblazor-team",
             AuthorName = "Observer Team",
             Summary = "The second post",
             Tags = ["test"],
@@ -7930,10 +7930,10 @@ public class BlogServiceTests
     [
         new()
         {
-            Id = "observer-team",
+            Id = "myblazor-team",
             Name = "Observer Team",
             Email = "hello@observermagazine.example",
-            Bio = "The team behind Observer Magazine.",
+            Bio = "The team behind My Blazor Magazine.",
             Socials = new Dictionary<string, string> { ["github"] = "ObserverMagazine" }
         }
     ];
@@ -7975,7 +7975,7 @@ public class BlogServiceTests
         Assert.NotNull(featured);
         Assert.Equal("First Post", featured.Title);
         Assert.Equal(2, featured.ReadingTimeMinutes);
-        Assert.Equal("observer-team", featured.Author);
+        Assert.Equal("myblazor-team", featured.Author);
         Assert.Equal("Observer Team", featured.AuthorName);
     }
 
@@ -8044,7 +8044,7 @@ public class BlogServiceTests
         var httpClient = new HttpClient(handler) { BaseAddress = new Uri("https://test.local/") };
         var service = CreateService(httpClient);
 
-        var author = await service.GetAuthorAsync("observer-team");
+        var author = await service.GetAuthorAsync("myblazor-team");
 
         Assert.NotNull(author);
         Assert.Equal("hello@observermagazine.example", author.Email);
@@ -8117,7 +8117,7 @@ public class ContentProcessorTests
             ---
             title: Test Post
             date: 2026-03-01
-            author: observer-team
+            author: myblazor-team
             summary: A test summary
             tags:
               - test
@@ -8135,7 +8135,7 @@ public class ContentProcessorTests
 
         Assert.Equal("Test Post", frontMatter.Title);
         Assert.Equal(new DateTime(2026, 3, 1), frontMatter.Date);
-        Assert.Equal("observer-team", frontMatter.Author);
+        Assert.Equal("myblazor-team", frontMatter.Author);
         Assert.Equal("A test summary", frontMatter.Summary);
         Assert.Equal(["test", "integration"], frontMatter.Tags);
         Assert.True(frontMatter.Featured);
@@ -8498,16 +8498,16 @@ public sealed class RssPostEntry
 |---|---------|---------------|
 | 1 | **Scheduled publishing** | `Program.cs` (content processor) — `--publish-before` flag, defaults to `DateTime.UtcNow`, skips future posts. `deploy.yml` — added `schedule: cron: '0 6 * * *'` for daily rebuilds at 6 AM UTC. |
 | 2 | **Draft support** | `FrontMatterParser.cs` — added `Draft` field to `FrontMatter`. `Program.cs` — skips posts with `draft: true`. |
-| 3 | **Author profiles** | New `content/authors/observer-team.yml`. `FrontMatterParser.cs` — added `ParseAuthor()` and `AuthorProfile` class. `Program.cs` — reads `--authors-dir`, writes `authors.json`. New `AuthorProfile.cs` model in Blazor. `BlogService.cs` — loads and caches authors. New `AuthorCard.razor` + `.razor.css`. `BlogPost.razor` — shows author card. All 4 blog posts changed `author: Observer Team` → `author: observer-team`. |
+| 3 | **Author profiles** | New `content/authors/myblazor-team.yml`. `FrontMatterParser.cs` — added `ParseAuthor()` and `AuthorProfile` class. `Program.cs` — reads `--authors-dir`, writes `authors.json`. New `AuthorProfile.cs` model in Blazor. `BlogService.cs` — loads and caches authors. New `AuthorCard.razor` + `.razor.css`. `BlogPost.razor` — shows author card. All 4 blog posts changed `author: Observer Team` → `author: myblazor-team`. |
 | 4 | **Enhanced front matter** | `FrontMatterParser.cs` — added `Updated`, `Featured`, `Series`, `Image` fields. `PostIndexEntry` and `BlogPostMetadata` — added matching fields. `Blog.razor` — shows featured badge, reading time, series. `BlogPost.razor` — shows updated date. `Home.razor` — shows featured posts section. |
 | 5 | **Reading time** | `FrontMatterParser.cs` — added `CalculateReadingTime()`. `Program.cs` — calculates and includes in metadata. `Blog.razor` + `BlogPost.razor` — display "X min read". |
 | 6 | **Backend features** (resilient) | `IAnalyticsService` + `AnalyticsService` — added `IncrementViewAsync`, `GetViewCountAsync`, `AddReactionAsync`, `GetReactionsAsync`. New `Reactions.razor` + `.razor.css`. `BlogPost.razor` — shows view count + reactions. All gracefully return null/no-op if backend is down. |
 | 7 | **PR validation** | New `.github/workflows/pr-check.yml` — builds, runs content processor, runs tests, uploads built site as downloadable artifact for reviewers. |
 | 8 | **Fix broken Web.Tests** | `MasterDetailTests.cs` + `ResponsiveTableTests.cs` — migrated from `Bunit.TestContext` to `BunitContext` + `IDisposable`, `RenderComponent` → `Render`. `NoOpAnalyticsService.cs` — added new interface methods. |
 
-**Avatar image:** Create `src/ObserverMagazine.Web/wwwroot/images/authors/` and drop in `observer-team.jpg` (any square image, 200×200px is fine).
+**Avatar image:** Create `src/ObserverMagazine.Web/wwwroot/images/authors/` and drop in `myblazor-team.jpg` (any square image, 200×200px is fine).
 
-**To add a new author:** Copy `content/authors/observer-team.yml` → `content/authors/jane-doe.yml`, fill in the fields, then use `author: jane-doe` in your blog posts' front matter.
+**To add a new author:** Copy `content/authors/myblazor-team.yml` → `content/authors/jane-doe.yml`, fill in the fields, then use `author: jane-doe` in your blog posts' front matter.
 
 **Cloudflare Workers endpoints needed** (implement when ready — everything works without them):
 - `GET/POST /api/views/{slug}` — view counts
@@ -8772,9 +8772,9 @@ Added theme initialization script (runs before Blazor to prevent flash of wrong 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Observer Magazine</title>
+    <title>My Blazor Magazine</title>
     <base href="/" />
-    <link rel="alternate" type="application/rss+xml" title="Observer Magazine RSS" href="/feed.xml" />
+    <link rel="alternate" type="application/rss+xml" title="My Blazor Magazine RSS" href="/feed.xml" />
     <link rel="stylesheet" href="css/app.css" />
     <link rel="stylesheet" href="ObserverMagazine.Web.styles.css" />
 
@@ -8793,7 +8793,7 @@ Added theme initialization script (runs before Blazor to prevent flash of wrong 
 <body>
     <div id="app">
         <div style="display:flex;align-items:center;justify-content:center;height:100vh;">
-            <p>Loading Observer Magazine...</p>
+            <p>Loading My Blazor Magazine...</p>
         </div>
     </div>
 
@@ -8859,7 +8859,7 @@ Added repo link and RSS link in footer.
     <footer class="site-footer">
         <div class="container">
             <p>
-                &copy; @DateTime.UtcNow.Year Observer Magazine &mdash; Built with
+                &copy; @DateTime.UtcNow.Year My Blazor Magazine &mdash; Built with
                 <a href="https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor" target="_blank"
                    rel="noopener noreferrer">Blazor WebAssembly</a>
                 on .NET 10.
@@ -8962,7 +8962,7 @@ Added `/blog/tag/{Tag}` route for tag filtering. Tags are now clickable `<a>` li
 @inject IAnalyticsService Analytics
 @inject NavigationManager Nav
 
-<PageTitle>@(string.IsNullOrEmpty(Tag) ? "Blog" : $"Posts tagged \"{Tag}\"") — Observer Magazine</PageTitle>
+<PageTitle>@(string.IsNullOrEmpty(Tag) ? "Blog" : $"Posts tagged \"{Tag}\"") — My Blazor Magazine</PageTitle>
 
 <h1>Blog</h1>
 
@@ -9086,7 +9086,7 @@ Tags are now clickable `<a>` links that navigate to the tag filter page.
 @inject NavigationManager Nav
 @inject IAnalyticsService Analytics
 
-<PageTitle>@(metadata?.Title ?? "Post") — Observer Magazine</PageTitle>
+<PageTitle>@(metadata?.Title ?? "Post") — My Blazor Magazine</PageTitle>
 
 @if (loading)
 {
@@ -9203,10 +9203,10 @@ Tags on featured post cards are now clickable links.
 @inject IAnalyticsService Analytics
 @inject IBlogService BlogService
 
-<PageTitle>Observer Magazine</PageTitle>
+<PageTitle>My Blazor Magazine</PageTitle>
 
 <section class="hero">
-    <h1>Observer Magazine</h1>
+    <h1>My Blazor Magazine</h1>
     <p class="lead">
         A free, open-source Blazor WebAssembly showcase built on .NET 10.
         Explore modern web patterns, read our blog, and use this as a starting point
@@ -9308,7 +9308,7 @@ Updated descriptions to reflect CRUD capability.
 @page "/showcase"
 @inject IAnalyticsService Analytics
 
-<PageTitle>Showcase — Observer Magazine</PageTitle>
+<PageTitle>Showcase — My Blazor Magazine</PageTitle>
 
 <h1>Web Technology Showcase</h1>
 <p>Demonstrating common web UI patterns built with Blazor WebAssembly.</p>
@@ -10702,10 +10702,10 @@ rm src/ObserverMagazine.Web/Routes.razor
 15
 I still have multiple issues. 
 1. The Listen to this post still does not work on chrome on Android. It does work on Chrome on Fedora Linux though. 
-2. Is it `author: observer-team`. 
+2. Is it `author: myblazor-team`. 
 I don't see it link anywhere. 
 I added an image to 
-`/home/kushal/src/dotnet/observermagazine.github.io/src/ObserverMagazine.Web/wwwroot/images/authors/observer-team.png`. 
+`/home/kushal/src/dotnet/observermagazine.github.io/src/ObserverMagazine.Web/wwwroot/images/authors/myblazor-team.png`. 
 Is there a yaml page missing?
 Please make sure dump is not missing any essential files. 
 Also, I will need to add my personal name at some point. 
@@ -10728,7 +10728,7 @@ I've read the entire dump.txt carefully. Here's my analysis and the complete set
 
 **Issues found:**
 
-1. **Missing `content/authors/observer-team.yml`** — The ContentProcessor looks for author YAML files but none exist. This is why author cards don't render with avatar/bio.
+1. **Missing `content/authors/myblazor-team.yml`** — The ContentProcessor looks for author YAML files but none exist. This is why author cards don't render with avatar/bio.
 2. **TTS Android Chrome** — The `@onerror` Blazor event binding is unreliable on mobile; need JS interop fallback and the `playsinline` attribute.
 3. **No syntax highlighting** — Blog code blocks render as plain text.
 4. **CSS not scoped enough** — Blog, Home, About, Showcase styles are all in global `app.css`.
@@ -10740,13 +10740,13 @@ Here are all the files. Every file shown is **complete** — copy-paste ready.
 
 ---
 
-## 1. `content/authors/observer-team.yml` (NEW)
+## 1. `content/authors/myblazor-team.yml` (NEW)
 
 ```yaml
 name: Observer Team
 email: hello@observermagazine.example
-bio: The team behind Observer Magazine — building free, open-source tools with .NET 10 and Blazor WebAssembly.
-avatar: images/authors/observer-team.png
+bio: The team behind My Blazor Magazine — building free, open-source tools with .NET 10 and Blazor WebAssembly.
+avatar: images/authors/myblazor-team.png
 socials:
   github: ObserverMagazine
 ```
@@ -10760,7 +10760,7 @@ socials:
 title: "Your Post Title Here"
 date: 2099-01-01
 draft: true
-author: observer-team
+author: myblazor-team
 summary: A short one- or two-sentence summary that appears on the blog index page.
 featured: false
 tags:
@@ -10817,7 +10817,7 @@ app.Run();
 ---
 title: "Happy New Year 2027: A Look Back and a Look Ahead"
 date: 2027-01-01
-author: observer-team
+author: myblazor-team
 summary: Ringing in 2027 with a comprehensive retrospective on what happened in technology, open source, and web development during 2026, plus our predictions and hopes for the year ahead.
 featured: true
 tags:
@@ -10831,7 +10831,7 @@ tags:
 
 ## Happy New Year!
 
-Welcome to 2027. As the calendar turns, we at Observer Magazine want to take a moment to reflect on an extraordinary year in technology, share what we have learned, and look ahead to what the coming twelve months might bring. Whether you spent 2026 shipping production code, learning a new framework, contributing to open source, or all of the above, this post is for you.
+Welcome to 2027. As the calendar turns, we at My Blazor Magazine want to take a moment to reflect on an extraordinary year in technology, share what we have learned, and look ahead to what the coming twelve months might bring. Whether you spent 2026 shipping production code, learning a new framework, contributing to open source, or all of the above, this post is for you.
 
 ## Part 1: The State of .NET in 2026
 
@@ -10863,7 +10863,7 @@ Beyond .NET, the web development ecosystem continued its rapid evolution in 2026
 
 ### The Rise of Edge Computing
 
-Edge computing moved from buzzword to production reality. Frameworks and platforms made it straightforward to run server-side logic at the edge — close to users rather than in a centralized data center. For static sites like Observer Magazine, edge computing manifested primarily in edge-side includes, smart caching, and serverless functions that ran within milliseconds of the end user.
+Edge computing moved from buzzword to production reality. Frameworks and platforms made it straightforward to run server-side logic at the edge — close to users rather than in a centralized data center. For static sites like My Blazor Magazine, edge computing manifested primarily in edge-side includes, smart caching, and serverless functions that ran within milliseconds of the end user.
 
 ### WebAssembly Beyond the Browser
 
@@ -10897,9 +10897,9 @@ The ongoing debate about "open source" versus "source available" licensing reach
 
 Software supply chain security was arguably the technology story of 2026. New standards for package signing, provenance attestation, and reproducible builds moved from theoretical to practical. NuGet, npm, and PyPI all rolled out mandatory package signing for new uploads, and tools for verifying the entire dependency chain of an application became standard parts of CI/CD pipelines.
 
-## Part 4: What We Built at Observer Magazine
+## Part 4: What We Built at My Blazor Magazine
 
-At Observer Magazine, 2026 was a year of steady improvement. We launched with a simple Blazor WebAssembly blog and a couple of UI showcases, and over the course of the year we added features that made the site more useful as both a learning resource and a starting point for new projects.
+At My Blazor Magazine, 2026 was a year of steady improvement. We launched with a simple Blazor WebAssembly blog and a couple of UI showcases, and over the course of the year we added features that made the site more useful as both a learning resource and a starting point for new projects.
 
 ### The Blog Engine Matured
 
@@ -10943,7 +10943,7 @@ We predict that 2027 will be the year when the vast majority of actively-maintai
 
 ## Part 6: Our Resolutions for 2027
 
-As a project, Observer Magazine has its own resolutions for the new year.
+As a project, My Blazor Magazine has its own resolutions for the new year.
 
 ### More Tutorials and Deep Dives
 
@@ -10951,7 +10951,7 @@ We plan to publish more technical deep-dives — the kind of thorough, nuanced a
 
 ### Community Contributions
 
-We want to make it easier for others to contribute to Observer Magazine. This means better documentation, contribution guidelines, issue templates, and a welcoming community. If you have ever wanted to write a technical article but did not know where to publish it, we want Observer Magazine to be your home.
+We want to make it easier for others to contribute to My Blazor Magazine. This means better documentation, contribution guidelines, issue templates, and a welcoming community. If you have ever wanted to write a technical article but did not know where to publish it, we want My Blazor Magazine to be your home.
 
 ### Internationalization
 
@@ -10969,7 +10969,7 @@ We plan to add more showcase patterns throughout the year: form validation with 
 
 The year 2026 was remarkable. The technology industry continued to evolve at a breathtaking pace, but the direction of that evolution — toward performance, accessibility, sustainability, and developer experience — gives us genuine optimism. The tools we have today are more powerful, more accessible, and more free (in every sense of the word) than at any point in the history of software development.
 
-Thank you for reading Observer Magazine. Thank you for being part of this community. And from all of us to all of you: Happy New Year 2027. May your builds be green, your deployments be smooth, and your code be clean.
+Thank you for reading My Blazor Magazine. Thank you for being part of this community. And from all of us to all of you: Happy New Year 2027. May your builds be green, your deployments be smooth, and your code be clean.
 
 Here is to another year of building great things together.
 ```
@@ -11167,7 +11167,7 @@ public static class ProductDataGenerator
 @inject IJSRuntime JS
 @inject NavigationManager Nav
 
-<PageTitle>Showcase — Observer Magazine</PageTitle>
+<PageTitle>Showcase — My Blazor Magazine</PageTitle>
 
 <h1>Product Catalog Showcase</h1>
 <p>
@@ -12491,9 +12491,9 @@ else
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-    <title>Observer Magazine</title>
+    <title>My Blazor Magazine</title>
     <base href="/" />
-    <link rel="alternate" type="application/rss+xml" title="Observer Magazine RSS" href="/feed.xml" />
+    <link rel="alternate" type="application/rss+xml" title="My Blazor Magazine RSS" href="/feed.xml" />
     <link rel="stylesheet" href="css/app.css" />
     <link rel="stylesheet" href="ObserverMagazine.Web.styles.css" />
 
@@ -12517,7 +12517,7 @@ else
 <body>
     <div id="app">
         <div style="display:flex;align-items:center;justify-content:center;height:100vh;">
-            <p>Loading Observer Magazine...</p>
+            <p>Loading My Blazor Magazine...</p>
         </div>
     </div>
 
@@ -12602,7 +12602,7 @@ else
 @inject IAnalyticsService Analytics
 @inject IJSRuntime JS
 
-<PageTitle>@(metadata?.Title ?? "Post") — Observer Magazine</PageTitle>
+<PageTitle>@(metadata?.Title ?? "Post") — My Blazor Magazine</PageTitle>
 
 @if (loading)
 {
@@ -13534,7 +13534,7 @@ These still compile and pass because the old components still exist in the proje
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Observer Magazine</title>
+    <title>My Blazor Magazine</title>
     <script>
         // Single-page app redirect for GitHub Pages.
         // Converts the path to a query string so the SPA router can pick it up.
@@ -13558,7 +13558,7 @@ These still compile and pass because the old components still exist in the proje
 ## Summary of All Changes
 
 **New files (10):**
-1. `content/authors/observer-team.yml` — Missing author profile
+1. `content/authors/myblazor-team.yml` — Missing author profile
 2. `content/blog/2099-01-01-draft-template.md` — Draft template
 3. `content/blog/2027-01-01-happy-new-year-2027.md` — Future-dated post
 4. `src/ObserverMagazine.Web/Models/CatalogProduct.cs` — Rich product model
@@ -13582,7 +13582,7 @@ These still compile and pass because the old components still exist in the proje
 - `src/ObserverMagazine.Web/Components/MasterDetail.razor` + `.css`
 - `src/ObserverMagazine.Web/wwwroot/sample-data/products.json`
 
-**Adding your personal name:** Create a new file like `content/authors/your-id.yml` following the same format as `observer-team.yml`, then reference `author: your-id` in your blog post front matter. The ContentProcessor handles the rest automatically.
+**Adding your personal name:** Create a new file like `content/authors/your-id.yml` following the same format as `myblazor-team.yml`, then reference `author: your-id` in your blog post front matter. The ContentProcessor handles the rest automatically.
 
 12
 17
@@ -14416,7 +14416,7 @@ Output directory:  src/ObserverMagazine.Web/wwwroot
 Authors directory: content/authors
 Publish before:    2026-03-22 12:58:49 UTC
 Found 2 author profile(s)
-  Loaded author: observer-team (Observer Team)
+  Loaded author: myblazor-team (Observer Team)
   Loaded author: kushal (kushal)
 Wrote authors index: src/ObserverMagazine.Web/wwwroot/blog-data/authors.json (2 authors)
 Found 7 markdown files
@@ -15219,7 +15219,7 @@ Output directory:  src/ObserverMagazine.Web/wwwroot
 Authors directory: content/authors
 Publish before:    2026-03-22 14:32:38 UTC
 Found 2 author profile(s)
-  Loaded author: observer-team (Observer Team)
+  Loaded author: myblazor-team (Observer Team)
   Loaded author: kushal (kushal)
 Wrote authors index: src/ObserverMagazine.Web/wwwroot/blog-data/authors.json (2 authors)
 Found 7 markdown files
@@ -15293,7 +15293,7 @@ I've read the entire dump.txt line by line. Here are all the issues I found:
 
 **2. `content/authors/kushal.yml`** — The `github: 9034725985` value is unquoted, so YAML parsers will interpret it as an integer. YamlDotNet will fail to deserialize it into `Dictionary<string, string>`. It needs quotes.
 
-**3. `content/blog/2026-03-21-aspnet-lifecycle-deep-dive.md`** — `author: Observer Team` (with a space) doesn't match any author file. The file is `observer-team.yml` so the author ID should be `observer-team` (with a hyphen). This is why the output shows `WARNING: No author profile found for 'Observer Team'`.
+**3. `content/blog/2026-03-21-aspnet-lifecycle-deep-dive.md`** — `author: Observer Team` (with a space) doesn't match any author file. The file is `myblazor-team.yml` so the author ID should be `myblazor-team` (with a hyphen). This is why the output shows `WARNING: No author profile found for 'Observer Team'`.
 
 **4. `ShowcaseDetail.razor`** — Uses `StorageKey = "observer-catalog-v2"` but `Showcase.razor` uses `StorageKey = "observer-catalog-products"`. They're reading from different localStorage keys, so the detail page can't find products saved by the list page.
 
@@ -15301,7 +15301,7 @@ Here are all the fixes:
 
 ---
 
-**FILE 1: `src/ObserverMagazine.Web/Services/ProductDataGenerator.cs`** — Fix the `Statuses` array:**FILE 2: `content/authors/kushal.yml`** — Quote the numeric GitHub handle:**FILE 3: `content/blog/2026-03-21-aspnet-lifecycle-deep-dive.md`** — Only the front matter needs to change (`author: Observer Team` → `author: observer-team`). Here's the front matter section (the body is unchanged):**FILE 4: `src/ObserverMagazine.Web/Pages/ShowcaseDetail.razor`** — Two fixes: (a) `StorageKey` changed from `"observer-catalog-v2"` to `"observer-catalog-products"` to match `Showcase.razor`, and (b) the Status `<select>` dropdown now has the correct options matching the generator and filter:**FILE 5: `src/ObserverMagazine.Web/Pages/ShowcaseDetail.razor.css`** — Update badge CSS to match new statuses:---
+**FILE 1: `src/ObserverMagazine.Web/Services/ProductDataGenerator.cs`** — Fix the `Statuses` array:**FILE 2: `content/authors/kushal.yml`** — Quote the numeric GitHub handle:**FILE 3: `content/blog/2026-03-21-aspnet-lifecycle-deep-dive.md`** — Only the front matter needs to change (`author: Observer Team` → `author: myblazor-team`). Here's the front matter section (the body is unchanged):**FILE 4: `src/ObserverMagazine.Web/Pages/ShowcaseDetail.razor`** — Two fixes: (a) `StorageKey` changed from `"observer-catalog-v2"` to `"observer-catalog-products"` to match `Showcase.razor`, and (b) the Status `<select>` dropdown now has the correct options matching the generator and filter:**FILE 5: `src/ObserverMagazine.Web/Pages/ShowcaseDetail.razor.css`** — Update badge CSS to match new statuses:---
 
 **Summary of all issues found in the full dump.txt review:**
 
@@ -15309,13 +15309,13 @@ Here are all the fixes:
 |---|---|---|---|
 | 1 | `ProductDataGenerator.cs` | `Statuses` array contains `"Discontinued"` which doesn't match the Showcase UI filter options or the test's valid set | Changed to `["Active", "Active", "Active", "Active", "Draft", "Out of Stock"]` |
 | 2 | `content/authors/kushal.yml` | `github: 9034725985` is unquoted — YAML treats it as an integer, but `Dictionary<string, string>` expects a string | Quoted it: `github: "9034725985"` |
-| 3 | `content/blog/2026-03-21-aspnet-lifecycle-deep-dive.md` | `author: Observer Team` (space) doesn't match filename `observer-team.yml` (hyphen) — causes the `WARNING: No author profile found` in the build output | Changed to `author: observer-team` |
+| 3 | `content/blog/2026-03-21-aspnet-lifecycle-deep-dive.md` | `author: Observer Team` (space) doesn't match filename `myblazor-team.yml` (hyphen) — causes the `WARNING: No author profile found` in the build output | Changed to `author: myblazor-team` |
 | 4 | `ShowcaseDetail.razor` | `StorageKey = "observer-catalog-v2"` doesn't match `Showcase.razor`'s `"observer-catalog-products"` — detail page can't find products saved by the list page | Changed to `"observer-catalog-products"` |
 | 5 | `ShowcaseDetail.razor` | Status `<select>` had `"Discontinued"` option instead of `"Archived"` and `"Out of Stock"` — mismatch with generator and filter | Updated to `Active / Draft / Archived / Out of Stock` |
 | 6 | `ShowcaseDetail.razor.css` | Had `.sd-badge-discontinued` class but no classes for new statuses | Replaced with `.sd-badge-archived` and `.sd-badge-out-of-stock` |
 | 7 | `ShowcaseDetail.razor` | Badge CSS class used `product.Status.ToLowerInvariant()` which turns "Out of Stock" into "out of stock" (with spaces) — invalid CSS class | Changed to `.Replace(" ", "-")` so it becomes `sd-badge-out-of-stock` |
 
-Everything else in the dump looked correct — the YAML syntax on `observer-team.yml` is fine, the `.slnx` structure is valid, the `Directory.Build.props` and `Directory.Packages.props` are consistent, the CI workflows are correct, the `_Imports.razor` has all needed usings, and the `ShowcaseTests.cs` (which we fixed last round) is now correct with the valid status set being a superset of what the generator produces.
+Everything else in the dump looked correct — the YAML syntax on `myblazor-team.yml` is fine, the `.slnx` structure is valid, the `Directory.Build.props` and `Directory.Packages.props` are consistent, the CI workflows are correct, the `_Imports.razor` has all needed usings, and the `ShowcaseTests.cs` (which we fixed last round) is now correct with the valid status set being a superset of what the generator produces.
 
 72
 28
@@ -15430,7 +15430,7 @@ I mean ALL the social media that you know of and can link
 ALL of them 
 ok hope you understand all of them 
 and then, 
-write a long and comprehensive article authored by observer-team 
+write a long and comprehensive article authored by myblazor-team 
 about the year 2025 
 include ALL the details about every single newsworthy event of the year 
 politics, economics, technology, everything 
@@ -16825,9 +16825,9 @@ Switches from CDN to local LibMan-restored files. Strips the disabled hljs theme
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-    <title>Observer Magazine</title>
+    <title>My Blazor Magazine</title>
     <base href="/" />
-    <link rel="alternate" type="application/rss+xml" title="Observer Magazine RSS" href="/feed.xml" />
+    <link rel="alternate" type="application/rss+xml" title="My Blazor Magazine RSS" href="/feed.xml" />
     <link rel="stylesheet" href="css/app.css" />
     <link rel="stylesheet" href="ObserverMagazine.Web.styles.css" />
 
@@ -16849,7 +16849,7 @@ Switches from CDN to local LibMan-restored files. Strips the disabled hljs theme
 <body>
     <div id="app">
         <div style="display:flex;align-items:center;justify-content:center;height:100vh;">
-            <p>Loading Observer Magazine...</p>
+            <p>Loading My Blazor Magazine...</p>
         </div>
     </div>
 
@@ -17351,7 +17351,7 @@ socials:
 ---
 title: "The Year 2025 in Review: A Comprehensive Retrospective"
 date: 2026-03-22
-author: observer-team
+author: myblazor-team
 summary: A thorough look back at the major political, economic, technological, scientific, and cultural events that defined the year 2025.
 featured: true
 tags:
@@ -17565,7 +17565,7 @@ What is clear is that 2025 was not a year of quiet incremental change. It was a 
 ---
 title: "From .NET Framework 4.7 to .NET 10: A Practical Guide for Enterprise Developers"
 date: 2026-03-22
-author: observer-team
+author: myblazor-team
 summary: A comprehensive guide for enterprise .NET developers who have been working with .NET Framework 4.7 and want to understand what has changed, why it matters, and how to modernize — written for people who code at work and do not tinker with software at home.
 featured: true
 tags:
@@ -17635,7 +17635,7 @@ The performance difference is staggering. Benchmarks consistently show ASP.NET C
 
 One of the most significant new capabilities in modern .NET is Blazor, which lets you build interactive web UIs using C# instead of JavaScript. There are multiple hosting models:
 
-**Blazor WebAssembly** compiles your .NET code to WebAssembly and runs it entirely in the browser. No server needed at runtime. The compiled output is static files (HTML, CSS, JS, WASM) that can be hosted anywhere, including free hosting like GitHub Pages. This is what Observer Magazine itself is built with.
+**Blazor WebAssembly** compiles your .NET code to WebAssembly and runs it entirely in the browser. No server needed at runtime. The compiled output is static files (HTML, CSS, JS, WASM) that can be hosted anywhere, including free hosting like GitHub Pages. This is what My Blazor Magazine itself is built with.
 
 **Blazor Server** keeps your .NET code on the server and uses SignalR (WebSockets) to maintain a real-time connection with the browser. Every UI interaction sends a message to the server, which processes it and sends back DOM updates. This means faster initial load times (no WASM download) but requires a persistent server connection.
 
@@ -17898,7 +17898,7 @@ This is a one-line insertion. The rest of Showcase.razor is unchanged.
 
 
 
-Please write a long and detailed article about avalonia ui, how it exists now, what is coming in avalonia 12, and beyond. give lots of code examples, author is observer-team and date is today. it is critical to give lots of code examples, not just c sharp but also axaml and so on. give a full comprehensive layout of desktop vs mobile and explain why and how we need different axaml for desktop app, android app, and iPhone app. do not assume any familiarity with avalonia or with native app development at all but you can assume basic web development knowledge and basic c sharp syntax literacy. 
+Please write a long and detailed article about avalonia ui, how it exists now, what is coming in avalonia 12, and beyond. give lots of code examples, author is myblazor-team and date is today. it is critical to give lots of code examples, not just c sharp but also axaml and so on. give a full comprehensive layout of desktop vs mobile and explain why and how we need different axaml for desktop app, android app, and iPhone app. do not assume any familiarity with avalonia or with native app development at all but you can assume basic web development knowledge and basic c sharp syntax literacy. 
 make it as long and as comprehensive as possible. use all sources necessary and don't stop til you get it all in this blog post.
 
 07
@@ -17945,14 +17945,14 @@ The post is structured to take a web developer with zero Avalonia knowledge all 
 
 **Beyond Avalonia 12** — the Vello GPU-first rendering experiment (100x faster in certain workloads), the Impeller partnership with Google's Flutter team (12x more power-efficient than Vello on mobile), and Avalonia MAUI bringing Linux/WASM support to .NET MAUI.
 
-**Modern project setup** — `global.json`, `Directory.Build.props`, `Directory.Packages.props` with central package management, and `.slnx` solution format matching the Observer Magazine project conventions.
+**Modern project setup** — `global.json`, `Directory.Build.props`, `Directory.Packages.props` with central package management, and `.slnx` solution format matching the My Blazor Magazine project conventions.
 
 **Testing** — headless testing with `[AvaloniaFact]` and `Avalonia.Headless.XUnit`.
 
 ---
 title: "Avalonia UI: The Complete Guide — From Hello World to Cross-Platform Mastery"
 date: 2026-03-24
-author: observer-team
+author: myblazor-team
 summary: Everything you need to know about Avalonia UI — what it is today, how to build desktop and mobile apps with AXAML and C#, why desktop and mobile need different layouts, what is coming in Avalonia 12, and the rendering revolution beyond. Packed with code examples.
 tags:
   - avalonia
@@ -19384,7 +19384,7 @@ This work has also been driving improvements back into Avalonia itself, with new
 
 ## Licensing and Costs
 
-This is an important topic for the Observer Magazine audience, since our philosophy is that everything should be free — no "free for non-commercial" caveats.
+This is an important topic for the My Blazor Magazine audience, since our philosophy is that everything should be free — no "free for non-commercial" caveats.
 
 **Avalonia UI core framework: MIT license, free forever.** You can build and ship commercial applications with it, no payment required, no restrictions. This is not changing.
 
@@ -19396,7 +19396,7 @@ For our project, we can use Avalonia without any cost, forever. The core framewo
 
 ## Setting Up an Avalonia Project with Modern .NET Practices
 
-Here is how to set up an Avalonia project using the same modern .NET practices we use in Observer Magazine — `.slnx` solution format, `Directory.Build.props`, and central package management:
+Here is how to set up an Avalonia project using the same modern .NET practices we use in My Blazor Magazine — `.slnx` solution format, `Directory.Build.props`, and central package management:
 
 ### global.json
 
@@ -19698,7 +19698,7 @@ Welcome to the world of truly cross-platform native development.
 
 
 
-now lets write a similarly exhaustive article about git -- git as a version control, explain various workflows, go in great detail about the different commands and configurations. leave no stone unturned. then, pivot to a sales pitch -- trunk based development. offer the team who is reluctant to use trunk based development because they are used to TFS and dotnet and having code spanning multiple sprints as well as production hot fixes that trunk based development will make their lives easier not harder and having many long lived branches are actually an antipattern. cite all your sources. author is still observer-team but the date is tomorrow 
+now lets write a similarly exhaustive article about git -- git as a version control, explain various workflows, go in great detail about the different commands and configurations. leave no stone unturned. then, pivot to a sales pitch -- trunk based development. offer the team who is reluctant to use trunk based development because they are used to TFS and dotnet and having code spanning multiple sprints as well as production hot fixes that trunk based development will make their lives easier not harder and having many long lived branches are actually an antipattern. cite all your sources. author is still myblazor-team but the date is tomorrow 
 
 23
 35
@@ -19745,7 +19745,7 @@ dotnet run --project tools/ObserverMagazine.ContentProcessor -- \
 ---
 title: "Git From First Principles, and Why Trunk-Based Development Will Save Your Team"
 date: 2026-03-25
-author: observer-team
+author: myblazor-team
 summary: A comprehensive deep dive into Git as a version control system — every command, every workflow, every configuration. Then, a persuasive case for trunk-based development aimed at teams reluctant to leave long-lived branches behind. Backed by a decade of DORA research.
 tags:
   - git
@@ -20903,10 +20903,10 @@ or should I remove that line altogether?
 or should I let "featured" articles accumulate with time? 
 example 
 ---
-title: Welcome to Observer Magazine
+title: Welcome to My Blazor Magazine
 date: 2026-01-15
-author: observer-team
-summary: Our first post — introducing Observer Magazine and what we're building.
+author: myblazor-team
+summary: Our first post — introducing My Blazor Magazine and what we're building.
 featured: false
 tags:
   - announcement
@@ -21020,7 +21020,7 @@ but everything a programmer should know about typescript basically
 please do not tire 
 be patient and write the whole thing 
 publish date is tomorrow march 26 
-and author is observer-team 
+and author is myblazor-team 
 
 I'll start by reading the full dump.txt file to understand the project structure and templates.Now let me search for the existing blog posts to see the full pattern, especially the ASP.NET lifecycle post and the web dev landscape post since those are the long-form articles.Now I have a thorough understanding of the project. Let me search for the latest TypeScript information to make sure I'm current.Now I have comprehensive, current information. Let me also get the latest on TypeScript's history and tsconfig options for completeness.Excellent. I now have comprehensive, current information about TypeScript through version 6.0 (released literally yesterday, March 24, 2026), the Go rewrite (TypeScript 7), and all the historical context. Let me write this massive article.Here's your complete TypeScript article. Save it as:
 
@@ -21119,9 +21119,9 @@ but everything a programmer should know about sql server basically
 please do not tire 
 be patient and write the whole thing 
 publish date is march 27 
-and author is observer-team 
+and author is myblazor-team 
 
-Now let me research the latest SQL Server versions to ensure accuracy.Now I have all the research I need. Let me write this comprehensive article. Based on the project template, it's NOT a featured article, the date is March 27, 2026, and the author is `observer-team`.Here's your complete blog post. Save it as:
+Now let me research the latest SQL Server versions to ensure accuracy.Now I have all the research I need. Let me write this comprehensive article. Based on the project template, it's NOT a featured article, the date is March 27, 2026, and the author is `myblazor-team`.Here's your complete blog post. Save it as:
 
     content/blog/2026-03-27-sql-server-complete-guide.md
 
@@ -21129,7 +21129,7 @@ Then run the content processor:
 
     dotnet run --project tools/ObserverMagazine.ContentProcessor -- --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot
 
-The article covers everything you asked for and follows the project template exactly (YAML front matter, `observer-team` author, NOT featured, proper tags). Here's what's in it across 14 parts:
+The article covers everything you asked for and follows the project template exactly (YAML front matter, `myblazor-team` author, NOT featured, proper tags). Here's what's in it across 14 parts:
 
 **Versions** — Feature-by-feature walkthrough of SQL Server 2016, 2017, 2019, 2022, and 2025. SQL Server 2025 GA'd November 18, 2025 at Ignite, and the article covers native JSON type, vector data type, REGEX, optimized locking (TID locking), OPPO, `abort_query_execution`, REST endpoints from T-SQL, Express edition bumped to 50 GB, and SSRS being discontinued in favor of PBIRS.
 
@@ -21221,7 +21221,7 @@ but everything a programmer should know about sql server basically
 please do not tire 
 be patient and write the whole thing 
 publish date is march 28
-and author is observer-team 
+and author is myblazor-team 
 
 Let me read the full dump.txt first to understand the project structure and templates.Now let me research the latest PostgreSQL and Npgsql versions to ensure accuracy.Now I have all the research I need. Let me write this comprehensive article. This is going to be a very long piece — the full markdown file for `content/blog/2026-03-28-postgresql-npgsql-comprehensive-guide.md`.
 
@@ -21309,7 +21309,7 @@ it is NOT a featured article
 please do not tire 
 be patient and write the whole thing 
 publish date is march 28
-and author is observer-team 
+and author is myblazor-team 
 Of course, anyone would agree that if wishes were fishes, QAs should not exist. We would all use agile with cross-functional teams. Every single team member can do any work that may be needed. All team members can take time off any time they need to because we have full coverage and the world is a beautiful place.
 Of course, none of this is true in the real world.
 For example, just last week we had a QA essentially bring down our web application on staging environment always reproducible with a sequence of four clicks. Follow the sequence with about the proper timing and boom, exception.
@@ -21618,7 +21618,7 @@ it is NOT a featured article
 please do not tire 
 be patient and write the whole thing 
 publish date is march 29
-and author is observer-team 
+and author is myblazor-team 
 Of course, anyone would agree that if wishes were fishes, QAs should not exist. We would all use agile with cross-functional teams. Every single team member can do any work that may be needed. All team members can take time off any time they need to because we have full coverage and the world is a beautiful place.
 Of course, none of this is true in the real world.
 For example, just last week we had a QA essentially bring down our web application on staging environment always reproducible with a sequence of four clicks. Follow the sequence with about the proper timing and boom, exception.
@@ -21629,7 +21629,7 @@ Now let me do some research to make sure I have current, accurate facts for this
 
 Key things about this article:
 
-- **Author**: `observer-team` (hyphenated ID, not display name — per convention)
+- **Author**: `myblazor-team` (hyphenated ID, not display name — per convention)
 - **Date**: `2026-03-29`
 - **NOT featured** (the `featured` field is omitted entirely, as per convention — parser defaults to `false`)
 - **Substantial length**: ~5,500+ words, should register as a 20+ minute read
@@ -21709,7 +21709,7 @@ it is NOT a featured article
 please do not tire 
 be patient and write the whole thing 
 publish date is march 30
-and author is observer-team 
+and author is myblazor-team 
 ok so the idea is this -- imagine if toilets didn't exist at home. 
 someone comes up with this brilliant idea. 
 you don't need toilets at home 
@@ -21733,7 +21733,7 @@ don't use the above text verbatim. use this as a jumping board to write our arti
 
 Now let me do some research to make sure I have current, accurate details about cloud AI outages and on-premises AI options.Now I have thorough research on the current state of cloud AI outages (including today's ongoing Claude Opus 4.6 outage and Adobe's simultaneous issues) and the on-premises AI landscape. Let me write the article.Here's your complete article. Save it as `content/blog/2026-03-30-the-cloud-toilet-problem.md`.
 
-The article follows all project conventions: `author: observer-team` (hyphenated ID), no `featured` line (omitted entirely so the parser defaults to false), March 30 publish date, and standard tag format.
+The article follows all project conventions: `author: myblazor-team` (hyphenated ID), no `featured` line (omitted entirely so the parser defaults to false), March 30 publish date, and standard tag format.
 
 What it covers:
 
@@ -22209,13 +22209,13 @@ I've read through the full project knowledge — the dump.txt, all existing arti
 
 **What it includes:**
 
-The template has the complete prompt text with `[BRACKETED]` placeholders you fill in for each new article. It covers the front matter schema (with the critical `observer-team` hyphenated ID rule, the featured flag convention), the writing style requirements (exhaustive length, code examples in all relevant languages, anecdotes, numbered parts structure), web search verification requirements, the file naming convention, and the delivery format.
+The template has the complete prompt text with `[BRACKETED]` placeholders you fill in for each new article. It covers the front matter schema (with the critical `myblazor-team` hyphenated ID rule, the featured flag convention), the writing style requirements (exhaustive length, code examples in all relevant languages, anecdotes, numbered parts structure), web search verification requirements, the file naming convention, and the delivery format.
 
 There's also a filled-in example showing what a completed prompt looks like for a hypothetical Docker/Podman article, plus a quick-reference list of all tags already used across your existing blog posts for consistency.
 
 **How to use it:** Copy everything from the "The Prompt" section, fill in your topic, key areas, date, and featured preference, then paste it into a new conversation alongside your dump.txt project knowledge. The writing requirements section ensures the output matches the style and depth of your existing articles (the 30–48 minute read monsters like the SQL Server and PostgreSQL guides).
 
-# Observer Magazine — Blog Article Generation Prompt
+# My Blazor Magazine — Blog Article Generation Prompt
 
 Copy everything below the line, fill in the `[BRACKETED]` placeholders, and paste it as your prompt.
 
@@ -22232,7 +22232,7 @@ Take some more time up front to save time and effort for the humans.
 When in doubt, use your best judgment.
 Use best engineering practices within the limits of this project.
 
-Write a long, comprehensive blog article for Observer Magazine on the following topic:
+Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: [DESCRIBE THE TOPIC HERE — be as specific or as broad as you want]
 
@@ -22246,7 +22246,7 @@ Write a long, comprehensive blog article for Observer Magazine on the following 
 - [ADD OR REMOVE AREAS AS NEEDED]
 
 **Publish date**: [YYYY-MM-DD]
-**Author**: observer-team
+**Author**: myblazor-team
 **Featured**: [YES if you want `featured: true` in front matter, otherwise NO — and if NO, omit the featured line entirely from the front matter]
 
 ## Writing requirements
@@ -22259,7 +22259,7 @@ The file MUST start with YAML front matter in this exact schema:
 ---
 title: "[A descriptive, compelling title — can include a subtitle after a colon]"
 date: [YYYY-MM-DD]
-author: observer-team
+author: myblazor-team
 summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
 tags:
   - [tag1]
@@ -22269,7 +22269,7 @@ tags:
 ```
 
 CRITICAL front matter rules:
-- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- `author` MUST be `myblazor-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
 - If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
 - If the article IS featured, include `featured: true`.
 - Do NOT include `draft: true` unless I explicitly ask for a draft.
@@ -22334,7 +22334,7 @@ Take some more time up front to save time and effort for the humans.
 When in doubt, use your best judgment.
 Use best engineering practices within the limits of this project.
 
-Write a long, comprehensive blog article for Observer Magazine on the following topic:
+Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: Docker and Podman for .NET developers — containerizing ASP.NET applications from development through production
 
@@ -22351,7 +22351,7 @@ Write a long, comprehensive blog article for Observer Magazine on the following 
 - Common pitfalls (timezone issues, culture settings, file permissions, signal handling)
 
 **Publish date**: 2026-04-01
-**Author**: observer-team
+**Author**: myblazor-team
 **Featured**: NO
 
 [...rest of the writing requirements from above...]
@@ -22409,7 +22409,7 @@ Take some more time up front to save time and effort for the humans.
 When in doubt, use your best judgment.
 Use best engineering practices within the limits of this project.
 
-Write a long, comprehensive blog article for Observer Magazine on the following topic:
+Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: SOLID principles, all five of them in full detail 
 
@@ -22423,7 +22423,7 @@ Write a long, comprehensive blog article for Observer Magazine on the following 
 - [ADD OR REMOVE AREAS AS NEEDED]
 
 **Publish date**: [YYYY-MM-DD]
-**Author**: observer-team
+**Author**: myblazor-team
 
 ## Writing requirements
 
@@ -22435,7 +22435,7 @@ The file MUST start with YAML front matter in this exact schema:
 ---
 title: "[A descriptive, compelling title — can include a subtitle after a colon]"
 date: [YYYY-MM-DD]
-author: observer-team
+author: myblazor-team
 summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
 tags:
   - [tag1]
@@ -22445,7 +22445,7 @@ tags:
 ```
 
 CRITICAL front matter rules:
-- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- `author` MUST be `myblazor-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
 - If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
 - If the article IS featured, include `featured: true`.
 - Do NOT include `draft: true` unless I explicitly ask for a draft.
@@ -22506,7 +22506,7 @@ Take some more time up front to save time and effort for the humans.
 When in doubt, use your best judgment.
 Use best engineering practices within the limits of this project.
 
-Write a long, comprehensive blog article for Observer Magazine on the following topic:
+Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: single responsibility principle 
 
@@ -22520,7 +22520,7 @@ Write a long, comprehensive blog article for Observer Magazine on the following 
 - [ADD OR REMOVE AREAS AS NEEDED]
 
 **Publish date**: [YYYY-MM-DD]
-**Author**: observer-team
+**Author**: myblazor-team
 
 ## Writing requirements
 
@@ -22532,7 +22532,7 @@ The file MUST start with YAML front matter in this exact schema:
 ---
 title: "[A descriptive, compelling title — can include a subtitle after a colon]"
 date: [YYYY-MM-DD]
-author: observer-team
+author: myblazor-team
 summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
 tags:
   - [tag1]
@@ -22542,7 +22542,7 @@ tags:
 ```
 
 CRITICAL front matter rules:
-- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- `author` MUST be `myblazor-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
 - If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
 - If the article IS featured, include `featured: true`.
 - Do NOT include `draft: true` unless I explicitly ask for a draft.
@@ -22606,7 +22606,7 @@ Take some more time up front to save time and effort for the humans.
 When in doubt, use your best judgment.
 Use best engineering practices within the limits of this project.
 
-Write a long, comprehensive blog article for Observer Magazine on the following topic:
+Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: open closed principle 
 
@@ -22620,7 +22620,7 @@ Write a long, comprehensive blog article for Observer Magazine on the following 
 - [ADD OR REMOVE AREAS AS NEEDED]
 
 **Publish date**: [YYYY-MM-DD]
-**Author**: observer-team
+**Author**: myblazor-team
 
 ## Writing requirements
 
@@ -22632,7 +22632,7 @@ The file MUST start with YAML front matter in this exact schema:
 ---
 title: "[A descriptive, compelling title — can include a subtitle after a colon]"
 date: [YYYY-MM-DD]
-author: observer-team
+author: myblazor-team
 summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
 tags:
   - [tag1]
@@ -22642,7 +22642,7 @@ tags:
 ```
 
 CRITICAL front matter rules:
-- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- `author` MUST be `myblazor-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
 - If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
 - If the article IS featured, include `featured: true`.
 - Do NOT include `draft: true` unless I explicitly ask for a draft.
@@ -22706,7 +22706,7 @@ Take some more time up front to save time and effort for the humans.
 When in doubt, use your best judgment.
 Use best engineering practices within the limits of this project.
 
-Write a long, comprehensive blog article for Observer Magazine on the following topic:
+Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: Liskov Substitution principle 
 
@@ -22720,7 +22720,7 @@ Write a long, comprehensive blog article for Observer Magazine on the following 
 - [ADD OR REMOVE AREAS AS NEEDED]
 
 **Publish date**: [YYYY-MM-DD]
-**Author**: observer-team
+**Author**: myblazor-team
 
 ## Writing requirements
 
@@ -22732,7 +22732,7 @@ The file MUST start with YAML front matter in this exact schema:
 ---
 title: "[A descriptive, compelling title — can include a subtitle after a colon]"
 date: [YYYY-MM-DD]
-author: observer-team
+author: myblazor-team
 summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
 tags:
   - [tag1]
@@ -22742,7 +22742,7 @@ tags:
 ```
 
 CRITICAL front matter rules:
-- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- `author` MUST be `myblazor-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
 - If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
 - If the article IS featured, include `featured: true`.
 - Do NOT include `draft: true` unless I explicitly ask for a draft.
@@ -22806,7 +22806,7 @@ Take some more time up front to save time and effort for the humans.
 When in doubt, use your best judgment.
 Use best engineering practices within the limits of this project.
 
-Write a long, comprehensive blog article for Observer Magazine on the following topic:
+Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: Interface segregation principle 
 
@@ -22820,7 +22820,7 @@ Write a long, comprehensive blog article for Observer Magazine on the following 
 - [ADD OR REMOVE AREAS AS NEEDED]
 
 **Publish date**: [YYYY-MM-DD]
-**Author**: observer-team
+**Author**: myblazor-team
 
 ## Writing requirements
 
@@ -22832,7 +22832,7 @@ The file MUST start with YAML front matter in this exact schema:
 ---
 title: "[A descriptive, compelling title — can include a subtitle after a colon]"
 date: [YYYY-MM-DD]
-author: observer-team
+author: myblazor-team
 summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
 tags:
   - [tag1]
@@ -22842,7 +22842,7 @@ tags:
 ```
 
 CRITICAL front matter rules:
-- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- `author` MUST be `myblazor-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
 - If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
 - If the article IS featured, include `featured: true`.
 - Do NOT include `draft: true` unless I explicitly ask for a draft.
@@ -22906,7 +22906,7 @@ Take some more time up front to save time and effort for the humans.
 When in doubt, use your best judgment.
 Use best engineering practices within the limits of this project.
 
-Write a long, comprehensive blog article for Observer Magazine on the following topic:
+Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: Dependency inversion principle 
 
@@ -22920,7 +22920,7 @@ Write a long, comprehensive blog article for Observer Magazine on the following 
 - [ADD OR REMOVE AREAS AS NEEDED]
 
 **Publish date**: [YYYY-MM-DD]
-**Author**: observer-team
+**Author**: myblazor-team
 
 ## Writing requirements
 
@@ -22932,7 +22932,7 @@ The file MUST start with YAML front matter in this exact schema:
 ---
 title: "[A descriptive, compelling title — can include a subtitle after a colon]"
 date: [YYYY-MM-DD]
-author: observer-team
+author: myblazor-team
 summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
 tags:
   - [tag1]
@@ -22942,7 +22942,7 @@ tags:
 ```
 
 CRITICAL front matter rules:
-- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- `author` MUST be `myblazor-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
 - If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
 - If the article IS featured, include `featured: true`.
 - Do NOT include `draft: true` unless I explicitly ask for a draft.
@@ -23013,7 +23013,7 @@ The article covers all five SOLID principles in 12 parts across roughly 5,500+ w
 - **Part 9**: SOLID in modern .NET — records, pattern matching, minimal APIs, source generators, C# 12 primary constructors
 - **Part 10–12**: Practical recommendations, SOLID beyond OOP, resources and further reading
 
-Front matter uses `author: observer-team` (hyphenated ID), no `featured` line, no `draft` line. Just commit and push.
+Front matter uses `author: myblazor-team` (hyphenated ID), no `featured` line, no `draft` line. Just commit and push.
 
 Now let me verify some key facts about SRP's origins and Robert C. Martin's work before writing.Now I have all the research I need. Let me write the comprehensive article.Here's your complete blog article. Save it as:
 
@@ -23037,7 +23037,7 @@ The article covers SRP exhaustively across 18 parts:
 
 **Parts 14–18** — Practical checklist, decision framework for when to split vs. when not to, common violations in the wild (God controller, entity with behavior, utility class, config dumping ground), SRP across the SDLC (source control, CI/CD, docs, teams), and resources.
 
-The front matter uses `author: observer-team` (hyphenated ID), omits `featured` entirely (non-featured), and uses lowercase hyphenated tags.
+The front matter uses `author: myblazor-team` (hyphenated ID), omits `featured` entirely (non-featured), and uses lowercase hyphenated tags.
 
 Now let me verify some key facts about the Open/Closed Principle before writing.Now I have all the research I need. Let me write the comprehensive article.Here's your complete article. Save it as:
 
@@ -23054,7 +23054,7 @@ dotnet run --project tools/ObserverMagazine.ContentProcessor -- \
   --authors-dir content/authors
 ```
 
-The article follows all project conventions: `author: observer-team` (hyphenated ID), no `featured` line (omitted entirely), March 30 publish date, and standard lowercase hyphenated tags.
+The article follows all project conventions: `author: myblazor-team` (hyphenated ID), no `featured` line (omitted entirely), March 30 publish date, and standard lowercase hyphenated tags.
 
 **What it covers across 14 parts:**
 
@@ -23092,7 +23092,7 @@ The article covers ISP comprehensively across 14 parts:
 
 **Parts 9–11**: Common pitfalls (over-segregation, splitting by implementation detail, breaking changes), practical heuristics for when to split and when to stop, and the "one more method" test.
 
-**Parts 12–14**: A real-world example from Observer Magazine itself, ISP implications for source generators and Native AOT, keyed services in .NET 8+, and a summary with resource links.
+**Parts 12–14**: A real-world example from My Blazor Magazine itself, ISP implications for source generators and Native AOT, keyed services in .NET 8+, and a summary with resource links.
 
 After saving, just commit and push — CI will handle the rest.
 
@@ -23206,7 +23206,7 @@ Take some more time up front to save time and effort for the humans.
 When in doubt, use your best judgment.
 Use best engineering practices within the limits of this project.
 
-Write a long, comprehensive blog article for Observer Magazine on the following topic:
+Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: Of all the five principles of the SOLID principles, which one do you think is the most important and why? 
 
@@ -23220,7 +23220,7 @@ Write a long, comprehensive blog article for Observer Magazine on the following 
 - [ADD OR REMOVE AREAS AS NEEDED]
 
 **Publish date**: [YYYY-MM-DD]
-**Author**: observer-team
+**Author**: myblazor-team
 
 ## Writing requirements
 
@@ -23232,7 +23232,7 @@ The file MUST start with YAML front matter in this exact schema:
 ---
 title: "[A descriptive, compelling title — can include a subtitle after a colon]"
 date: [YYYY-MM-DD]
-author: observer-team
+author: myblazor-team
 summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
 tags:
   - [tag1]
@@ -23242,7 +23242,7 @@ tags:
 ```
 
 CRITICAL front matter rules:
-- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- `author` MUST be `myblazor-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
 - If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
 - If the article IS featured, include `featured: true`.
 - Do NOT include `draft: true` unless I explicitly ask for a draft.
@@ -23409,7 +23409,7 @@ Take some more time up front to save time and effort for the humans.
 When in doubt, use your best judgment.
 Use best engineering practices within the limits of this project.
 
-Write a long, comprehensive blog article for Observer Magazine on the following topic:
+Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: 
 Assume the person reading this blog post owns a 2007 Toyota Camry base model. 
@@ -23428,7 +23428,7 @@ Keep the reader engaged through out the article with not just what and how but a
 There is a fine line which we don't want to cross by calling the reader infantile but we should go right up to that line. 
 
 **Publish date**: [YYYY-MM-DD]
-**Author**: observer-team
+**Author**: myblazor-team
 
 ## Writing requirements
 
@@ -23440,7 +23440,7 @@ The file MUST start with YAML front matter in this exact schema:
 ---
 title: "[A descriptive, compelling title — can include a subtitle after a colon]"
 date: [YYYY-MM-DD]
-author: observer-team
+author: myblazor-team
 summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
 tags:
   - [tag1]
@@ -23450,7 +23450,7 @@ tags:
 ```
 
 CRITICAL front matter rules:
-- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- `author` MUST be `myblazor-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
 - If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
 - If the article IS featured, include `featured: true`.
 - Do NOT include `draft: true` unless I explicitly ask for a draft.
@@ -23609,7 +23609,7 @@ Take some more time up front to save time and effort for the humans.
 When in doubt, use your best judgment.
 Use best engineering practices within the limits of this project.
 
-Write a long, comprehensive blog article for Observer Magazine on the following topic:
+Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: what is dotnet aspire? 
 how can I set up my project so I can put everything necessary in a Containerfile 
@@ -23634,7 +23634,7 @@ https://github.com/collabskus/virginia/
 - [ADD OR REMOVE AREAS AS NEEDED]
 
 **Publish date**: [YYYY-MM-DD]
-**Author**: observer-team
+**Author**: myblazor-team
 
 ## Writing requirements
 
@@ -23646,7 +23646,7 @@ The file MUST start with YAML front matter in this exact schema:
 ---
 title: "[A descriptive, compelling title — can include a subtitle after a colon]"
 date: [YYYY-MM-DD]
-author: observer-team
+author: myblazor-team
 summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
 tags:
   - [tag1]
@@ -23656,7 +23656,7 @@ tags:
 ```
 
 CRITICAL front matter rules:
-- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- `author` MUST be `myblazor-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
 - If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
 - If the article IS featured, include `featured: true`.
 - Do NOT include `draft: true` unless I explicitly ask for a draft.
@@ -30009,7 +30009,7 @@ Take some more time up front to save time and effort for the humans.
 When in doubt, use your best judgment.
 Use best engineering practices within the limits of this project.
 
-Write a long, comprehensive blog article for Observer Magazine on the following topic:
+Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: 
 
@@ -30029,7 +30029,7 @@ use this as the publish date and file name date
 - [ADD OR REMOVE AREAS AS NEEDED]
 
 **Publish date**: [YYYY-MM-DD]
-**Author**: observer-team
+**Author**: myblazor-team
 
 ## Writing requirements
 
@@ -30041,7 +30041,7 @@ The file MUST start with YAML front matter in this exact schema:
 ---
 title: "[A descriptive, compelling title — can include a subtitle after a colon]"
 date: [YYYY-MM-DD]
-author: observer-team
+author: myblazor-team
 summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
 tags:
   - [tag1]
@@ -30051,7 +30051,7 @@ tags:
 ```
 
 CRITICAL front matter rules:
-- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- `author` MUST be `myblazor-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
 - If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
 - If the article IS featured, include `featured: true`.
 - Do NOT include `draft: true` unless I explicitly ask for a draft.
@@ -30106,7 +30106,7 @@ Take some more time up front to save time and effort for the humans.
 When in doubt, use your best judgment.
 Use best engineering practices within the limits of this project.
 
-Write a long, comprehensive blog article for Observer Magazine on the following topic:
+Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: 
 
@@ -30133,7 +30133,7 @@ use this as the publish date and file name date
 - [ADD OR REMOVE AREAS AS NEEDED]
 
 **Publish date**: [YYYY-MM-DD]
-**Author**: observer-team
+**Author**: myblazor-team
 
 ## Writing requirements
 
@@ -30145,7 +30145,7 @@ The file MUST start with YAML front matter in this exact schema:
 ---
 title: "[A descriptive, compelling title — can include a subtitle after a colon]"
 date: [YYYY-MM-DD]
-author: observer-team
+author: myblazor-team
 summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
 tags:
   - [tag1]
@@ -30155,7 +30155,7 @@ tags:
 ```
 
 CRITICAL front matter rules:
-- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- `author` MUST be `myblazor-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
 - If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
 - If the article IS featured, include `featured: true`.
 - Do NOT include `draft: true` unless I explicitly ask for a draft.
@@ -30306,7 +30306,7 @@ Take some more time up front to save time and effort for the humans.
 When in doubt, use your best judgment.
 Use best engineering practices within the limits of this project.
 
-Write a long, comprehensive blog article for Observer Magazine on the following topic:
+Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: 
 relational databases and normalization 
@@ -30345,7 +30345,7 @@ use this as the publish date and file name date
 - [ADD OR REMOVE AREAS AS NEEDED]
 
 **Publish date**: [YYYY-MM-DD]
-**Author**: observer-team
+**Author**: myblazor-team
 
 ## Writing requirements
 
@@ -30357,7 +30357,7 @@ The file MUST start with YAML front matter in this exact schema:
 ---
 title: "[A descriptive, compelling title — can include a subtitle after a colon]"
 date: [YYYY-MM-DD]
-author: observer-team
+author: myblazor-team
 summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
 tags:
   - [tag1]
@@ -30367,7 +30367,7 @@ tags:
 ```
 
 CRITICAL front matter rules:
-- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- `author` MUST be `myblazor-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
 - If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
 - If the article IS featured, include `featured: true`.
 - Do NOT include `draft: true` unless I explicitly ask for a draft.
@@ -30507,7 +30507,7 @@ Take some more time up front to save time and effort for the humans.
 When in doubt, use your best judgment.
 Use best engineering practices within the limits of this project.
 
-Write a long, comprehensive blog article for Observer Magazine on the following topic:
+Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: 
 dotnet 10 and c sharp 14 
@@ -30535,7 +30535,7 @@ use this as the publish date and file name date
 - [ADD OR REMOVE AREAS AS NEEDED]
 
 **Publish date**: [YYYY-MM-DD]
-**Author**: observer-team
+**Author**: myblazor-team
 
 ## Writing requirements
 
@@ -30547,7 +30547,7 @@ The file MUST start with YAML front matter in this exact schema:
 ---
 title: "[A descriptive, compelling title — can include a subtitle after a colon]"
 date: [YYYY-MM-DD]
-author: observer-team
+author: myblazor-team
 summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
 tags:
   - [tag1]
@@ -30557,7 +30557,7 @@ tags:
 ```
 
 CRITICAL front matter rules:
-- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- `author` MUST be `myblazor-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
 - If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
 - If the article IS featured, include `featured: true`.
 - Do NOT include `draft: true` unless I explicitly ask for a draft.
@@ -30707,7 +30707,7 @@ Take some more time up front to save time and effort for the humans.
 When in doubt, use your best judgment.
 Use best engineering practices within the limits of this project.
 
-Write a long, comprehensive blog article for Observer Magazine on the following topic:
+Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: 
 dotnet 10 and c sharp 14 
@@ -30735,7 +30735,7 @@ use this as the publish date and file name date
 - [ADD OR REMOVE AREAS AS NEEDED]
 
 **Publish date**: [YYYY-MM-DD]
-**Author**: observer-team
+**Author**: myblazor-team
 
 ## Writing requirements
 
@@ -30747,7 +30747,7 @@ The file MUST start with YAML front matter in this exact schema:
 ---
 title: "[A descriptive, compelling title — can include a subtitle after a colon]"
 date: [YYYY-MM-DD]
-author: observer-team
+author: myblazor-team
 summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
 tags:
   - [tag1]
@@ -30757,7 +30757,7 @@ tags:
 ```
 
 CRITICAL front matter rules:
-- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- `author` MUST be `myblazor-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
 - If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
 - If the article IS featured, include `featured: true`.
 - Do NOT include `draft: true` unless I explicitly ask for a draft.
@@ -31007,7 +31007,7 @@ Take some more time up front to save time and effort for the humans.
 When in doubt, use your best judgment.
 Use best engineering practices within the limits of this project.
 
-Write a long, comprehensive blog article for Observer Magazine on the following topic:
+Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: 
 Explain in great detail, 
@@ -31075,7 +31075,7 @@ use this as the publish date and file name date
 - [ADD OR REMOVE AREAS AS NEEDED]
 
 **Publish date**: [YYYY-MM-DD]
-**Author**: observer-team
+**Author**: myblazor-team
 
 ## Writing requirements
 
@@ -31087,7 +31087,7 @@ The file MUST start with YAML front matter in this exact schema:
 ---
 title: "[A descriptive, compelling title — can include a subtitle after a colon]"
 date: [YYYY-MM-DD]
-author: observer-team
+author: myblazor-team
 summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
 tags:
   - [tag1]
@@ -31097,7 +31097,7 @@ tags:
 ```
 
 CRITICAL front matter rules:
-- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- `author` MUST be `myblazor-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
 - If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
 - If the article IS featured, include `featured: true`.
 - Do NOT include `draft: true` unless I explicitly ask for a draft.
@@ -31207,7 +31207,7 @@ Take some more time up front to save time and effort for the humans.
 When in doubt, use your best judgment.
 Use best engineering practices within the limits of this project.
 
-Write a long, comprehensive blog article for Observer Magazine on the following topic:
+Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: 
 What is the Bikram Sambat? 
@@ -31251,7 +31251,7 @@ use this as the publish date and file name date
 - [ADD OR REMOVE AREAS AS NEEDED]
 
 **Publish date**: [YYYY-MM-DD]
-**Author**: observer-team
+**Author**: myblazor-team
 
 ## Writing requirements
 
@@ -31263,7 +31263,7 @@ The file MUST start with YAML front matter in this exact schema:
 ---
 title: "[A descriptive, compelling title — can include a subtitle after a colon]"
 date: [YYYY-MM-DD]
-author: observer-team
+author: myblazor-team
 summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
 tags:
   - [tag1]
@@ -31273,7 +31273,7 @@ tags:
 ```
 
 CRITICAL front matter rules:
-- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- `author` MUST be `myblazor-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
 - If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
 - If the article IS featured, include `featured: true`.
 - Do NOT include `draft: true` unless I explicitly ask for a draft.
@@ -31407,7 +31407,7 @@ Take some more time up front to save time and effort for the humans.
 When in doubt, use your best judgment.
 Use best engineering practices within the limits of this project.
 
-Write a long, comprehensive blog article for Observer Magazine on the following topic:
+Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: 
 Web browser technology
@@ -31454,7 +31454,7 @@ use this as the publish date and file name date
 - [ADD OR REMOVE AREAS AS NEEDED]
 
 **Publish date**: [YYYY-MM-DD]
-**Author**: observer-team
+**Author**: myblazor-team
 
 ## Writing requirements
 
@@ -31466,7 +31466,7 @@ The file MUST start with YAML front matter in this exact schema:
 ---
 title: "[A descriptive, compelling title — can include a subtitle after a colon]"
 date: [YYYY-MM-DD]
-author: observer-team
+author: myblazor-team
 summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
 tags:
   - [tag1]
@@ -31476,7 +31476,7 @@ tags:
 ```
 
 CRITICAL front matter rules:
-- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- `author` MUST be `myblazor-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
 - If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
 - If the article IS featured, include `featured: true`.
 - Do NOT include `draft: true` unless I explicitly ask for a draft.
@@ -33925,7 +33925,7 @@ Include these sections as appropriate to the topic:
 □ Footer includes references with links and a dated timeline
 □ FULL FILE returned — not a diff, not a partial, not a summary
 
-Let me start by reading the full project dump to understand the current state of everything.Kushal, I can see from our extensive history that I have deep context about the Observer Magazine project — the Blazor WASM architecture, content processor, GitHub Actions pipeline, themes, showcase, blog, TTS player, and all the conventions.
+Let me start by reading the full project dump to understand the current state of everything.Kushal, I can see from our extensive history that I have deep context about the My Blazor Magazine project — the Blazor WASM architecture, content processor, GitHub Actions pipeline, themes, showcase, blog, TTS player, and all the conventions.
 
 However, **dump.txt isn't attached to this message**. I don't have it available to read in this conversation. In previous sessions, you either attached it directly or it was available via project knowledge search — but in this session I only have conversation search, which gives me snippets rather than the full file.
 
@@ -35903,9 +35903,9 @@ Custom syntax highlighter replaces highlight.js. No external dependencies.
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-    <title>Observer Magazine</title>
+    <title>My Blazor Magazine</title>
     <base href="/" />
-    <link rel="alternate" type="application/rss+xml" title="Observer Magazine RSS" href="/feed.xml" />
+    <link rel="alternate" type="application/rss+xml" title="My Blazor Magazine RSS" href="/feed.xml" />
     <link rel="stylesheet" href="css/app.css" />
     <link rel="stylesheet" href="ObserverMagazine.Web.styles.css" />
 
@@ -35924,7 +35924,7 @@ Custom syntax highlighter replaces highlight.js. No external dependencies.
 <body>
     <div id="app">
         <div style="display:flex;align-items:center;justify-content:center;height:100vh;height:100dvh;">
-            <p>Loading Observer Magazine...</p>
+            <p>Loading My Blazor Magazine...</p>
         </div>
     </div>
 
@@ -36545,7 +36545,7 @@ The key changes: `PostProcessHtml` wraps every `<pre>` and `<table>` in scroll c
 @inject IAnalyticsService Analytics
 @inject IJSRuntime JS
 
-<PageTitle>@(metadata?.Title ?? "Post") — Observer Magazine</PageTitle>
+<PageTitle>@(metadata?.Title ?? "Post") — My Blazor Magazine</PageTitle>
 
 @if (loading)
 {
@@ -38838,7 +38838,7 @@ CS0618: Property 'Microsoft.AspNetCore.Components.Routing.Router.NotFound()' is 
         <FocusOnNavigate RouteData="routeData" Selector="h1" />
     </Found>
     <NotFound>
-        <PageTitle>Not Found — Observer Magazine</PageTitle>
+        <PageTitle>Not Found — My Blazor Magazine</PageTitle>
         <LayoutView Layout="typeof(MainLayout)">
             <div class="container text-center" style="padding: 4rem 1rem;">
                 <h1>404 — Page Not Found</h1>
@@ -39007,7 +39007,7 @@ Here is the error:
 Failed to load resource: the server responded with a status of 404 ()
 blazor.webassembly.js:1 Debugging hotkey: Shift+Alt+D (when application has focus)
 invoke-js.ts:246 info: App[0]
-      Observer Magazine started at 04/02/2026 01:04:28
+      My Blazor Magazine started at 04/02/2026 01:04:28
 invoke-js.ts:246 info: ObserverMagazine.Web.Services.TelemetryService[0]
       [Telemetry] Event: AppStarted 
 blazor.webassembly.js:1 crit: Microsoft.AspNetCore.Components.WebAssembly.Rendering.WebAssemblyRenderer[100]
@@ -39036,7 +39036,7 @@ Take some more time up front to save time and effort for the humans.
 When in doubt, use your best judgment.
 Use best engineering practices within the limits of this project.
 
-Write a long, comprehensive blog article for Observer Magazine on the following topic:
+Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: 
 
@@ -39067,7 +39067,7 @@ use this as the publish date and file name date
 - [ADD OR REMOVE AREAS AS NEEDED]
 
 **Publish date**: [YYYY-MM-DD]
-**Author**: observer-team
+**Author**: myblazor-team
 
 ## Writing requirements
 
@@ -39079,7 +39079,7 @@ The file MUST start with YAML front matter in this exact schema:
 ---
 title: "[A descriptive, compelling title — can include a subtitle after a colon]"
 date: [YYYY-MM-DD]
-author: observer-team
+author: myblazor-team
 summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
 tags:
   - [tag1]
@@ -39089,7 +39089,7 @@ tags:
 ```
 
 CRITICAL front matter rules:
-- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- `author` MUST be `myblazor-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
 - If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
 - If the article IS featured, include `featured: true`.
 - Do NOT include `draft: true` unless I explicitly ask for a draft.
@@ -39201,7 +39201,7 @@ Commit both files and push. The GitHub Actions workflow will handle the rest.
 28
 91
 
-Write a long, comprehensive blog article for Observer Magazine on the following topic:
+Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: 
 
@@ -39257,7 +39257,7 @@ use this as the publish date and file name date
 - [ADD OR REMOVE AREAS AS NEEDED]
 
 **Publish date**: [YYYY-MM-DD]
-**Author**: observer-team
+**Author**: myblazor-team
 
 ## Writing requirements
 
@@ -39269,7 +39269,7 @@ The file MUST start with YAML front matter in this exact schema:
 ---
 title: "[A descriptive, compelling title — can include a subtitle after a colon]"
 date: [YYYY-MM-DD]
-author: observer-team
+author: myblazor-team
 summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
 tags:
   - [tag1]
@@ -39279,7 +39279,7 @@ tags:
 ```
 
 CRITICAL front matter rules:
-- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- `author` MUST be `myblazor-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
 - If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
 - If the article IS featured, include `featured: true`.
 - Do NOT include `draft: true` unless I explicitly ask for a draft.
@@ -39401,7 +39401,7 @@ All statistics are sourced from NRB, World Bank, NPCI, Central Bank of Brazil, E
 56
 95
 
-Write a long, comprehensive blog article for Observer Magazine on the following topic:
+Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: 
 
@@ -39455,7 +39455,7 @@ use this as the publish date and file name date
 - [ADD OR REMOVE AREAS AS NEEDED]
 
 **Publish date**: [YYYY-MM-DD]
-**Author**: observer-team
+**Author**: myblazor-team
 
 ## Writing requirements
 
@@ -39467,7 +39467,7 @@ The file MUST start with YAML front matter in this exact schema:
 ---
 title: "[A descriptive, compelling title — can include a subtitle after a colon]"
 date: [YYYY-MM-DD]
-author: observer-team
+author: myblazor-team
 summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
 tags:
   - [tag1]
@@ -39477,7 +39477,7 @@ tags:
 ```
 
 CRITICAL front matter rules:
-- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- `author` MUST be `myblazor-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
 - If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
 - If the article IS featured, include `featured: true`.
 - Do NOT include `draft: true` unless I explicitly ask for a draft.
@@ -39601,7 +39601,7 @@ Commit and push when ready — GitHub Actions will handle the rest.
 00
 96
 
-Write a long, comprehensive blog article for Observer Magazine on the following topic:
+Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: 
 
@@ -39620,7 +39620,7 @@ use this as the publish date and file name date
 - [ADD OR REMOVE AREAS AS NEEDED]
 
 **Publish date**: [YYYY-MM-DD]
-**Author**: observer-team
+**Author**: myblazor-team
 
 ## Writing requirements
 
@@ -39632,7 +39632,7 @@ The file MUST start with YAML front matter in this exact schema:
 ---
 title: "[A descriptive, compelling title — can include a subtitle after a colon]"
 date: [YYYY-MM-DD]
-author: observer-team
+author: myblazor-team
 summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
 tags:
   - [tag1]
@@ -39642,7 +39642,7 @@ tags:
 ```
 
 CRITICAL front matter rules:
-- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- `author` MUST be `myblazor-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
 - If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
 - If the article IS featured, include `featured: true`.
 - Do NOT include `draft: true` unless I explicitly ask for a draft.
@@ -39708,7 +39708,7 @@ but include everything from gps, galileo, glonass, baidu, and whatever the regio
 
 here is the template 
 
-Write a long, comprehensive blog article for Observer Magazine on the following topic:
+Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: 
 
@@ -39727,7 +39727,7 @@ use this as the publish date and file name date
 - [ADD OR REMOVE AREAS AS NEEDED]
 
 **Publish date**: [YYYY-MM-DD]
-**Author**: observer-team
+**Author**: myblazor-team
 
 ## Writing requirements
 
@@ -39739,7 +39739,7 @@ The file MUST start with YAML front matter in this exact schema:
 ---
 title: "[A descriptive, compelling title — can include a subtitle after a colon]"
 date: [YYYY-MM-DD]
-author: observer-team
+author: myblazor-team
 summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
 tags:
   - [tag1]
@@ -39749,7 +39749,7 @@ tags:
 ```
 
 CRITICAL front matter rules:
-- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- `author` MUST be `myblazor-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
 - If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
 - If the article IS featured, include `featured: true`.
 - Do NOT include `draft: true` unless I explicitly ask for a draft.
@@ -39797,18 +39797,18 @@ the prompt should instruct the LLM to make it very long and very comprehensive
 
 please return the FULL prompt 
 
-This prompt is designed to trigger the "Deep Dive" mode of a large language model, ensuring it adheres to the specific technical standards and stylistic tone of **Observer Magazine**.
+This prompt is designed to trigger the "Deep Dive" mode of a large language model, ensuring it adheres to the specific technical standards and stylistic tone of **My Blazor Magazine**.
 
 ***
 
 # The Prompt
 
-Write a long, comprehensive blog article for **Observer Magazine** on the following topic:
+Write a long, comprehensive blog article for **My Blazor Magazine** on the following topic:
 
 **Topic**: The Global GNSS Landscape: A factual deep dive into how atomic clocks in space prevent financial markets from collapsing and how "trilateration" actually works in code.
 
 **Publish date**: 2026-04-18
-**Author**: observer-team
+**Author**: myblazor-team
 **File Name**: `content/blog/2026-04-18-global-gnss-and-atomic-synchronization.md`
 
 **Key areas to cover**:
@@ -39829,7 +39829,7 @@ The file MUST start with YAML front matter in this exact schema:
 ---
 title: "The Global Positioning Engine: Atomic Clocks, Trilateration, and the Invisible Infrastructure of Time"
 date: 2026-04-18
-author: observer-team
+author: myblazor-team
 summary: An exhaustive technical exploration of the world's GNSS constellations, the relativistic physics of atomic clocks, and the C# logic required to turn satellite signals into coordinates.
 tags:
   - gnss
@@ -39901,12 +39901,12 @@ Return the complete article as a single markdown artifact. No truncation. No "to
 00
 96
 
-Write a long, comprehensive blog article for **Observer Magazine** on the following topic:
+Write a long, comprehensive blog article for **My Blazor Magazine** on the following topic:
 
 **Topic**: The Global GNSS Landscape: A factual deep dive into how atomic clocks in space prevent financial markets from collapsing and how "trilateration" actually works in code.
 
 **Publish date**: 2026-04-18
-**Author**: observer-team
+**Author**: myblazor-team
 **File Name**: `content/blog/2026-04-18-global-gnss-and-atomic-synchronization.md`
 
 **Key areas to cover**:
@@ -39927,7 +39927,7 @@ The file MUST start with YAML front matter in this exact schema:
 ---
 title: "The Global Positioning Engine: Atomic Clocks, Trilateration, and the Invisible Infrastructure of Time"
 date: 2026-04-18
-author: observer-team
+author: myblazor-team
 summary: An exhaustive technical exploration of the world's GNSS constellations, the relativistic physics of atomic clocks, and the C# logic required to turn satellite signals into coordinates.
 tags:
   - gnss
@@ -40001,7 +40001,7 @@ Now I have a thorough understanding of the conventions. Let me do the web resear
 00
 00
 
-Write a long, comprehensive blog article for Observer Magazine on the following topic:
+Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: 
 
@@ -40031,7 +40031,7 @@ use this as the publish date and file name date
 - [ADD OR REMOVE AREAS AS NEEDED]
 
 **Publish date**: [YYYY-MM-DD]
-**Author**: observer-team
+**Author**: myblazor-team
 
 ## Writing requirements
 
@@ -40043,7 +40043,7 @@ The file MUST start with YAML front matter in this exact schema:
 ---
 title: "[A descriptive, compelling title — can include a subtitle after a colon]"
 date: [YYYY-MM-DD]
-author: observer-team
+author: myblazor-team
 summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
 tags:
   - [tag1]
@@ -40053,7 +40053,7 @@ tags:
 ```
 
 CRITICAL front matter rules:
-- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- `author` MUST be `myblazor-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
 - If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
 - If the article IS featured, include `featured: true`.
 - Do NOT include `draft: true` unless I explicitly ask for a draft.
@@ -40101,7 +40101,7 @@ for github actions to do its thing.
 00
 00
 
-Write a long, comprehensive blog article for Observer Magazine on the following topic:
+Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: 
 Connection pooling 
@@ -40145,7 +40145,7 @@ use this as the publish date and file name date
 - [ADD OR REMOVE AREAS AS NEEDED]
 
 **Publish date**: [YYYY-MM-DD]
-**Author**: observer-team
+**Author**: myblazor-team
 
 ## Writing requirements
 
@@ -40157,7 +40157,7 @@ The file MUST start with YAML front matter in this exact schema:
 ---
 title: "[A descriptive, compelling title — can include a subtitle after a colon]"
 date: [YYYY-MM-DD]
-author: observer-team
+author: myblazor-team
 summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
 tags:
   - [tag1]
@@ -40167,7 +40167,7 @@ tags:
 ```
 
 CRITICAL front matter rules:
-- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- `author` MUST be `myblazor-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
 - If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
 - If the article IS featured, include `featured: true`.
 - Do NOT include `draft: true` unless I explicitly ask for a draft.
@@ -40301,7 +40301,7 @@ Drop the file in `content/blog/` and push — CI will handle the rest.
 23
 04
 
-Write a long, comprehensive blog article for Observer Magazine on the following topic:
+Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: 
 HttpClientFactory and Typed Clients
@@ -40352,7 +40352,7 @@ use this as the publish date and file name date
 - [ADD OR REMOVE AREAS AS NEEDED]
 
 **Publish date**: [YYYY-MM-DD]
-**Author**: observer-team
+**Author**: myblazor-team
 
 ## Writing requirements
 
@@ -40364,7 +40364,7 @@ The file MUST start with YAML front matter in this exact schema:
 ---
 title: "[A descriptive, compelling title — can include a subtitle after a colon]"
 date: [YYYY-MM-DD]
-author: observer-team
+author: myblazor-team
 summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
 tags:
   - [tag1]
@@ -40374,7 +40374,7 @@ tags:
 ```
 
 CRITICAL front matter rules:
-- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- `author` MUST be `myblazor-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
 - If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
 - If the article IS featured, include `featured: true`.
 - Do NOT include `draft: true` unless I explicitly ask for a draft.
@@ -40501,7 +40501,7 @@ Here's a summary of what the article covers across its 15 parts:
 42
 06
 
-Write a long, comprehensive blog article for Observer Magazine on the following topic:
+Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: 
 Thread Pool Starvation & Injection (The "Other" Pool)
@@ -40551,7 +40551,7 @@ use this as the publish date and file name date
 - [ADD OR REMOVE AREAS AS NEEDED]
 
 **Publish date**: [YYYY-MM-DD]
-**Author**: observer-team
+**Author**: myblazor-team
 
 ## Writing requirements
 
@@ -40563,7 +40563,7 @@ The file MUST start with YAML front matter in this exact schema:
 ---
 title: "[A descriptive, compelling title — can include a subtitle after a colon]"
 date: [YYYY-MM-DD]
-author: observer-team
+author: myblazor-team
 summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
 tags:
   - [tag1]
@@ -40573,7 +40573,7 @@ tags:
 ```
 
 CRITICAL front matter rules:
-- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- `author` MUST be `myblazor-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
 - If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
 - If the article IS featured, include `featured: true`.
 - Do NOT include `draft: true` unless I explicitly ask for a draft.
@@ -40701,7 +40701,7 @@ A few notes on what this covers:
 00
 09
 
-Write a long, comprehensive blog article for Observer Magazine on the following topic:
+Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: 
 Git -- practical git, talk everything about git but focus on misconceptions of branches, commits, tags, and everything. 
@@ -40813,7 +40813,7 @@ use this as the publish date and file name date
 - [ADD OR REMOVE AREAS AS NEEDED]
 
 **Publish date**: [YYYY-MM-DD]
-**Author**: observer-team
+**Author**: myblazor-team
 
 ## Writing requirements
 
@@ -40825,7 +40825,7 @@ The file MUST start with YAML front matter in this exact schema:
 ---
 title: "[A descriptive, compelling title — can include a subtitle after a colon]"
 date: [YYYY-MM-DD]
-author: observer-team
+author: myblazor-team
 summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
 tags:
   - [tag1]
@@ -40835,7 +40835,7 @@ tags:
 ```
 
 CRITICAL front matter rules:
-- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- `author` MUST be `myblazor-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
 - If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
 - If the article IS featured, include `featured: true`.
 - Do NOT include `draft: true` unless I explicitly ask for a draft.
@@ -41001,7 +41001,7 @@ Here's a summary of what's in the article (it runs approximately 18,000–20,000
 34
 16
 
-Write a long, comprehensive blog article for Observer Magazine on the following topic:
+Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: 
 Git -- sha1 vs sha256
@@ -41038,7 +41038,7 @@ use this as the publish date and file name date
 - [ADD OR REMOVE AREAS AS NEEDED]
 
 **Publish date**: [YYYY-MM-DD]
-**Author**: observer-team
+**Author**: myblazor-team
 
 ## Writing requirements
 
@@ -41050,7 +41050,7 @@ The file MUST start with YAML front matter in this exact schema:
 ---
 title: "[A descriptive, compelling title — can include a subtitle after a colon]"
 date: [YYYY-MM-DD]
-author: observer-team
+author: myblazor-team
 summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
 tags:
   - [tag1]
@@ -41060,7 +41060,7 @@ tags:
 ```
 
 CRITICAL front matter rules:
-- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- `author` MUST be `myblazor-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
 - If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
 - If the article IS featured, include `featured: true`.
 - Do NOT include `draft: true` unless I explicitly ask for a draft.
@@ -41212,7 +41212,7 @@ A few highlights of what this article covers across its 14 parts and ~18,000 wor
 00
 18
 
-Write a long, comprehensive blog article for Observer Magazine on the following topic:
+Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: 
 Clojure -- a beginner's guide for a c sharp asp dotnet web developer code monkey
@@ -41267,7 +41267,7 @@ use this as the publish date and file name date
 - [ADD OR REMOVE AREAS AS NEEDED]
 
 **Publish date**: [YYYY-MM-DD]
-**Author**: observer-team
+**Author**: myblazor-team
 
 ## Writing requirements
 
@@ -41279,7 +41279,7 @@ The file MUST start with YAML front matter in this exact schema:
 ---
 title: "[A descriptive, compelling title — can include a subtitle after a colon]"
 date: [YYYY-MM-DD]
-author: observer-team
+author: myblazor-team
 summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
 tags:
   - [tag1]
@@ -41289,7 +41289,7 @@ tags:
 ```
 
 CRITICAL front matter rules:
-- `author` MUST be `observer-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- `author` MUST be `myblazor-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
 - If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
 - If the article IS featured, include `featured: true`.
 - Do NOT include `draft: true` unless I explicitly ask for a draft.

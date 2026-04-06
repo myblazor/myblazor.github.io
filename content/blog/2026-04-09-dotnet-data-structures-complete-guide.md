@@ -1,7 +1,7 @@
 ---
 title: "Data Structures in .NET: A Comprehensive Guide from Primitives to Advanced Collections"
 date: 2026-04-09
-author: observer-team
+author: myblazor-team
 summary: "An exhaustive guide to every data structure available in .NET 10 and C# 14 — from primitive types and value semantics through arrays, lists, dictionaries, trees, graphs, queues, stacks, spans, and frozen collections — with working code examples, internal implementation details, Big-O analysis, and practical advice for ASP.NET developers."
 tags:
   - dotnet
@@ -739,13 +739,13 @@ var config = new SortedList<string, string>
 {
     ["database.host"] = "localhost",
     ["database.port"] = "5432",
-    ["app.name"] = "Observer Magazine",
+    ["app.name"] = "My Blazor Magazine",
     ["app.version"] = "1.0.0"
 };
 
 // Access by index (not available on SortedDictionary!)
 string firstKey = config.Keys[0];     // "app.name"
-string firstValue = config.Values[0]; // "Observer Magazine"
+string firstValue = config.Values[0]; // "My Blazor Magazine"
 
 // Binary search lookup — O(log n)
 if (config.TryGetValue("database.host", out string? host))
@@ -989,7 +989,7 @@ var mutableConfig = new Dictionary<string, string>
 {
     ["Database:Host"] = "db.example.com",
     ["Database:Port"] = "5432",
-    ["App:Name"] = "Observer Magazine",
+    ["App:Name"] = "My Blazor Magazine",
     ["App:Version"] = "2.0.0",
     ["Feature:DarkMode"] = "true"
 };

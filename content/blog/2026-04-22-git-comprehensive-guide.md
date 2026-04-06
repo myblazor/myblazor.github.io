@@ -1,7 +1,7 @@
 ---
 title: "Git: The Complete Guide — Internals, Misconceptions, Branches, Commits, Tags, and Everything In Between"
 date: 2026-04-22
-author: observer-team
+author: myblazor-team
 summary: A deep, exhaustive guide to Git covering its history, object model, and every major concept — with special focus on the most common and damaging misconceptions about branches, commits, tags, merging, and rebasing. Includes a full worked scenario demonstrating exactly how diverged branches conflict, how 3-way merge works under the hood, and how to reason about Git's DAG.
 tags:
   - git
@@ -1943,9 +1943,9 @@ Both Visual Studio and JetBrains Rider have excellent Git integration:
 
 For command-line enthusiasts, the cross-platform `lazygit` (a terminal UI for Git) provides a visual experience in the terminal.
 
-### 19.3 Practical Workflow for Observer Magazine Development
+### 19.3 Practical Workflow for My Blazor Magazine Development
 
-For a project like Observer Magazine (Blazor WASM, GitHub Pages deployment), a sensible workflow might be:
+For a project like My Blazor Magazine (Blazor WASM, GitHub Pages deployment), a sensible workflow might be:
 
 ```bash
 # Start a new article or feature

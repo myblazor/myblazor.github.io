@@ -2,7 +2,7 @@
 title: "Your Post Title Here"
 date: 2099-01-01
 draft: true
-author: observer-team
+author: myblazor-team
 summary: A short one- or two-sentence summary that appears on the blog index page.
 featured: false
 tags:

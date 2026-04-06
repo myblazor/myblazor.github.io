@@ -12,7 +12,7 @@ DIRECTORY TREE (all git-tracked files)
 │   ├── authors
 │   │   ├── abraham-lincoln.yml
 │   │   ├── kushal.yml
-│   │   └── observer-team.yml
+│   │   └── myblazor-team.yml
 │   └── blog
 │       ├── 2026-01-15-welcome-to-observer-magazine.md
 │       ├── 2026-02-20-getting-started-with-blazor-wasm.md
@@ -135,8 +135,8 @@ DIRECTORY TREE (all git-tracked files)
 │           ├── images
 │           │   └── authors
 │           │       ├── kushal.png
-│           │       ├── observer-team.png
-│           │       └── observer-team.txt
+│           │       ├── myblazor-team.png
+│           │       └── myblazor-team.txt
 │           ├── index.html
 │           └── sample-data
 │               └── products.json
@@ -263,12 +263,12 @@ socials:
 
 
 -------------------------------------------------------------------------------
-FILE: content/authors/observer-team.yml
+FILE: content/authors/myblazor-team.yml
 -------------------------------------------------------------------------------
 name: Observer Team
 email: hello@observermagazine.example
-bio: The team behind Observer Magazine — building free, open-source tools with .NET 10 and Blazor WebAssembly.
-avatar: images/authors/observer-team.png
+bio: The team behind My Blazor Magazine — building free, open-source tools with .NET 10 and Blazor WebAssembly.
+avatar: images/authors/myblazor-team.png
 socials:
   github: ObserverMagazine
 
@@ -277,10 +277,10 @@ socials:
 FILE: content/blog/2026-01-15-welcome-to-observer-magazine.md  [FRONT MATTER ONLY — body omitted to save context space]
 -------------------------------------------------------------------------------
 ---
-title: Welcome to Observer Magazine
+title: Welcome to My Blazor Magazine
 date: 2026-01-15
-author: observer-team
-summary: Our first post — introducing Observer Magazine and what we're building.
+author: myblazor-team
+summary: Our first post — introducing My Blazor Magazine and what we're building.
 tags:
   - announcement
   - introduction
@@ -293,7 +293,7 @@ FILE: content/blog/2026-02-20-getting-started-with-blazor-wasm.md  [FRONT MATTER
 ---
 title: Getting Started with Blazor WebAssembly
 date: 2026-02-20
-author: observer-team
+author: myblazor-team
 summary: A quick tour of how Blazor WASM works and why it's a great choice for static sites.
 tags:
   - blazor
@@ -308,7 +308,7 @@ FILE: content/blog/2026-03-10-responsive-design-patterns.md  [FRONT MATTER ONLY 
 ---
 title: Responsive Design Patterns in Blazor
 date: 2026-03-10
-author: observer-team
+author: myblazor-team
 summary: How we built mobile-friendly data tables and master-detail layouts in pure Blazor.
 tags:
   - blazor
@@ -324,7 +324,7 @@ FILE: content/blog/2026-03-20-hello-world.md  [FRONT MATTER ONLY — body omitte
 ---
 title: Hello, world!
 date: 2026-03-20
-author: observer-team
+author: myblazor-team
 summary: In which I say Hello to you
 tags:
   - introductions
@@ -337,7 +337,7 @@ FILE: content/blog/2026-03-21-aspnet-lifecycle-deep-dive.md  [FRONT MATTER ONLY 
 ---
 title: "The ASP.NET Request Lifecycle: Why Cold Starts Are Slow and How .NET 10 Changes Everything"
 date: 2026-03-21
-author: observer-team
+author: myblazor-team
 summary: A deep dive into the ASP.NET request lifecycle across both .NET Framework and modern .NET 10, explaining why cold starts have historically been slow, what you can do about it, and how Native AOT and other advances have fundamentally changed the equation.
 tags:
   - dotnet
@@ -368,7 +368,7 @@ FILE: content/blog/2026-03-22-modernizing-to-dotnet-10.md  [FRONT MATTER ONLY �
 ---
 title: "From .NET Framework 4.7 to .NET 10: A Practical Guide for Enterprise Developers"
 date: 2026-03-22
-author: observer-team
+author: myblazor-team
 summary: A comprehensive guide for enterprise .NET developers who have been working with .NET Framework 4.7 and want to understand what has changed, why it matters, and how to modernize — written for people who code at work and do not tinker with software at home.
 featured: true
 tags:
@@ -387,7 +387,7 @@ FILE: content/blog/2026-03-22-the-year-2025-in-review.md  [FRONT MATTER ONLY —
 ---
 title: "The Year 2025 in Review: A Comprehensive Retrospective"
 date: 2026-03-22
-author: observer-team
+author: myblazor-team
 summary: A thorough look back at the major political, economic, technological, scientific, and cultural events that defined the year 2025.
 tags:
   - retrospective
@@ -406,7 +406,7 @@ FILE: content/blog/2026-03-23-honk-drive.md  [FRONT MATTER ONLY — body omitted
 ---
 title: The Green Light Doesn't Mean Go — It Means You May Go
 date: 2026-03-23
-author: observer-team
+author: myblazor-team
 summary: A lesson learned at a red light that applies to every decision you will ever make in life, work, and everything in between.
 tags:
   - life-lessons
@@ -422,7 +422,7 @@ FILE: content/blog/2026-03-24-avalonia-ui-comprehensive-guide.md  [FRONT MATTER 
 ---
 title: "Avalonia UI: The Complete Guide — From Hello World to Cross-Platform Mastery"
 date: 2026-03-24
-author: observer-team
+author: myblazor-team
 summary: Everything you need to know about Avalonia UI — what it is today, how to build desktop and mobile apps with AXAML and C#, why desktop and mobile need different layouts, what is coming in Avalonia 12, and the rendering revolution beyond. Packed with code examples.
 tags:
   - avalonia
@@ -443,7 +443,7 @@ FILE: content/blog/2026-03-25-git-and-trunk-based-development.md  [FRONT MATTER 
 ---
 title: "Git From First Principles, and Why Trunk-Based Development Will Save Your Team"
 date: 2026-03-25
-author: observer-team
+author: myblazor-team
 summary: A comprehensive deep dive into Git as a version control system — every command, every workflow, every configuration. Then, a persuasive case for trunk-based development aimed at teams reluctant to leave long-lived branches behind. Backed by a decade of DORA research.
 tags:
   - git
@@ -463,7 +463,7 @@ FILE: content/blog/2026-03-26-typescript-comprehensive-guide.md  [FRONT MATTER O
 ---
 title: "TypeScript: The Comprehensive Guide — From JavaScript's Quirks to the Go Rewrite"
 date: 2026-03-26
-author: observer-team
+author: myblazor-team
 summary: Everything a programmer should know about TypeScript — its history, what JavaScript gets wrong, what TypeScript fixes (and does not fix), every major feature from version 1.0 through 6.0, the complete tsconfig.json reference, the tooling ecosystem, and the historic Go rewrite coming in TypeScript 7.
 tags:
   - typescript
@@ -481,7 +481,7 @@ FILE: content/blog/2026-03-27-sql-server-complete-guide.md  [FRONT MATTER ONLY �
 ---
 title: "SQL Server: The Complete Guide for .NET Developers — From SSMS to T-SQL to Production Best Practices"
 date: 2026-03-27
-author: observer-team
+author: myblazor-team
 summary: Everything a .NET/C#/ASP.NET developer needs to know about SQL Server — covering versions 2016 through 2025, SSMS 21 and 22, SQL Profiler, sqlcmd, T-SQL, transactions, locking, networking, sessions, debugging, and production best practices.
 tags:
   - sql-server
@@ -500,7 +500,7 @@ FILE: content/blog/2026-03-28-postgresql-npgsql-comprehensive-guide.md  [FRONT M
 ---
 title: "PostgreSQL, Npgsql, and Open-Source IDEs: The Definitive Guide for .NET Developers on Linux"
 date: 2026-03-28
-author: observer-team
+author: myblazor-team
 summary: A comprehensive, leave-no-stone-unturned guide to PostgreSQL 17 and 18, Npgsql with Dapper and EF Core, terminal workflows, configuration, transactions, networking, sessions, debugging, Docker/Podman setup, and every free open-source IDE available — all from the perspective of a .NET C# ASP.NET web developer working on Linux.
 tags:
   - postgresql
@@ -520,7 +520,7 @@ FILE: content/blog/2026-03-29-why-qa-matters-more-than-ever.md  [FRONT MATTER ON
 ---
 title: "Why QA Matters More Than Ever: The Case for Slowing Down in a World of AI-Generated Code"
 date: 2026-03-29
-author: observer-team
+author: myblazor-team
 summary: As AI tools accelerate code output by 76 percent and change failure rates climb by 30 percent, the argument for dedicated QA has never been stronger. This deep dive explores why quality assurance is not a luxury — it is the last line of defense between your users and an avalanche of untested code.
 tags:
   - qa
@@ -540,7 +540,7 @@ FILE: content/blog/2026-03-30-the-cloud-toilet-problem.md  [FRONT MATTER ONLY �
 ---
 title: "The Cloud Toilet Problem: Why Your AI Tools Need an On-Premises Fallback"
 date: 2026-03-30
-author: observer-team
+author: myblazor-team
 summary: What happens when every toilet in your availability zone goes down? A practical guide for ASP.NET developers on building resilient applications that survive cloud AI outages.
 tags:
   - cloud
@@ -558,7 +558,7 @@ FILE: content/blog/2026-03-31-solid-principles.md  [FRONT MATTER ONLY — body o
 ---
 title: "SOLID Principles: A Complete Guide to Writing Clean, Maintainable Object-Oriented Code"
 date: 2026-03-31
-author: observer-team
+author: myblazor-team
 summary: An exhaustive deep dive into all five SOLID principles — Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, and Dependency Inversion — with C# examples, historical context, real-world scenarios, common violations, and practical guidance for .NET developers.
 tags:
   - csharp
@@ -579,7 +579,7 @@ FILE: content/blog/2026-04-01-single-responsibility-principle-complete-guide.md 
 ---
 title: "The Single Responsibility Principle: A Complete Guide for .NET Developers"
 date: 2026-04-01
-author: observer-team
+author: myblazor-team
 summary: A comprehensive deep dive into the Single Responsibility Principle — from its intellectual origins in structured analysis through Robert C. Martin's evolving definitions, with extensive C# examples showing how to recognize, refactor, and sustain SRP in real-world .NET applications.
 tags:
   - solid
@@ -598,7 +598,7 @@ FILE: content/blog/2026-04-02-open-closed-principle.md  [FRONT MATTER ONLY — b
 ---
 title: "The Open/Closed Principle: A Comprehensive Guide for .NET Developers"
 date: 2026-04-02
-author: observer-team
+author: myblazor-team
 summary: A deep dive into the Open/Closed Principle — its origins with Bertrand Meyer in 1988, Robert C. Martin's reformulation in 1996, how to apply it in modern C# and ASP.NET Core with real code examples, which design patterns embody it, when to ignore it, and how it shapes testable, maintainable software architecture.
 tags:
   - csharp
@@ -617,7 +617,7 @@ FILE: content/blog/2026-04-03-liskov-substitution.md  [FRONT MATTER ONLY — bod
 ---
 title: "The Liskov Substitution Principle: A Complete Guide for .NET Developers"
 date: 2026-04-03
-author: observer-team
+author: myblazor-team
 summary: "A deep dive into the Liskov Substitution Principle — from Barbara Liskov's 1987 keynote to practical C# code, real-world violations, design-by-contract rules, and strategies for writing substitutable types in modern .NET."
 tags:
   - solid
@@ -635,7 +635,7 @@ FILE: content/blog/2026-04-04-interface-segregation.md  [FRONT MATTER ONLY — b
 ---
 title: "The Interface Segregation Principle: A Complete Guide for .NET Developers"
 date: 2026-04-04
-author: observer-team
+author: myblazor-team
 summary: "A deep dive into the Interface Segregation Principle (ISP), the 'I' in SOLID. Covers the origin story at Xerox, what ISP really means (and what it does not mean), how it manifests in the .NET Base Class Library, practical C# refactoring walkthroughs, its relationship to the other SOLID principles, and how to apply it in modern .NET 10 applications."
 tags:
   - solid
@@ -654,7 +654,7 @@ FILE: content/blog/2026-04-05-dependency-injection.md  [FRONT MATTER ONLY — bo
 ---
 title: "The Dependency Inversion Principle: A Comprehensive Guide for .NET Developers"
 date: 2026-04-05
-author: observer-team
+author: myblazor-team
 summary: "A deep dive into the Dependency Inversion Principle — the 'D' in SOLID — covering its history, formal definition, practical C# implementations, ASP.NET Core's built-in DI container, keyed services, testing strategies, common pitfalls, and real-world architecture patterns."
 tags:
   - dotnet
@@ -675,7 +675,7 @@ FILE: content/blog/2026-04-06-most-important-solid-principle.md  [FRONT MATTER O
 ---
 title: "The Most Important SOLID Principle: Why Dependency Inversion Changes Everything"
 date: 2026-04-06
-author: observer-team
+author: myblazor-team
 summary: A deep, opinionated exploration of which SOLID principle matters most — making the case for Dependency Inversion as the keystone that unlocks testability, flexibility, and clean architecture in .NET applications, while giving each of the other four principles its fair hearing.
 tags:
   - csharp
@@ -696,7 +696,7 @@ FILE: content/blog/2026-04-07-2007-toyota-camry-complete-guide.md  [FRONT MATTER
 ---
 title: "Your 2007 Toyota Camry: The Complete Owner's Guide to Driving, Maintaining, and Eventually Replacing Your Kentucky-Built Sedan"
 date: 2026-04-07
-author: observer-team
+author: myblazor-team
 summary: "A comprehensive, plain-language guide for 2007 Toyota Camry base model owners covering daily driving habits, the infamous oil consumption problem, the full maintenance schedule, what breaks as the car ages, and what the new and used car market looks like in 2026 and beyond."
 tags:
   - automotive
@@ -713,7 +713,7 @@ FILE: content/blog/2026-04-08-aspire-containers-self-hosting-guide.md  [FRONT MA
 ---
 title: "Aspire, Containers, and Self-Hosting: A Complete Guide to Deploying .NET Applications on Your Own Hardware"
 date: 2026-04-08
-author: observer-team
+author: myblazor-team
 summary: A comprehensive guide to Aspire, OCI containers, and self-hosted deployment. Covers what Aspire is, how it generates container artifacts, how to write Containerfiles, how to deploy to bare metal or a VPS using podman-compose, and when (if ever) you actually need Kubernetes. Uses a real Blazor + SQLite application as the running example throughout.
 tags:
   - aspire
@@ -734,7 +734,7 @@ FILE: content/blog/2026-04-09-dotnet-data-structures-complete-guide.md  [FRONT M
 ---
 title: "Data Structures in .NET: A Comprehensive Guide from Primitives to Advanced Collections"
 date: 2026-04-09
-author: observer-team
+author: myblazor-team
 summary: "An exhaustive guide to every data structure available in .NET 10 and C# 14 — from primitive types and value semantics through arrays, lists, dictionaries, trees, graphs, queues, stacks, spans, and frozen collections — with working code examples, internal implementation details, Big-O analysis, and practical advice for ASP.NET developers."
 tags:
   - dotnet
@@ -754,7 +754,7 @@ FILE: content/blog/2026-04-10-relational-databases-normalization-guide.md  [FRON
 ---
 title: "Relational Databases and Normalization: A Complete Guide from Messy Spreadsheets to Sixth Normal Form"
 date: 2026-04-10
-author: observer-team
+author: myblazor-team
 summary: A comprehensive walkthrough of relational database normalization from UNF through 6NF, using a real Blazor Server contact management application as the running example. Includes C# code with Dapper and EF Core at every level, a critique of the starting schema, practical cost-benefit analysis for each normal form, and a deep dive into Entity-Attribute-Value.
 tags:
   - databases
@@ -775,7 +775,7 @@ FILE: content/blog/2026-04-11-dotnet10-csharp14-complete-guide.md  [FRONT MATTER
 ---
 title: "The Complete .NET 10 and C# 14 Guide: Everything You Need to Know from Framework to Modern .NET"
 date: 2026-04-11
-author: observer-team
+author: myblazor-team
 summary: "A comprehensive, from-the-ground-up guide to .NET 10 and C# 14 for developers coming from any .NET background — covering the full history of .NET Framework through modern .NET, every major C# language feature from version 1.0 to 14, the .NET 10 runtime and SDK improvements, ASP.NET Core 10, Blazor, EF Core 10, NativeAOT, the SLNX solution format, file-based apps, and practical migration strategies."
 tags:
   - dotnet
@@ -796,7 +796,7 @@ FILE: content/blog/2026-04-12-dfw-home-buying-complete-guide.md  [FRONT MATTER O
 ---
 title: "The Complete Guide to Buying a Home in Dallas–Fort Worth: Single-Family, Multigenerational, Duplex, Barndominium, and Everything In Between"
 date: 2026-04-12
-author: observer-team
+author: myblazor-team
 summary: An exhaustive, checklist-driven guide to purchasing a home in the Dallas–Fort Worth metroplex. Covers soil conditions, foundation types, safety, utilities, ADU zoning, barndominiums, manufactured homes, duplexes, fourplexes, new construction versus existing homes, and post-purchase maintenance from water softeners to EV charger wiring.
 tags:
   - guide
@@ -811,7 +811,7 @@ FILE: content/blog/2026-04-13-bikram-sambat-nepal-sambat-comprehensive-guide.md 
 ---
 title: "Bikram Sambat and Nepal Sambat: A Comprehensive Guide to Nepal's Calendars, Their Mathematics, and What They Mean for Programmers"
 date: 2026-04-13
-author: observer-team
+author: myblazor-team
 featured: true
 summary: A deep-dive into the Bikram Sambat and Nepal Sambat calendar systems — their origins, mathematics, month structures, astronomical foundations, regional variations, new year celebrations, and practical date-time conversion guidance for software developers. Published on the eve of Nepali New Year 2083 BS.
 tags:
@@ -843,7 +843,7 @@ FILE: content/blog/2026-04-14-web-browser-technology-complete-guide.md  [FRONT M
 ---
 title: "Web Browser Technology: The Complete Guide to Engines, Standards, and the Future of the Web Platform"
 date: 2026-04-14
-author: observer-team
+author: myblazor-team
 summary: "An exhaustive deep-dive into web browser technology covering rendering engines (Blink, Gecko, WebKit, LibWeb), JavaScript engines (V8, SpiderMonkey, JavaScriptCore, LibJS), CSS engines, browser architecture, market share, the Ladybird project, upcoming web standards, WebAssembly 3.0, ECMAScript 2026, the Google antitrust case, and practical guidance for web developers building on the modern web platform."
 tags:
   - deep-dive
@@ -858,10 +858,10 @@ tags:
 FILE: content/blog/2026-04-15-blazor-not-found-page-postmortem.md  [FRONT MATTER ONLY — body omitted to save context space]
 -------------------------------------------------------------------------------
 ---
-title: "Post-Mortem: How We Broke Observer Magazine With a Missing @page Directive and What We Learned About Blazor's NotFoundPage in .NET 10"
+title: "Post-Mortem: How We Broke My Blazor Magazine With a Missing @page Directive and What We Learned About Blazor's NotFoundPage in .NET 10"
 date: 2026-04-15
-author: observer-team
-summary: "A detailed post-mortem of a production-breaking bug in Observer Magazine caused by migrating from the deprecated Router <NotFound> render fragment to the new .NET 10 NotFoundPage parameter — without adding the required @page directive to the target component. Covers the full history of Blazor's 404 handling, the exact error, the root cause, the fix, and every lesson learned."
+author: myblazor-team
+summary: "A detailed post-mortem of a production-breaking bug in My Blazor Magazine caused by migrating from the deprecated Router <NotFound> render fragment to the new .NET 10 NotFoundPage parameter — without adding the required @page directive to the target component. Covers the full history of Blazor's 404 handling, the exact error, the root cause, the fix, and every lesson learned."
 tags:
   - blazor
   - dotnet
@@ -879,7 +879,7 @@ FILE: content/blog/2026-04-16-global-money-machine-currency-payments-remittance-
 ---
 title: "The Global Money Machine: Currency, Digital Payments, Remittance, and Nepal's Place in a Changing World"
 date: 2026-04-16
-author: observer-team
+author: myblazor-team
 summary: An exhaustive exploration of how money moves around the world — from SWIFT messages and card networks to Brazil's Pix, India's UPI, China's digital yuan, Europe's Wero, and CBDCs — with a deep focus on remittance, foreign exchange, and what all of it means for Nepal.
 tags:
   - finance
@@ -899,7 +899,7 @@ FILE: content/blog/2026-04-17-grand-unified-novel-timeline.md  [FRONT MATTER ONL
 ---
 title: "The Grand Human Story: A Unified Chronicle Drawn from the Nine Greatest Novels Ever Written"
 date: 2026-04-17
-author: observer-team
+author: myblazor-team
 summary: What happens when A Tale of Two Cities, Frankenstein, War and Peace, Pride and Prejudice, Les Misérables, Middlemarch, Great Expectations, Moby-Dick, and Anna Karenina are woven into a single, unbroken tapestry of human experience? This is that story — one grand timeline, one relentless current of ambition, love, suffering, revolution, and the unquenchable need to be seen.
 tags:
   - literature
@@ -918,7 +918,7 @@ FILE: content/blog/2026-04-18-global-gnss-and-atomic-synchronization.md  [FRONT 
 ---
 title: "The Global Positioning Engine: Atomic Clocks, Trilateration, and the Invisible Infrastructure of Time"
 date: 2026-04-18
-author: observer-team
+author: myblazor-team
 summary: An exhaustive technical exploration of the world's GNSS constellations, the relativistic physics of atomic clocks, and the C# logic required to turn satellite signals into coordinates — covering GPS, GLONASS, Galileo, BeiDou, QZSS, and NavIC, plus financial market timing, trilateration math, NMEA parsing, and the mounting crisis of spoofing.
 tags:
   - gnss
@@ -937,7 +937,7 @@ FILE: content/blog/2026-04-19-sql-server-connection-pooling-complete-guide.md  [
 ---
 title: "The Complete Guide to SQL Server Connection Pooling in ASP.NET: From Framework 4.8 to .NET 10"
 date: 2026-04-19
-author: observer-team
+author: myblazor-team
 summary: An exhaustive, deeply practical guide to SQL Server connection pooling in ASP.NET applications — covering ADO.NET, Dapper, Entity Framework Core, every configuration knob, monitoring strategies, common failure modes, and when to raise or lower the default pool size of 100.
 tags:
   - aspnet
@@ -956,7 +956,7 @@ FILE: content/blog/2026-04-20-httpclientfactory-typed-clients-deep-dive.md  [FRO
 ---
 title: "HttpClientFactory and Typed Clients: The Complete Guide to HTTP Connection Management in .NET"
 date: 2026-04-20
-author: observer-team
+author: myblazor-team
 summary: "Socket exhaustion is to HttpClient what connection pool exhaustion is to SQL Server — a silent killer that only reveals itself under load. This exhaustive guide covers the full lifecycle of HttpMessageHandler, DNS staleness, the IHttpClientFactory handler pool, and every pattern from Basic to Typed Clients, from .NET Framework 4.8 to .NET 10."
 tags:
   - aspnet
@@ -975,7 +975,7 @@ FILE: content/blog/2026-04-21-threadpool-starvation-and-connection-pooling.md  [
 ---
 title: "Thread Pool Starvation, Injection, and the Other Pool: A Complete Guide to Concurrency in ASP.NET and .NET 10"
 date: 2026-04-21
-author: observer-team
+author: myblazor-team
 summary: "Everything you need to know about the .NET Thread Pool's Hill Climbing algorithm, SQL Server connection pooling, and why async/await saves threads but not connections — illustrated with case studies across ASP.NET Framework 4.8, ADO.NET, Dapper, and Entity Framework Core on .NET 10."
 tags:
   - dotnet
@@ -994,7 +994,7 @@ FILE: content/blog/2026-04-22-git-comprehensive-guide.md  [FRONT MATTER ONLY —
 ---
 title: "Git: The Complete Guide — Internals, Misconceptions, Branches, Commits, Tags, and Everything In Between"
 date: 2026-04-22
-author: observer-team
+author: myblazor-team
 summary: A deep, exhaustive guide to Git covering its history, object model, and every major concept — with special focus on the most common and damaging misconceptions about branches, commits, tags, merging, and rebasing. Includes a full worked scenario demonstrating exactly how diverged branches conflict, how 3-way merge works under the hood, and how to reason about Git's DAG.
 tags:
   - git
@@ -1012,7 +1012,7 @@ FILE: content/blog/2026-04-23-git-sha1-vs-sha256.md  [FRONT MATTER ONLY — body
 ---
 title: "Git's Hash Revolution: SHA-1, SHA-256, and the Long Road to a More Secure Version Control System"
 date: 2026-04-23
-author: observer-team
+author: myblazor-team
 summary: A comprehensive, deeply technical exploration of how Git's choice of SHA-1 in 2005 shaped its entire architecture, why the SHAttered attack of 2017 changed everything, and what the slow, careful transition to SHA-256 looks like from the inside — including full command walkthroughs, C# tooling examples, migration strategies, and the state of the ecosystem in 2026.
 tags:
   - git
@@ -1033,7 +1033,7 @@ FILE: content/blog/2026-04-24-clojure-beginners-guide.md  [FRONT MATTER ONLY —
 ---
 title: "Clojure: A Beginner's Guide for the C# ASP.NET Developer Who Has Been Doing Everything Wrong"
 date: 2026-04-24
-author: observer-team
+author: myblazor-team
 summary: "A comprehensive, from-the-ground-up introduction to Clojure for C# and ASP.NET web developers — covering what the JVM is, why Lisp matters, how to think in data instead of objects, immutability, concurrency, the REPL, functional programming, persistent data structures, macros, and how to unlearn the bad habits that years of enterprise OOP have cemented into your brain."
 tags:
   - clojure
@@ -1053,7 +1053,7 @@ FILE: content/blog/2027-01-01-happy-new-year-2027.md  [FRONT MATTER ONLY — bod
 ---
 title: "Happy New Year 2027: A Look Back and a Look Ahead"
 date: 2027-01-01
-author: observer-team
+author: myblazor-team
 summary: Ringing in 2027 with a comprehensive retrospective on what happened in technology, open source, and web development during 2026, plus our predictions and hopes for the year ahead.
 featured: true
 tags:
@@ -1073,7 +1073,7 @@ FILE: content/blog/2099-01-01-draft-template.md  [FRONT MATTER ONLY — body omi
 title: "Your Post Title Here"
 date: 2099-01-01
 draft: true
-author: observer-team
+author: myblazor-team
 summary: A short one- or two-sentence summary that appears on the blog index page.
 featured: false
 tags:
@@ -1657,7 +1657,7 @@ FILE: ObserverMagazine.slnx
 -------------------------------------------------------------------------------
 FILE: README.md
 -------------------------------------------------------------------------------
-# Observer Magazine
+# My Blazor Magazine
 
 A free, open-source Blazor WebAssembly application deployed to GitHub Pages.
 
@@ -3217,7 +3217,7 @@ FILE: src/ObserverMagazine.Web/Layout/MainLayout.razor
     <footer class="site-footer">
         <div class="container">
             <p>
-                &copy; @DateTime.UtcNow.Year Observer Magazine &mdash; Built with
+                &copy; @DateTime.UtcNow.Year My Blazor Magazine &mdash; Built with
                 <a href="https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor" target="_blank"
                    rel="noopener noreferrer">Blazor WebAssembly</a>
                 on .NET 10.
@@ -3618,12 +3618,12 @@ FILE: src/ObserverMagazine.Web/Pages/About.razor
 @page "/about"
 @inject IAnalyticsService Analytics
 
-<PageTitle>About — Observer Magazine</PageTitle>
+<PageTitle>About — My Blazor Magazine</PageTitle>
 
-<h1>About Observer Magazine</h1>
+<h1>About My Blazor Magazine</h1>
 
 <p>
-    Observer Magazine is a free, open-source sample project demonstrating how to build
+    My Blazor Magazine is a free, open-source sample project demonstrating how to build
     a modern static web application using <strong>Blazor WebAssembly</strong> on
     <strong>.NET 10</strong>.
 </p>
@@ -3700,7 +3700,7 @@ FILE: src/ObserverMagazine.Web/Pages/BlogPost.razor
 @inject IAnalyticsService Analytics
 @inject IJSRuntime Js
 
-<PageTitle>@(_metadata?.Title ?? "Post") — Observer Magazine</PageTitle>
+<PageTitle>@(_metadata?.Title ?? "Post") — My Blazor Magazine</PageTitle>
 
 @if (_loading)
 {
@@ -4179,7 +4179,7 @@ FILE: src/ObserverMagazine.Web/Pages/Blog.razor
 @inject IAnalyticsService Analytics
 @inject NavigationManager Nav
 
-<PageTitle>@(string.IsNullOrEmpty(Tag) ? "Blog" : $"Posts tagged \"{Tag}\"") — Observer Magazine</PageTitle>
+<PageTitle>@(string.IsNullOrEmpty(Tag) ? "Blog" : $"Posts tagged \"{Tag}\"") — My Blazor Magazine</PageTitle>
 
 <h1>Blog</h1>
 
@@ -4354,10 +4354,10 @@ FILE: src/ObserverMagazine.Web/Pages/Home.razor
 @inject IAnalyticsService Analytics
 @inject IBlogService BlogService
 
-<PageTitle>Observer Magazine</PageTitle>
+<PageTitle>My Blazor Magazine</PageTitle>
 
 <section class="hero">
-    <h1>Observer Magazine</h1>
+    <h1>My Blazor Magazine</h1>
     <p class="lead">
         A free, open-source Blazor WebAssembly showcase built on .NET 10.
         Explore modern web patterns, read our blog, and use this as a starting point
@@ -4510,7 +4510,7 @@ FILE: src/ObserverMagazine.Web/Pages/NotFoundView.razor
 @page "/not-found"
 @layout MainLayout
 
-<PageTitle>Not Found — Observer Magazine</PageTitle>
+<PageTitle>Not Found — My Blazor Magazine</PageTitle>
 
 <div class="container text-center" style="padding: 4rem 1rem;">
     <h1>404 — Page Not Found</h1>
@@ -4990,7 +4990,7 @@ FILE: src/ObserverMagazine.Web/Pages/Showcase.razor
 @inject NavigationManager Nav
 @implements IDisposable
 
-<PageTitle>Showcase — Observer Magazine</PageTitle>
+<PageTitle>Showcase — My Blazor Magazine</PageTitle>
 
 <h1>Product Catalog Showcase</h1>
 <p>
@@ -5964,7 +5964,7 @@ var host = builder.Build();
 
 // Log application startup
 var logger = host.Services.GetRequiredService<ILoggerFactory>().CreateLogger("App");
-logger.LogInformation("Observer Magazine started at {Time}", DateTime.UtcNow);
+logger.LogInformation("My Blazor Magazine started at {Time}", DateTime.UtcNow);
 
 var telemetry = host.Services.GetRequiredService<TelemetryService>();
 telemetry.TrackEvent("AppStarted");
@@ -6459,7 +6459,7 @@ FILE: src/ObserverMagazine.Web/wwwroot/404.html
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Observer Magazine</title>
+    <title>My Blazor Magazine</title>
     <script>
         // Single-page app redirect for GitHub Pages.
         // Converts the path to a query string so the SPA router can pick it up.
@@ -6920,12 +6920,12 @@ a.tag:hover {
 
 
 -------------------------------------------------------------------------------
-FILE: src/ObserverMagazine.Web/wwwroot/images/authors/observer-team.txt
+FILE: src/ObserverMagazine.Web/wwwroot/images/authors/myblazor-team.txt
 -------------------------------------------------------------------------------
 Hello, world!
 
 Gemini prompt for image: 
-can you please generate a 200px by 200px png image for src/ObserverMagazine.Web/wwwroot/images/authors/observer-team.jpg it should be generic and not offensive to any one especially not to any protected group 
+can you please generate a 200px by 200px png image for src/ObserverMagazine.Web/wwwroot/images/authors/myblazor-team.jpg it should be generic and not offensive to any one especially not to any protected group 
 
 
 -------------------------------------------------------------------------------
@@ -6936,9 +6936,9 @@ FILE: src/ObserverMagazine.Web/wwwroot/index.html
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-    <title>Observer Magazine</title>
+    <title>My Blazor Magazine</title>
     <base href="/" />
-    <link rel="alternate" type="application/rss+xml" title="Observer Magazine RSS" href="/feed.xml" />
+    <link rel="alternate" type="application/rss+xml" title="My Blazor Magazine RSS" href="/feed.xml" />
     <link rel="stylesheet" href="css/app.css" />
     <link rel="stylesheet" href="ObserverMagazine.Web.styles.css" />
 
@@ -6957,7 +6957,7 @@ FILE: src/ObserverMagazine.Web/wwwroot/index.html
 <body>
     <div id="app">
         <div style="display:flex;align-items:center;justify-content:center;height:100vh;height:100dvh;">
-            <p>Loading Observer Magazine...</p>
+            <p>Loading My Blazor Magazine...</p>
         </div>
     </div>
 
@@ -7539,7 +7539,7 @@ public class ContentProcessorTests
             ---
             title: Test Post
             date: 2026-03-01
-            author: observer-team
+            author: myblazor-team
             summary: A test summary
             tags:
               - test
@@ -7557,7 +7557,7 @@ public class ContentProcessorTests
 
         Assert.Equal("Test Post", frontMatter.Title);
         Assert.Equal(new DateTime(2026, 3, 1), frontMatter.Date);
-        Assert.Equal("observer-team", frontMatter.Author);
+        Assert.Equal("myblazor-team", frontMatter.Author);
         Assert.Equal("A test summary", frontMatter.Summary);
         Assert.Equal(["test", "integration"], frontMatter.Tags!);
         Assert.True(frontMatter.Featured);
@@ -8961,7 +8961,7 @@ public class BlogServiceTests
             Slug = "first-post",
             Title = "First Post",
             Date = new DateTime(2026, 1, 15),
-            Author = "observer-team",
+            Author = "myblazor-team",
             AuthorName = "Observer Team",
             Summary = "The first post",
             Tags = ["test", "intro"],
@@ -8973,7 +8973,7 @@ public class BlogServiceTests
             Slug = "second-post",
             Title = "Second Post",
             Date = new DateTime(2026, 2, 20),
-            Author = "observer-team",
+            Author = "myblazor-team",
             AuthorName = "Observer Team",
             Summary = "The second post",
             Tags = ["test"],
@@ -8985,10 +8985,10 @@ public class BlogServiceTests
     [
         new()
         {
-            Id = "observer-team",
+            Id = "myblazor-team",
             Name = "Observer Team",
             Email = "hello@observermagazine.example",
-            Bio = "The team behind Observer Magazine.",
+            Bio = "The team behind My Blazor Magazine.",
             Socials = new Dictionary<string, string> { ["github"] = "ObserverMagazine" }
         }
     ];
@@ -9030,7 +9030,7 @@ public class BlogServiceTests
         Assert.NotNull(featured);
         Assert.Equal("First Post", featured.Title);
         Assert.Equal(2, featured.ReadingTimeMinutes);
-        Assert.Equal("observer-team", featured.Author);
+        Assert.Equal("myblazor-team", featured.Author);
         Assert.Equal("Observer Team", featured.AuthorName);
     }
 
@@ -9099,7 +9099,7 @@ public class BlogServiceTests
         var httpClient = new HttpClient(handler) { BaseAddress = new Uri("https://test.local/") };
         var service = CreateService(httpClient);
 
-        var author = await service.GetAuthorAsync("observer-team");
+        var author = await service.GetAuthorAsync("myblazor-team");
 
         Assert.NotNull(author);
         Assert.Equal("hello@observermagazine.example", author.Email);
@@ -9950,7 +9950,7 @@ Console.WriteLine($"Wrote posts index: {indexPath} ({allPostMetadata.Count} post
 // Generate RSS feed with full post content
 var feedPath = Path.Combine(outputDir, "feed.xml");
 var rssXml = RssGenerator.Generate(
-    title: "Observer Magazine",
+    title: "My Blazor Magazine",
     description: "A free, open-source Blazor WebAssembly showcase on .NET 10",
     siteUrl: "https://observermagazine.github.io",
     posts: allPostMetadata,

@@ -1,5 +1,5 @@
 Purpose & context
-Kushal is building Observer Magazine, a free open-source static blog and UI showcase site deployed to GitHub Pages. The stack is Blazor WebAssembly (.NET 10), a custom markdown content processing pipeline, and a companion Cloudflare Workers API (Hono + TypeScript) for analytics, reactions, view counts, and a passkey-secured board. The project targets .NET, C#, and ASP.NET web developers as its primary audience, with a secondary goal of accessibility for non-technical readers. Kushal publishes under the author identity observer-team and collaborates with Claude as a core part of the content and development workflow.
+Kushal is building My Blazor Magazine, a free open-source static blog and UI showcase site deployed to GitHub Pages. The stack is Blazor WebAssembly (.NET 10), a custom markdown content processing pipeline, and a companion Cloudflare Workers API (Hono + TypeScript) for analytics, reactions, view counts, and a passkey-secured board. The project targets .NET, C#, and ASP.NET web developers as its primary audience, with a secondary goal of accessibility for non-technical readers. Kushal publishes under the author identity myblazor-team and collaborates with Claude as a core part of the content and development workflow.
 Current state
 The project is mature and actively maintained. Recent work spans:
 
@@ -16,7 +16,7 @@ Potential further Showcase and component enhancements
 
 Key learnings & principles
 
-Author ID convention is critical: author: observer-team (hyphenated ID), never the display name "Observer Team" — mismatches cause build warnings and broken author resolution.
+Author ID convention is critical: author: myblazor-team (hyphenated ID), never the display name "Observer Team" — mismatches cause build warnings and broken author resolution.
 featured field: Omit entirely from non-featured posts; never write featured: false. Only include featured: true when explicitly promoting.
 draft: true: Omit unless explicitly requested.
 Tags: Lowercase and hyphenated (e.g., design-principles, deep-dive).

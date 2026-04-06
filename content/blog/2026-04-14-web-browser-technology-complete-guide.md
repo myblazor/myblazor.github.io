@@ -1,7 +1,7 @@
 ---
 title: "Web Browser Technology: The Complete Guide to Engines, Standards, and the Future of the Web Platform"
 date: 2026-04-14
-author: observer-team
+author: myblazor-team
 summary: "An exhaustive deep-dive into web browser technology covering rendering engines (Blink, Gecko, WebKit, LibWeb), JavaScript engines (V8, SpiderMonkey, JavaScriptCore, LibJS), CSS engines, browser architecture, market share, the Ladybird project, upcoming web standards, WebAssembly 3.0, ECMAScript 2026, the Google antitrust case, and practical guidance for web developers building on the modern web platform."
 tags:
   - deep-dive

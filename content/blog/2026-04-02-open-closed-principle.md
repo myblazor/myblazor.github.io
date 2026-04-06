@@ -1,7 +1,7 @@
 ---
 title: "The Open/Closed Principle: A Comprehensive Guide for .NET Developers"
 date: 2026-04-02
-author: observer-team
+author: myblazor-team
 summary: A deep dive into the Open/Closed Principle — its origins with Bertrand Meyer in 1988, Robert C. Martin's reformulation in 1996, how to apply it in modern C# and ASP.NET Core with real code examples, which design patterns embody it, when to ignore it, and how it shapes testable, maintainable software architecture.
 tags:
   - csharp

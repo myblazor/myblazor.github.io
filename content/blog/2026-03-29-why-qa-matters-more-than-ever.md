@@ -1,7 +1,7 @@
 ---
 title: "Why QA Matters More Than Ever: The Case for Slowing Down in a World of AI-Generated Code"
 date: 2026-03-29
-author: observer-team
+author: myblazor-team
 summary: As AI tools accelerate code output by 76 percent and change failure rates climb by 30 percent, the argument for dedicated QA has never been stronger. This deep dive explores why quality assurance is not a luxury — it is the last line of defense between your users and an avalanche of untested code.
 tags:
   - qa
@@ -154,7 +154,7 @@ public void FrontMatter_ParsesAllFields()
         ---
         title: Test Post
         date: 2026-03-01
-        author: observer-team
+        author: myblazor-team
         summary: A test summary
         tags:
           - test
@@ -172,7 +172,7 @@ public void FrontMatter_ParsesAllFields()
 
     Assert.Equal("Test Post", frontMatter.Title);
     Assert.Equal(new DateTime(2026, 3, 1), frontMatter.Date);
-    Assert.Equal("observer-team", frontMatter.Author);
+    Assert.Equal("myblazor-team", frontMatter.Author);
     Assert.Equal("A test summary", frontMatter.Summary);
     Assert.Equal(["test", "integration"], frontMatter.Tags);
     Assert.True(frontMatter.Featured);
@@ -445,7 +445,7 @@ public void Counter_IncrementButton_UpdatesCount()
 
 Tests that take minutes to run get run less often. Tests that are flaky get ignored. Both outcomes are worse than having no tests at all, because they give you false confidence.
 
-In our Observer Magazine project, the entire test suite runs in under ten seconds:
+In our My Blazor Magazine project, the entire test suite runs in under ten seconds:
 
 ```
 dotnet test

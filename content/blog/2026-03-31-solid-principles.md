@@ -1,7 +1,7 @@
 ---
 title: "SOLID Principles: A Complete Guide to Writing Clean, Maintainable Object-Oriented Code"
 date: 2026-03-31
-author: observer-team
+author: myblazor-team
 summary: An exhaustive deep dive into all five SOLID principles — Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, and Dependency Inversion — with C# examples, historical context, real-world scenarios, common violations, and practical guidance for .NET developers.
 tags:
   - csharp

@@ -1,7 +1,7 @@
 ---
 title: "Git From First Principles, and Why Trunk-Based Development Will Save Your Team"
 date: 2026-03-25
-author: observer-team
+author: myblazor-team
 summary: A comprehensive deep dive into Git as a version control system — every command, every workflow, every configuration. Then, a persuasive case for trunk-based development aimed at teams reluctant to leave long-lived branches behind. Backed by a decade of DORA research.
 tags:
   - git

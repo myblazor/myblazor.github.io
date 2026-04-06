@@ -1,4 +1,4 @@
-# Observer Magazine
+# My Blazor Magazine
 
 A free, open-source Blazor WebAssembly application deployed to GitHub Pages.
 

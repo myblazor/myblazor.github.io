@@ -16,7 +16,7 @@ public class BlogServiceTests
             Slug = "first-post",
             Title = "First Post",
             Date = new DateTime(2026, 1, 15),
-            Author = "observer-team",
+            Author = "myblazor-team",
             AuthorName = "Observer Team",
             Summary = "The first post",
             Tags = ["test", "intro"],
@@ -28,7 +28,7 @@ public class BlogServiceTests
             Slug = "second-post",
             Title = "Second Post",
             Date = new DateTime(2026, 2, 20),
-            Author = "observer-team",
+            Author = "myblazor-team",
             AuthorName = "Observer Team",
             Summary = "The second post",
             Tags = ["test"],
@@ -40,10 +40,10 @@ public class BlogServiceTests
     [
         new()
         {
-            Id = "observer-team",
+            Id = "myblazor-team",
             Name = "Observer Team",
             Email = "hello@observermagazine.example",
-            Bio = "The team behind Observer Magazine.",
+            Bio = "The team behind My Blazor Magazine.",
             Socials = new Dictionary<string, string> { ["github"] = "ObserverMagazine" }
         }
     ];
@@ -85,7 +85,7 @@ public class BlogServiceTests
         Assert.NotNull(featured);
         Assert.Equal("First Post", featured.Title);
         Assert.Equal(2, featured.ReadingTimeMinutes);
-        Assert.Equal("observer-team", featured.Author);
+        Assert.Equal("myblazor-team", featured.Author);
         Assert.Equal("Observer Team", featured.AuthorName);
     }
 
@@ -154,7 +154,7 @@ public class BlogServiceTests
         var httpClient = new HttpClient(handler) { BaseAddress = new Uri("https://test.local/") };
         var service = CreateService(httpClient);
 
-        var author = await service.GetAuthorAsync("observer-team");
+        var author = await service.GetAuthorAsync("myblazor-team");
 
         Assert.NotNull(author);
         Assert.Equal("hello@observermagazine.example", author.Email);

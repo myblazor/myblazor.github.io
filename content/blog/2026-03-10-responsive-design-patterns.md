@@ -1,7 +1,7 @@
 ---
 title: Responsive Design Patterns in Blazor
 date: 2026-03-10
-author: observer-team
+author: myblazor-team
 summary: How we built mobile-friendly data tables and master-detail layouts in pure Blazor.
 tags:
   - blazor

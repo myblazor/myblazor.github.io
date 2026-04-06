@@ -1,7 +1,7 @@
 ---
 title: "The Cloud Toilet Problem: Why Your AI Tools Need an On-Premises Fallback"
 date: 2026-03-30
-author: observer-team
+author: myblazor-team
 summary: What happens when every toilet in your availability zone goes down? A practical guide for ASP.NET developers on building resilient applications that survive cloud AI outages.
 tags:
   - cloud

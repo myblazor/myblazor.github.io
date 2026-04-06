@@ -1,7 +1,7 @@
 ---
 title: "Clojure: A Beginner's Guide for the C# ASP.NET Developer Who Has Been Doing Everything Wrong"
 date: 2026-04-24
-author: observer-team
+author: myblazor-team
 summary: "A comprehensive, from-the-ground-up introduction to Clojure for C# and ASP.NET web developers — covering what the JVM is, why Lisp matters, how to think in data instead of objects, immutability, concurrency, the REPL, functional programming, persistent data structures, macros, and how to unlearn the bad habits that years of enterprise OOP have cemented into your brain."
 tags:
   - clojure

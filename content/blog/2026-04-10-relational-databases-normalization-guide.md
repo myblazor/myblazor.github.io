@@ -1,7 +1,7 @@
 ---
 title: "Relational Databases and Normalization: A Complete Guide from Messy Spreadsheets to Sixth Normal Form"
 date: 2026-04-10
-author: observer-team
+author: myblazor-team
 summary: A comprehensive walkthrough of relational database normalization from UNF through 6NF, using a real Blazor Server contact management application as the running example. Includes C# code with Dapper and EF Core at every level, a critique of the starting schema, practical cost-benefit analysis for each normal form, and a deep dive into Entity-Attribute-Value.
 tags:
   - databases

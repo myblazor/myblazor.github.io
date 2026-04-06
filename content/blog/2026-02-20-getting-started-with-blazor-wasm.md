@@ -1,7 +1,7 @@
 ---
 title: Getting Started with Blazor WebAssembly
 date: 2026-02-20
-author: observer-team
+author: myblazor-team
 summary: A quick tour of how Blazor WASM works and why it's a great choice for static sites.
 tags:
   - blazor
@@ -15,7 +15,7 @@ Blazor WebAssembly (WASM) lets you build interactive web UIs using C# instead of
 
 ## Why We Chose It
 
-For Observer Magazine, Blazor WASM is ideal because:
+For My Blazor Magazine, Blazor WASM is ideal because:
 
 - **Static hosting** — The compiled output is plain HTML, CSS, JS, and WASM files. Perfect for GitHub Pages.
 - **Full .NET ecosystem** — We use the same language, tooling, and libraries as backend .NET developers.

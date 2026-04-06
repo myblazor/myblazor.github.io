@@ -1,7 +1,7 @@
 ---
 title: "The Single Responsibility Principle: A Complete Guide for .NET Developers"
 date: 2026-04-01
-author: observer-team
+author: myblazor-team
 summary: A comprehensive deep dive into the Single Responsibility Principle — from its intellectual origins in structured analysis through Robert C. Martin's evolving definitions, with extensive C# examples showing how to recognize, refactor, and sustain SRP in real-world .NET applications.
 tags:
   - solid
@@ -1277,7 +1277,7 @@ The MVC pattern is Separation of Concerns at the UI level: Model (data), View (p
 
 ## Part 13: Applying SRP in Blazor WebAssembly
 
-Since Observer Magazine is built on Blazor WebAssembly, let us look at how SRP applies specifically to Blazor components and services.
+Since My Blazor Magazine is built on Blazor WebAssembly, let us look at how SRP applies specifically to Blazor components and services.
 
 ### Components Should Not Contain Business Logic
 

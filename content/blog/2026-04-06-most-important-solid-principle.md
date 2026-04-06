@@ -1,7 +1,7 @@
 ---
 title: "The Most Important SOLID Principle: Why Dependency Inversion Changes Everything"
 date: 2026-04-06
-author: observer-team
+author: myblazor-team
 summary: A deep, opinionated exploration of which SOLID principle matters most — making the case for Dependency Inversion as the keystone that unlocks testability, flexibility, and clean architecture in .NET applications, while giving each of the other four principles its fair hearing.
 tags:
   - csharp
@@ -439,7 +439,7 @@ But this is actually an argument for DIP's importance, not against it. The princ
 
 ## Part 5: DIP in Practice — A Complete .NET Example
 
-Let us build a complete, realistic example that demonstrates how DIP ties everything together. We will create a notification system for a blog — the kind of thing Observer Magazine might actually use.
+Let us build a complete, realistic example that demonstrates how DIP ties everything together. We will create a notification system for a blog — the kind of thing My Blazor Magazine might actually use.
 
 ### The Domain Abstractions
 

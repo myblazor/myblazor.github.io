@@ -1,7 +1,7 @@
 ---
 title: "From .NET Framework 4.7 to .NET 10: A Practical Guide for Enterprise Developers"
 date: 2026-03-22
-author: observer-team
+author: myblazor-team
 summary: A comprehensive guide for enterprise .NET developers who have been working with .NET Framework 4.7 and want to understand what has changed, why it matters, and how to modernize — written for people who code at work and do not tinker with software at home.
 featured: true
 tags:
@@ -71,7 +71,7 @@ The performance difference is staggering. Benchmarks consistently show ASP.NET C
 
 One of the most significant new capabilities in modern .NET is Blazor, which lets you build interactive web UIs using C# instead of JavaScript. There are multiple hosting models:
 
-**Blazor WebAssembly** compiles your .NET code to WebAssembly and runs it entirely in the browser. No server needed at runtime. The compiled output is static files (HTML, CSS, JS, WASM) that can be hosted anywhere, including free hosting like GitHub Pages. This is what Observer Magazine itself is built with.
+**Blazor WebAssembly** compiles your .NET code to WebAssembly and runs it entirely in the browser. No server needed at runtime. The compiled output is static files (HTML, CSS, JS, WASM) that can be hosted anywhere, including free hosting like GitHub Pages. This is what My Blazor Magazine itself is built with.
 
 **Blazor Server** keeps your .NET code on the server and uses SignalR (WebSockets) to maintain a real-time connection with the browser. Every UI interaction sends a message to the server, which processes it and sends back DOM updates. This means faster initial load times (no WASM download) but requires a persistent server connection.
 

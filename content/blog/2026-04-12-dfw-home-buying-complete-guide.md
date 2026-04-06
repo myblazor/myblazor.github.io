@@ -1,7 +1,7 @@
 ---
 title: "The Complete Guide to Buying a Home in Dallas–Fort Worth: Single-Family, Multigenerational, Duplex, Barndominium, and Everything In Between"
 date: 2026-04-12
-author: observer-team
+author: myblazor-team
 summary: An exhaustive, checklist-driven guide to purchasing a home in the Dallas–Fort Worth metroplex. Covers soil conditions, foundation types, safety, utilities, ADU zoning, barndominiums, manufactured homes, duplexes, fourplexes, new construction versus existing homes, and post-purchase maintenance from water softeners to EV charger wiring.
 tags:
   - guide

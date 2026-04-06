@@ -1,8 +1,8 @@
 ---
-title: "Post-Mortem: How We Broke Observer Magazine With a Missing @page Directive and What We Learned About Blazor's NotFoundPage in .NET 10"
+title: "Post-Mortem: How We Broke My Blazor Magazine With a Missing @page Directive and What We Learned About Blazor's NotFoundPage in .NET 10"
 date: 2026-04-15
-author: observer-team
-summary: "A detailed post-mortem of a production-breaking bug in Observer Magazine caused by migrating from the deprecated Router <NotFound> render fragment to the new .NET 10 NotFoundPage parameter — without adding the required @page directive to the target component. Covers the full history of Blazor's 404 handling, the exact error, the root cause, the fix, and every lesson learned."
+author: myblazor-team
+summary: "A detailed post-mortem of a production-breaking bug in My Blazor Magazine caused by migrating from the deprecated Router <NotFound> render fragment to the new .NET 10 NotFoundPage parameter — without adding the required @page directive to the target component. Covers the full history of Blazor's 404 handling, the exact error, the root cause, the fix, and every lesson learned."
 tags:
   - blazor
   - dotnet
@@ -15,7 +15,7 @@ tags:
 
 ## Part 1 — What Happened
 
-On April 2, 2026, Observer Magazine went down. Not "partially degraded." Not "slow." Down. Every single page — the home page, the blog, the showcase, the about page — rendered a white screen with a cryptic error in the browser console:
+On April 2, 2026, My Blazor Magazine went down. Not "partially degraded." Not "slow." Down. Every single page — the home page, the blog, the showcase, the about page — rendered a white screen with a cryptic error in the browser console:
 
 ```
 Unhandled exception rendering component: The type ObserverMagazine.Web.Pages.NotFoundView does not have a Microsoft.AspNetCore.Components.RouteAttribute applied to it.
@@ -38,7 +38,7 @@ The breaking change was a migration from the old, deprecated `<NotFound>` render
         <FocusOnNavigate RouteData="routeData" Selector="h1" />
     </Found>
     <NotFound>
-        <PageTitle>Not Found — Observer Magazine</PageTitle>
+        <PageTitle>Not Found — My Blazor Magazine</PageTitle>
         <LayoutView Layout="typeof(MainLayout)">
             <div class="container text-center" style="padding: 4rem 1rem;">
                 <h1>404 — Page Not Found</h1>
@@ -66,7 +66,7 @@ The migration changed `App.razor` to this:
 And a new file, `Pages/NotFoundView.razor`, was created:
 
 ```razor
-<PageTitle>Not Found — Observer Magazine</PageTitle>
+<PageTitle>Not Found — My Blazor Magazine</PageTitle>
 <LayoutView Layout="typeof(MainLayout)">
     <div class="container text-center" style="padding: 4rem 1rem;">
         <h1>404 — Page Not Found</h1>
@@ -127,7 +127,7 @@ Why does the Router require a `RouteAttribute` on the `NotFoundPage` type? The r
 
 For the server-side middleware to work, the `NotFoundPage` component must be a routable page with a URL that the server can redirect to. If the component has `@page "/not-found"`, the server can re-execute the request pipeline with the URL `/not-found`, which will then match the `NotFoundPage` component and render it with the full layout and styling. Without a route, the server-side middleware has no URL to redirect to.
 
-In a pure Blazor WebAssembly application like Observer Magazine — which runs entirely in the browser with no server-side rendering — the server-side middleware integration is irrelevant. The Router could, in theory, render a component without a `RouteAttribute` for client-side 404 handling. But the ASP.NET Core team made a deliberate design choice to enforce the `RouteAttribute` requirement unconditionally, regardless of hosting model. This simplifies the Router's implementation and ensures that the `NotFoundPage` feature works consistently across all hosting models.
+In a pure Blazor WebAssembly application like My Blazor Magazine — which runs entirely in the browser with no server-side rendering — the server-side middleware integration is irrelevant. The Router could, in theory, render a component without a `RouteAttribute` for client-side 404 handling. But the ASP.NET Core team made a deliberate design choice to enforce the `RouteAttribute` requirement unconditionally, regardless of hosting model. This simplifies the Router's implementation and ensures that the `NotFoundPage` feature works consistently across all hosting models.
 
 The Microsoft Learn documentation for .NET 10 shows the canonical pattern explicitly:
 
@@ -192,7 +192,7 @@ The `<NotFound>` render fragment was deprecated (marked with `[Obsolete]` in the
 
 ### .NET 10 — The Deprecation Becomes a Practical Concern
 
-In .NET 10 (the version Observer Magazine targets), the `TreatWarningsAsErrors` compiler option is enabled in our `Directory.Build.props`:
+In .NET 10 (the version My Blazor Magazine targets), the `TreatWarningsAsErrors` compiler option is enabled in our `Directory.Build.props`:
 
 ```xml
 <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -233,7 +233,7 @@ Here is the complete, corrected `NotFoundView.razor`:
 @page "/not-found"
 @layout MainLayout
 
-<PageTitle>Not Found — Observer Magazine</PageTitle>
+<PageTitle>Not Found — My Blazor Magazine</PageTitle>
 
 <div class="container text-center" style="padding: 4rem 1rem;">
     <h1>404 — Page Not Found</h1>
@@ -324,9 +324,9 @@ A page is a component that has a `@page` directive. The `@page` directive compil
 ```razor
 @page "/about"
 
-<PageTitle>About — Observer Magazine</PageTitle>
+<PageTitle>About — My Blazor Magazine</PageTitle>
 
-<h1>About Observer Magazine</h1>
+<h1>About My Blazor Magazine</h1>
 <p>We build things.</p>
 ```
 
@@ -346,11 +346,11 @@ You could write `@page "/this-url-will-never-be-typed-by-anyone"` and the Router
 
 However, there is a practical reason to choose a sensible route like `/not-found`: if you ever set up server-side status code page re-execution (via `app.UseStatusCodePagesWithReExecute("/not-found")` in a Blazor Server or Blazor Web App), the server will redirect 404 responses to that URL. The route needs to actually match the component for this to work.
 
-For a pure Blazor WebAssembly application hosted on GitHub Pages (like Observer Magazine), server-side middleware is not applicable. But choosing `/not-found` as the route is still good practice — it is descriptive, it follows the convention used in the official Microsoft templates, and it future-proofs the application in case we ever add a server-side component.
+For a pure Blazor WebAssembly application hosted on GitHub Pages (like My Blazor Magazine), server-side middleware is not applicable. But choosing `/not-found` as the route is still good practice — it is descriptive, it follows the convention used in the official Microsoft templates, and it future-proofs the application in case we ever add a server-side component.
 
 ## Part 11 — How GitHub Pages Handles 404s for SPAs
 
-Observer Magazine is a Blazor WebAssembly application deployed to GitHub Pages. Understanding how GitHub Pages handles 404s is essential context for this post-mortem.
+My Blazor Magazine is a Blazor WebAssembly application deployed to GitHub Pages. Understanding how GitHub Pages handles 404s is essential context for this post-mortem.
 
 GitHub Pages is a static file server. It serves files from a directory. When a request comes in for a URL that does not correspond to a file on disk, GitHub Pages returns a 404 status code and serves the contents of a `404.html` file if one exists in the root of the site.
 
@@ -363,7 +363,7 @@ Our `404.html` file handles this with a JavaScript redirect trick:
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Observer Magazine</title>
+    <title>My Blazor Magazine</title>
     <script>
         var pathSegmentsToKeep = 0;
         var l = window.location;
@@ -499,7 +499,7 @@ Here is the complete set of changes to fix this bug. Only one file changed:
 **Before (broken):**
 
 ```razor
-<PageTitle>Not Found — Observer Magazine</PageTitle>
+<PageTitle>Not Found — My Blazor Magazine</PageTitle>
 <LayoutView Layout="typeof(MainLayout)">
     <div class="container text-center" style="padding: 4rem 1rem;">
         <h1>404 — Page Not Found</h1>
@@ -515,7 +515,7 @@ Here is the complete set of changes to fix this bug. Only one file changed:
 @page "/not-found"
 @layout MainLayout
 
-<PageTitle>Not Found — Observer Magazine</PageTitle>
+<PageTitle>Not Found — My Blazor Magazine</PageTitle>
 
 <div class="container text-center" style="padding: 4rem 1rem;">
     <h1>404 — Page Not Found</h1>
@@ -624,4 +624,4 @@ If you are maintaining a Blazor application and migrating from the `<NotFound>` 
 - [API proposal for Router.NotFoundPage — GitHub issue dotnet/aspnetcore#62409](https://github.com/dotnet/aspnetcore/issues/62409) — The original API proposal that introduced `NotFoundPage`, including the design rationale and the statement that "If the specified NotFoundPage type is not a valid Blazor component or is a component without RouteAttribute, a runtime error will occur."
 - [Router's NotFound content is never used in new Web project style — GitHub issue dotnet/aspnetcore#48983](https://github.com/dotnet/aspnetcore/issues/48983) — Steve Sanderson's issue explaining why the `<NotFound>` render fragment is unreachable in the .NET 8 unified hosting model.
 - [.NET 10 Has Arrived — Here's What's Changed for Blazor — Telerik Blog](https://www.telerik.com/blogs/net-10-has-arrived-heres-whats-changed-blazor) — A summary of Blazor changes in .NET 10, including the `NotFoundPage` feature.
-- [Observer Magazine source code — GitHub](https://github.com/ObserverMagazine/observermagazine.github.io) — The full source code of the application discussed in this post-mortem.
+- [My Blazor Magazine source code — GitHub](https://github.com/ObserverMagazine/observermagazine.github.io) — The full source code of the application discussed in this post-mortem.

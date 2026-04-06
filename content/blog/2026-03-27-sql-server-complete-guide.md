@@ -1,7 +1,7 @@
 ---
 title: "SQL Server: The Complete Guide for .NET Developers — From SSMS to T-SQL to Production Best Practices"
 date: 2026-03-27
-author: observer-team
+author: myblazor-team
 summary: Everything a .NET/C#/ASP.NET developer needs to know about SQL Server — covering versions 2016 through 2025, SSMS 21 and 22, SQL Profiler, sqlcmd, T-SQL, transactions, locking, networking, sessions, debugging, and production best practices.
 tags:
   - sql-server

@@ -1,7 +1,7 @@
 ---
 title: "The Dependency Inversion Principle: A Comprehensive Guide for .NET Developers"
 date: 2026-04-05
-author: observer-team
+author: myblazor-team
 summary: "A deep dive into the Dependency Inversion Principle — the 'D' in SOLID — covering its history, formal definition, practical C# implementations, ASP.NET Core's built-in DI container, keyed services, testing strategies, common pitfalls, and real-world architecture patterns."
 tags:
   - dotnet

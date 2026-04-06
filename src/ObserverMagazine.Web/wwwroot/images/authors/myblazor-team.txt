@@ -1,0 +1,4 @@
+Hello, world!
+
+Gemini prompt for image: 
+can you please generate a 200px by 200px png image for src/ObserverMagazine.Web/wwwroot/images/authors/myblazor-team.jpg it should be generic and not offensive to any one especially not to any protected group 

@@ -1,7 +1,7 @@
 ---
 title: "Your 2007 Toyota Camry: The Complete Owner's Guide to Driving, Maintaining, and Eventually Replacing Your Kentucky-Built Sedan"
 date: 2026-04-07
-author: observer-team
+author: myblazor-team
 summary: "A comprehensive, plain-language guide for 2007 Toyota Camry base model owners covering daily driving habits, the infamous oil consumption problem, the full maintenance schedule, what breaks as the car ages, and what the new and used car market looks like in 2026 and beyond."
 tags:
   - automotive

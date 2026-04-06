@@ -1,7 +1,7 @@
 ---
 title: "Aspire, Containers, and Self-Hosting: A Complete Guide to Deploying .NET Applications on Your Own Hardware"
 date: 2026-04-08
-author: observer-team
+author: myblazor-team
 summary: A comprehensive guide to Aspire, OCI containers, and self-hosted deployment. Covers what Aspire is, how it generates container artifacts, how to write Containerfiles, how to deploy to bare metal or a VPS using podman-compose, and when (if ever) you actually need Kubernetes. Uses a real Blazor + SQLite application as the running example throughout.
 tags:
   - aspire

@@ -1,7 +1,7 @@
 ---
 title: "Thread Pool Starvation, Injection, and the Other Pool: A Complete Guide to Concurrency in ASP.NET and .NET 10"
 date: 2026-04-21
-author: observer-team
+author: myblazor-team
 summary: "Everything you need to know about the .NET Thread Pool's Hill Climbing algorithm, SQL Server connection pooling, and why async/await saves threads but not connections — illustrated with case studies across ASP.NET Framework 4.8, ADO.NET, Dapper, and Entity Framework Core on .NET 10."
 tags:
   - dotnet

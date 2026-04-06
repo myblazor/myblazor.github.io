@@ -1,7 +1,7 @@
 ---
 title: "The Grand Human Story: A Unified Chronicle Drawn from the Nine Greatest Novels Ever Written"
 date: 2026-04-17
-author: observer-team
+author: myblazor-team
 summary: What happens when A Tale of Two Cities, Frankenstein, War and Peace, Pride and Prejudice, Les Misérables, Middlemarch, Great Expectations, Moby-Dick, and Anna Karenina are woven into a single, unbroken tapestry of human experience? This is that story — one grand timeline, one relentless current of ambition, love, suffering, revolution, and the unquenchable need to be seen.
 tags:
   - literature
@@ -562,4 +562,4 @@ It is enough.
 
 ---
 
-*Observer Magazine is published freely and openly for readers everywhere. All articles are available without charge, without subscription, and without condition.*
+*My Blazor Magazine is published freely and openly for readers everywhere. All articles are available without charge, without subscription, and without condition.*

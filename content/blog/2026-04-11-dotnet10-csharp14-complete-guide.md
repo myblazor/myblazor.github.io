@@ -1,7 +1,7 @@
 ---
 title: "The Complete .NET 10 and C# 14 Guide: Everything You Need to Know from Framework to Modern .NET"
 date: 2026-04-11
-author: observer-team
+author: myblazor-team
 summary: "A comprehensive, from-the-ground-up guide to .NET 10 and C# 14 for developers coming from any .NET background — covering the full history of .NET Framework through modern .NET, every major C# language feature from version 1.0 to 14, the .NET 10 runtime and SDK improvements, ASP.NET Core 10, Blazor, EF Core 10, NativeAOT, the SLNX solution format, file-based apps, and practical migration strategies."
 tags:
   - dotnet

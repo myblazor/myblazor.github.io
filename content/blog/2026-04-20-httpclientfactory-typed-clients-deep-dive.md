@@ -1,7 +1,7 @@
 ---
 title: "HttpClientFactory and Typed Clients: The Complete Guide to HTTP Connection Management in .NET"
 date: 2026-04-20
-author: observer-team
+author: myblazor-team
 summary: "Socket exhaustion is to HttpClient what connection pool exhaustion is to SQL Server — a silent killer that only reveals itself under load. This exhaustive guide covers the full lifecycle of HttpMessageHandler, DNS staleness, the IHttpClientFactory handler pool, and every pattern from Basic to Typed Clients, from .NET Framework 4.8 to .NET 10."
 tags:
   - aspnet
@@ -2075,7 +2075,7 @@ And remember that `HttpClient.Timeout` fires a `TaskCanceledException` (whose `C
 
 ### 13.6 Pitfall: Using HttpClient in Blazor WASM
 
-If you are building a Blazor WebAssembly application (as Observer Magazine itself is), `HttpClient` works differently. In the browser environment, HTTP calls go through the browser's `fetch` API via JavaScript interop. The `SocketsHttpHandler` is not available — the browser's native fetch handles the actual networking.
+If you are building a Blazor WebAssembly application (as My Blazor Magazine itself is), `HttpClient` works differently. In the browser environment, HTTP calls go through the browser's `fetch` API via JavaScript interop. The `SocketsHttpHandler` is not available — the browser's native fetch handles the actual networking.
 
 `IHttpClientFactory` is still supported and recommended in Blazor WASM, but the handler is `BrowserHttpHandler` under the hood, not `SocketsHttpHandler`. Socket exhaustion is not a concern (the browser manages connections), but named/typed clients are still valuable for configuration and DI cleanliness:
 
