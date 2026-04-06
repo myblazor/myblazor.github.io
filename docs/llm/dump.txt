@@ -1,6 +1,6 @@
 ===============================================================================
 PROJECT EXPORT: observermagazine.github.io
-DATE: 2026-04-05 21:44:50 UTC
+DATE: 2026-04-06 22:06:54 UTC
 ===============================================================================
 
 ===============================================================================
@@ -265,12 +265,12 @@ socials:
 -------------------------------------------------------------------------------
 FILE: content/authors/myblazor-team.yml
 -------------------------------------------------------------------------------
-name: Observer Team
-email: hello@observermagazine.example
+name: My Blazor Team
+email: hello@myblazor.example
 bio: The team behind My Blazor Magazine — building free, open-source tools with .NET 10 and Blazor WebAssembly.
 avatar: images/authors/myblazor-team.png
 socials:
-  github: ObserverMagazine
+  github: MyBlazor
 
 
 -------------------------------------------------------------------------------
