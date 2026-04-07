@@ -1,6 +1,6 @@
 ===============================================================================
 PROJECT EXPORT: observermagazine.github.io
-DATE: 2026-04-06 22:08:33 UTC
+DATE: 2026-04-07 11:28:28 UTC
 ===============================================================================
 
 ===============================================================================
@@ -3204,7 +3204,7 @@ FILE: src/ObserverMagazine.Web/Layout/MainLayout.razor
     <header class="top-bar">
         <div class="container top-bar-inner">
             <a class="brand" href="/">
-                <strong>Observer</strong> Magazine
+                <strong>My Blazor</strong> Magazine
             </a>
             <NavMenu />
         </div>
