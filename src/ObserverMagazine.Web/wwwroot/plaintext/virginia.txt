@@ -1,0 +1,928 @@
+kushal@fedora:~/Videos/dl$ ssh 192.168.0.76
+Linux virginia 6.12.73+deb13-amd64 #1 SMP PREEMPT_DYNAMIC Debian 6.12.73-1 (2026-02-17) x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Sun Mar  8 06:17:27 2026 from 192.168.0.200
+kushal@virginia:~$ sudo date; cat ~/mybashscripts/maintenance.sh; time sudo bash ~/mybashscripts/maintenance.sh; date;
+[sudo] password for kushal: 
+Tue Apr  7 08:53:30 AM EDT 2026
+#!/bin/bash
+
+# ==============================================================================
+# Unified System Maintenance Script
+# Hosts: Colorado, Texas (Pi-hole/General) | Virginia (Video Server)
+# ==============================================================================
+
+set -e  # Exit on any error
+
+# Detect Hostname
+HOSTNAME=$(hostname)
+CURRENT_USER=$(logname 2>/dev/null || echo $SUDO_USER)
+DATE_STAMP=$(date)
+
+# Configuration Flags based on Hostname
+IS_VIDEO_SERVER=false
+IS_PIHOLE=false
+DISK_WARN_THRESHOLD=1048576 # Default 1GB in KB
+
+if [[ "$HOSTNAME" == "virginia" ]]; then
+    IS_VIDEO_SERVER=true
+    DISK_WARN_THRESHOLD=5242880 # 5GB for video server
+elif [[ "$HOSTNAME" == "colorado" || "$HOSTNAME" == "texas" ]]; then
+    IS_PIHOLE=true
+fi
+
+echo "========================================"
+echo "Starting Maintenance on: $HOSTNAME"
+echo "Mode: $( [ "$IS_VIDEO_SERVER" = true ] && echo "Video Server" || echo "General/Pi-hole" )"
+echo "========================================"
+date
+echo
+
+# Helper Function: Print Headers
+print_section() {
+    echo
+    echo "----------------------------------------"
+    echo "$1"
+    echo "----------------------------------------"
+    date
+}
+
+# [cite_start]1. Root Check [cite: 3, 4, 76, 77]
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root."
+   echo "Use 'sudo ./maintenance.sh' or 'su -' first."
+   exit 1
+fi
+
+# [cite_start]2. Pre-Maintenance System Status (Virginia Style, useful for all) [cite: 76]
+print_section "Pre-maintenance system status"
+echo "Kernel: $(uname -r)"
+echo "Uptime: $(uptime -p)"
+echo "Memory: $(free -h | grep Mem | awk '{print "Used: "$3"/"$2}')"
+echo "Root FS: $(df -h / | tail -1 | awk '{print "Used: "$3"/"$2" ("$5")"}')"
+
+# [cite_start]3. Disk Space Check [cite: 6, 7, 43, 44, 78]
+print_section "Checking disk space"
+AVAILABLE_SPACE=$(df / | tail -1 | awk '{print $4}')
+AVAILABLE_GB=$((AVAILABLE_SPACE / 1048576))
+echo "Available space: ${AVAILABLE_GB}GB"
+
+if [ "$AVAILABLE_SPACE" -lt "$DISK_WARN_THRESHOLD" ]; then
+    echo "WARNING: Low free space available!"
+    
+    # [cite_start]Specific cleanup advice for video server [cite: 79]
+    if [ "$IS_VIDEO_SERVER" = true ]; then
+        echo "Checking recording directories:"
+        for dir in /home/kushal/{jennev,myfrontdoor,tapo}; do
+            if [ -d "$dir" ]; then
+                SIZE=$(du -sh "$dir" 2>/dev/null | cut -f1)
+                echo "  $(basename $dir): $SIZE"
+            fi
+        done
+    else
+        [cite_start]echo "Consider freeing up space before continuing." [cite: 8]
+        read -p "Continue anyway? (y/N): " -n 1 -r
+        echo
+        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+            echo "Maintenance cancelled."
+            exit 1
+        fi
+    fi
+fi
+
+# [cite_start]4. Standard Package Updates (All Machines) [cite: 10, 47, 81]
+print_section "Updating package lists"
+apt update -y
+
+print_section "Checking for available upgrades"
+if [ "$IS_VIDEO_SERVER" = true ]; then
+    UPGRADABLE=$(apt list --upgradable 2>/dev/null | grep -v "Listing" | wc -l)
+    if [ "$UPGRADABLE" -gt 0 ]; then
+        echo "$UPGRADABLE packages can be upgraded:"
+        apt list --upgradable 2>/dev/null | head -10
+    else
+        echo "All packages are up to date"
+    fi
+else
+    apt list --upgradable
+fi
+
+# [cite_start]Check for Kernel Updates [cite: 10, 83]
+KERNEL_UPDATE=$(apt list --upgradable 2>/dev/null | grep -i linux-image || true)
+KERNEL_UPDATE_FLAG=false
+if [ -n "$KERNEL_UPDATE" ]; then
+    echo "*** KERNEL UPDATE DETECTED ***"
+    echo "The following kernel packages will be updated:"
+    echo "$KERNEL_UPDATE"
+    KERNEL_UPDATE_FLAG=true
+fi
+
+print_section "Upgrading packages"
+DEBIAN_FRONTEND=noninteractive apt upgrade -y
+print_section "Performing full-upgrade"
+DEBIAN_FRONTEND=noninteractive apt full-upgrade -y
+
+# [cite_start]5. Clean Up [cite: 12, 85]
+print_section "Cleaning package cache & removing unused packages"
+apt autoremove -y
+apt autoclean
+
+# [cite_start]6. MODULE: Video Server Specifics (Virginia) [cite: 85, 86, 88, 94, 98]
+STALE_RECORDINGS=0
+FFMPEG_COUNT=0
+
+if [ "$IS_VIDEO_SERVER" = true ]; then
+    # Show FFmpeg version
+    echo "FFmpeg version: $(ffmpeg -version 2>&1 | head -1 | awk '{print $3}')"
+
+    print_section "Camera connectivity check"
+    echo "Testing camera connections:"
+    # Define cameras: Name|IP|Port
+    CAMERAS=("Jennev|192.168.0.34|554" "Front Door|192.168.0.65|554" "Tapo|192.168.0.218|554")
+    
+    for cam in "${CAMERAS[@]}"; do
+        IFS="|" read -r name ip port <<< "$cam"
+        if timeout 2 nc -zv "$ip" "$port" &>/dev/null; then
+            echo "  ✓ $name ($ip:$port)"
+        else
+            echo "  ✗ $name ($ip:$port) - NOT REACHABLE"
+        fi
+    done
+
+    print_section "Recording processes status"
+    FFMPEG_COUNT=$(pgrep -af ffmpeg | grep -E "(jennev|myfrontdoor|tapo)" | wc -l)
+    echo "Active ffmpeg processes: $FFMPEG_COUNT"
+
+    # Deep check on specific processes
+    for proc in jennev myfrontdoor tapo; do
+        if pgrep -af ffmpeg | grep "$proc" > /dev/null 2>&1; then
+            echo "  ✓ $proc recording active"
+        else
+            echo "  ✗ $proc recording NOT active"
+            # Schedule check for Tapo
+            if [ "$proc" == "tapo" ]; then
+                HOUR=$(date +%H)
+                MINUTE=$(date +%M)
+                if { [ "$HOUR" -eq 2 ] || [ "$HOUR" -eq 10 ] || [ "$HOUR" -eq 18 ]; } && [ "$MINUTE" -lt 10 ]; then
+                    echo "    ⚠ Tapo should be recording at this hour but isn't"
+                fi
+            fi
+        fi
+    done
+
+    print_section "Recording storage status"
+    for dir in /home/kushal/{jennev,myfrontdoor,tapo}; do
+        if [ -d "$dir" ]; then
+            SIZE=$(du -sh "$dir" 2>/dev/null | cut -f1)
+            COUNT=$(find "$dir" -name "*.mp4" 2>/dev/null | wc -l)
+            LATEST=$(ls -t "$dir"/*.mp4 2>/dev/null | head -1)
+            
+            echo "$(basename $dir): Size: $SIZE | Videos: $COUNT"
+            
+            if [ -n "$LATEST" ]; then
+                LATEST_TIME=$(stat -c %y "$LATEST" | cut -d'.' -f1)
+                LATEST_EPOCH=$(stat -c %Y "$LATEST")
+                CURRENT_EPOCH=$(date +%s)
+                AGE_MINUTES=$(( (CURRENT_EPOCH - LATEST_EPOCH) / 60 ))
+                
+                # Thresholds: 10h for Tapo, 8h for others
+                STALE_THRESHOLD=480
+                [ "$(basename $dir)" = "tapo" ] && STALE_THRESHOLD=600
+                
+                echo "  Latest: $LATEST_TIME ($AGE_MINUTES mins ago)"
+                
+                if [ "$AGE_MINUTES" -gt "$STALE_THRESHOLD" ]; then
+                    echo "  ⚠ WARNING: Latest recording is $AGE_MINUTES minutes old"
+                    STALE_RECORDINGS=$((STALE_RECORDINGS + 1))
+                fi
+            fi
+        fi
+    done
+fi
+
+# [cite_start]7. MODULE: Pi-hole Specifics (Colorado/Texas) [cite: 12, 13, 50]
+if [ "$IS_PIHOLE" = true ]; then
+    print_section "Updating Pi-hole gravity database"
+    if command -v pihole &> /dev/null; then
+        # Check if we need to rotate large Pi-hole logs (>50MB)
+        if [ -f /var/log/pihole.log ] && [ $(stat -c%s /var/log/pihole.log) -gt 52428800 ]; then
+            echo "Rotating large Pi-hole log file..."
+            logrotate -f /etc/logrotate.d/pihole-FTL 2>/dev/null || true
+        fi
+        echo "Updating Pi-hole blocklists..."
+        pihole -g
+    else
+        echo "Pi-hole not found - skipping Pi-hole update"
+    fi
+fi
+
+# [cite_start]8. Final Reboot Check [cite: 15, 16, 53, 106]
+print_section "Reboot check"
+REBOOT_REQUIRED=false
+
+if [ -f /var/run/reboot-required ]; then
+    echo "*** REBOOT REQUIRED ***"
+    if [ -f /var/run/reboot-required.pkgs ]; then
+        echo "Packages requiring reboot:"
+        cat /var/run/reboot-required.pkgs | sed 's/^/  /'
+    fi
+    REBOOT_REQUIRED=true
+elif [ "$KERNEL_UPDATE_FLAG" = true ]; then
+    echo "*** REBOOT RECOMMENDED for kernel update ***"
+    REBOOT_REQUIRED=true
+else
+    echo "No reboot required"
+fi
+
+# [cite_start]9. Final System Checks & Reporting [cite: 23, 27, 28, 111, 112]
+print_section "Final system checks"
+
+# Broken Packages
+BROKEN_PACKAGES=$(dpkg --audit 2>/dev/null | wc -l)
+if [ "$BROKEN_PACKAGES" -gt 0 ]; then
+    echo "WARNING: $BROKEN_PACKAGES broken packages detected"
+    echo "Run: apt --fix-broken install"
+else
+    echo "✓ No broken packages"
+fi
+
+# Failed Services
+FAILED_SERVICES=$(systemctl list-units --failed --no-pager 2>/dev/null | grep "loaded units listed" | awk '{print $1}')
+if [ "$FAILED_SERVICES" != "0" ] && [ -n "$FAILED_SERVICES" ]; then
+    echo "WARNING: Failed services detected:"
+    systemctl list-units --failed --no-pager
+else
+    echo "✓ All services running normally"
+fi
+
+# [cite_start]Leftover Configs (Col/Tex style) [cite: 28, 65]
+LEFTOVER_CONFIGS=$(dpkg -l | grep "^rc" | wc -l)
+if [ "$LEFTOVER_CONFIGS" -gt 0 ]; then
+    echo "INFO: $LEFTOVER_CONFIGS packages have leftover config files."
+    echo "Run 'dpkg --purge \$(dpkg -l | grep \"^rc\" | awk '{print \$2}')' to clean them."
+fi
+
+# [cite_start]10. Health Score (Virginia Logic applied to all) [cite: 119]
+print_section "Health Score"
+ISSUES=0
+WARNINGS=""
+
+# Swap Check
+SWAP_USED=$(free -m | grep Swap | awk '{print $3}')
+if [ "$SWAP_USED" -gt 1000 ]; then
+    ISSUES=$((ISSUES + 1))
+    WARNINGS="${WARNINGS}- High swap usage (${SWAP_USED}MB)\n"
+fi
+
+# Video specific health checks
+if [ "$IS_VIDEO_SERVER" = true ]; then
+    if [ "$FFMPEG_COUNT" -lt 2 ]; then
+        ISSUES=$((ISSUES + 1))
+        WARNINGS="${WARNINGS}- Recording processes below expected\n"
+    fi
+    if [ "$STALE_RECORDINGS" -gt 0 ]; then
+        ISSUES=$((ISSUES + 1))
+        WARNINGS="${WARNINGS}- $STALE_RECORDINGS camera(s) have stale recordings\n"
+    fi
+fi
+
+# Reboot Check
+if [ "$REBOOT_REQUIRED" = true ]; then
+    ISSUES=$((ISSUES + 1))
+    WARNINGS="${WARNINGS}- System reboot required\n"
+fi
+
+if [ "$ISSUES" -eq 0 ]; then
+    echo "★★★★★ System healthy - All checks passed"
+else
+    echo "Issues found:"
+    echo -e "$WARNINGS"
+    case $ISSUES in
+        1) echo "★★★★☆ System status: Good (1 minor issue)" ;;
+        2) echo "★★★☆☆ System status: Fair (2 issues need attention)" ;;
+        3) echo "★★☆☆☆ System status: Poor (3 issues need attention)" ;;
+        *) echo "★☆☆☆☆ System status: Critical ($ISSUES issues need attention)" ;;
+    esac
+fi
+
+# [cite_start]11. Completion & Interactive Reboot Offer [cite: 20, 57, 124]
+echo
+echo "========================================"
+echo "Maintenance completed successfully"
+echo "========================================"
+date
+
+# Interactive Reboot Prompt (Only for Pi-holes/General, not Video Server which runs unattended)
+if [ "$REBOOT_REQUIRED" = true ]; then
+    if [ "$IS_VIDEO_SERVER" = true ]; then
+        echo "*** REMEMBER TO REBOOT WHEN CONVENIENT ***"
+    else
+        echo
+        read -p "Would you like to reboot now? (y/N): " -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            echo "Rebooting in 5 seconds... (Ctrl+C to cancel)"
+            sleep 5
+            reboot
+        else
+            echo "Please remember to reboot when convenient."
+        fi
+    fi
+fi
+
+========================================
+Starting Maintenance on: virginia
+Mode: Video Server
+========================================
+Tue Apr  7 08:53:30 AM EDT 2026
+
+
+----------------------------------------
+Pre-maintenance system status
+----------------------------------------
+Tue Apr  7 08:53:30 AM EDT 2026
+Kernel: 6.12.73+deb13-amd64
+Uptime: up 5 weeks, 1 day, 21 hours, 56 minutes
+Memory: Used: 1.8Gi/62Gi
+Root FS: Used: 466G/1.8T (28%)
+
+----------------------------------------
+Checking disk space
+----------------------------------------
+Tue Apr  7 08:53:30 AM EDT 2026
+Available space: 1237GB
+
+----------------------------------------
+Updating package lists
+----------------------------------------
+Tue Apr  7 08:53:30 AM EDT 2026
+Get:1 http://security.debian.org/debian-security trixie-security InRelease [43.4 kB]
+Get:2 http://deb.debian.org/debian trixie InRelease [140 kB]
+Get:3 http://deb.debian.org/debian trixie-updates InRelease [47.3 kB]
+Get:4 http://security.debian.org/debian-security trixie-security/main Sources [125 kB]
+Get:5 http://deb.debian.org/debian trixie/main Sources [10.5 MB]
+Get:6 http://security.debian.org/debian-security trixie-security/main amd64 Packages [119 kB]
+Get:7 http://security.debian.org/debian-security trixie-security/main Translation-en [74.9 kB]
+Get:8 http://deb.debian.org/debian trixie/main amd64 Packages [9,671 kB]                       
+Get:9 http://deb.debian.org/debian trixie/main Translation-en [6,484 kB]
+Fetched 27.2 MB in 4s (7,176 kB/s)                              
+72 packages can be upgraded. Run 'apt list --upgradable' to see them.
+Notice: Repository 'http://deb.debian.org/debian trixie InRelease' changed its 'Version' value from '13.3' to '13.4'
+
+----------------------------------------
+Checking for available upgrades
+----------------------------------------
+Tue Apr  7 08:53:35 AM EDT 2026
+72 packages can be upgraded:
+Listing...
+base-files/stable 13.8+deb13u4 amd64 [upgradable from: 13.8+deb13u3]
+bash/stable 5.2.37-2+b8 amd64 [upgradable from: 5.2.37-2+b7]
+bind9-dnsutils/stable-security 1:9.20.21-1~deb13u1 amd64 [upgradable from: 1:9.20.18-1~deb13u1]
+bind9-host/stable-security 1:9.20.21-1~deb13u1 amd64 [upgradable from: 1:9.20.18-1~deb13u1]
+bind9-libs/stable-security 1:9.20.21-1~deb13u1 amd64 [upgradable from: 1:9.20.18-1~deb13u1]
+busybox/stable 1:1.37.0-6+b7 amd64 [upgradable from: 1:1.37.0-6+b5]
+catatonit/stable 0.2.1-2+b12 amd64 [upgradable from: 0.2.1-2+b7]
+dirmngr/stable 2.4.7-21+deb13u1+b2 amd64 [upgradable from: 2.4.7-21+deb13u1+b1]
+dpkg-dev/stable 1.22.22 all [upgradable from: 1.22.21]
+*** KERNEL UPDATE DETECTED ***
+The following kernel packages will be updated:
+linux-image-amd64/stable-security 6.12.74-2 amd64 [upgradable from: 6.12.73-1]
+
+----------------------------------------
+Upgrading packages
+----------------------------------------
+Tue Apr  7 08:53:36 AM EDT 2026
+Upgrading:                      
+  base-files      dpkg            gpgsm                    grub2-common               libc-l10n     libext2fs2t64                   libssl3t64             openssh-server           qemu-system-data
+  bash            dpkg-dev        gpgv                     gstreamer1.0-plugins-base  libc6         libfreetype6                    linux-base             openssh-sftp-server      qemu-system-gui
+  bind9-dnsutils  e2fsprogs       grub-common              gstreamer1.0-x             libc6-dev     libgstreamer-plugins-base1.0-0  linux-image-amd64      openssl                  qemu-system-modules-opengl
+  bind9-host      gnupg-utils     grub-efi-amd64           ifupdown                   libcap2       libmpg123-0t64                  linux-libc-dev         openssl-provider-legacy  qemu-system-modules-spice
+  bind9-libs      gpg             grub-efi-amd64-bin       inetutils-telnet           libcap2-bin   libpng16-16t64                  linux-sysctl-defaults  passt                    qemu-system-x86
+  busybox         gpg-agent       grub-efi-amd64-signed    libbrlapi0.8               libcapstone5  libsndfile1                     locales                python3-requests         qemu-utils
+  catatonit       gpg-wks-client  grub-efi-amd64-unsigned  libc-bin                   libcom-err2   libsqlite3-0                    logsave                qemu-block-extra         sudo
+  dirmngr         gpgconf         grub-pc-bin              libc-dev-bin               libdpkg-perl  libss2                          openssh-client         qemu-system-common       tzdata
+
+Installing dependencies:
+  linux-image-6.12.74+deb13+1-amd64
+
+Suggested packages:
+  linux-doc-6.12  debian-kernel-handbook
+
+Summary:
+  Upgrading: 72, Installing: 1, Removing: 0, Not Upgrading: 0
+  Download size: 169 MB
+  Space needed: 111 MB / 1,329 GB available
+  └─ in /boot:  72.2 MB / 775 MB available
+
+Get:1 http://security.debian.org/debian-security trixie-security/main amd64 linux-libc-dev all 6.12.74-2 [2,746 kB]
+Get:2 http://deb.debian.org/debian trixie/main amd64 libc6-dev amd64 2.41-12+deb13u2 [1,996 kB]
+Get:3 http://security.debian.org/debian-security trixie-security/main amd64 linux-image-6.12.74+deb13+1-amd64 amd64 6.12.74-2 [108 MB]
+Get:4 http://deb.debian.org/debian trixie/main amd64 libc-dev-bin amd64 2.41-12+deb13u2 [59.4 kB]
+Get:5 http://deb.debian.org/debian trixie/main amd64 libc6 amd64 2.41-12+deb13u2 [2,847 kB]     
+Get:6 http://deb.debian.org/debian trixie/main amd64 base-files amd64 13.8+deb13u4 [73.3 kB]
+Get:7 http://deb.debian.org/debian trixie/main amd64 bash amd64 5.2.37-2+b8 [1,501 kB]         
+Get:8 http://deb.debian.org/debian trixie/main amd64 dpkg amd64 1.22.22 [1,537 kB]       
+Get:9 http://deb.debian.org/debian trixie/main amd64 libc-bin amd64 2.41-12+deb13u2 [638 kB]
+Get:10 http://deb.debian.org/debian trixie/main amd64 logsave amd64 1.47.2-3+b10 [24.9 kB] 
+Get:11 http://deb.debian.org/debian trixie/main amd64 libext2fs2t64 amd64 1.47.2-3+b10 [213 kB]
+Get:12 http://deb.debian.org/debian trixie/main amd64 e2fsprogs amd64 1.47.2-3+b10 [590 kB]      
+Get:13 http://deb.debian.org/debian trixie/main amd64 openssl-provider-legacy amd64 3.5.5-1~deb13u1 [311 kB]
+Get:14 http://deb.debian.org/debian trixie/main amd64 libssl3t64 amd64 3.5.5-1~deb13u1 [2,442 kB]          
+Get:15 http://deb.debian.org/debian trixie/main amd64 openssh-sftp-server amd64 1:10.0p1-7+deb13u1 [65.3 kB]
+Get:16 http://deb.debian.org/debian trixie/main amd64 openssh-server amd64 1:10.0p1-7+deb13u1 [602 kB]   
+Get:17 http://deb.debian.org/debian trixie/main amd64 openssh-client amd64 1:10.0p1-7+deb13u1 [986 kB]
+Get:18 http://deb.debian.org/debian trixie/main amd64 libcom-err2 amd64 1.47.2-3+b10 [25.0 kB]    
+Get:19 http://deb.debian.org/debian trixie/main amd64 sudo amd64 1.9.16p2-3+deb13u1 [2,087 kB]   
+Get:20 http://deb.debian.org/debian trixie/main amd64 libcap2 amd64 1:2.75-10+b8 [28.7 kB]
+Get:21 http://deb.debian.org/debian trixie/main amd64 libsqlite3-0 amd64 3.46.1-7+deb13u1 [914 kB]
+Get:22 http://deb.debian.org/debian trixie/main amd64 tzdata all 2026a-0+deb13u1 [264 kB]       
+Get:23 http://deb.debian.org/debian trixie/main amd64 ifupdown amd64 0.8.44+deb13u1 [62.0 kB]
+Get:24 http://deb.debian.org/debian trixie/main amd64 linux-sysctl-defaults all 4.12.1 [5,724 B]
+Get:25 http://deb.debian.org/debian trixie/main amd64 libc-l10n all 2.41-12+deb13u2 [740 kB]                
+Get:26 http://deb.debian.org/debian trixie/main amd64 locales all 2.41-12+deb13u2 [3,925 kB] 
+Get:27 http://deb.debian.org/debian trixie/main amd64 busybox amd64 1:1.37.0-6+b7 [485 kB]   
+Get:28 http://deb.debian.org/debian trixie/main amd64 catatonit amd64 0.2.1-2+b12 [275 kB] 
+Get:29 http://deb.debian.org/debian trixie/main amd64 gpgsm amd64 2.4.7-21+deb13u1+b2 [276 kB]
+Get:30 http://deb.debian.org/debian trixie/main amd64 gnupg-utils amd64 2.4.7-21+deb13u1+b2 [194 kB]
+Get:31 http://deb.debian.org/debian trixie/main amd64 gpg-wks-client amd64 2.4.7-21+deb13u1+b2 [109 kB]
+Get:32 http://deb.debian.org/debian trixie/main amd64 dirmngr amd64 2.4.7-21+deb13u1+b2 [384 kB]   
+Get:33 http://deb.debian.org/debian trixie/main amd64 gpg amd64 2.4.7-21+deb13u1+b2 [635 kB]
+Get:34 http://deb.debian.org/debian trixie/main amd64 gpgconf amd64 2.4.7-21+deb13u1+b2 [129 kB]
+Get:35 http://deb.debian.org/debian trixie/main amd64 gpg-agent amd64 2.4.7-21+deb13u1+b2 [271 kB]
+Get:36 http://deb.debian.org/debian trixie/main amd64 dpkg-dev all 1.22.22 [1,337 kB]        
+Get:37 http://deb.debian.org/debian trixie/main amd64 libdpkg-perl all 1.22.22 [651 kB]       
+Get:38 http://deb.debian.org/debian trixie/main amd64 gpgv amd64 2.4.7-21+deb13u1+b2 [241 kB]   
+Get:39 http://deb.debian.org/debian trixie/main amd64 grub-efi-amd64 amd64 2.12-9+deb13u1 [46.7 kB]
+Get:40 http://deb.debian.org/debian trixie/main amd64 grub2-common amd64 2.12-9+deb13u1 [641 kB]    
+Get:41 http://deb.debian.org/debian trixie/main amd64 grub-efi-amd64-unsigned amd64 2.12-9+deb13u1 [1,361 kB]
+Get:42 http://deb.debian.org/debian trixie/main amd64 grub-efi-amd64-bin amd64 2.12-9+deb13u1 [1,054 kB]     
+Get:43 http://deb.debian.org/debian trixie/main amd64 grub-pc-bin amd64 2.12-9+deb13u1 [1,021 kB]       
+Get:44 http://deb.debian.org/debian trixie/main amd64 grub-common amd64 2.12-9+deb13u1 [2,899 kB]
+Get:45 http://deb.debian.org/debian trixie/main amd64 grub-efi-amd64-signed amd64 1+2.12+9+deb13u1 [1,364 kB]
+Get:46 http://deb.debian.org/debian trixie/main amd64 libbrlapi0.8 amd64 6.7-3.1+deb13u3 [93.0 kB]         
+Get:47 http://deb.debian.org/debian trixie/main amd64 libcap2-bin amd64 1:2.75-10+b8 [36.4 kB]    
+Get:48 http://deb.debian.org/debian trixie/main amd64 libcapstone5 amd64 5.0.7-1~deb13u1 [778 kB]
+Get:49 http://deb.debian.org/debian trixie/main amd64 libmpg123-0t64 amd64 1.32.10-1+deb13u1 [149 kB]
+Get:50 http://deb.debian.org/debian trixie/main amd64 libsndfile1 amd64 1.2.2-2+deb13u1 [199 kB]   
+Get:51 http://deb.debian.org/debian trixie/main amd64 libss2 amd64 1.47.2-3+b10 [29.8 kB]       
+Get:52 http://deb.debian.org/debian trixie/main amd64 linux-base all 4.12.1 [25.5 kB]       
+Get:53 http://deb.debian.org/debian trixie/main amd64 openssl amd64 3.5.5-1~deb13u1 [1,499 kB]   
+Get:54 http://deb.debian.org/debian trixie/main amd64 passt amd64 0.0~git20250503.587980c-2+deb13u1 [233 kB]
+Get:55 http://deb.debian.org/debian trixie/main amd64 python3-requests all 2.32.3+dfsg-5+deb13u1 [72.2 kB]
+Get:56 http://deb.debian.org/debian trixie/main amd64 qemu-system-modules-spice amd64 1:10.0.8+ds-0+deb13u1+b1 [116 kB]
+Get:57 http://deb.debian.org/debian trixie/main amd64 qemu-system-modules-opengl amd64 1:10.0.8+ds-0+deb13u1+b1 [185 kB]
+Get:58 http://deb.debian.org/debian trixie/main amd64 qemu-system-gui amd64 1:10.0.8+ds-0+deb13u1+b1 [349 kB] 
+Get:59 http://deb.debian.org/debian trixie/main amd64 qemu-block-extra amd64 1:10.0.8+ds-0+deb13u1+b1 [126 kB]
+Get:60 http://deb.debian.org/debian trixie/main amd64 qemu-utils amd64 1:10.0.8+ds-0+deb13u1+b1 [2,011 kB]
+Get:61 http://deb.debian.org/debian trixie/main amd64 qemu-system-data all 1:10.0.8+ds-0+deb13u1 [2,130 kB]
+Get:62 http://deb.debian.org/debian trixie/main amd64 qemu-system-x86 amd64 1:10.0.8+ds-0+deb13u1+b1 [10.3 MB]
+Get:63 http://deb.debian.org/debian trixie/main amd64 qemu-system-common amd64 1:10.0.8+ds-0+deb13u1+b1 [990 kB]
+Get:64 http://security.debian.org/debian-security trixie-security/main amd64 bind9-host amd64 1:9.20.21-1~deb13u1 [55.6 kB]                                                                                        
+Get:65 http://security.debian.org/debian-security trixie-security/main amd64 bind9-dnsutils amd64 1:9.20.21-1~deb13u1 [166 kB]                                                                                     
+Get:66 http://security.debian.org/debian-security trixie-security/main amd64 bind9-libs amd64 1:9.20.21-1~deb13u1 [1,243 kB]                                                                                       
+Get:67 http://security.debian.org/debian-security trixie-security/main amd64 inetutils-telnet amd64 2:2.6-3+deb13u3 [131 kB]                                                                                       
+Get:68 http://security.debian.org/debian-security trixie-security/main amd64 libpng16-16t64 amd64 1.6.48-1+deb13u4 [283 kB]                                                                                        
+Get:69 http://security.debian.org/debian-security trixie-security/main amd64 libfreetype6 amd64 2.13.3+dfsg-1+deb13u1 [452 kB]                                                                                     
+Get:70 http://security.debian.org/debian-security trixie-security/main amd64 libgstreamer-plugins-base1.0-0 amd64 1.26.2-1+deb13u1 [997 kB]                                                                        
+Get:71 http://security.debian.org/debian-security trixie-security/main amd64 gstreamer1.0-plugins-base amd64 1.26.2-1+deb13u1 [773 kB]                                                                             
+Get:72 http://security.debian.org/debian-security trixie-security/main amd64 gstreamer1.0-x amd64 1.26.2-1+deb13u1 [142 kB]                                                                                        
+Get:73 http://security.debian.org/debian-security trixie-security/main amd64 linux-image-amd64 amd64 6.12.74-2 [1,476 B]                                                                                           
+Fetched 169 MB in 7s (23.6 MB/s)                                                                                                                                                                                   
+apt-listchanges: Reading changelogs...
+Extracting templates from packages: 100%
+Preconfiguring packages ...
+(Reading database ... 64743 files and directories currently installed.)
+Preparing to unpack .../libc6-dev_2.41-12+deb13u2_amd64.deb ...
+Unpacking libc6-dev:amd64 (2.41-12+deb13u2) over (2.41-12+deb13u1) ...
+Preparing to unpack .../libc-dev-bin_2.41-12+deb13u2_amd64.deb ...
+Unpacking libc-dev-bin (2.41-12+deb13u2) over (2.41-12+deb13u1) ...
+Preparing to unpack .../linux-libc-dev_6.12.74-2_all.deb ...
+Unpacking linux-libc-dev (6.12.74-2) over (6.12.73-1) ...
+Preparing to unpack .../libc6_2.41-12+deb13u2_amd64.deb ...
+Unpacking libc6:amd64 (2.41-12+deb13u2) over (2.41-12+deb13u1) ...
+Setting up libc6:amd64 (2.41-12+deb13u2) ...
+(Reading database ... 64743 files and directories currently installed.)
+Preparing to unpack .../base-files_13.8+deb13u4_amd64.deb ...
+Unpacking base-files (13.8+deb13u4) over (13.8+deb13u3) ...
+Setting up base-files (13.8+deb13u4) ...
+Installing new version of config file /etc/debian_version ...
+(Reading database ... 64743 files and directories currently installed.)
+Preparing to unpack .../bash_5.2.37-2+b8_amd64.deb ...
+Unpacking bash (5.2.37-2+b8) over (5.2.37-2+b7) ...
+Setting up bash (5.2.37-2+b8) ...
+update-alternatives: using /usr/share/man/man7/bash-builtins.7.gz to provide /usr/share/man/man7/builtins.7.gz (builtins.7.gz) in auto mode
+(Reading database ... 64743 files and directories currently installed.)
+Preparing to unpack .../dpkg_1.22.22_amd64.deb ...
+Unpacking dpkg (1.22.22) over (1.22.21) ...
+Setting up dpkg (1.22.22) ...
+(Reading database ... 64743 files and directories currently installed.)
+Preparing to unpack .../libc-bin_2.41-12+deb13u2_amd64.deb ...
+Unpacking libc-bin (2.41-12+deb13u2) over (2.41-12+deb13u1) ...
+Setting up libc-bin (2.41-12+deb13u2) ...
+(Reading database ... 64743 files and directories currently installed.)
+Preparing to unpack .../logsave_1.47.2-3+b10_amd64.deb ...
+Unpacking logsave (1.47.2-3+b10) over (1.47.2-3+b7) ...
+Preparing to unpack .../libext2fs2t64_1.47.2-3+b10_amd64.deb ...
+Leaving 'diversion of /lib/x86_64-linux-gnu/libe2p.so.2 to /lib/x86_64-linux-gnu/libe2p.so.2.usr-is-merged by libext2fs2t64'
+Leaving 'diversion of /lib/x86_64-linux-gnu/libe2p.so.2.3 to /lib/x86_64-linux-gnu/libe2p.so.2.3.usr-is-merged by libext2fs2t64'
+Leaving 'diversion of /lib/x86_64-linux-gnu/libext2fs.so.2 to /lib/x86_64-linux-gnu/libext2fs.so.2.usr-is-merged by libext2fs2t64'
+Leaving 'diversion of /lib/x86_64-linux-gnu/libext2fs.so.2.4 to /lib/x86_64-linux-gnu/libext2fs.so.2.4.usr-is-merged by libext2fs2t64'
+Unpacking libext2fs2t64:amd64 (1.47.2-3+b10) over (1.47.2-3+b7) ...
+Setting up libext2fs2t64:amd64 (1.47.2-3+b10) ...
+(Reading database ... 64743 files and directories currently installed.)
+Preparing to unpack .../e2fsprogs_1.47.2-3+b10_amd64.deb ...
+Unpacking e2fsprogs (1.47.2-3+b10) over (1.47.2-3+b7) ...
+Selecting previously unselected package linux-image-6.12.74+deb13+1-amd64.
+Preparing to unpack .../linux-image-6.12.74+deb13+1-amd64_6.12.74-2_amd64.deb ...
+Unpacking linux-image-6.12.74+deb13+1-amd64 (6.12.74-2) ...
+Preparing to unpack .../openssl-provider-legacy_3.5.5-1~deb13u1_amd64.deb ...
+Unpacking openssl-provider-legacy (3.5.5-1~deb13u1) over (3.5.4-1~deb13u2) ...
+Setting up openssl-provider-legacy (3.5.5-1~deb13u1) ...
+(Reading database ... 69942 files and directories currently installed.)
+Preparing to unpack .../libssl3t64_3.5.5-1~deb13u1_amd64.deb ...
+Unpacking libssl3t64:amd64 (3.5.5-1~deb13u1) over (3.5.4-1~deb13u2) ...
+Setting up libssl3t64:amd64 (3.5.5-1~deb13u1) ...
+(Reading database ... 69942 files and directories currently installed.)
+Preparing to unpack .../0-openssh-sftp-server_1%3a10.0p1-7+deb13u1_amd64.deb ...
+Unpacking openssh-sftp-server (1:10.0p1-7+deb13u1) over (1:10.0p1-7) ...
+Preparing to unpack .../1-openssh-server_1%3a10.0p1-7+deb13u1_amd64.deb ...
+Unpacking openssh-server (1:10.0p1-7+deb13u1) over (1:10.0p1-7) ...
+Preparing to unpack .../2-openssh-client_1%3a10.0p1-7+deb13u1_amd64.deb ...
+Unpacking openssh-client (1:10.0p1-7+deb13u1) over (1:10.0p1-7) ...
+Preparing to unpack .../3-libcom-err2_1.47.2-3+b10_amd64.deb ...
+Unpacking libcom-err2:amd64 (1.47.2-3+b10) over (1.47.2-3+b7) ...
+Preparing to unpack .../4-sudo_1.9.16p2-3+deb13u1_amd64.deb ...
+Unpacking sudo (1.9.16p2-3+deb13u1) over (1.9.16p2-3) ...
+Preparing to unpack .../5-libcap2_1%3a2.75-10+b8_amd64.deb ...
+Unpacking libcap2:amd64 (1:2.75-10+b8) over (1:2.75-10+b3) ...
+Setting up libcap2:amd64 (1:2.75-10+b8) ...
+(Reading database ... 69942 files and directories currently installed.)
+Preparing to unpack .../libsqlite3-0_3.46.1-7+deb13u1_amd64.deb ...
+Unpacking libsqlite3-0:amd64 (3.46.1-7+deb13u1) over (3.46.1-7) ...
+Setting up libsqlite3-0:amd64 (3.46.1-7+deb13u1) ...
+(Reading database ... 69942 files and directories currently installed.)
+Preparing to unpack .../00-tzdata_2026a-0+deb13u1_all.deb ...
+Unpacking tzdata (2026a-0+deb13u1) over (2025b-4+deb13u1) ...
+Preparing to unpack .../01-ifupdown_0.8.44+deb13u1_amd64.deb ...
+Unpacking ifupdown (0.8.44+deb13u1) over (0.8.44) ...
+Preparing to unpack .../02-linux-sysctl-defaults_4.12.1_all.deb ...
+Unpacking linux-sysctl-defaults (4.12.1) over (4.12) ...
+Preparing to unpack .../03-bind9-host_1%3a9.20.21-1~deb13u1_amd64.deb ...
+Unpacking bind9-host (1:9.20.21-1~deb13u1) over (1:9.20.18-1~deb13u1) ...
+Preparing to unpack .../04-bind9-dnsutils_1%3a9.20.21-1~deb13u1_amd64.deb ...
+Unpacking bind9-dnsutils (1:9.20.21-1~deb13u1) over (1:9.20.18-1~deb13u1) ...
+Preparing to unpack .../05-bind9-libs_1%3a9.20.21-1~deb13u1_amd64.deb ...
+Unpacking bind9-libs:amd64 (1:9.20.21-1~deb13u1) over (1:9.20.18-1~deb13u1) ...
+Preparing to unpack .../06-inetutils-telnet_2%3a2.6-3+deb13u3_amd64.deb ...
+Unpacking inetutils-telnet (2:2.6-3+deb13u3) over (2:2.6-3+deb13u2) ...
+Preparing to unpack .../07-libc-l10n_2.41-12+deb13u2_all.deb ...
+Unpacking libc-l10n (2.41-12+deb13u2) over (2.41-12+deb13u1) ...
+Preparing to unpack .../08-locales_2.41-12+deb13u2_all.deb ...
+Unpacking locales (2.41-12+deb13u2) over (2.41-12+deb13u1) ...
+Preparing to unpack .../09-busybox_1%3a1.37.0-6+b7_amd64.deb ...
+Unpacking busybox (1:1.37.0-6+b7) over (1:1.37.0-6+b5) ...
+Preparing to unpack .../10-catatonit_0.2.1-2+b12_amd64.deb ...
+Unpacking catatonit (0.2.1-2+b12) over (0.2.1-2+b7) ...
+Preparing to unpack .../11-gpgsm_2.4.7-21+deb13u1+b2_amd64.deb ...
+Unpacking gpgsm (2.4.7-21+deb13u1+b2) over (2.4.7-21+deb13u1+b1) ...
+Preparing to unpack .../12-gnupg-utils_2.4.7-21+deb13u1+b2_amd64.deb ...
+Unpacking gnupg-utils (2.4.7-21+deb13u1+b2) over (2.4.7-21+deb13u1+b1) ...
+Preparing to unpack .../13-gpg-wks-client_2.4.7-21+deb13u1+b2_amd64.deb ...
+Unpacking gpg-wks-client (2.4.7-21+deb13u1+b2) over (2.4.7-21+deb13u1+b1) ...
+Preparing to unpack .../14-dirmngr_2.4.7-21+deb13u1+b2_amd64.deb ...
+Unpacking dirmngr (2.4.7-21+deb13u1+b2) over (2.4.7-21+deb13u1+b1) ...
+Preparing to unpack .../15-gpg_2.4.7-21+deb13u1+b2_amd64.deb ...
+Unpacking gpg (2.4.7-21+deb13u1+b2) over (2.4.7-21+deb13u1+b1) ...
+Preparing to unpack .../16-gpgconf_2.4.7-21+deb13u1+b2_amd64.deb ...
+Unpacking gpgconf (2.4.7-21+deb13u1+b2) over (2.4.7-21+deb13u1+b1) ...
+Preparing to unpack .../17-gpg-agent_2.4.7-21+deb13u1+b2_amd64.deb ...
+Unpacking gpg-agent (2.4.7-21+deb13u1+b2) over (2.4.7-21+deb13u1+b1) ...
+Preparing to unpack .../18-dpkg-dev_1.22.22_all.deb ...
+Unpacking dpkg-dev (1.22.22) over (1.22.21) ...
+Preparing to unpack .../19-libdpkg-perl_1.22.22_all.deb ...
+Unpacking libdpkg-perl (1.22.22) over (1.22.21) ...
+Preparing to unpack .../20-gpgv_2.4.7-21+deb13u1+b2_amd64.deb ...
+Unpacking gpgv (2.4.7-21+deb13u1+b2) over (2.4.7-21+deb13u1+b1) ...
+Preparing to unpack .../21-grub-efi-amd64_2.12-9+deb13u1_amd64.deb ...
+Unpacking grub-efi-amd64 (2.12-9+deb13u1) over (2.12-9) ...
+Preparing to unpack .../22-grub2-common_2.12-9+deb13u1_amd64.deb ...
+Unpacking grub2-common (2.12-9+deb13u1) over (2.12-9) ...
+Preparing to unpack .../23-grub-efi-amd64-unsigned_2.12-9+deb13u1_amd64.deb ...
+Unpacking grub-efi-amd64-unsigned (2.12-9+deb13u1) over (2.12-9) ...
+Preparing to unpack .../24-grub-efi-amd64-bin_2.12-9+deb13u1_amd64.deb ...
+Unpacking grub-efi-amd64-bin (2.12-9+deb13u1) over (2.12-9) ...
+Preparing to unpack .../25-grub-pc-bin_2.12-9+deb13u1_amd64.deb ...
+Unpacking grub-pc-bin (2.12-9+deb13u1) over (2.12-9) ...
+Preparing to unpack .../26-grub-common_2.12-9+deb13u1_amd64.deb ...
+Unpacking grub-common (2.12-9+deb13u1) over (2.12-9) ...
+Preparing to unpack .../27-grub-efi-amd64-signed_1+2.12+9+deb13u1_amd64.deb ...
+Unpacking grub-efi-amd64-signed (1+2.12+9+deb13u1) over (1+2.12+9) ...
+Preparing to unpack .../28-libpng16-16t64_1.6.48-1+deb13u4_amd64.deb ...
+Unpacking libpng16-16t64:amd64 (1.6.48-1+deb13u4) over (1.6.48-1+deb13u3) ...
+Preparing to unpack .../29-libfreetype6_2.13.3+dfsg-1+deb13u1_amd64.deb ...
+Unpacking libfreetype6:amd64 (2.13.3+dfsg-1+deb13u1) over (2.13.3+dfsg-1) ...
+Preparing to unpack .../30-libgstreamer-plugins-base1.0-0_1.26.2-1+deb13u1_amd64.deb ...
+Unpacking libgstreamer-plugins-base1.0-0:amd64 (1.26.2-1+deb13u1) over (1.26.2-1) ...
+Preparing to unpack .../31-gstreamer1.0-plugins-base_1.26.2-1+deb13u1_amd64.deb ...
+Unpacking gstreamer1.0-plugins-base:amd64 (1.26.2-1+deb13u1) over (1.26.2-1) ...
+Preparing to unpack .../32-gstreamer1.0-x_1.26.2-1+deb13u1_amd64.deb ...
+Unpacking gstreamer1.0-x:amd64 (1.26.2-1+deb13u1) over (1.26.2-1) ...
+Preparing to unpack .../33-libbrlapi0.8_6.7-3.1+deb13u3_amd64.deb ...
+Unpacking libbrlapi0.8:amd64 (6.7-3.1+deb13u3) over (6.7-3.1+deb13u2) ...
+Preparing to unpack .../34-libcap2-bin_1%3a2.75-10+b8_amd64.deb ...
+Unpacking libcap2-bin (1:2.75-10+b8) over (1:2.75-10+b3) ...
+Preparing to unpack .../35-libcapstone5_5.0.7-1~deb13u1_amd64.deb ...
+Unpacking libcapstone5:amd64 (5.0.7-1~deb13u1) over (5.0.6-1) ...
+Preparing to unpack .../36-libmpg123-0t64_1.32.10-1+deb13u1_amd64.deb ...
+Unpacking libmpg123-0t64:amd64 (1.32.10-1+deb13u1) over (1.32.10-1) ...
+Preparing to unpack .../37-libsndfile1_1.2.2-2+deb13u1_amd64.deb ...
+Unpacking libsndfile1:amd64 (1.2.2-2+deb13u1) over (1.2.2-2+b1) ...
+Preparing to unpack .../38-libss2_1.47.2-3+b10_amd64.deb ...
+Unpacking libss2:amd64 (1.47.2-3+b10) over (1.47.2-3+b7) ...
+Preparing to unpack .../39-linux-base_4.12.1_all.deb ...
+Unpacking linux-base (4.12.1) over (4.12) ...
+Preparing to unpack .../40-linux-image-amd64_6.12.74-2_amd64.deb ...
+Unpacking linux-image-amd64 (6.12.74-2) over (6.12.73-1) ...
+Preparing to unpack .../41-openssl_3.5.5-1~deb13u1_amd64.deb ...
+Unpacking openssl (3.5.5-1~deb13u1) over (3.5.4-1~deb13u2) ...
+Preparing to unpack .../42-passt_0.0~git20250503.587980c-2+deb13u1_amd64.deb ...
+Unpacking passt (0.0~git20250503.587980c-2+deb13u1) over (0.0~git20250503.587980c-2) ...
+Preparing to unpack .../43-python3-requests_2.32.3+dfsg-5+deb13u1_all.deb ...
+Unpacking python3-requests (2.32.3+dfsg-5+deb13u1) over (2.32.3+dfsg-5) ...
+Preparing to unpack .../44-qemu-system-modules-spice_1%3a10.0.8+ds-0+deb13u1+b1_amd64.deb ...
+Unpacking qemu-system-modules-spice (1:10.0.8+ds-0+deb13u1+b1) over (1:10.0.7+ds-0+deb13u1+b1) ...
+Preparing to unpack .../45-qemu-system-modules-opengl_1%3a10.0.8+ds-0+deb13u1+b1_amd64.deb ...
+Unpacking qemu-system-modules-opengl (1:10.0.8+ds-0+deb13u1+b1) over (1:10.0.7+ds-0+deb13u1+b1) ...
+Preparing to unpack .../46-qemu-system-gui_1%3a10.0.8+ds-0+deb13u1+b1_amd64.deb ...
+Unpacking qemu-system-gui (1:10.0.8+ds-0+deb13u1+b1) over (1:10.0.7+ds-0+deb13u1+b1) ...
+Preparing to unpack .../47-qemu-block-extra_1%3a10.0.8+ds-0+deb13u1+b1_amd64.deb ...
+Unpacking qemu-block-extra (1:10.0.8+ds-0+deb13u1+b1) over (1:10.0.7+ds-0+deb13u1+b1) ...
+Preparing to unpack .../48-qemu-utils_1%3a10.0.8+ds-0+deb13u1+b1_amd64.deb ...
+Unpacking qemu-utils (1:10.0.8+ds-0+deb13u1+b1) over (1:10.0.7+ds-0+deb13u1+b1) ...
+Preparing to unpack .../49-qemu-system-data_1%3a10.0.8+ds-0+deb13u1_all.deb ...
+Unpacking qemu-system-data (1:10.0.8+ds-0+deb13u1) over (1:10.0.7+ds-0+deb13u1) ...
+Preparing to unpack .../50-qemu-system-x86_1%3a10.0.8+ds-0+deb13u1+b1_amd64.deb ...
+Unpacking qemu-system-x86 (1:10.0.8+ds-0+deb13u1+b1) over (1:10.0.7+ds-0+deb13u1+b1) ...
+Preparing to unpack .../51-qemu-system-common_1%3a10.0.8+ds-0+deb13u1+b1_amd64.deb ...
+Unpacking qemu-system-common (1:10.0.8+ds-0+deb13u1+b1) over (1:10.0.7+ds-0+deb13u1+b1) ...
+Setting up libc-l10n (2.41-12+deb13u2) ...
+Setting up linux-base (4.12.1) ...
+Setting up bind9-libs:amd64 (1:9.20.21-1~deb13u1) ...
+Setting up openssh-client (1:10.0p1-7+deb13u1) ...
+Setting up linux-libc-dev (6.12.74-2) ...
+Setting up libgstreamer-plugins-base1.0-0:amd64 (1.26.2-1+deb13u1) ...
+Setting up libcom-err2:amd64 (1.47.2-3+b10) ...
+Setting up libmpg123-0t64:amd64 (1.32.10-1+deb13u1) ...
+Setting up locales (2.41-12+deb13u2) ...
+Generating locales (this might take a while)...
+  en_US.UTF-8... done
+Generation complete.
+Setting up tzdata (2026a-0+deb13u1) ...
+
+Current default time zone: 'America/New_York'
+Local time is now:      Tue Apr  7 08:54:16 EDT 2026.
+Universal Time is now:  Tue Apr  7 12:54:16 UTC 2026.
+Run 'dpkg-reconfigure tzdata' if you wish to change it.
+
+Setting up libcap2-bin (1:2.75-10+b8) ...
+Setting up busybox (1:1.37.0-6+b7) ...
+Setting up gstreamer1.0-plugins-base:amd64 (1.26.2-1+deb13u1) ...
+Setting up linux-sysctl-defaults (4.12.1) ...
+Setting up linux-image-6.12.74+deb13+1-amd64 (6.12.74-2) ...
+I: /vmlinuz.old is now a symlink to boot/vmlinuz-6.12.73+deb13-amd64
+I: /initrd.img.old is now a symlink to boot/initrd.img-6.12.73+deb13-amd64
+I: /vmlinuz is now a symlink to boot/vmlinuz-6.12.74+deb13+1-amd64
+I: /initrd.img is now a symlink to boot/initrd.img-6.12.74+deb13+1-amd64
+/etc/kernel/postinst.d/initramfs-tools:
+update-initramfs: Generating /boot/initrd.img-6.12.74+deb13+1-amd64
+/etc/kernel/postinst.d/zz-update-grub:
+Generating grub configuration file ...
+Found linux image: /boot/vmlinuz-6.12.74+deb13+1-amd64
+Found initrd image: /boot/initrd.img-6.12.74+deb13+1-amd64
+Found linux image: /boot/vmlinuz-6.12.73+deb13-amd64
+Found initrd image: /boot/initrd.img-6.12.73+deb13-amd64
+Found linux image: /boot/vmlinuz-6.12.63+deb13-amd64
+Found initrd image: /boot/initrd.img-6.12.63+deb13-amd64
+Warning: os-prober will not be executed to detect other bootable partitions.
+Systems on them will not be added to the GRUB boot configuration.
+Check GRUB_DISABLE_OS_PROBER documentation entry.
+Adding boot menu entry for UEFI Firmware Settings ...
+done
+Setting up catatonit (0.2.1-2+b12) ...
+Setting up ifupdown (0.8.44+deb13u1) ...
+Setting up python3-requests (2.32.3+dfsg-5+deb13u1) ...
+Setting up libpng16-16t64:amd64 (1.6.48-1+deb13u4) ...
+Setting up libss2:amd64 (1.47.2-3+b10) ...
+Setting up sudo (1.9.16p2-3+deb13u1) ...
+Setting up libcapstone5:amd64 (5.0.7-1~deb13u1) ...
+Setting up qemu-system-data (1:10.0.8+ds-0+deb13u1) ...
+Setting up libdpkg-perl (1.22.22) ...
+Setting up logsave (1.47.2-3+b10) ...
+Setting up passt (0.0~git20250503.587980c-2+deb13u1) ...
+Installing new version of config file /etc/apparmor.d/abstractions/passt ...
+Installing new version of config file /etc/apparmor.d/abstractions/pasta ...
+Installing new version of config file /etc/apparmor.d/usr.bin.passt ...
+Installing new version of config file /etc/apparmor.d/usr.bin.pasta ...
+Setting up gpgv (2.4.7-21+deb13u1+b2) ...
+Setting up gpgconf (2.4.7-21+deb13u1+b2) ...
+Setting up libbrlapi0.8:amd64 (6.7-3.1+deb13u3) ...
+Setting up libsndfile1:amd64 (1.2.2-2+deb13u1) ...
+Setting up qemu-utils (1:10.0.8+ds-0+deb13u1+b1) ...
+Setting up libc-dev-bin (2.41-12+deb13u2) ...
+Setting up bind9-host (1:9.20.21-1~deb13u1) ...
+Setting up openssl (3.5.5-1~deb13u1) ...
+Setting up qemu-block-extra (1:10.0.8+ds-0+deb13u1+b1) ...
+Setting up gpg (2.4.7-21+deb13u1+b2) ...
+Setting up gnupg-utils (2.4.7-21+deb13u1+b2) ...
+Setting up openssh-sftp-server (1:10.0p1-7+deb13u1) ...
+Setting up gstreamer1.0-x:amd64 (1.26.2-1+deb13u1) ...
+Setting up gpg-agent (2.4.7-21+deb13u1+b2) ...
+Setting up qemu-system-common (1:10.0.8+ds-0+deb13u1+b1) ...
+Setting up openssh-server (1:10.0p1-7+deb13u1) ...
+ssh.socket is a disabled or a static unit not running, not starting it.
+Setting up gpgsm (2.4.7-21+deb13u1+b2) ...
+Setting up qemu-system-x86 (1:10.0.8+ds-0+deb13u1+b1) ...
+Setting up inetutils-telnet (2:2.6-3+deb13u3) ...
+Setting up e2fsprogs (1.47.2-3+b10) ...
+update-initramfs: deferring update (trigger activated)
+Setting up linux-image-amd64 (6.12.74-2) ...
+Setting up dpkg-dev (1.22.22) ...
+Setting up dirmngr (2.4.7-21+deb13u1+b2) ...
+Setting up libfreetype6:amd64 (2.13.3+dfsg-1+deb13u1) ...
+Setting up libc6-dev:amd64 (2.41-12+deb13u2) ...
+Setting up bind9-dnsutils (1:9.20.21-1~deb13u1) ...
+Setting up qemu-system-modules-opengl (1:10.0.8+ds-0+deb13u1+b1) ...
+Setting up gpg-wks-client (2.4.7-21+deb13u1+b2) ...
+Setting up qemu-system-gui (1:10.0.8+ds-0+deb13u1+b1) ...
+Setting up grub-common (2.12-9+deb13u1) ...
+Installing new version of config file /etc/grub.d/10_linux ...
+Installing new version of config file /etc/grub.d/20_linux_xen ...
+Setting up qemu-system-modules-spice (1:10.0.8+ds-0+deb13u1+b1) ...
+Setting up grub-efi-amd64-signed (1+2.12+9+deb13u1) ...
+Setting up grub-efi-amd64-unsigned (2.12-9+deb13u1) ...
+Setting up grub2-common (2.12-9+deb13u1) ...
+Setting up grub-pc-bin (2.12-9+deb13u1) ...
+Setting up grub-efi-amd64-bin (2.12-9+deb13u1) ...
+Setting up grub-efi-amd64 (2.12-9+deb13u1) ...
+Installing for x86_64-efi platform.
+Installation finished. No error reported.
+Generating grub configuration file ...
+Found linux image: /boot/vmlinuz-6.12.74+deb13+1-amd64
+Found initrd image: /boot/initrd.img-6.12.74+deb13+1-amd64
+Found linux image: /boot/vmlinuz-6.12.73+deb13-amd64
+Found initrd image: /boot/initrd.img-6.12.73+deb13-amd64
+Found linux image: /boot/vmlinuz-6.12.63+deb13-amd64
+Found initrd image: /boot/initrd.img-6.12.63+deb13-amd64
+Warning: os-prober will not be executed to detect other bootable partitions.
+Systems on them will not be added to the GRUB boot configuration.
+Check GRUB_DISABLE_OS_PROBER documentation entry.
+Adding boot menu entry for UEFI Firmware Settings ...
+done
+Processing triggers for debianutils (5.23.2) ...
+Processing triggers for initramfs-tools (0.148.3) ...
+update-initramfs: Generating /boot/initrd.img-6.12.74+deb13+1-amd64
+Processing triggers for hicolor-icon-theme (0.18-2) ...
+Processing triggers for libc-bin (2.41-12+deb13u2) ...
+Processing triggers for systemd (257.9-1~deb13u1) ...
+Processing triggers for man-db (2.13.1-1) ...
+Processing triggers for procps (2:4.0.4-9) ...
+Processing triggers for shim-signed:amd64 (1.47+15.8-1) ...
+
+----------------------------------------
+Performing full-upgrade
+----------------------------------------
+Tue Apr  7 08:55:14 AM EDT 2026
+REMOVING:                       
+  linux-image-6.12.63+deb13-amd64
+
+Summary:
+  Upgrading: 0, Installing: 0, Removing: 1, Not Upgrading: 0
+  Freed space: 111 MB
+
+(Reading database ... 69941 files and directories currently installed.)
+Removing linux-image-6.12.63+deb13-amd64 (6.12.63-1) ...
+/etc/kernel/postrm.d/initramfs-tools:
+update-initramfs: Deleting /boot/initrd.img-6.12.63+deb13-amd64
+/etc/kernel/postrm.d/zz-update-grub:
+Generating grub configuration file ...
+Found linux image: /boot/vmlinuz-6.12.74+deb13+1-amd64
+Found initrd image: /boot/initrd.img-6.12.74+deb13+1-amd64
+Found linux image: /boot/vmlinuz-6.12.73+deb13-amd64
+Found initrd image: /boot/initrd.img-6.12.73+deb13-amd64
+Warning: os-prober will not be executed to detect other bootable partitions.
+Systems on them will not be added to the GRUB boot configuration.
+Check GRUB_DISABLE_OS_PROBER documentation entry.
+Adding boot menu entry for UEFI Firmware Settings ...
+done
+
+----------------------------------------
+Cleaning package cache & removing unused packages
+----------------------------------------
+Tue Apr  7 08:55:20 AM EDT 2026
+Summary:                        
+  Upgrading: 0, Installing: 0, Removing: 0, Not Upgrading: 0
+FFmpeg version: 7.1.3-0+deb13u1 
+
+----------------------------------------
+Camera connectivity check
+----------------------------------------
+Tue Apr  7 08:55:21 AM EDT 2026
+Testing camera connections:
+  ✓ Jennev (192.168.0.34:554)
+  ✓ Front Door (192.168.0.65:554)
+  ✓ Tapo (192.168.0.218:554)
+
+----------------------------------------
+Recording processes status
+----------------------------------------
+Tue Apr  7 08:55:21 AM EDT 2026
+Active ffmpeg processes: 41
+  ✓ jennev recording active
+  ✓ myfrontdoor recording active
+  ✓ tapo recording active
+
+----------------------------------------
+Recording storage status
+----------------------------------------
+Tue Apr  7 08:55:21 AM EDT 2026
+jennev: Size: 20G | Videos: 27
+  Latest: 2026-04-07 08:55:20 (0 mins ago)
+myfrontdoor: Size: 2.8G | Videos: 18
+  Latest: 2026-04-07 04:00:11 (295 mins ago)
+tapo: Size: 52G | Videos: 25
+  Latest: 2026-04-07 08:55:20 (0 mins ago)
+
+----------------------------------------
+Reboot check
+----------------------------------------
+Tue Apr  7 08:55:21 AM EDT 2026
+*** REBOOT RECOMMENDED for kernel update ***
+
+----------------------------------------
+Final system checks
+----------------------------------------
+Tue Apr  7 08:55:21 AM EDT 2026
+✓ No broken packages
+✓ All services running normally
+INFO: 5 packages have leftover config files.
+Run 'dpkg --purge $(dpkg -l | grep "^rc" | awk '{print $2}')' to clean them.
+
+----------------------------------------
+Health Score
+----------------------------------------
+Tue Apr  7 08:55:21 AM EDT 2026
+Issues found:
+- System reboot required
+
+★★★★☆ System status: Good (1 minor issue)
+
+========================================
+Maintenance completed successfully
+========================================
+Tue Apr  7 08:55:21 AM EDT 2026
+*** REMEMBER TO REBOOT WHEN CONVENIENT ***
+
+real	1m51.718s
+user	0m0.021s
+sys	0m0.057s
+Tue Apr  7 08:55:21 AM EDT 2026
+kushal@virginia:~$ crontab -l
+# Edit this file to introduce tasks to be run by cron.
+# 
+# Each task to run has to be defined through a single line
+# indicating with different fields when the task will be run
+# and what command to run for the task
+# 
+# To define the time you can provide concrete values for
+# minute (m), hour (h), day of month (dom), month (mon),
+# and day of week (dow) or use '*' in these fields (for 'any').
+# 
+# Notice that tasks will be started based on the cron's system
+# daemon's notion of time and timezones.
+# 
+# Output of the crontab jobs (including errors) is sent through
+# email to the user the crontab file belongs to (unless redirected).
+# 
+# For example, you can run a backup of all your user accounts
+# at 5 a.m every week with:
+# 0 5 * * 1 tar -zcf /var/backups/home.tgz /home/
+# 
+# For more information see the manual pages of crontab(5) and cron(8)
+# 
+# m h  dom mon dow   command
+
+0 */8 * * * /home/kushal/mybashscripts/myjennev.sh >> /home/kushal/jennev/cron.log 2>&1
+0 4,12,20 * * * /home/kushal/mybashscripts/myfrontdoor.sh >> /home/kushal/myfrontdoor/cron.log 2>&1
+5 2,10,18 * * * /home/kushal/mybashscripts/mytapo.sh >> /home/kushal/tapo/cron.log 2>&1
+
+kushal@virginia:~$ sudo reboot
+kushal@virginia:~$ Read from remote host 192.168.0.76: Connection reset by peer
+Connection to 192.168.0.76 closed.
+client_loop: send disconnect: Broken pipe
+kushal@fedora:~/Videos/dl$ 
