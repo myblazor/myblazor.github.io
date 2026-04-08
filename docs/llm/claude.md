@@ -41518,7 +41518,7 @@ After saving the file, I will
 simply commit this new markdown file and push it 
 for github actions to do its thing.
 
-
+Let me start by checking the project knowledge for blog conventions and structure, then I'll research current JavaScript facts to ensure accuracy.I've read the full project knowledge and understand the conventions thoroughly. This is a massive JavaScript article for a .NET developer audience. Let me kick off deep research to verify all the current version numbers, ECMAScript specs, and JavaScript engine details before writing.Your definitive JavaScript reference for .NET developers is ready. It covers JavaScript's history from its 1995 origins through ES2026, engine internals (V8, SpiderMonkey, JSC), the event loop and JIT compilation, common quirks and type coercion pitfalls, modern language features including Temporal API and `using` declarations, runtime environments (Node.js 24, Deno 2.7, Bun 1.3), the Rust-based tooling revolution (Vite 8/Rolldown, SWC, Turbopack), TypeScript 7's Go rewrite, module systems, supply chain security threats, testing frameworks, WebAssembly 3.0, performance optimization, and .NET interop patterns via Blazor, SignalR, and gRPC. Each concept is mapped to its C# equivalent where applicable.
 
 
 
