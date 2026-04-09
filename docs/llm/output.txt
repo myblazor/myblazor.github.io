@@ -1,9 +1,9 @@
-kushal@fedora:~/src/dotnet/myblazor$ cd /home/kushal/src/dotnet/myblazor/; time du -sh .; time git clean -dfX; time du -sh .; time dotnet format; time dotnet restore; dotnet run --project tools/ObserverMagazine.ContentProcessor -- --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot; time dotnet test; time dotnet list package; time dotnet list package --outdated; time bash export.sh;
-201M	.
+kushal@fedora:~/Videos/dl$ cd /home/kushal/src/dotnet/myblazor/; time du -sh .; time git clean -dfX; time du -sh .; time dotnet format; time dotnet restore; dotnet run --project tools/ObserverMagazine.ContentProcessor -- --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot; time dotnet test; time dotnet list package; time dotnet list package --outdated; time bash export.sh;
+205M	.
 
-real	0m0.021s
-user	0m0.002s
-sys	0m0.010s
+real	0m0.023s
+user	0m0.004s
+sys	0m0.009s
 Removing src/ObserverMagazine.Web/bin/
 Removing src/ObserverMagazine.Web/obj/
 Removing src/ObserverMagazine.Web/wwwroot/blog-data/
@@ -15,35 +15,35 @@ Removing tests/ObserverMagazine.Web.Tests/obj/
 Removing tools/ObserverMagazine.ContentProcessor/bin/
 Removing tools/ObserverMagazine.ContentProcessor/obj/
 
-real	0m0.046s
-user	0m0.002s
-sys	0m0.042s
-64M	.
+real	0m0.035s
+user	0m0.003s
+sys	0m0.032s
+67M	.
 
-real	0m0.008s
-user	0m0.002s
+real	0m0.007s
+user	0m0.000s
 sys	0m0.006s
 
-real	0m8.767s
-user	0m13.225s
-sys	0m1.125s
+real	0m7.757s
+user	0m11.677s
+sys	0m1.130s
 Restore complete (0.5s)
 
 Build succeeded in 0.6s
 
-real	0m0.780s
-user	0m0.833s
-sys	0m0.152s
+real	0m0.732s
+user	0m0.769s
+sys	0m0.160s
 Content directory: content/blog
 Output directory:  src/ObserverMagazine.Web/wwwroot
 Authors directory: content/authors
-Publish before:    2026-04-07 11:28:17 UTC
+Publish before:    2026-04-09 12:22:46 UTC
 Found 3 author profile(s)
   Loaded author: kushal (kushal)
   Loaded author: abraham-lincoln (Abraham Lincoln)
   Loaded author: myblazor-team (My Blazor Team)
 Wrote authors index: src/ObserverMagazine.Web/wwwroot/blog-data/authors.json (3 authors)
-Found 44 markdown files
+Found 48 markdown files
 Processing: 2026-01-15-welcome-to-observer-magazine.md
   Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/welcome-to-observer-magazine.html (~1 min read)
 Processing: 2026-02-20-getting-started-with-blazor-wasm.md
@@ -57,7 +57,7 @@ Processing: 2026-03-21-aspnet-lifecycle-deep-dive.md
 Processing: 2099-01-01-draft-template.md
   SKIPPED: Draft post 'Your Post Title Here'
 Processing: 2027-01-01-happy-new-year-2027.md
-  SKIPPED: Future post 'Happy New Year 2027: A Look Back and a Look Ahead' (date: 2027-01-01, publish-before: 2026-04-07)
+  SKIPPED: Future post 'Happy New Year 2027: A Look Back and a Look Ahead' (date: 2027-01-01, publish-before: 2026-04-09)
 Processing: 2026-03-22-good-morning.md
   Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/good-morning.html (~1 min read)
 Processing: 2026-03-22-the-year-2025-in-review.md
@@ -97,42 +97,50 @@ Processing: 2026-04-06-most-important-solid-principle.md
 Processing: 2026-04-07-2007-toyota-camry-complete-guide.md
   Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/2007-toyota-camry-complete-guide.html (~42 min read)
 Processing: 2026-04-08-aspire-containers-self-hosting-guide.md
-  SKIPPED: Future post 'Aspire, Containers, and Self-Hosting: A Complete Guide to Deploying .NET Applications on Your Own Hardware' (date: 2026-04-08, publish-before: 2026-04-07)
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/aspire-containers-self-hosting-guide.html (~37 min read)
 Processing: 2026-04-09-dotnet-data-structures-complete-guide.md
-  SKIPPED: Future post 'Data Structures in .NET: A Comprehensive Guide from Primitives to Advanced Collections' (date: 2026-04-09, publish-before: 2026-04-07)
+  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/dotnet-data-structures-complete-guide.html (~62 min read)
 Processing: 2026-04-10-relational-databases-normalization-guide.md
-  SKIPPED: Future post 'Relational Databases and Normalization: A Complete Guide from Messy Spreadsheets to Sixth Normal Form' (date: 2026-04-10, publish-before: 2026-04-07)
+  SKIPPED: Future post 'Relational Databases and Normalization: A Complete Guide from Messy Spreadsheets to Sixth Normal Form' (date: 2026-04-10, publish-before: 2026-04-09)
 Processing: 2026-04-11-dotnet10-csharp14-complete-guide.md
-  SKIPPED: Future post 'The Complete .NET 10 and C# 14 Guide: Everything You Need to Know from Framework to Modern .NET' (date: 2026-04-11, publish-before: 2026-04-07)
+  SKIPPED: Future post 'The Complete .NET 10 and C# 14 Guide: Everything You Need to Know from Framework to Modern .NET' (date: 2026-04-11, publish-before: 2026-04-09)
 Processing: 2026-04-14-happy-new-year.md
-  SKIPPED: Future post 'Happy New Year!' (date: 2026-04-14, publish-before: 2026-04-07)
+  SKIPPED: Future post 'Happy New Year!' (date: 2026-04-14, publish-before: 2026-04-09)
 Processing: 2026-04-12-dfw-home-buying-complete-guide.md
-  SKIPPED: Future post 'The Complete Guide to Buying a Home in Dallas–Fort Worth: Single-Family, Multigenerational, Duplex, Barndominium, and Everything In Between' (date: 2026-04-12, publish-before: 2026-04-07)
+  SKIPPED: Future post 'The Complete Guide to Buying a Home in Dallas–Fort Worth: Single-Family, Multigenerational, Duplex, Barndominium, and Everything In Between' (date: 2026-04-12, publish-before: 2026-04-09)
 Processing: 2026-04-13-bikram-sambat-nepal-sambat-comprehensive-guide.md
-  SKIPPED: Future post 'Bikram Sambat and Nepal Sambat: A Comprehensive Guide to Nepal's Calendars, Their Mathematics, and What They Mean for Programmers' (date: 2026-04-13, publish-before: 2026-04-07)
+  SKIPPED: Future post 'Bikram Sambat and Nepal Sambat: A Comprehensive Guide to Nepal's Calendars, Their Mathematics, and What They Mean for Programmers' (date: 2026-04-13, publish-before: 2026-04-09)
 Processing: 2026-04-14-web-browser-technology-complete-guide.md
-  SKIPPED: Future post 'Web Browser Technology: The Complete Guide to Engines, Standards, and the Future of the Web Platform' (date: 2026-04-14, publish-before: 2026-04-07)
+  SKIPPED: Future post 'Web Browser Technology: The Complete Guide to Engines, Standards, and the Future of the Web Platform' (date: 2026-04-14, publish-before: 2026-04-09)
 Processing: 2026-04-15-blazor-not-found-page-postmortem.md
-  SKIPPED: Future post 'Post-Mortem: How We Broke My Blazor Magazine With a Missing @page Directive and What We Learned About Blazor's NotFoundPage in .NET 10' (date: 2026-04-15, publish-before: 2026-04-07)
+  SKIPPED: Future post 'Post-Mortem: How We Broke My Blazor Magazine With a Missing @page Directive and What We Learned About Blazor's NotFoundPage in .NET 10' (date: 2026-04-15, publish-before: 2026-04-09)
 Processing: 2026-04-16-global-money-machine-currency-payments-remittance-nepal.md
-  SKIPPED: Future post 'The Global Money Machine: Currency, Digital Payments, Remittance, and Nepal's Place in a Changing World' (date: 2026-04-16, publish-before: 2026-04-07)
+  SKIPPED: Future post 'The Global Money Machine: Currency, Digital Payments, Remittance, and Nepal's Place in a Changing World' (date: 2026-04-16, publish-before: 2026-04-09)
 Processing: 2026-04-17-grand-unified-novel-timeline.md
-  SKIPPED: Future post 'The Grand Human Story: A Unified Chronicle Drawn from the Nine Greatest Novels Ever Written' (date: 2026-04-17, publish-before: 2026-04-07)
+  SKIPPED: Future post 'The Grand Human Story: A Unified Chronicle Drawn from the Nine Greatest Novels Ever Written' (date: 2026-04-17, publish-before: 2026-04-09)
 Processing: 2026-04-18-global-gnss-and-atomic-synchronization.md
-  SKIPPED: Future post 'The Global Positioning Engine: Atomic Clocks, Trilateration, and the Invisible Infrastructure of Time' (date: 2026-04-18, publish-before: 2026-04-07)
+  SKIPPED: Future post 'The Global Positioning Engine: Atomic Clocks, Trilateration, and the Invisible Infrastructure of Time' (date: 2026-04-18, publish-before: 2026-04-09)
 Processing: 2026-04-19-sql-server-connection-pooling-complete-guide.md
-  SKIPPED: Future post 'The Complete Guide to SQL Server Connection Pooling in ASP.NET: From Framework 4.8 to .NET 10' (date: 2026-04-19, publish-before: 2026-04-07)
+  SKIPPED: Future post 'The Complete Guide to SQL Server Connection Pooling in ASP.NET: From Framework 4.8 to .NET 10' (date: 2026-04-19, publish-before: 2026-04-09)
 Processing: 2026-04-20-httpclientfactory-typed-clients-deep-dive.md
-  SKIPPED: Future post 'HttpClientFactory and Typed Clients: The Complete Guide to HTTP Connection Management in .NET' (date: 2026-04-20, publish-before: 2026-04-07)
+  SKIPPED: Future post 'HttpClientFactory and Typed Clients: The Complete Guide to HTTP Connection Management in .NET' (date: 2026-04-20, publish-before: 2026-04-09)
 Processing: 2026-04-21-threadpool-starvation-and-connection-pooling.md
-  SKIPPED: Future post 'Thread Pool Starvation, Injection, and the Other Pool: A Complete Guide to Concurrency in ASP.NET and .NET 10' (date: 2026-04-21, publish-before: 2026-04-07)
+  SKIPPED: Future post 'Thread Pool Starvation, Injection, and the Other Pool: A Complete Guide to Concurrency in ASP.NET and .NET 10' (date: 2026-04-21, publish-before: 2026-04-09)
 Processing: 2026-04-22-git-comprehensive-guide.md
-  SKIPPED: Future post 'Git: The Complete Guide — Internals, Misconceptions, Branches, Commits, Tags, and Everything In Between' (date: 2026-04-22, publish-before: 2026-04-07)
+  SKIPPED: Future post 'Git: The Complete Guide — Internals, Misconceptions, Branches, Commits, Tags, and Everything In Between' (date: 2026-04-22, publish-before: 2026-04-09)
 Processing: 2026-04-23-git-sha1-vs-sha256.md
-  SKIPPED: Future post 'Git's Hash Revolution: SHA-1, SHA-256, and the Long Road to a More Secure Version Control System' (date: 2026-04-23, publish-before: 2026-04-07)
+  SKIPPED: Future post 'Git's Hash Revolution: SHA-1, SHA-256, and the Long Road to a More Secure Version Control System' (date: 2026-04-23, publish-before: 2026-04-09)
 Processing: 2026-04-24-clojure-beginners-guide.md
-  SKIPPED: Future post 'Clojure: A Beginner's Guide for the C# ASP.NET Developer Who Has Been Doing Everything Wrong' (date: 2026-04-24, publish-before: 2026-04-07)
-Wrote posts index: src/ObserverMagazine.Web/wwwroot/blog-data/posts-index.json (24 posts, 1 drafts skipped, 19 future posts skipped)
+  SKIPPED: Future post 'Clojure: A Beginner's Guide for the C# ASP.NET Developer Who Has Been Doing Everything Wrong' (date: 2026-04-24, publish-before: 2026-04-09)
+Processing: 2026-04-25-javascript.md
+  SKIPPED: Future post 'The Definitive JavaScript Reference for .NET Developers: Language, Ecosystem, and Tooling in 2026' (date: 2026-04-25, publish-before: 2026-04-09)
+Processing: 2026-04-26-typescript.md
+  SKIPPED: Future post 'The Definitive TypeScript Reference for .NET Developers: Language, Ecosystem, and Tooling in 2026' (date: 2026-04-26, publish-before: 2026-04-09)
+Processing: 2026-04-27-golang.md
+  SKIPPED: Future post 'Go in 2026: The Definitive Technical Guide from Hello World to Production Mastery' (date: 2026-04-27, publish-before: 2026-04-09)
+Processing: 2026-04-28-rust.md
+  SKIPPED: Future post 'The C# Developer's Crucible: A Comprehensive Guide to Unlearning Bad Habits and Mastering Rust' (date: 2026-04-28, publish-before: 2026-04-09)
+Wrote posts index: src/ObserverMagazine.Web/wwwroot/blog-data/posts-index.json (26 posts, 1 drafts skipped, 21 future posts skipped)
 Wrote RSS feed: src/ObserverMagazine.Web/wwwroot/feed.xml
 Content processing complete.
 Restore complete (0.5s)
@@ -141,23 +149,23 @@ Restore complete (0.5s)
 [xUnit.net 00:00:00.14]   Discovering: ObserverMagazine.Integration.Tests
 [xUnit.net 00:00:00.30]   Discovered:  ObserverMagazine.Integration.Tests
 [xUnit.net 00:00:00.45]   Starting:    ObserverMagazine.Integration.Tests
-[xUnit.net 00:00:00.69]   Finished:    ObserverMagazine.Integration.Tests (ID = 'd4d0d007958fbe0fe38b14d9e6b646a44fb0e18b73a44da34c809b07def2c31b')
+[xUnit.net 00:00:00.67]   Finished:    ObserverMagazine.Integration.Tests (ID = 'd4d0d007958fbe0fe38b14d9e6b646a44fb0e18b73a44da34c809b07def2c31b')
   ObserverMagazine.Integration.Tests test net10.0 succeeded (1.2s)
-  ObserverMagazine.Web net10.0 browser-wasm succeeded (3.9s) → src/ObserverMagazine.Web/bin/Debug/net10.0/wwwroot
-  ObserverMagazine.Web.Tests net10.0 succeeded (0.5s) → tests/ObserverMagazine.Web.Tests/bin/Debug/net10.0/ObserverMagazine.Web.Tests.dll
+  ObserverMagazine.Web net10.0 browser-wasm succeeded (3.8s) → src/ObserverMagazine.Web/bin/Debug/net10.0/wwwroot
+  ObserverMagazine.Web.Tests net10.0 succeeded (0.4s) → tests/ObserverMagazine.Web.Tests/bin/Debug/net10.0/ObserverMagazine.Web.Tests.dll
 [xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.4)
-[xUnit.net 00:00:00.14]   Discovering: ObserverMagazine.Web.Tests
+[xUnit.net 00:00:00.15]   Discovering: ObserverMagazine.Web.Tests
 [xUnit.net 00:00:00.31]   Discovered:  ObserverMagazine.Web.Tests
 [xUnit.net 00:00:00.46]   Starting:    ObserverMagazine.Web.Tests
-[xUnit.net 00:00:00.93]   Finished:    ObserverMagazine.Web.Tests (ID = '637bea1e316adf1ddb3603d0d821a98009dc019a599147baf24c1e1ec396837f')
+[xUnit.net 00:00:00.91]   Finished:    ObserverMagazine.Web.Tests (ID = '637bea1e316adf1ddb3603d0d821a98009dc019a599147baf24c1e1ec396837f')
   ObserverMagazine.Web.Tests test net10.0 succeeded (1.4s)
 
-Test summary: total: 81, failed: 0, succeeded: 81, skipped: 0, duration: 5.4s
-Build succeeded in 6.6s
+Test summary: total: 81, failed: 0, succeeded: 81, skipped: 0, duration: 5.2s
+Build succeeded in 6.3s
 
-real	0m6.713s
-user	0m4.072s
-sys	0m0.555s
+real	0m6.495s
+user	0m4.223s
+sys	0m0.511s
 Restore complete (0.5s)
 
 Build succeeded in 0.6s
@@ -197,9 +205,9 @@ Project 'ObserverMagazine.ContentProcessor' has the following package references
 
 (A) : Auto-referenced package.
 
-real	0m1.591s
-user	0m1.562s
-sys	0m0.361s
+real	0m1.718s
+user	0m1.731s
+sys	0m0.347s
 Restore complete (0.5s)
 
 Build succeeded in 0.6s
@@ -220,16 +228,16 @@ Project `ObserverMagazine.Web.Tests` has the following updates to its packages
 
 The given project `ObserverMagazine.ContentProcessor` has no updates given the current sources.
 
-real	0m2.801s
-user	0m2.125s
-sys	0m0.452s
+real	0m2.799s
+user	0m2.160s
+sys	0m0.416s
 Export complete: docs/llm/dump.txt
-  Total files: 122
-  Blog posts (front matter only): 44
-  Full content files: 76
+  Total files: 127
+  Blog posts (front matter only): 48
+  Full content files: 77
   Binary files skipped: 2
 
-real	0m0.120s
+real	0m0.103s
 user	0m0.046s
-sys	0m0.054s
+sys	0m0.047s
 kushal@fedora:~/src/dotnet/myblazor$ 
