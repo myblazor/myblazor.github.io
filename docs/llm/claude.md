@@ -43356,3 +43356,45 @@ only uses 24k mp3
 I am hoping this will give us a longer runway before we become refugees again 
 
 Opus 4.6 
+
+I'll start by reading the full project dump to understand the codebase, then research current web standards before writing this comprehensive article.I have extensive context from our past conversations. Now let me search the project knowledge for the actual dump.txt file and blog post template conventions.Good, I have the template and conventions. Now I need to note that this is for the **My Blazor** site (myblazor.github.io), not Observer Magazine, and the author is `myblazor-team`. Let me now do my research on the current state of web platform APIs before writing.I now have comprehensive research on CSS 2025-2026 features, ES2026, Web Components, and browser APIs. Let me do one more search on the Angular latest version since the prompt specifically asks for Angular examples of good code.Now I have everything I need. Let me also check on CSS nesting and `@scope` since those are major no-build-step features.Excellent. I now have comprehensive, current research material. Let me write this massive article. Given the extraordinary scope requested (200k+ words target, with a realistic minimum of as-long-as-possible), I'll write the most comprehensive article I can produce in a single artifact.Save this as **`content/blog/2026-05-02-javascript-css-from-ground-up.md`**.
+
+Here's what the article covers across its 13 parts:
+
+**Part 1 — The Case for Going Zero-Dependency** — Motivates the entire approach with a relatable scenario about npm dependency hell, then lays out the five practical arguments (supply chain security, performance, longevity, simplicity, education) and establishes the seven rules (no npm, no build step, no libraries, no SCSS, no vendor prefixes, evergreen only, Baseline or better).
+
+**Part 2 — HTML: The Foundation** — Semantic elements, `<dialog>`, `<details>` with exclusive accordions via `name`, `<template>`, the `popover` attribute (auto, manual, hint), invoker commands (`commandfor`/`command`), all input types, and the Constraint Validation API with custom error messages.
+
+**Part 3 — CSS: The Language You Thought You Knew** — Custom properties as a design system, modern units (rem, em, dvh, cqw, ch), `oklch()` with relative color syntax and `color-mix()` and `light-dark()`, native CSS nesting, `@layer` for cascade control, `@scope` with donut scoping, CSS Grid with subgrid, container queries with container query units, anchor positioning with the Popover API, view transitions, `@starting-style` for entry animations, scroll-driven animations, `text-wrap: balance/pretty`.
+
+**Part 4 — JavaScript Modernized** — ES Modules with import maps, ES2026 features (Temporal API, `using`/`await using`, `Math.sumPrecise()`, `Map.getOrInsert()`, `Error.isError()`, `RegExp.escape()`), Fetch with AbortController and `AbortSignal.any()`, `structuredClone()`, and Proxy for reactive state.
+
+**Part 5 — Web Components** — A complete sortable data table as a custom element with Shadow DOM, container queries inside the shadow root, responsive stacked layout, custom events, slots, and CSS custom property APIs for theming.
+
+**Part 6 — Client-Side Router** — A complete router using History API, `popstate`, link interception, URL parameter matching, view transitions, and `aria-current` accessibility.
+
+**Part 7 — State Management** — A Store class extending EventTarget using `structuredClone()` for immutability and custom events for subscriptions.
+
+**Part 8 — Complete Application Structure** — File organization and the full `index.html` showing how everything fits together.
+
+**Part 9 — What About Angular?** — Shows how Angular 19-21 has converged toward platform patterns (standalone components, signals, zoneless), and when a framework is vs. isn't justified.
+
+**Part 10 — Vendor Prefix Hall of Shame** — Concrete bad/good examples of prefixed vs. unprefixed CSS.
+
+**Part 11 — Performance Without a Bundler** — `modulepreload`, `loading="lazy"`, `fetchpriority`, `content-visibility: auto`, HTTP/2 multiplexing.
+
+**Part 12 — What Is Coming Next** — CSS mixins, `if()`, cross-document view transitions, masonry layout, customizable `<select>`.
+
+**Part 13 — Resources** — All authoritative documentation links.
+
+40
+62
+
+
+
+
+
+
+
+
+
