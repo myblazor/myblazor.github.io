@@ -1,6 +1,6 @@
 ===============================================================================
 PROJECT EXPORT: observermagazine.github.io
-DATE: 2026-04-09 12:23:40 UTC
+DATE: 2026-04-09 13:10:31 UTC
 ===============================================================================
 
 ===============================================================================
@@ -60,6 +60,9 @@ DIRECTORY TREE (all git-tracked files)
 │       ├── 2026-04-26-typescript.md
 │       ├── 2026-04-27-golang.md
 │       ├── 2026-04-28-rust.md
+│       ├── 2026-04-29-angular-form.md
+│       ├── 2026-04-30-angular-signals-reactive-forms-guide.md
+│       ├── 2026-05-01-javascript-modern-web-first-principles.md
 │       ├── 2027-01-01-happy-new-year-2027.md
 │       └── 2099-01-01-draft-template.md
 ├── Directory.Build.props
@@ -170,7 +173,7 @@ DIRECTORY TREE (all git-tracked files)
     │   └── RssGenerator.cs
     └── requirements-audio.txt
 
-29 directories, 133 files
+29 directories, 136 files
 
 
 -------------------------------------------------------------------------------
@@ -1127,6 +1130,69 @@ tags:
   - systems-programming
   - deep-dive
 featured: true
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-04-29-angular-form.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: Angular in 2026 - signals, forms, and the modern developer toolkit
+date: 2026-04-29
+author: myblazor-team
+summary: An exhaustive guide to signals and forms in Angular in 2026
+tags:
+  - typescript
+  - javascript
+  - dotnet
+  - blazor
+  - typescript
+  - nodejs
+  - deep-dive
+  - web-development
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-04-30-angular-signals-reactive-forms-guide.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Composable, Reactive Forms in Angular Using Signals: A Complete Guide from First Principles to Production Patterns"
+date: 2026-04-30
+author: my-blazor-team
+summary: "A comprehensive, from-the-ground-up guide to building composable, reactive forms in Angular using signals — covering JavaScript and TypeScript fundamentals, the Angular framework from scratch, template-driven and reactive forms, the new experimental Signal Forms API in Angular 21, validation, custom controls, migration strategies, and production best practices. Written for ASP.NET developers with no prior Angular experience."
+tags:
+  - angular
+  - typescript
+  - javascript
+  - web-development
+  - signals
+  - forms
+  - deep-dive
+  - best-practices
+  - tutorial
+  - software-engineering
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-05-01-javascript-modern-web-first-principles.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "JavaScript for the Modern Web in 2026: Complete Web Applications from First Principles Without npm, Without Build Steps, Without Nonsense"
+date: 2026-05-01
+author: my-blazor-team
+summary: "A comprehensive, from-first-principles guide to building complete web applications using only what ships in evergreen browsers — vanilla JavaScript (ES2026), pure CSS, Web Components, and the Fetch API. No npm. No Node.js. No build step. No Sass. No vendor prefixes. Covers the Temporal API, Explicit Resource Management, container queries, cascade layers, native CSS nesting, shadow DOM, client-side routing, state management, and full application architecture — with extensive code examples, case studies, and honest comparisons to framework-heavy alternatives."
+tags:
+  - javascript
+  - css
+  - web-components
+  - deep-dive
+  - best-practices
+  - performance
+  - architecture
+  - tutorial
+  - opinion
 ---
 
 
@@ -11086,8 +11152,8 @@ num2words>=0.5.14
 
 ===============================================================================
 EXPORT COMPLETED
-Total Files Exported: 127
-  Blog posts (front matter only): 48
+Total Files Exported: 130
+  Blog posts (front matter only): 51
   Full content files: 77
   Binary files skipped: 2
 Output File: docs/llm/dump.txt
