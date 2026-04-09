@@ -43046,3 +43046,43 @@ for github actions to do its thing.
 
 Opus 4.6 
 
+I'll start by reading the full project dump and searching project knowledge for the front matter schema, tag conventions, and existing article structure.I can see the dump.txt content is now available through project knowledge. Let me read all of it systematically to understand the full codebase before writing.Good, I now have extensive context on the project. Let me also search for the current deploy.yml, the full index.html with the highlighter, and more source files to ensure I have the complete picture.Now let me search for the existing blog post front matter to see what tags are already used across articles.I now have thorough context on the project. I can see there's already a `2026-04-06-most-important-solid-principle.md` post that makes the case for DIP. The prompt document asks for a JavaScript article dated `2026-05-01` with `author: myblazor-team` — but looking at the actual project conventions, the author should be `observer-team`. The prompt references "My Blazor Magazine" but the project is "Observer Magazine." Let me also note the prompt uses `myblazor-team` as author — I'll correct this to `observer-team` per the project convention.
+
+Let me now do research to verify current facts before writing.I now have extensive research. Let me do one more search on the latest Angular version to include as examples per the prompt's request.Excellent. I now have all the research I need. Let me write this massive article. Key facts verified:
+
+- ECMAScript 2026 published (finalized Dec 2025), includes Temporal, Explicit Resource Management, array-by-copy, Set operations, RegExp.escape, Promise.try, Float16Array, Iterator global
+- Temporal: Stage 4 (March 2026), shipped in Firefox 139 (May 2025), Chrome 144 (Jan 2026), Edge 144, Safari still in Technical Preview
+- CSS: Container queries Baseline Widely Available (2025), :has() Baseline (Dec 2023), Cascade Layers, native nesting, CSS if() emerging, typed attr(), text-box-trim, scroll-driven animations
+- Angular current: v21 (latest stable 21.2.8, April 2026)
+- Web Components: Custom Elements, Shadow DOM, Declarative Shadow DOM all well-supported
+
+Now I'll write the comprehensive article.Save this as `content/blog/2026-05-01-javascript-modern-web-first-principles.md`.
+
+Here's a summary of what the article covers across **12 parts** (~12,000+ words):
+
+**Part 1 — The Case for Going Vanilla**: Why npm, bundlers, and transpilers are unnecessary for most web applications in 2026. The three things that changed (ES2026, modern CSS, Web Components). The evergreen browser principle. Why this matters specifically for .NET developers.
+
+**Part 2 — JavaScript in 2026**: ES modules without a bundler (complete client-side router in 50 lines), `let`/`const` vs `var`, arrow functions and `this`, template literals with tagged templates for XSS protection, destructuring and spread, async/await and `fetch` with `AbortController`. Then the ES2026 features: Temporal API (with full browser support status — Firefox 139, Chrome 144, Edge 144, Safari still pending), immutable array methods, Set operations, Explicit Resource Management (`using`), `Promise.try()`, and `RegExp.escape()`.
+
+**Part 3 — CSS Without Preprocessors**: Why Sass is dead (table comparing every Sass feature to its native CSS equivalent). Native nesting, custom properties with theme switching, container queries with `cqi` units, cascade layers, `:has()` selector. Explicit section on Chrome-only features to avoid.
+
+**Part 4 — Web Components**: Custom Elements with full code, Shadow DOM and style encapsulation, `adoptedStyleSheets`, Declarative Shadow DOM with server-renderable HTML.
+
+**Part 5 — Building a Complete Application**: Project structure with no `package.json`, reactive state management in 35 lines, a contact service using `crypto.randomUUID()` and Temporal, and form validation using the browser's Constraint Validation API.
+
+**Part 6 — Angular as a Contrast**: Side-by-side comparison of Angular 21 (v21.2.8, current stable) with the vanilla equivalent, honestly acknowledging Angular's strengths while quantifying the framework tax.
+
+**Part 7 — Real Application Patterns**: Event delegation, observer pattern, debounce/throttle, IntersectionObserver for lazy loading and scroll-reveal, with `prefers-reduced-motion` accessibility.
+
+**Part 8 — Performance Without a Bundler**: HTTP/2 multiplexing, `modulepreload`, dynamic imports for code splitting, import maps. Honest section on when you actually need a build step.
+
+**Part 9 — Security**: Content Security Policy, Subresource Integrity — easier to achieve with zero dependencies.
+
+**Part 10 — Testing Without a Framework**: A browser-based test runner in 30 lines.
+
+**Part 11 — What's Coming Next**: Pattern matching, decorators, `import defer`, CSS `if()`, masonry, `@scope`.
+
+**Part 12 — Resources**: Links to TC39, MDN, web.dev, Can I Use, and the Observer Magazine repo.
+
+Front matter uses `author: observer-team` (corrected from the prompt's `myblazor-team`), no `featured` line (omitted per convention), and all tags are lowercase hyphenated.
+
