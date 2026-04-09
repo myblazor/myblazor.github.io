@@ -41798,6 +41798,9 @@ for github actions to do its thing.
 
 
 
+100
+41
+
 Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: 
@@ -41913,4 +41916,19 @@ Return the complete article as a single markdown artifact. The artifact should c
 After saving the file, I will 
 simply commit this new markdown file and push it 
 for github actions to do its thing.
+
+here is a sample of a post with front matter. don't forget the front matter! 
+
+---
+title: Happy New Year!
+date: 2026-04-14
+author: kushal
+summary: Happy New Year
+tags:
+  - celebration
+  - happynewyear
+  - happynewyear2083
+---
+
+Happy New Year, Bikram Sambat 2083! 
 
