@@ -1,7 +1,7 @@
 ---
 title: "JavaScript and CSS from the Ground Up: Complete Web Applications from First Principles in 2026"
 date: 2026-05-02
-author: my-blazor-team
+author: myblazor-team
 summary: A comprehensive guide to building complete web applications using only what evergreen browsers provide in 2026 — no npm, no build step, no frameworks, no libraries. Covers modern CSS (nesting, container queries, anchor positioning, popover, @scope, @layer, custom properties, oklch, view transitions), modern JavaScript (ES2026, Temporal, Web Components, Shadow DOM, Fetch, AbortController, structuredClone, modules), and practical architecture for real applications from first principles.
 tags:
   - javascript

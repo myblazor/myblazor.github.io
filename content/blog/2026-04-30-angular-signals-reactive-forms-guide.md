@@ -1,7 +1,7 @@
 ---
 title: "Composable, Reactive Forms in Angular Using Signals: A Complete Guide from First Principles to Production Patterns"
 date: 2026-04-30
-author: my-blazor-team
+author: myblazor-team
 summary: "A comprehensive, from-the-ground-up guide to building composable, reactive forms in Angular using signals — covering JavaScript and TypeScript fundamentals, the Angular framework from scratch, template-driven and reactive forms, the new experimental Signal Forms API in Angular 21, validation, custom controls, migration strategies, and production best practices. Written for ASP.NET developers with no prior Angular experience."
 tags:
   - angular

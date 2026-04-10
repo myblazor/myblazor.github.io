@@ -1,7 +1,7 @@
 ---
 title: "JavaScript for the Modern Web in 2026: Complete Web Applications from First Principles Without npm, Without Build Steps, Without Nonsense"
 date: 2026-05-01
-author: my-blazor-team
+author: myblazor-team
 summary: "A comprehensive, from-first-principles guide to building complete web applications using only what ships in evergreen browsers — vanilla JavaScript (ES2026), pure CSS, Web Components, and the Fetch API. No npm. No Node.js. No build step. No Sass. No vendor prefixes. Covers the Temporal API, Explicit Resource Management, container queries, cascade layers, native CSS nesting, shadow DOM, client-side routing, state management, and full application architecture — with extensive code examples, case studies, and honest comparisons to framework-heavy alternatives."
 tags:
   - javascript

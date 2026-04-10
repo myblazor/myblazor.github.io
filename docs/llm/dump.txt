@@ -1159,7 +1159,7 @@ FILE: content/blog/2026-04-30-angular-signals-reactive-forms-guide.md  [FRONT MA
 ---
 title: "Composable, Reactive Forms in Angular Using Signals: A Complete Guide from First Principles to Production Patterns"
 date: 2026-04-30
-author: my-blazor-team
+author: myblazor-team
 summary: "A comprehensive, from-the-ground-up guide to building composable, reactive forms in Angular using signals — covering JavaScript and TypeScript fundamentals, the Angular framework from scratch, template-driven and reactive forms, the new experimental Signal Forms API in Angular 21, validation, custom controls, migration strategies, and production best practices. Written for ASP.NET developers with no prior Angular experience."
 tags:
   - angular
@@ -1181,7 +1181,7 @@ FILE: content/blog/2026-05-01-javascript-modern-web-first-principles.md  [FRONT 
 ---
 title: "JavaScript for the Modern Web in 2026: Complete Web Applications from First Principles Without npm, Without Build Steps, Without Nonsense"
 date: 2026-05-01
-author: my-blazor-team
+author: myblazor-team
 summary: "A comprehensive, from-first-principles guide to building complete web applications using only what ships in evergreen browsers — vanilla JavaScript (ES2026), pure CSS, Web Components, and the Fetch API. No npm. No Node.js. No build step. No Sass. No vendor prefixes. Covers the Temporal API, Explicit Resource Management, container queries, cascade layers, native CSS nesting, shadow DOM, client-side routing, state management, and full application architecture — with extensive code examples, case studies, and honest comparisons to framework-heavy alternatives."
 tags:
   - javascript
