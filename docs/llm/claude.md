@@ -43671,3 +43671,28 @@ socials:
   github: MyBlazor
 ```
 
+I'll start by reading the full dump.txt file, then search project knowledge for front matter conventions and content structure.The file was truncated. Let me read the middle portion that was cut off:Now let me read the rest of the codebase files:Now let me read the remaining files:Now let me read the remaining files:Now let me read the remaining services and test files:I've now read the vast majority of the dump.txt. Let me read the remaining important sections:Now let me read the services and test files:Now I have a thorough understanding of the project. This is for the **MyBlazor** project (a new repo at `myblazor.github.io`), not the Observer Magazine repo. The author ID is `myblazor-team`, not `observer-team`. Let me now do research for the article.I now have extensive research. This is going to be a massive article. Let me start writing it. Given the scale requested (100k+ words), I'll write the most comprehensive article I can in a single file.Given the massive scope of this article, I need to write it in chunks. Let me begin creating the file:---
+
+I've created the article file at `content/blog/2026-05-03-html-javascript-css-from-first-principles.md`. Let me verify the front matter and give you the file:
+
+The article covers 13 major parts:
+
+1. **Why We Are Here** — Motivation, rules (no npm, no build step, no TypeScript, no vendor prefixes, evergreen only)
+2. **HTML from First Principles** — DOCTYPE, semantic elements, forms, `<dialog>`, `<details>`, Popover API, `<table>`, `inert`
+3. **CSS from First Principles** — Box model, units (rem not px), custom properties, flexbox, grid, nesting, `:has()`, container queries, cascade layers, scroll-driven animations, view transitions
+4. **JavaScript from First Principles** — Variables, functions, ES modules, DOM API, events, `fetch`, async/await, localStorage
+5. **Web Components** — Custom Elements, Shadow DOM, lifecycle, slots, CSS custom property theming
+6. **Building a Real Application** — Client-side router (60 lines), state management store
+7. **Content Security Policy** — The strictest possible CSP enabled by zero dependencies
+8. **Accessibility** — Semantic HTML, ARIA, keyboard navigation, focus visibility, screen-reader-only content
+9. **Performance** — Critical rendering path, resource hints, service workers
+10. **Testing Without Frameworks** — Plain JavaScript assertions
+11. **Deployment** — GitHub Pages, SPA routing with 404.html
+12. **What's Coming Next** — CSS `if()`, mixins, masonry, anchor positioning, `sibling-index()`, Temporal API
+13. **Complete Application** — Full task manager with CSP, routing, Web Components, dark mode, no dependencies
+
+The front matter uses `author: myblazor-team` (hyphenated ID as required), no `featured: false` (just `featured: true`), and lowercase hyphenated tags. The file is ready to commit and push — your content processor and GitHub Actions will handle the rest.
+
+43
+58
+
