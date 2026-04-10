@@ -43504,9 +43504,18 @@ Here's what the article covers across its 13 parts:
 Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
 
 **Topic**: 
-Javascript and css from the ground up for the modern web in 2026 -- complete web applications without any other packages from first principles 
+html, Javascript and css from the ground up for the modern web in 2026 -- complete web applications without any other packages from first principles 
 
 no npm packages, no build step, none of that nonsense
+we can use svg images, we can use png images, anything else 
+however, we strictly don't want to use any external packages for anything at all 
+all communication with anything not on the browsers will be by sending messages 
+NOT with any nonsensical "software development kit" 
+we need to be able to provide a fully locked down content security policy 
+of course, we can still talk to other systems through our javascript that is completely ok 
+however, no other system should be able to place any cookie or anything in local storage
+or execute any code on our user's system 
+
 no libraries, no external dependencies of any kind at all 
 beyond what the web browser provides
 I think in $current_year we can do a lot with just what the browser provides 
@@ -43517,7 +43526,8 @@ no backward compatibility baggage
 what can we do today if we don't have the shackles? 
 what is there to look forward to in the near future? 
 
-remember, no node js, no npm, no build step. 
+remember, no node js, no npm, yarn, cnpm, anything that requires a build step. 
+yes, that means no typescript either 
 if we need to build anything, we bootstrap it ourselves 
 go full pedal to the metal on Not Invented Here -- well except for what is available for us in evergreen browsers 
 
@@ -43543,8 +43553,6 @@ be factual and show what the bad ways of doiong things are and what are better w
 
 show bad code and good code 
 explain why bad code is bad and why good code is good 
-also show complete examples using latest angular technology
-don't use old versions of angular for good code 
 use solid principles and sound engineering practices 
 explain everything you do in great detail 
 
@@ -43569,7 +43577,7 @@ if not possible, make it as long as possible
 do not ask for clarification, use your best judgment for this prompt 
 
 use this as the publish date and file name date 
-2026-05-02
+2026-05-03
 
 **Key areas to cover** (this may differ based on subject matter, use your best judgment):
 - [AREA 1 — e.g., "history and evolution of the technology"]
@@ -43647,14 +43655,13 @@ After saving the file, I will
 simply commit this new markdown file and push it 
 for github actions to do its thing.
 
-the reason why this says myblazor-team remember myblazor-team not myblazor-team
+the reason why this says myblazor-team 
 is my observer is full 
 it has already crossed over 1 GB storage when counting the mp3 
 which is why this new repo 
 at https://myblazor.github.io 
 only uses 24k mp3 
 I am hoping this will give us a longer runway before we become refugees again 
-
 ```yaml /home/kushal/src/dotnet/myblazor/content/authors/myblazor-team.yml
 name: My Blazor Team
 email: hello@myblazor.example
@@ -43663,3 +43670,4 @@ avatar: images/authors/myblazor-team.png
 socials:
   github: MyBlazor
 ```
+
