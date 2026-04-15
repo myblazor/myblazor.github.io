@@ -1,6 +1,6 @@
 ===============================================================================
 PROJECT EXPORT: observermagazine.github.io
-DATE: 2026-04-09 13:10:31 UTC
+DATE: 2026-04-15 00:12:01 UTC
 ===============================================================================
 
 ===============================================================================
@@ -63,6 +63,17 @@ DIRECTORY TREE (all git-tracked files)
 │       ├── 2026-04-29-angular-form.md
 │       ├── 2026-04-30-angular-signals-reactive-forms-guide.md
 │       ├── 2026-05-01-javascript-modern-web-first-principles.md
+│       ├── 2026-05-02-javascript-css-from-ground-up.md
+│       ├── 2026-05-03-html-javascript-css-from-first-principles.md
+│       ├── 2026-05-04-rust-programming-language-complete-guide.md
+│       ├── 2026-05-05-kotlin-android-comprehensive-guide.md
+│       ├── 2026-05-06-swift-ios-apple-comprehensive-guide.md
+│       ├── 2026-05-07-dart-flutter-comprehensive-guide.md
+│       ├── 2026-05-08-feed.md
+│       ├── 2026-05-09-sql.md
+│       ├── 2026-05-10-sql.md
+│       ├── 2026-05-11-sql.md
+│       ├── 2026-05-12-sql.md
 │       ├── 2027-01-01-happy-new-year-2027.md
 │       └── 2099-01-01-draft-template.md
 ├── Directory.Build.props
@@ -173,7 +184,7 @@ DIRECTORY TREE (all git-tracked files)
     │   └── RssGenerator.cs
     └── requirements-audio.txt
 
-29 directories, 136 files
+29 directories, 147 files
 
 
 -------------------------------------------------------------------------------
@@ -1193,6 +1204,252 @@ tags:
   - architecture
   - tutorial
   - opinion
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-05-02-javascript-css-from-ground-up.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "JavaScript and CSS from the Ground Up: Complete Web Applications from First Principles in 2026"
+date: 2026-05-02
+author: myblazor-team
+summary: A comprehensive guide to building complete web applications using only what evergreen browsers provide in 2026 — no npm, no build step, no frameworks, no libraries. Covers modern CSS (nesting, container queries, anchor positioning, popover, @scope, @layer, custom properties, oklch, view transitions), modern JavaScript (ES2026, Temporal, Web Components, Shadow DOM, Fetch, AbortController, structuredClone, modules), and practical architecture for real applications from first principles.
+tags:
+  - javascript
+  - css
+  - web-standards
+  - deep-dive
+  - best-practices
+  - web-components
+  - no-build
+  - first-principles
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-05-03-html-javascript-css-from-first-principles.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "HTML, JavaScript, and CSS from the Ground Up: Building Complete Web Applications Without Any External Packages, From First Principles, for the Modern Web in 2026"
+date: 2026-05-03
+author: myblazor-team
+summary: "An exhaustive, from-first-principles guide to building complete web applications using nothing but what evergreen browsers provide — no npm, no build step, no TypeScript, no external dependencies of any kind. Covers semantic HTML, modern CSS (container queries, nesting, :has(), layers, anchor positioning, view transitions), vanilla JavaScript (ES modules, fetch, Web Components, Shadow DOM, Custom Elements), Content Security Policy, accessibility, performance, and the full architecture of a production application — all with working code examples you can copy into a text file and open in a browser."
+tags:
+  - html
+  - css
+  - javascript
+  - web-development
+  - first-principles
+  - deep-dive
+  - best-practices
+  - security
+  - accessibility
+  - web-components
+  - no-dependencies
+featured: true
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-05-04-rust-programming-language-complete-guide.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "The Rust Programming Language: High-Performance Computing from First Principles — Data Structures, Algorithms, and Everything You Were Afraid to Ask"
+date: 2026-05-04
+author: myblazor-team
+summary: "A comprehensive, from-the-ground-up guide to the Rust programming language for developers who want to understand systems programming, memory management, ownership, data structures, algorithms, and high-performance computing — all without importing a single external crate. Every concept explained from first principles with bad code, good code, and the reasoning behind both."
+featured: true
+tags:
+  - rust
+  - systems-programming
+  - performance
+  - data-structures
+  - algorithms
+  - deep-dive
+  - memory-safety
+  - best-practices
+  - software-engineering
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-05-05-kotlin-android-comprehensive-guide.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Kotlin, Compose, and Android Development: A Comprehensive Guide from First Principles for the ASP.NET Developer Who Wants to Build Real Things"
+date: 2026-05-05
+author: myblazor-team
+summary: "An exhaustive, from-the-ground-up guide to Kotlin, Jetpack Compose, Kotlin Multiplatform, and Android development — covering the JVM, the language itself, data structures, algorithms, Compose UI, app signing, Containerfiles for CI, and a complete GitHub Actions pipeline for building signed release APKs on every push. Written for C# and ASP.NET developers who want to understand everything, not just copy-paste boilerplate."
+tags:
+  - kotlin
+  - android
+  - jetpack-compose
+  - kotlin-multiplatform
+  - jvm
+  - deep-dive
+  - mobile
+  - ci-cd
+  - github-actions
+  - data-structures
+  - algorithms
+  - best-practices
+  - software-engineering
+  - beginner
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-05-06-swift-ios-apple-comprehensive-guide.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Swift, SwiftUI, and the Apple Ecosystem: A Comprehensive Guide from First Principles for the ASP.NET Developer Who Wants to Ship on iPhone"
+date: 2026-05-06
+author: myblazor-team
+summary: "An exhaustive, from-the-ground-up guide to Swift, SwiftUI, Xcode, and the entire Apple development ecosystem — covering the language from variables to concurrency, SwiftUI from hello world to production architecture, app signing, provisioning profiles, TestFlight, App Store submission, data structures and algorithms in Swift, and a complete GitHub Actions pipeline for automated builds. Written for C# and ASP.NET developers who need to understand everything, not just follow a tutorial."
+tags:
+  - swift
+  - ios
+  - swiftui
+  - apple
+  - xcode
+  - deep-dive
+  - mobile
+  - ci-cd
+  - github-actions
+  - data-structures
+  - algorithms
+  - best-practices
+  - software-engineering
+  - beginner
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-05-07-dart-flutter-comprehensive-guide.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Dart and Flutter: A Comprehensive Guide from First Principles for the ASP.NET Developer Who Wants to Build Everywhere from a Single Codebase"
+date: 2026-05-07
+author: myblazor-team
+summary: "An exhaustive, from-the-ground-up guide to Dart and Flutter — covering the Dart language from variables through isolates, Flutter's widget system from hello world to production architecture, state management, the rendering pipeline and Impeller engine, data structures and algorithms implemented from scratch, platform channels, building for Android, iOS, web, Windows, macOS, and Linux, app signing for every platform, a complete GitHub Actions CI/CD pipeline, and the practical engineering knowledge you need to ship real applications. Written for C# and ASP.NET developers who need to understand the entire stack, not just follow a wizard."
+tags:
+  - dart
+  - flutter
+  - cross-platform
+  - mobile
+  - web
+  - desktop
+  - deep-dive
+  - ci-cd
+  - github-actions
+  - data-structures
+  - algorithms
+  - best-practices
+  - software-engineering
+  - beginner
+  - android
+  - ios
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-05-08-feed.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "The Feed: A Novel of the Age of Algorithmic Nourishment"
+date: 2026-05-08
+author: myblazor-team
+summary: "In 2047, nobody chooses what to eat anymore. The plate arrives, and you consume. A dystopian novel about a world where the algorithm decides every meal — and the people who forgot they ever had a choice."
+tags:
+  - fiction
+  - dystopia
+  - satire
+  - deep-dive
+  - culture
+  - technology
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-05-09-sql.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Relational Databases, SQL, and Parameterized Queries: The Complete Guide for ASP.NET Developers Who Are Barely Keeping It Together"
+date: 2026-05-09
+author: myblazor-team
+summary: A brutally honest, exhaustive deep-dive into relational databases, SQL fundamentals, normalization, and parameterized queries for .NET developers — starting from absolute first principles and ending at production-grade patterns.
+tags:
+  - sql
+  - databases
+  - aspnet
+  - dotnet
+  - security
+  - best-practices
+  - deep-dive
+  - csharp
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-05-10-sql.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "From Chaos to Order: A Complete Guide to Relational Databases, SQL, and the First Normal Form"
+date: 2026-05-10
+author: observer-team
+summary: A comprehensive, ground-up guide to relational databases, SQL, and normalization — written for the developer who can barely get an ASP.NET app working and has somehow convinced themselves that storing comma-separated values in a single column is a valid data strategy.
+tags:
+  - databases
+  - sql
+  - relational
+  - normalization
+  - deep-dive
+  - dotnet
+  - aspnet
+  - tutorial
+  - beginner
+  - architecture
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-05-11-sql.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Relational Databases, SQL, and Second Normal Form: A Complete Guide for the Developer Who Has Been Getting Away With It"
+date: 2026-05-11
+author: observer-team
+summary: A deep, unsparing guide to relational databases and SQL normalization — starting from first principles and working all the way through Second Normal Form. Covers the history of the relational model, functional dependencies, anomalies, 1NF, 2NF, and practical C# + SQL patterns for ASP.NET developers who have been building on shaky foundations.
+tags:
+  - sql
+  - databases
+  - normalization
+  - relational-databases
+  - aspnet
+  - csharp
+  - deep-dive
+  - best-practices
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-05-12-sql.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "The Complete Guide to Relational Databases, SQL, and Normalization: From First Principles to Third Normal Form and Beyond"
+date: 2026-05-12
+author: myblazor-team
+summary: A comprehensive, ground-up exploration of relational databases, SQL, and database normalization — covering the history of the relational model, the rules of 1NF through BCNF, practical design patterns, real-world C# and ASP.NET integration, and the hard-won lessons that separate good database design from the kind that haunts a codebase for years.
+tags:
+  - sql
+  - relational-databases
+  - normalization
+  - database-design
+  - aspnet
+  - csharp
+  - deep-dive
+  - best-practices
 ---
 
 
@@ -11152,8 +11409,8 @@ num2words>=0.5.14
 
 ===============================================================================
 EXPORT COMPLETED
-Total Files Exported: 130
-  Blog posts (front matter only): 51
+Total Files Exported: 141
+  Blog posts (front matter only): 62
   Full content files: 77
   Binary files skipped: 2
 Output File: docs/llm/dump.txt
