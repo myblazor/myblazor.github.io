@@ -45298,3 +45298,156 @@ All historical facts (Codd 1970, BCNF 1974, SQL-86, ISO/IEC 9075:2023) are verif
 
 
 
+Write a long, comprehensive blog article for My Blazor Magazine on the following topic:
+
+**Topic**: 
+this time for dotnet developers, not modern dotnet but ancient asp dotnet web forms developers. 
+canonical url will be https://collabskus.neocities.org/git-for-tfs 
+same thing include lots of examples in tfs as used in visual studio as well as git as used in visual studio. explain all the clicks, best practices, git config, and everything else 
+explain all common scenarios for example but not limited to this example below 
+https://github.com/kusl/learningbydoing/
+
+```
+This is the base commit. 
+
+This is common for both branches. 
+In the next line, I will write the branch name. 
+main 
+In the line above, I will replace with the name of the current branch 
+in each of my two branches. 
+Because each of those two branches are directly from main, 
+I won't be able to merge one into the other directly without a conflict
+or so I think. 
+Lets find out. 
+```
+
+so the above is the main branch 
+imagine I  create branch-1 from main branch and replace the word main with branch-1 
+imagine I  create branch-2 from main branch and replace the word main with branch-2
+no, that was not a typo because I did just that. 
+now we can merge branch 1 to main, we can merge branch 2 to main from azure devops or github just fine. 
+however, we can't merge branch 1 into branch 2 or vice versa directly. 
+why? explain in great detail 
+also this is just one scenario. there will probably be dozens of such scenarios in real life. Explain each of them in great detail. 
+everything from git merge to fast forward vs no fast forward, rebase vs what is a commit, what is a branch, what is a tag. explain everything in full detail. Do not hallucinate. 
+remember the developer is an idiot and only knows very basics of TFS. they are not an expert at anything. he is literally barely capable of breathing and staying alive. he can barely string together words to write compilable code. be patient and take time to explain everything in detail but be respectful
+
+full case studies and stories
+make it comprehensive, captivating but also grounded in facts 
+this is not a fairy tale 
+while we want the reader to 
+remember this needs to be very, very, very long 
+our target is 200k words+ or longer if possible at all 
+I think it needs to be even longer 
+explain every single topic in exhaustive detail 
+do not leave any stone unturned 
+if you think it is detailed enough, 
+you are wrong 
+it is not 
+make it even more detailed. 
+don't stop until you can't go anymore 
+make it as detailed as possible
+cite every source 
+target is 100k+ words if at all possible 
+if not possible, make it as long as possible 
+do not ask for clarification, use your best judgment for this prompt 
+
+use this as the publish date and file name date 
+2026-05-13
+
+**Key areas to cover** (this may differ based on subject matter, use your best judgment):
+- [AREA 1 — e.g., "history and evolution of the technology"]
+- [AREA 2 — e.g., "getting started from scratch, assume no prior knowledge"]
+- [AREA 3 — e.g., "advanced features and configuration options"]
+- [AREA 4 — e.g., "best practices for production use"]
+- [AREA 5 — e.g., "common pitfalls and how to avoid them"]
+- [AREA 6 — e.g., "comparison with alternatives"]
+- [ADD OR REMOVE AREAS AS NEEDED]
+
+**Publish date**: [YYYY-MM-DD]
+**Author**: myblazor-team
+
+## Writing requirements
+
+Follow these rules exactly. They are non-negotiable:
+
+### Front matter format
+The file MUST start with YAML front matter in this exact schema:
+```yaml
+---
+title: "[A descriptive, compelling title — can include a subtitle after a colon]"
+date: [YYYY-MM-DD]
+author: myblazor-team
+summary: [One to two sentences for the blog index and RSS feed. Be specific about what the article covers.]
+tags:
+  - [tag1]
+  - [tag2]
+  - [tag3-etc]
+---
+```
+
+CRITICAL front matter rules:
+- `author` MUST be `myblazor-team` (hyphenated ID), NEVER `Observer Team` (display name). Mismatches cause build warnings and broken author resolution.
+- If the article is NOT featured, OMIT the `featured` line entirely. Do NOT write `featured: false`. The parser defaults to `false`.
+- If the article IS featured, include `featured: true`.
+- Do NOT include `draft: true` unless I explicitly ask for a draft.
+- Tags should be lowercase, hyphenated (e.g., `aspnet`, `best-practices`, `deep-dive`).
+
+### File naming
+The output file should be saved as: `content/blog/[YYYY-MM-DD]-[slug].md`
+where `[slug]` is a short, hyphenated, lowercase description of the article (e.g., `typescript-comprehensive-guide`, `sql-server-complete-guide`).
+
+### Writing style and structure
+
+1. **Be exhaustive.** This is a long-form technical article. Do not summarize. Do not truncate. Do not say "and so on" or "etc." Cover every relevant detail. If you are writing about a technology with 30 configuration options, cover all 30. If there are 8 major versions, cover all 8. The target length is 5,000–15,000+ words depending on topic scope.
+
+2. **Be patient.** Do not tire. Do not rush the ending. The conclusion should be as thoughtful as the introduction. If the article needs 12 major sections, write all 12 with equal depth and care.
+
+3. **Target audience.** The primary reader is a .NET / C# / ASP.NET web developer. You can assume basic C# syntax literacy and web development knowledge. Do NOT assume familiarity with the specific topic being covered — explain everything from first principles, then build up to advanced material.
+
+4. **Code examples are mandatory.** Include real, working code examples throughout. Not just C# — include whatever is relevant: SQL, YAML, JSON, bash commands, configuration files, AXAML, TypeScript, etc. Code examples should be complete enough to copy-paste and run (or at least understand in context), not pseudocode snippets.
+
+5. **Use anecdotes and analogies.** Start sections with relatable scenarios. Compare unfamiliar concepts to things the reader already knows. Use concrete examples ("imagine you are building a blog engine" or "picture a Thursday afternoon deploy") rather than abstract descriptions.
+
+6. **Structure with numbered parts.** Organize the article into clearly titled parts (Part 1, Part 2, etc.) using `##` headers. Use `###` for subsections within parts. This helps readers navigate and bookmark.
+
+7. **Cite your sources.** When stating version numbers, release dates, performance claims, or statistics, verify them with web search first. If something has changed since your knowledge cutoff, search for the current state. Do not guess at version numbers or release dates.
+
+8. **Include practical recommendations.** Don't just describe — advise. Tell the reader what to do, what to avoid, and why. Include "do this, not that" comparisons where appropriate.
+
+9. **End with resources.** Close with a short list of official documentation links, GitHub repos, or other authoritative references the reader can follow up on.
+
+### What to verify via web search before writing
+- Current stable version numbers of all technologies mentioned
+- Release dates for major versions
+- Any breaking changes or deprecations in recent releases
+- Performance benchmarks or statistics you plan to cite
+- Correct URLs for documentation and resources
+
+### Delivery format
+Return the complete article as a single markdown artifact. The artifact should contain the FULL file content — from the opening `---` of the front matter to the last line of the article. No truncation. No "continued in next message." The entire article in one artifact.
+
+After saving the file, I will 
+simply commit this new markdown file and push it 
+for github actions to do its thing.
+
+the reason why this says myblazor-team 
+is my observer is full 
+it has already crossed over 1 GB storage when counting the mp3 
+which is why this new repo 
+at https://myblazor.github.io 
+only uses 24k mp3 
+I am hoping this will give us a longer runway before we become refugees again 
+```yaml /home/kushal/src/dotnet/myblazor/content/authors/myblazor-team.yml
+name: My Blazor Team
+email: hello@myblazor.example
+bio: The team behind My Blazor Magazine — building free, open-source tools with .NET 10 and Blazor WebAssembly.
+avatar: images/authors/myblazor-team.png
+socials:
+  github: MyBlazor
+```
+
+repo is at https://github.com/myblazor/myblazor.github.io 
+
+Opus 4.6 Extended: 
+
