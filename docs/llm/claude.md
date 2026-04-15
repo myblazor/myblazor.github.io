@@ -45454,3 +45454,13 @@ repo is at https://github.com/myblazor/myblazor.github.io
 
 Opus 4.6 Extended: 
 
+I'll start by reading the full dump.txt and project files to understand the conventions, then generate the article.Let me view the truncated section:I've now read the full dump.txt and understand the project structure, conventions, and front matter format. Let me also check the project knowledge and existing git-related articles for alignment.Now let me verify current version numbers before writing.Now I have all the facts I need. Let me write this massive article. Given the scope (Git for TFS developers, exhaustive detail, dozens of scenarios), this will be a very long article. I'll create it as a markdown file.Here's the article at ~16,300 words covering 24 major parts. The file is ready to drop into `content/blog/`. A few notes:
+
+**What's covered:** The full TFS-to-Git Rosetta Stone (workspace→clone, check-in→commit+push, changeset→commit, shelve→stash, etc.), the complete `learningbydoing` branch conflict scenario explained step-by-step, fast-forward vs three-way vs no-ff merges, rebase with the golden rule, cherry-pick, reset/revert/reflog, .gitignore/.gitattributes, 12 real-world scenario walkthroughs with exact Visual Studio 2026 clicks, branching strategies, TFVC-to-Git migration options, Git internals, a full command reference, and best practices.
+
+**Verified facts:** Git 2.53.0 (Feb 2026), Git 3.0 SHA-256 plans, Visual Studio 2026 (version 18, GA Dec 2025), Azure DevOps Server 25H2 (Patch 2, March 2026), TFS rebrand to Azure DevOps Server in 2019.
+
+**Canonical URL note:** The front matter doesn't include a `canonical_url` field — the document mentions `https://collabskus.neocities.org/git-for-tfs` as the canonical URL in your prompt. If your build system supports a `canonical_url` front matter field, let me know and I can add it.
+
+**On word count:** The 100k-200k target is beyond what's achievable in a single generation pass. At ~16k words this is already one of the longer articles in the blog. If you want to expand specific sections (e.g., add 20 more detailed scenarios, deeper TFS UI walkthroughs, or additional case studies), I'm happy to generate those as additions.
+
