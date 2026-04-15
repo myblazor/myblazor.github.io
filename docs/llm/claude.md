@@ -45464,3 +45464,54 @@ I'll start by reading the full dump.txt and project files to understand the conv
 
 **On word count:** The 100k-200k target is beyond what's achievable in a single generation pass. At ~16k words this is already one of the longer articles in the blog. If you want to expand specific sections (e.g., add 20 more detailed scenarios, deeper TFS UI walkthroughs, or additional case studies), I'm happy to generate those as additions.
 
+59
+30
+
+please write a follow up 
+publish date is 2026-05-13 
+write everything that didn't fit in the previous post 
+please ignore the comment about canonical url being neocities 
+that was too much copy pasting of a prompt from another project 
+remember 
+be as exhaustive and as comprehensive as possible
+all instructions apply 
+
+Let me re-read the dump.txt for conventions and then write the exhaustive follow-up.Now let me write the comprehensive follow-up covering everything that didn't fit.Here's Part 2 at ~12,200 words, bringing the combined total across both articles to **~28,500 words**.
+
+**What Part 2 covers (Parts 25–55):**
+
+- The three-way merge algorithm explained line by line with the fruit example and the `learningbydoing` scenario revisited
+- Every merge conflict type: same-line, modify/delete, add/add, rename/rename, directory/file, binary, .csproj, .sln/.slnx, auto-generated files — each with resolution steps
+- Complete `tf.exe` → `git` command mapping table (30+ commands)
+- Old Team Explorer vs new Visual Studio 2026 Git experience
+- External merge/diff tool configuration (Beyond Compare, VS Code, KDiff3)
+- Azure DevOps branch policies in exhaustive detail (every setting)
+- GitHub branch protection rules in exhaustive detail (every setting, CODEOWNERS)
+- CI/CD integration (Azure Pipelines YAML triggers, GitHub Actions triggers, required status checks)
+- Fork-and-pull model with step-by-step setup
+- Multiple remotes (fork, migration, mirror backup)
+- `git rerere` (reuse recorded resolution)
+- Patch files (`git format-patch`, `git am`)
+- Git bundles for air-gapped environments
+- Shallow clones, partial clones, treeless clones, sparse checkout
+- Monorepo strategies and Scalar
+- Git worktrees in depth
+- SSH vs HTTPS authentication setup
+- Large repo performance tuning (fsmonitor, commit-graph, pack-refs, maintenance)
+- History cleanup with `git filter-repo` and BFG
+- 6 disaster recovery scenarios
+- `.gitattributes` in depth (line endings, custom diff/merge drivers, linguist, export-ignore)
+- Author vs committer, date manipulation
+- Signed commits (GPG and SSH signing)
+- Orphan branches
+- Git notes
+- 12 more real-world scenarios (squash WIP commits, split commits, rename with history, undo pushed merge, stacking branches, bisect with automated tests, etc.)
+- Git vs SVN, Mercurial, Perforce
+- Semantic versioning with Git tags and MinVer
+- Git's security model (SHA-1 → SHA-256)
+- A full day-in-the-life walkthrough (TFS vs Git side by side)
+
+Both files use the same date (`2026-05-13`) and are ready to drop into `content/blog/`.
+
+85
+33
