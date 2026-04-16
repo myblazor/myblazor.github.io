@@ -1,6 +1,6 @@
 ===============================================================================
 PROJECT EXPORT: observermagazine.github.io
-DATE: 2026-04-16 01:15:42 UTC
+DATE: 2026-04-16 01:17:47 UTC
 ===============================================================================
 
 ===============================================================================
@@ -1620,13 +1620,13 @@ FILE: Directory.Packages.props
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
 
     <!-- Version variables — touch these to update all related packages -->
-    <MicrosoftAspNetCoreVersion>10.0.5</MicrosoftAspNetCoreVersion>
-    <MicrosoftExtensionsVersion>10.0.5</MicrosoftExtensionsVersion>
+    <MicrosoftAspNetCoreVersion>10.0.6</MicrosoftAspNetCoreVersion>
+    <MicrosoftExtensionsVersion>10.0.6</MicrosoftExtensionsVersion>
     <XunitVersion>3.2.2</XunitVersion>
     <XunitRunnerVersion>3.1.5</XunitRunnerVersion>
-    <TestSdkVersion>18.3.0</TestSdkVersion>
+    <TestSdkVersion>18.4.0</TestSdkVersion>
     <MarkdigVersion>1.1.2</MarkdigVersion>
-    <YamlDotNetVersion>16.3.0</YamlDotNetVersion>
+    <YamlDotNetVersion>17.0.1</YamlDotNetVersion>
     <BunitVersion>2.7.2</BunitVersion>
   </PropertyGroup>
 
