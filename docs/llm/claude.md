@@ -45764,3 +45764,33 @@ socials:
   github: MyBlazor
 ```
 
+Let me read back the current article and then massively expand it.Now let me massively expand this article with additional parts. I'll append new sections covering the ASP.NET pipeline, stack traces, the history of legacy code, defensive programming, technical debt, monitoring, and more.The article is now at **~23,500 words across 31 parts**. Here's what was added in this expansion:
+
+**Part 20 — How to Read a Stack Trace:** Complete tutorial on reading .NET stack traces, including inner exceptions, generic type notation, line numbers, and a practice exercise with analysis.
+
+**Part 21 — The ASP.NET Pipeline:** All 21 pipeline events explained in order, why `EndRequest` matters for session state, how HTTP modules work, and the Integrated vs Classic mode difference.
+
+**Part 22 — History of Legacy ASP.NET Code:** Full .NET Framework timeline from 1.0 (2002) through .NET 10, explaining why each code pattern (Hashtable, Hungarian notation, string SQL) exists as an artifact of its era.
+
+**Part 23 — Defensive Programming:** Guard clauses, the Null Object pattern, Principle of Least Surprise, with before/after code examples showing flat vs nested control flow.
+
+**Part 24 — Technical Debt:** Ward Cunningham's metaphor, Fowler's four-quadrant model, economics of investigation time vs original shortcut time, applied to the specific code in the story.
+
+**Part 25 — Monitoring and Alerting:** Health check endpoint implementation in ASP.NET 4.x, alert types to configure, and how monitoring would have caught the StateServer issue 90 minutes faster.
+
+**Part 26 — The Conversation:** Non-blaming vocabulary, graduated disclosure technique, and when/how to escalate security issues.
+
+**Part 27 — Migration Path:** What ports from ASP.NET 4.x to .NET 10 and what doesn't, plus five things you can do today to improve legacy code.
+
+**Part 28 — Case Studies:** Three detailed real-world load-bearing bug scenarios (database timeout preventing deadlocks, error page enforcing HTTPS, empty catch block preventing data corruption).
+
+**Part 29 — Taxonomy of Bugs:** Severity vs priority matrix, Heisenbugs vs Bohrbugs, latent bugs, all applied to the bugs in the story.
+
+**Part 30 — Documentation:** Why, what, and how to document code decisions, with the specific comment that was added to the SessionTracker.
+
+**Part 31 — Expanded Resources:** Additional references for defensive programming, technical debt, ASP.NET pipeline, and monitoring.
+
+The file path for your repo: `content/blog/2026-05-15-load-bearing-bugs-legacy-aspnet-guide.md`
+
+66
+43
