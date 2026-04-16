@@ -1,6 +1,6 @@
 ===============================================================================
 PROJECT EXPORT: observermagazine.github.io
-DATE: 2026-04-16 01:17:47 UTC
+DATE: 2026-04-16 03:47:21 UTC
 ===============================================================================
 
 ===============================================================================
@@ -78,6 +78,13 @@ DIRECTORY TREE (all git-tracked files)
 │       ├── 2026-05-14-git.md
 │       ├── 2026-05-15-load-bearing-bugs-legacy-aspnet-guide.md
 │       ├── 2026-05-16-load-bearing-bugs-part-2-survival-guide.md
+│       ├── 2026-05-17-react.md
+│       ├── 2026-05-18-react.md
+│       ├── 2026-05-19-react.md
+│       ├── 2026-05-20-react.md
+│       ├── 2026-05-21-react.md
+│       ├── 2026-05-22-react.md
+│       ├── 2026-05-23-react.md
 │       ├── 2027-01-01-happy-new-year-2027.md
 │       └── 2099-01-01-draft-template.md
 ├── Directory.Build.props
@@ -188,7 +195,7 @@ DIRECTORY TREE (all git-tracked files)
     │   └── RssGenerator.cs
     └── requirements-audio.txt
 
-29 directories, 151 files
+29 directories, 158 files
 
 
 -------------------------------------------------------------------------------
@@ -1559,6 +1566,171 @@ tags:
   - owasp
   - code-review
   - deployment
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-05-17-react.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "The Elephant in the Room: A Seven-Part Guide to React vs. Blazor WebAssembly for ASP.NET Developers — Overview"
+date: 2026-05-17
+author: myblazor-team
+summary: "You have just joined a team considering whether to modernize a legacy ASP.NET application with React or Blazor WebAssembly. This overview article frames the seven-part series, explains who it is for, and lays the architectural and historical groundwork you need before diving into the technical comparisons."
+featured: true
+tags:
+  - react
+  - blazor
+  - aspnet
+  - dotnet
+  - javascript
+  - webassembly
+  - architecture
+  - deep-dive
+  - series
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-05-18-react.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "The Elephant in the Room, Part 2: The Virtual DOM vs. the Render Tree — A Systems-Level Deconstruction"
+date: 2026-05-18
+author: myblazor-team
+summary: "A deep architectural dive into how React paints pixels using the Virtual DOM and Fiber architecture, compared to how Blazor WebAssembly uses a RenderTree. We build a tiny React clone in plain JavaScript, examine garbage collection costs, and explain why React needs explicit memoization while .NET's AOT compiler often handles optimizations automatically."
+tags:
+  - react
+  - blazor
+  - virtual-dom
+  - render-tree
+  - webassembly
+  - dotnet
+  - javascript
+  - performance
+  - architecture
+  - deep-dive
+  - series
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-05-19-react.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "The Elephant in the Room, Part 3: Escaping the useEffect Trap — Component Lifecycles Across Paradigms"
+date: 2026-05-19
+author: myblazor-team
+summary: "React's functional components and hooks fundamentally changed front-end development, but they introduced a notoriously complex mental model for side effects. We do a forensic breakdown of a real production bug caused by a missing dependency array, explain the stale closure problem for object-oriented developers, and map every React lifecycle to its direct .NET equivalent."
+tags:
+  - react
+  - blazor
+  - aspnet
+  - dotnet
+  - hooks
+  - useeffect
+  - lifecycle
+  - javascript
+  - csharp
+  - deep-dive
+  - debugging
+  - series
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-05-20-react.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "The Elephant in the Room, Part 4: The Polyglot Front-End — Safely Sandboxing React Components via JSInterop"
+date: 2026-05-20
+author: myblazor-team
+summary: "Sometimes a project requires a specific React library — a complex data grid, a WebGL canvas — that has no native C# equivalent. This is the definitive survival guide for hybrid Blazor-plus-React architectures, covering JSInterop patterns, memory management across the WASM boundary, the Strangler Fig migration pattern, and JSON serialization pitfalls."
+tags:
+  - react
+  - blazor
+  - jsinterop
+  - webassembly
+  - dotnet
+  - javascript
+  - architecture
+  - migration
+  - strangler-fig
+  - deep-dive
+  - series
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-05-21-react.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "The Elephant in the Room, Part 5: State of the Union — Context, Redux, and the Absence of Dependency Injection"
+date: 2026-05-21
+author: myblazor-team
+summary: "JavaScript frameworks handle global state in ways that feel chaotic to developers used to IServiceCollection and scoped lifecycles. We trace the full history of React state management from prop drilling through Redux, Zustand, Jotai, and Signals, and compare it directly to Blazor's first-class dependency injection. Includes memory reference diagrams explaining why mutating an object in React silently fails."
+tags:
+  - react
+  - blazor
+  - state-management
+  - redux
+  - dependency-injection
+  - dotnet
+  - csharp
+  - aspnet
+  - javascript
+  - signals
+  - deep-dive
+  - series
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-05-22-react.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "The Elephant in the Room, Part 6: Build Pipelines and Bundlers — Vite, esbuild, and the .NET Publish Pipeline"
+date: 2026-05-22
+author: myblazor-team
+summary: "A high-performance static web architecture requires obsessing over bundle sizes and network requests. This deep dive covers Vite 8, esbuild, tree-shaking, Rolldown, dead-code elimination, and how both React and Blazor WebAssembly applications can be optimized for GitHub Pages-style serverless deployments with no Node.js backend."
+tags:
+  - vite
+  - esbuild
+  - build-tools
+  - react
+  - blazor
+  - webassembly
+  - dotnet
+  - performance
+  - bundling
+  - tree-shaking
+  - aot
+  - deep-dive
+  - series
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-05-23-react.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "The Elephant in the Room, Part 7: The Conclusion — How to Actually Make the Decision"
+date: 2026-05-23
+author: myblazor-team
+summary: "After six deep-dive articles covering rendering models, lifecycle hooks, JSInterop, state management, and build pipelines, it is time to stop analyzing and start deciding. This conclusion gives you a concrete decision framework, a practical recommendation for the most common ASP.NET team scenarios, and a final honest reckoning with the trade-offs you will live with either way."
+featured: true
+tags:
+  - react
+  - blazor
+  - aspnet
+  - dotnet
+  - architecture
+  - decision-making
+  - webassembly
+  - javascript
+  - deep-dive
+  - series
+  - conclusion
 ---
 
 
@@ -11518,8 +11690,8 @@ num2words>=0.5.14
 
 ===============================================================================
 EXPORT COMPLETED
-Total Files Exported: 145
-  Blog posts (front matter only): 66
+Total Files Exported: 152
+  Blog posts (front matter only): 73
   Full content files: 77
   Binary files skipped: 2
 Output File: docs/llm/dump.txt
