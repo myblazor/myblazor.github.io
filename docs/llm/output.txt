@@ -1,9 +1,9 @@
 kushal@fedora:~/src/dotnet/myblazor$ cd /home/kushal/src/dotnet/myblazor/; time du -sh .; time git clean -dfX; time du -sh .; time dotnet format; time dotnet restore; dotnet run --project tools/ObserverMagazine.ContentProcessor -- --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot; time dotnet test; time dotnet list package; time dotnet list package --outdated; time bash export.sh;
 223M	.
 
-real	0m0.026s
+real	0m0.032s
 user	0m0.002s
-sys	0m0.011s
+sys	0m0.020s
 Removing src/ObserverMagazine.Web/bin/
 Removing src/ObserverMagazine.Web/obj/
 Removing src/ObserverMagazine.Web/wwwroot/blog-data/
@@ -15,29 +15,29 @@ Removing tests/ObserverMagazine.Web.Tests/obj/
 Removing tools/ObserverMagazine.ContentProcessor/bin/
 Removing tools/ObserverMagazine.ContentProcessor/obj/
 
-real	0m0.042s
+real	0m0.043s
 user	0m0.000s
-sys	0m0.040s
+sys	0m0.042s
 83M	.
 
-real	0m0.008s
-user	0m0.003s
-sys	0m0.005s
+real	0m0.010s
+user	0m0.001s
+sys	0m0.009s
 
-real	0m7.887s
-user	0m12.169s
-sys	0m1.007s
+real	0m8.484s
+user	0m12.541s
+sys	0m1.218s
 Restore complete (0.5s)
 
 Build succeeded in 0.6s
 
-real	0m0.738s
-user	0m0.779s
-sys	0m0.156s
+real	0m0.746s
+user	0m0.775s
+sys	0m0.168s
 Content directory: content/blog
 Output directory:  src/ObserverMagazine.Web/wwwroot
 Authors directory: content/authors
-Publish before:    2026-04-16 03:47:09 UTC
+Publish before:    2026-04-16 21:49:42 UTC
 Found 3 author profile(s)
   Loaded author: kushal (kushal)
   Loaded author: abraham-lincoln (Abraham Lincoln)
@@ -196,29 +196,29 @@ Content processing complete.
 Restore complete (0.5s)
   ObserverMagazine.Integration.Tests net10.0 succeeded (0.5s) → tests/ObserverMagazine.Integration.Tests/bin/Debug/net10.0/ObserverMagazine.Integration.Tests.dll
 [xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.4)
-[xUnit.net 00:00:00.17]   Discovering: ObserverMagazine.Integration.Tests
-[xUnit.net 00:00:00.35]   Discovered:  ObserverMagazine.Integration.Tests
-[xUnit.net 00:00:00.52]   Starting:    ObserverMagazine.Integration.Tests
-[xUnit.net 00:00:00.78]   Finished:    ObserverMagazine.Integration.Tests (ID = 'd4d0d007958fbe0fe38b14d9e6b646a44fb0e18b73a44da34c809b07def2c31b')
-  ObserverMagazine.Integration.Tests test net10.0 succeeded (1.3s)
-  ObserverMagazine.Web net10.0 browser-wasm succeeded (4.0s) → src/ObserverMagazine.Web/bin/Debug/net10.0/wwwroot
+[xUnit.net 00:00:00.15]   Discovering: ObserverMagazine.Integration.Tests
+[xUnit.net 00:00:00.32]   Discovered:  ObserverMagazine.Integration.Tests
+[xUnit.net 00:00:00.47]   Starting:    ObserverMagazine.Integration.Tests
+[xUnit.net 00:00:00.70]   Finished:    ObserverMagazine.Integration.Tests (ID = 'd4d0d007958fbe0fe38b14d9e6b646a44fb0e18b73a44da34c809b07def2c31b')
+  ObserverMagazine.Integration.Tests test net10.0 succeeded (1.2s)
+  ObserverMagazine.Web net10.0 browser-wasm succeeded (3.8s) → src/ObserverMagazine.Web/bin/Debug/net10.0/wwwroot
   ObserverMagazine.Web.Tests net10.0 succeeded (0.4s) → tests/ObserverMagazine.Web.Tests/bin/Debug/net10.0/ObserverMagazine.Web.Tests.dll
 [xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.4)
-[xUnit.net 00:00:00.17]   Discovering: ObserverMagazine.Web.Tests
-[xUnit.net 00:00:00.32]   Discovered:  ObserverMagazine.Web.Tests
-[xUnit.net 00:00:00.48]   Starting:    ObserverMagazine.Web.Tests
-[xUnit.net 00:00:00.93]   Finished:    ObserverMagazine.Web.Tests (ID = '637bea1e316adf1ddb3603d0d821a98009dc019a599147baf24c1e1ec396837f')
+[xUnit.net 00:00:00.14]   Discovering: ObserverMagazine.Web.Tests
+[xUnit.net 00:00:00.29]   Discovered:  ObserverMagazine.Web.Tests
+[xUnit.net 00:00:00.44]   Starting:    ObserverMagazine.Web.Tests
+[xUnit.net 00:00:00.88]   Finished:    ObserverMagazine.Web.Tests (ID = '637bea1e316adf1ddb3603d0d821a98009dc019a599147baf24c1e1ec396837f')
   ObserverMagazine.Web.Tests test net10.0 succeeded (1.4s)
 
-Test summary: total: 81, failed: 0, succeeded: 81, skipped: 0, duration: 5.5s
-Build succeeded in 6.6s
+Test summary: total: 81, failed: 0, succeeded: 81, skipped: 0, duration: 5.2s
+Build succeeded in 6.3s
 
-real	0m6.746s
-user	0m4.383s
-sys	0m0.601s
-Restore complete (0.5s)
+real	0m6.474s
+user	0m4.200s
+sys	0m0.582s
+Restore complete (0.4s)
 
-Build succeeded in 0.6s
+Build succeeded in 0.5s
 Project 'ObserverMagazine.Web' has the following package references
    [net10.0]: 
    Top-level Package                                        Requested      Resolved
@@ -255,9 +255,9 @@ Project 'ObserverMagazine.ContentProcessor' has the following package references
 
 (A) : Auto-referenced package.
 
-real	0m1.559s
-user	0m1.583s
-sys	0m0.310s
+real	0m1.500s
+user	0m1.532s
+sys	0m0.299s
 Restore complete (0.5s)
 
 Build succeeded in 0.6s
@@ -270,17 +270,16 @@ The given project `ObserverMagazine.Integration.Tests` has no updates given the 
 The given project `ObserverMagazine.Web.Tests` has no updates given the current sources.
 The given project `ObserverMagazine.ContentProcessor` has no updates given the current sources.
 
-real	0m3.169s
-user	0m1.967s
-sys	0m0.410s
+real	0m2.859s
+user	0m2.243s
+sys	0m0.419s
 Export complete: docs/llm/dump.txt
   Total files: 152
   Blog posts (front matter only): 73
   Full content files: 77
   Binary files skipped: 2
 
-real	0m0.121s
-user	0m0.045s
-sys	0m0.062s
+real	0m0.119s
+user	0m0.053s
+sys	0m0.053s
 kushal@fedora:~/src/dotnet/myblazor$ 
-
