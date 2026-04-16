@@ -1,6 +1,6 @@
 ===============================================================================
 PROJECT EXPORT: observermagazine.github.io
-DATE: 2026-04-15 00:12:01 UTC
+DATE: 2026-04-16 01:15:42 UTC
 ===============================================================================
 
 ===============================================================================
@@ -74,6 +74,10 @@ DIRECTORY TREE (all git-tracked files)
 │       ├── 2026-05-10-sql.md
 │       ├── 2026-05-11-sql.md
 │       ├── 2026-05-12-sql.md
+│       ├── 2026-05-13-git.md
+│       ├── 2026-05-14-git.md
+│       ├── 2026-05-15-load-bearing-bugs-legacy-aspnet-guide.md
+│       ├── 2026-05-16-load-bearing-bugs-part-2-survival-guide.md
 │       ├── 2027-01-01-happy-new-year-2027.md
 │       └── 2099-01-01-draft-template.md
 ├── Directory.Build.props
@@ -184,7 +188,7 @@ DIRECTORY TREE (all git-tracked files)
     │   └── RssGenerator.cs
     └── requirements-audio.txt
 
-29 directories, 147 files
+29 directories, 151 files
 
 
 -------------------------------------------------------------------------------
@@ -1450,6 +1454,111 @@ tags:
   - csharp
   - deep-dive
   - best-practices
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-05-13-git.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Git for TFS Developers: The Complete, Exhaustive, No-Stone-Unturned Guide to Migrating Your Brain from Team Foundation Version Control to Git"
+date: 2026-05-13
+author: myblazor-team
+summary: "A comprehensive, deeply patient guide for ASP.NET Web Forms developers who have used Team Foundation Version Control (TFVC) in Visual Studio for years and now need to learn Git. Covers every concept from first principles, maps every TFS operation to its Git equivalent, walks through dozens of real-world scenarios including merge conflicts, branching strategies, rebasing, cherry-picking, and the exact clicks in Visual Studio 2026. Includes a full case study of diverged branches, three-way merge, and why you cannot always merge one feature branch into another."
+featured: true
+tags:
+  - git
+  - tfs
+  - tfvc
+  - azure-devops
+  - version-control
+  - visual-studio
+  - deep-dive
+  - best-practices
+  - migration
+  - tutorial
+  - dotnet
+  - aspnet
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-05-14-git.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Git for TFS Developers, Part 2: The Three-Way Merge Algorithm, Every Conflict Type, tf.exe Command Mapping, CI/CD Integration, and Fifty More Scenarios You Will Encounter in Real Life"
+date: 2026-05-14
+author: myblazor-team
+summary: "The companion to our Git for TFS Developers guide. This second part dives into everything that could not fit in the first article: the three-way merge algorithm explained line by line, every type of merge conflict with resolution walkthroughs, a complete tf.exe-to-git command mapping, Azure DevOps branch policies, GitHub branch protection, CI/CD pipeline integration, the fork-and-pull model, multiple remotes, git rerere, patch files, shallow and partial clones, monorepo strategies, worktrees, merge tool configuration, authentication, large repository performance, history cleanup, disaster recovery, and fifty more real-world scenarios with exact steps."
+tags:
+  - git
+  - tfs
+  - tfvc
+  - azure-devops
+  - version-control
+  - visual-studio
+  - deep-dive
+  - best-practices
+  - migration
+  - tutorial
+  - dotnet
+  - aspnet
+  - ci-cd
+  - merge-conflicts
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-05-15-load-bearing-bugs-legacy-aspnet-guide.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Load-Bearing Bugs: A Comprehensive Guide to Finding, Understanding, and Surviving the Subtle Defects That Keep Legacy ASP.NET Applications Alive"
+date: 2026-05-15
+author: myblazor-team
+summary: "What happens when you find a bug in a legacy ASP.NET application and realize the bug might be the only thing keeping the application secure? A comprehensive, from-first-principles guide to load-bearing bugs, defensive error handling, session state traps, dynamic SQL failures, infrastructure upgrades, and what a junior developer should actually do when they stumble into code that is simultaneously broken and indispensable."
+featured: true
+tags:
+  - aspnet
+  - dotnet
+  - legacy-code
+  - debugging
+  - best-practices
+  - deep-dive
+  - software-engineering
+  - sql-server
+  - security
+  - architecture
+  - testing
+  - csharp
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-05-16-load-bearing-bugs-part-2-survival-guide.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Load-Bearing Bugs, Part 2: The Complete Survival Guide to SQL Injection, web.config, IIS, Error Handling, Refactoring, Security, and Everything Else We Could Not Fit Into One Article"
+date: 2026-05-16
+author: myblazor-team
+summary: "The sequel to our load-bearing bugs guide. This time we go deeper: a full SQL injection attack walkthrough, an exhaustive web.config reference, IIS application pool internals, Global.asax error handling, a step-by-step test-first refactoring of the broken code, source control archaeology with git blame and git bisect, the OWASP Top 10 2025 explained for ASP.NET developers, session hijacking and CSRF, how to write a good bug ticket, code review culture, deployment strategies, the strangler fig migration pattern, and blameless retrospectives."
+featured: true
+tags:
+  - aspnet
+  - dotnet
+  - legacy-code
+  - debugging
+  - best-practices
+  - deep-dive
+  - software-engineering
+  - sql-server
+  - security
+  - architecture
+  - testing
+  - csharp
+  - iis
+  - owasp
+  - code-review
+  - deployment
 ---
 
 
@@ -11409,8 +11518,8 @@ num2words>=0.5.14
 
 ===============================================================================
 EXPORT COMPLETED
-Total Files Exported: 141
-  Blog posts (front matter only): 62
+Total Files Exported: 145
+  Blog posts (front matter only): 66
   Full content files: 77
   Binary files skipped: 2
 Output File: docs/llm/dump.txt
