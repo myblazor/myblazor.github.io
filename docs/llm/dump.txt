@@ -1,6 +1,6 @@
 ===============================================================================
 PROJECT EXPORT: observermagazine.github.io
-DATE: 2026-04-17 00:40:20 UTC
+DATE: 2026-04-17 02:50:47 UTC
 ===============================================================================
 
 ===============================================================================
@@ -91,6 +91,10 @@ DIRECTORY TREE (all git-tracked files)
 │       ├── 2026-05-27-css.md
 │       ├── 2026-05-28-responsive.md
 │       ├── 2026-05-29-typography.md
+│       ├── 2026-05-30-modules.md
+│       ├── 2026-05-31-dom-events.md
+│       ├── 2026-06-01-state.md
+│       ├── 2026-06-02-web-custom-elements.md
 │       ├── 2027-01-01-happy-new-year-2027.md
 │       └── 2099-01-01-draft-template.md
 ├── Directory.Build.props
@@ -201,7 +205,7 @@ DIRECTORY TREE (all git-tracked files)
     │   └── RssGenerator.cs
     └── requirements-audio.txt
 
-29 directories, 164 files
+29 directories, 168 files
 
 
 -------------------------------------------------------------------------------
@@ -1878,6 +1882,98 @@ tags:
   - animation
   - accessibility
   - web-standards
+  - no-build
+  - first-principles
+  - series
+  - deep-dive
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-05-30-modules.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Without a Net, Part 7: Native ES Modules — Import Maps, Dynamic Import, and the Death of the Bundler"
+date: 2026-05-30
+author: myblazor-team
+summary: "Day 7 of our fifteen-part no-build web series makes the biggest architectural claim in the whole run: in 2026 you do not need a bundler. ES modules run natively in every evergreen browser, import maps give you dependency resolution without npm, dynamic import gives you code splitting without Webpack, and JSDoc comments give you most of TypeScript's ergonomics without a compile step. We build the mental model, walk through every feature, cover the small but real trade-offs, and end with a complete, runnable, module-based application whose entire build process is a single copy-to-output."
+tags:
+  - javascript
+  - es-modules
+  - import-maps
+  - dynamic-import
+  - jsdoc
+  - no-build
+  - first-principles
+  - series
+  - deep-dive
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-05-31-dom-events.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Without a Net, Part 8: The DOM, Events, and Platform Primitives Everyone Reimplemented"
+date: 2026-05-31
+author: myblazor-team
+summary: "Day 8 of our fifteen-part no-build web series tours the DOM, events, and the quiet-but-vast set of browser primitives that replaced about half of jQuery's reason for existing. We cover querySelector in depth, event delegation and AbortController, the full fetch API with streaming and timeouts, the three Observer APIs (Intersection, Mutation, Resize), structuredClone, requestIdleCallback, and the handful of utilities that make 'vanilla JavaScript' feel like a mature framework. Zero dependencies, zero frameworks, just the platform."
+tags:
+  - javascript
+  - dom
+  - events
+  - abortcontroller
+  - intersection-observer
+  - mutation-observer
+  - resize-observer
+  - fetch
+  - web-standards
+  - no-build
+  - first-principles
+  - series
+  - deep-dive
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-06-01-state.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Without a Net, Part 9: State Management Without a Library — Proxies, Signals from Scratch, and the Observer Pattern"
+date: 2026-06-01
+author: myblazor-team
+summary: "Day 9 of our fifteen-part no-build web series tackles state management from first principles. We build, from scratch, the full mental model: observable stores, the Observer pattern in 40 lines, reactive signals with automatic dependency tracking, a complete global store with history and undo, Proxy-based reactivity, and a practical comparison to Redux, Zustand, Jotai, and MobX. By the end you will have a working state library — in 200 lines of plain JavaScript — that covers the vast majority of what an application actually needs, and you will understand every line of it."
+tags:
+  - javascript
+  - state-management
+  - signals
+  - observer-pattern
+  - proxy
+  - reactivity
+  - no-build
+  - first-principles
+  - series
+  - deep-dive
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-06-02-web-custom-elements.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Without a Net, Part 10: Web Components — Custom Elements, Shadow DOM, Templates, and Slots"
+date: 2026-06-02
+author: myblazor-team
+summary: "Day 10 of our fifteen-part no-build web series covers Web Components — the platform's native answer to 'components without a framework.' Custom elements with full lifecycle hooks, Shadow DOM for style encapsulation, Declarative Shadow DOM for server rendering, slots for composition, ElementInternals for form-associated components, and custom states for CSS targeting. We build a reusable <confirm-dialog> wrapping the native <dialog> element, an accessible <tabs> component with keyboard navigation, a <live-clock> that ticks by itself, and a form-associated <rating-input>. Zero dependencies, full accessibility, and components that work identically in React, Vue, Blazor, or plain HTML."
+tags:
+  - javascript
+  - web-components
+  - custom-elements
+  - shadow-dom
+  - declarative-shadow-dom
+  - slots
+  - element-internals
+  - accessibility
   - no-build
   - first-principles
   - series
@@ -11841,8 +11937,8 @@ num2words>=0.5.14
 
 ===============================================================================
 EXPORT COMPLETED
-Total Files Exported: 158
-  Blog posts (front matter only): 79
+Total Files Exported: 162
+  Blog posts (front matter only): 83
   Full content files: 77
   Binary files skipped: 2
 Output File: docs/llm/dump.txt
