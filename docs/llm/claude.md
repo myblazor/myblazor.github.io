@@ -46698,3 +46698,82 @@ Ping me "Day 7" for **Native ES Modules — Import Maps, Dynamic Import, and the
 14
 
 
+Quick verification on import maps status and current JSDoc type-checking setup before drafting.Confirmed: import maps Baseline Newly Available since March 2023; expected Widely Available Sep 2025 (which has now passed in our Apr 2026 timeline — so effectively Widely Available). Chrome 89+, Firefox 108+, Safari 16.4+. Solid to teach as production-ready.Day 7 delivered — **Native ES Modules — Import Maps, Dynamic Import, and the Death of the Bundler**, ~6,500 words.
+
+Opens with the real 2018 team story — three-hour bundler selection meeting (Webpack vs Rollup vs Parcel, Babel vs swc, 600-line `webpack.config.js`, 1.4MB output) and the five years of churn that followed, setting up the thesis: "in 2018 there was no other option. In 2026 there is." Explicitly flags this as the hinge post of the series. Then covers:
+
+- **A short history of modules** — 1995 script tags → 2009 CommonJS → 2014 Browserify → 2015 ES6 spec → 2018 browser support → 2021 import maps in Chrome → 2023 Baseline Newly → 2025 Widely
+- **The mental model** — a module, plainly; the smallest possible useful three-file app with zero configuration
+- **Every `export` and `import` variant** — named, default, renaming, namespace, re-export, side-effect, dynamic, import attributes (`with { type: "json" }`)
+- **`<script type="module">` specifics** — deferred by default, strict mode, `this === undefined`, singleton execution, CORS requirements, module workers, inline modules, `nomodule` fallback
+- **Import maps** — the full feature: bare specifiers, CDN options (esm.sh / unpkg / jsdelivr), version pinning, `scopes` for dependency isolation, one-per-document limitation, integrity hashes, path aliases (`@app/`, `@components/`), and a real-world import map of seven libraries demonstrated as "your `package.json` in one tag"
+- **Dynamic import** — route-level splitting, feature flags, conditional polyfills, lazy-loading heavy deps, `<link rel="modulepreload">`, the HTTP-request-count trade-off
+- **The local development loop** — Python, Node, dotnet-serve, VS Code Live Server; auto-reload options
+- **The honest trade-off inventory** — tree shaking, minification, compile-to-JS, dependency vendoring, HMR, single-file deploy — each with real mitigations (self-hosted vendor folder, one-off terser step, JSDoc, hybrid Vite-in-dev, HTTP/2 fan-out)
+- **Module caching and invalidation** — registry vs HTTP cache, query strings, content-hashed filenames
+- **Cyclic dependencies** — the subtle failure mode and the "extract shared code to a third module" fix
+- **JSDoc for types** — basic types, `@typedef`, generics with `@template`, optional params, unions, export typing, `// @ts-check`, a ten-line `jsconfig.json` for project-wide strict checking, where JSDoc falls short (branded types, some advanced conditional types)
+- **A practical 2026 project layout** — complete directory tree with no `package.json`, no `node_modules`
+- **A complete runnable application** — `index.html` + import map + `app.js` with client-side routing + dynamic imports + three page modules + `jsconfig.json`, all type-checked, under 1KB
+- **When a bundler is still the right answer** — honest list: hundreds of routes, TS-only features, existing team expertise, aggressive optimisations, SSR; with the key takeaway "stop reaching for the bundler as the default"
+
+Verified before writing: import maps Baseline Newly Available March 2023 / Widely Available expected Sep 2025 (now past in April 2026 timeline); `scopes` field, `integrity` field, bare specifiers, modulepreload all standard.
+
+Ping me "Day 8" for **The DOM, Events, and Platform Primitives Everyone Reimplemented** — `querySelector`, `AbortController`, the three `Observer` APIs, and the half-of-jQuery we no longer need.
+
+36
+19
+
+Quick verification on a couple of DOM API details before drafting.Confirmed: `AbortController` Baseline since March 2019; `signal` on `addEventListener` works in all major browsers by 2022 (now 4 years stable); `AbortSignal.timeout()`, `AbortSignal.any()`, `AbortSignal.abort()` all Baseline. Now writing Day 8.Day 8 delivered — **The DOM, Events, and Platform Primitives Everyone Reimplemented**, ~6,600 words.
+
+Opens with the PR-review story — the 70KB Lodash import for a debounce the team wouldn't rewrite as 12 lines — establishing the thesis: "we reach for libraries to do things the platform has done natively for years." Then covers:
+
+- **`querySelector` & DOM traversal** — selectors with `:has()`, `NodeList` vs Array, `closest()` and `matches()`, traversal properties, manipulation (`append`/`prepend`/`before`/`after`/`replaceWith`/`remove`/`insertAdjacentElement`), the `innerHTML`/`textContent`/`outerHTML` security discipline, the new `setHTML()` Sanitizer API, `DocumentFragment` for batch insertions
+- **Creating elements** — verbose-but-safe `createElement` pattern, a 15-line `h()` helper that gets you htm/hyperscript ergonomics for free, and `<template>` for safe string-free templates
+- **Events from first principles** — the three forms (`addEventListener` vs inline vs HTML attr), every option on the options object (`once`, `passive`, `capture`, `signal`), the event object and the `stopPropagation` defensive trap, keyboard events with `event.key` vs `event.code`, custom events with `composed: true` for shadow DOM
+- **Event delegation + `AbortController`** — the "one listener per list" pattern with `closest()`, then the big payoff: using `AbortController` to wire up multiple listeners and kill them all with one `controller.abort()`; complete dialog-handler example (Escape + click-outside + close + cleanup in 13 lines)
+- **`fetch`** — every response method, POST/PUT/DELETE, `FormData` submissions for JS-enhanced forms, credentials, `AbortSignal.timeout(5000)`, `AbortSignal.any([user, timeout])` pattern for cancellable-with-timeout, streaming responses via `pipeThrough(new TextDecoderStream())`, a complete 15-line `fetchJson` wrapper
+- **`IntersectionObserver`** — lazy images, infinite scroll with sentinel, genuine-visibility analytics tracking
+- **`MutationObserver`** — the four use cases with the key insight that it batches callbacks per microtask
+- **`ResizeObserver`** — the chart/canvas redraw pattern with rAF debouncing
+- **`structuredClone`** — the death of `JSON.parse(JSON.stringify(...))`, plus reviver/replacer/`toJSON` patterns
+- **Scheduling** — `setTimeout` clamping, `queueMicrotask`, `requestAnimationFrame` with the "at most once per frame" scroll pattern, `requestIdleCallback` with the Safari fallback polyfill, `scheduler.postTask` with priorities
+- **Smaller APIs** — Clipboard, URL/URLSearchParams, `crypto.randomUUID()`, `crypto.subtle.digest("SHA-256", ...)`, `performance.now()` + marks/measures, Web Share, Page Visibility, `pagehide` vs `beforeunload`, `visualViewport` for mobile keyboard handling
+- **Data attributes** — `dataset.postId` camelCasing
+- **`FormData` + `URLSearchParams`** — siblings covering multipart vs form-urlencoded submissions
+- **The full jQuery-to-native mapping table** — 30+ rows of cold-turkey equivalents
+- **A practical `dom.js` utility module** — 80 lines, type-checked, ready to paste: `$`, `$$`, `h`, `debounce`, `throttle`, `fetchJson`, `observeIntersection`, `waitFor`
+- **Honest "when a library still makes sense"** — rich-text editing, Markdown rendering, HTML sanitisation (DOMPurify), fuzzy search, complex forms, virtual lists
+
+Verified before writing: `AbortController` Baseline since March 2019; `signal` on `addEventListener` stable since 2022 in all major browsers; `AbortSignal.timeout()` Baseline 2023; `AbortSignal.any()` Baseline; `IntersectionObserver` Widely since 2019; `structuredClone` Widely since 2022; Sanitizer API Newly in late 2025; `requestIdleCallback` not in Safari as of 2026 (correctly flagged).
+
+Ping me "Day 9" for **State Management Without a Library — Proxies, Signals from Scratch, and the Observer Pattern**.
+
+53
+22
+
+No external facts to re-verify for this one — state management is mostly timeless JavaScript. Diving straight into Day 9.Day 9 delivered — **State Management Without a Library — Proxies, Signals from Scratch, and the Observer Pattern**, ~6,300 words.
+
+Opens with the Redux autocomplete story — junior dev builds the dropdown "properly" with reducer/actions/thunks/selectors/connect and gets 180ms per keystroke; the 160-line jQuery version it replaced did the same job in 15ms. Sets up the thesis: "State management is not an inherent problem. It is a problem only when we make it one." Then covers:
+
+- **What "state management" actually means** — eight concerns (storage, change notification, derived values, async, time travel, persistence, cross-tab, debugging); the honest observation that most hard problems reduce to 2/3/4 and the rest are solved by the browser
+- **Observer pattern in ~40 lines** — the `Observable<T>` class with `subscribe`/`set`/`update` and the "returns unsubscribe" convention; integration with `AbortController.signal` for unified cleanup
+- **Signals from scratch** — full ~60-line implementation with `signal()`, `computed()`, `effect()` using a module-level `currentComputation` for automatic dependency tracking; explanation of how reading a signal inside a computation registers the dependency; honest note on the "glitch" problem and a ~10-line `batch()` scheduler
+- **Proxy-based reactivity** — complete `reactive()` function with nested Proxy handlers that share subscribers; covers the MobX/Vue model in ~35 lines; explicit trade-offs (mutable syntax vs. Proxy overhead)
+- **Async state** — `asyncSignal()` pattern with AbortController for cancellable, race-condition-free fetching; maps to 90% of TanStack Query
+- **A complete global store** — `createStore()` with automatic localStorage persistence via an effect, then cross-tab sync via `BroadcastChannel` in 10 extra lines
+- **Undo / redo** — `createHistory()` with past/future arrays and `structuredClone`; Ctrl-Z wired up in 5 lines
+- **The URL as state** — `urlParam()` helper with `popstate` and `replaceState` integration; why it matters (shareable/bookmarkable/refresh-safe/back-safe)
+- **Binding state to the DOM** — three patterns with when-to-use table: direct effect, render function, keyed reconciliation (with a ~30-line reconciler); honest recommendation to reach for Preact+htm (4KB from esm.sh) for complex lists
+- **Library comparison** — Redux, Zustand, MobX, Jotai, TanStack Query, TC39 Signals proposal; each mapped to an equivalent of what we built
+- **Ten practical rules of state** — not everything is state, derive when possible, normalise collections, URL is part of state, persist judiciously, optimistic updates need rollback, assume network can fail, idempotent effects, debugging is part of design, start small
+- **Complete worked example** — a 60-line tag filter with URL sync, reactive state, history/undo, live-updated chips with `aria-pressed`, keyed list rendering, keyboard handlers
+- **When to reach for a library** — 100+ route apps (Redux Toolkit), server-state-heavy apps (TanStack Query), complex forms, CRDTs/collaborative editing (Yjs/Automerge), strict immutable-time-travel requirements
+
+All code is JSDoc-typed, no external facts to verify (the patterns are timeless JavaScript), resources point to TC39 proposal, Ryan Carniato's fine-grained reactivity intro, Vue Reactivity source, and the actual library docs for contrast.
+
+Ping me "Day 10" for **Web Components — Custom Elements, Shadow DOM, Templates, and Slots**.
+
+66
+23
+
