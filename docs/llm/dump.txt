@@ -1,6 +1,6 @@
 ===============================================================================
 PROJECT EXPORT: observermagazine.github.io
-DATE: 2026-04-17 02:50:47 UTC
+DATE: 2026-04-17 11:32:26 UTC
 ===============================================================================
 
 ===============================================================================
@@ -95,6 +95,11 @@ DIRECTORY TREE (all git-tracked files)
 │       ├── 2026-05-31-dom-events.md
 │       ├── 2026-06-01-state.md
 │       ├── 2026-06-02-web-custom-elements.md
+│       ├── 2026-06-03-web-routing-navigation.md
+│       ├── 2026-06-04-web-forms-validation.md
+│       ├── 2026-06-05-web-storage-offline.md
+│       ├── 2026-06-06-web-accessibility-performance-security.md
+│       ├── 2026-06-07-capstone.md
 │       ├── 2027-01-01-happy-new-year-2027.md
 │       └── 2099-01-01-draft-template.md
 ├── Directory.Build.props
@@ -205,7 +210,7 @@ DIRECTORY TREE (all git-tracked files)
     │   └── RssGenerator.cs
     └── requirements-audio.txt
 
-29 directories, 168 files
+29 directories, 173 files
 
 
 -------------------------------------------------------------------------------
@@ -1978,6 +1983,126 @@ tags:
   - first-principles
   - series
   - deep-dive
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-06-03-web-routing-navigation.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Without a Net, Part 11: Client-Side Routing with the Navigation API and View Transitions"
+date: 2026-06-03
+author: myblazor-team
+summary: "Day 11 of our fifteen-part no-build web series builds a complete client-side router from scratch, using the brand-new Navigation API that just became Baseline Newly Available in January 2026. We cover the full mental model — what client-side routing is, why MPAs deserve a fair hearing, the Navigation API replacing fifteen years of pushState wrangling, and how to combine it with View Transitions for truly app-like navigation. Two complete worked routers — a ~120-line SPA router with shared-element transitions and a zero-JavaScript MPA approach — and an honest decision framework for choosing between them."
+tags:
+  - javascript
+  - navigation-api
+  - routing
+  - spa
+  - mpa
+  - view-transitions
+  - history
+  - no-build
+  - first-principles
+  - series
+  - deep-dive
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-06-04-web-forms-validation.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Without a Net, Part 12: Forms, Validation, and the Constraint Validation API"
+date: 2026-06-04
+author: myblazor-team
+summary: "Day 12 of our fifteen-part no-build web series covers forms — the most important and most under-taught part of the web platform. We cover every input type that has appeared in the last decade, the Constraint Validation API that has been there since 2010 and that almost nobody reads about, the pseudo-classes that make CSS-only error styling work properly, setCustomValidity for arbitrary rules, the new requestSubmit() method, async server-side validation done right, accessible error messages with aria-describedby and aria-invalid, autocomplete tokens that actually help users, and a complete worked sign-up form with everything wired up. If you have ever reached for Formik or React Hook Form because you needed validation, today is the day you stop."
+tags:
+  - html
+  - forms
+  - validation
+  - constraint-validation
+  - accessibility
+  - aria
+  - autocomplete
+  - no-build
+  - first-principles
+  - series
+  - deep-dive
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-06-05-web-storage-offline.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Without a Net, Part 13: Storage, Service Workers, and Offline"
+date: 2026-06-05
+author: myblazor-team
+summary: "Day 13 of our fifteen-part no-build web series covers persistence and offline. We walk through every storage option the browser ships — localStorage, sessionStorage, IndexedDB, the Cache API, the Origin Private File System, and the smaller utilities like Cookies — explaining when each is right. Then we build a complete service worker with stale-while-revalidate caching, a precache for the app shell, an offline fallback page, navigation preload for fast first responses, and a Background Sync queue for offline form submissions. We finish with the manifest file that turns the site into an installable PWA. By the end, our magazine works fully offline, installs to the home screen, and survives a flaky train Wi-Fi connection — built from scratch in about 250 lines."
+tags:
+  - javascript
+  - service-workers
+  - pwa
+  - localstorage
+  - indexeddb
+  - cache-api
+  - background-sync
+  - offline
+  - web-standards
+  - no-build
+  - first-principles
+  - series
+  - deep-dive
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-06-06-web-accessibility-performance-security.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Without a Net, Part 14: Accessibility, Performance, and Security"
+date: 2026-06-06
+author: myblazor-team
+summary: "Day 14 of our fifteen-part no-build web series covers the three concerns that separate a site that technically works from one that is actually good. We walk through WCAG 2.2 AA conformance — focus management, keyboard navigation, screen-reader testing, the rules nobody enforces. Core Web Vitals — INP, LCP, CLS — explained and budgeted. Performance techniques — content-visibility, lazy-loading, modulepreload, the right image formats. CSP, the brand-new (February 2026) cross-browser Trusted Types, Subresource Integrity, the security headers you should set on every site. We finish by running our magazine through Lighthouse and a screen reader and see how it scores. The honest answer: very well, because we have been building for these concerns from day one."
+tags:
+  - accessibility
+  - a11y
+  - wcag
+  - performance
+  - core-web-vitals
+  - security
+  - csp
+  - trusted-types
+  - lighthouse
+  - no-build
+  - first-principles
+  - series
+  - deep-dive
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-06-07-capstone.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Without a Net, Part 15: The Conclusion — A Complete Application End to End"
+date: 2026-06-07
+author: myblazor-team
+summary: "Day 15 of our fifteen-part no-build web series is the capstone. We assemble everything from the previous fourteen days into a complete, working blog reader application — Markdown rendering, search, tag filtering, dark mode, View Transitions, keyboard navigation, WCAG 2.2 AA conformance, offline PWA, RSS feed, comment composer. The whole thing is about 1,500 lines of plain HTML, CSS, and JavaScript, deployable to GitHub Pages with one git push. We walk through the full file structure, the build script (yes, there is one — fifty lines of Bash), the deployment pipeline, and run the audits. We close with a reflection on what fifteen days of using the platform has actually given us, an honest list of where we cheated, and a decision framework for choosing the no-build path for your next project."
+tags:
+  - capstone
+  - web-platform
+  - blog
+  - markdown
+  - rss
+  - pwa
+  - github-pages
+  - no-build
+  - first-principles
+  - series
+  - deep-dive
+  - finale
 ---
 
 
@@ -11937,8 +12062,8 @@ num2words>=0.5.14
 
 ===============================================================================
 EXPORT COMPLETED
-Total Files Exported: 162
-  Blog posts (front matter only): 83
+Total Files Exported: 167
+  Blog posts (front matter only): 88
   Full content files: 77
   Binary files skipped: 2
 Output File: docs/llm/dump.txt
