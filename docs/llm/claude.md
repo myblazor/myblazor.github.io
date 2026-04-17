@@ -46802,3 +46802,33 @@ Ping me "Day 11" for Client-Side Routing with the Navigation API and View Transi
 
 100
 31
+
+00
+31
+
+Quick verification on the Navigation API status — this is the post's central claim.Excellent — better than I expected. The Navigation API became Baseline Newly Available in **January 2026** (Safari and Firefox both shipped). This is genuinely new and exactly the kind of detail to lead with. Now writing Day 11.Day 11 delivered — **Client-Side Routing with the Navigation API and View Transitions**, ~5,900 words.
+
+Opens with the React-Router-as-12,000-lines story — a team using 84 exports for "navigate to a page when a link is clicked," with a senior engineer assigned half-time to "router upgrades." The conversation that almost replaced it with 100 lines that never happened. Sets up the central claim of the post: **the Navigation API became Baseline Newly Available in January 2026** when Safari and Firefox both shipped, and that changes everything. Then covers:
+
+- **What routing actually means** — the two coupled questions (URL ↔ screen), MPA vs SPA vs hybrid, with a fair case for each
+- **The honest history** — fragments → `pushState` → fifteen years of gap-papering libraries → Chrome ships Navigation API 2022 → Firefox/Safari skeptical for years → both ship January 2026 → era of routing-libraries-as-pushState-paperware ends
+- **The Navigation API mental model** — `navigation.navigate()`, the `navigate` event, `event.intercept({ handler })`, `navigation.entries()`, `navigation.currentEntry`, `currententrychange`, `navigation.transition`
+- **The 12-line minimal SPA router** vs the **40-line `pushState` equivalent that still doesn't handle modifier keys, target=_blank, downloads, hash changes, or cross-origin** — the `event.canIntercept` flag handles all of this
+- **The full `navigate` event** — `canIntercept`, `destination`, `navigationType` (push/replace/reload/traverse), `hashChange`, `downloadRequest`, `userInitiated`, `signal`, `formData`, `info`; programmatic `navigation.navigate(url, { state, info, history })` returning `{ committed, finished }`
+- **A complete production router** — ~120 lines of fully-typed JavaScript using `URLPattern`, dynamic imports for code splitting, `View Transitions`, abort signals, scroll restoration, screen-reader announcement via `aria-live` polite region; usage example with route registration and a complete page module
+- **`URLPattern`** — the standard pattern matcher with `:slug`, wildcards, alternation, optional segments
+- **View Transitions in the router** — the three-line composition with `startViewTransition()`; named transitions for shared elements (the canonical hero-image-grows-into-detail-image effect); per-route customisation via `data-route` attribute; direction-aware transitions using `event.navigationType === "traverse"` for back-vs-forward animations
+- **Cross-document View Transitions for MPA** — `@view-transition { navigation: auto; }` in two lines; named transitions across documents with the dynamic-name-on-source-only pattern (`view-transition-name: hero-42`); when MPA is the right choice (content-heavy, SEO-critical, long-tail content, simplicity); the hybrid approach this magazine uses (MPA marketing + SPA interactive)
+- **Pre-loading & speculation rules** — `<link rel="modulepreload">` for SPAs, `<link rel="prefetch">` for MPAs, the `<script type="speculationrules">` API with `eagerness` levels for prerendering on hover; the surprising claim that prerendered MPA navigation is often *faster* than SPA equivalent
+- **GitHub Pages 404 problem** — the two mitigations: 404.html as fallback (with status caveat), or pre-generated static HTML per route (the static-site-generator approach we use); pointer to Day 15 for the full pipeline
+- **Scroll restoration** — `scroll: "after-transition"` (default) vs `scroll: "manual"` with explicit `event.scroll()` for async-loaded pages; the "go-to-top on push, restore on traverse" pattern
+- **Form submissions as navigations** — using `event.formData` to intercept submits, the static-site case with third-party form services
+- **Side-by-side SPA-vs-MPA table** — 11 dimensions covered honestly, with the recommendation flipped from current consensus: **default to MPA in 2026**, use SPA for long-lived in-memory state (wizards, editors, conversations, collaborative docs); hybrid is the right answer
+- **When to still want a routing library** — massive route tables with deep nesting (Next.js App Router style), server-driven routing with loaders, opinion-enforcing patterns, existing codebases
+
+Verified before writing: Navigation API Baseline Newly Available since **January 2026** when Safari and Firefox both shipped; `URLPattern` Baseline since 2025 with Safari being the last to ship; cross-document View Transitions in Chrome 126+/Safari 18.2+/Firefox 146+ (correctly noted as not-yet-Baseline but degrading gracefully); Speculation Rules currently Chrome-only with FF/Safari evaluating; Interop 2025 included Navigation API and View Transitions, both now widely shipped.
+
+Ping me "Day 12" for **Forms, Validation, and the Constraint Validation API** — the API that's been there since 2010 that nobody knows about.
+
+27
+35 
