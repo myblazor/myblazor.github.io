@@ -46777,3 +46777,28 @@ Ping me "Day 10" for **Web Components — Custom Elements, Shadow DOM, Templates
 66
 23
 
+Quick verification on Declarative Shadow DOM and form-associated custom elements before drafting — these moved recently.
+
+Quick verification on Declarative Shadow DOM and form-associated custom elements before drafting — these moved recently.Searched the webSearched the webConfirmed: Declarative Shadow DOM Baseline Newly Available Aug 2024, Widely expected Aug 2026 (imminent); Chrome 111+/Safari 16.4+/Firefox 123+. Form-Associated Custom Elements: Chrome & Safari fully, Firefox has formAssociated + value + validation but partial ARIA — safe to teach with a caveat. attachInternals() supported in all current engines per the spec. Now writing Day 10.Created a file, ran a command, read a fileCreated a file, ran a command, read a fileDay 10 delivered — Web Components — Custom Elements, Shadow DOM, Templates, and Slots, ~5,600 words.
+Opens with the date-picker-across-frameworks story — the engineer who rebuilt the same date picker three times (Angular 1 → Angular 2 → React, 500/600/700 lines each) before converting to a 400-line Web Component that will survive every future migration. Sets up the thesis: "They are what you would build if you wanted the things you build this year to still work in 2040." Then covers:
+
+The four pillars — Custom Elements, Shadow DOM, Templates, ES Modules; and how they compose orthogonally
+The simplest possible custom element — <hello-world> in 5 lines, the three tag-name rules (must-have-hyphen, lowercase-start, not-reserved), and the defensive customElements.get() guard
+Full lifecycle — constructor, connectedCallback, disconnectedCallback, attributeChangedCallback, adoptedCallback; the observedAttributes opt-in; the canonical AbortController-per-connect pattern that unifies all cleanup
+Shadow DOM — open vs closed (always open), style-scoping rules, the pierce-through for inherited properties and custom properties, :host / :host(:hover) / :host([disabled]), :host-context() for ancestor-aware styling, ::part() for deep styling, ::slotted() for light-DOM children
+Templates and slots — <template> as inert markup, named vs default slots, default slot content, the slotchange event for re-indexing
+Declarative Shadow DOM — the shadowrootmode="open" attribute, the upgrade path (check this.shadowRoot in constructor), shadowrootdelegatesfocus, DOMParser/setHTMLUnsafe caveats for programmatic parsing, why this matters for static sites on GitHub Pages
+<confirm-dialog> — ~80-line component wrapping native <dialog> with promise-based API (await dialog.open() returns boolean); uses every major Shadow DOM feature, full keyboard a11y, slots for every content area, ::part() for theming
+<tabs-container> — full ARIA Authoring Practices Guide implementation: role="tablist" / role="tab" / role="tabpanel", aria-selected, aria-controls, aria-labelledby, keyboard (Arrow/Home/End), roving tabindex, slotchange-driven re-indexing, tab-change custom event
+<live-clock> — 25-line self-updating component demonstrating setInterval + disconnectedCallback cleanup, format="12h" attribute, tabular-nums, semantic <time datetime>
+Form-Associated Custom Elements — static formAssociated = true, attachInternals(), the full <rating-input> example with setFormValue, setValidity, formResetCallback, formDisabledCallback, proper validity/validationMessage/checkValidity/reportValidity delegation; usage in a real <form> with FormData capture
+Custom states — :state(on) pseudo-class via ElementInternals.states Set API, comparison with the [data-on] attribute pattern
+Components that use signals — a CounterElement that composes Day 9's signal() + effect() with Day 10's lifecycle, showing reactive rendering in 30 lines with no framework
+Honest trade-offs — 8 rough edges: no typed inter-component APIs, SSR tooling lag for DSD, TypeScript manual typing, React attribute-binding friction, global CSS isolation, event re-targeting surprises, Firefox ARIA gaps on ElementInternals, rendering helpers for rich lists
+When to use Web Components vs framework components — design systems, embeddable widgets, long-lived codebases vs single-codebase SPAs, deeply interlocking state, heavy TS generics; the pragmatic "Web Components at boundaries, frameworks inside" hybrid
+
+Verified before writing: Custom Elements & Shadow DOM Baseline since 2020; Declarative Shadow DOM Baseline Newly Available Aug 2024, Widely expected Aug 2026 (Chrome 111+/Safari 16.4+/Firefox 123+); Form-Associated Custom Elements supported in all three with Firefox having partial ARIA (correctly caveated); :state() Baseline Newly Available 2024; attachInternals() supported in all current engines per the spec.
+Ping me "Day 11" for Client-Side Routing with the Navigation API and View Transitions — ~100-line SPA router, MPA alternative, shared-element View Transitions put into practice.
+
+100
+31
