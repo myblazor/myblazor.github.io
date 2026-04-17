@@ -46883,3 +46883,39 @@ Ping me "Day 14" for **Accessibility, Performance, and Security** — WCAG 2.2 A
 
 54
 39
+
+Quick verification on Trusted Types and the latest WCAG version status — both move.Excellent — Trusted Types just landed in Firefox 148 (February 2026) and Safari 26.1 (very recent), making it Baseline Newly Available February 2026. This is a great recent-news angle. Now writing Day 14.Day 14 delivered — **Accessibility, Performance, and Security**, ~5,100 words.
+
+Opens with the **healthcare patient portal audit story** — team spent a year on "the accessibility work" with a Lighthouse score of 92, audit found 1,847 issues, called the site "essentially unusable for blind users," remediation took six months. The diagnostic catalogue of what was actually wrong (keyboard traps, missing focus indicators, headings used for visual size, modals stealing focus, `<div onclick>` buttons, carousels ignoring `prefers-reduced-motion`) sets up the thesis: **the platform handles most of it correctly if you let it.** Every issue would have been impossible if the team had used semantic HTML from the start. Then covers:
+
+- **WCAG 2.2 AA** — the four POUR principles, the "use the right element" table mapping bad-vs-good (every native element brings keyboard handling, focus management, screen reader announcement, voice/switch-control support for free); reference to Patrick H. Lauke's catalogue of failed custom widgets
+- **Headings as document structure** — exactly one `<h1>`, no skipping levels, headings are not for visual styling; DevTools "Show document outline"
+- **Focus management** — three rules (every interactive element must be focusable; focus must be visible; after action focus must be sensible); the `:focus-visible` modern selector that only matches keyboard focus; what to do after route changes (move focus to `<h1>`)
+- **Skip links** — complete CSS pattern with the slide-into-view-on-focus
+- **Accessible names** — `aria-label`, `aria-labelledby`, the multiple-"Read more"-links bug, the canonical `.sr-only` class
+- **Live regions** — `aria-live="polite"` vs `aria-live="assertive"` (the latter reserved for genuine emergencies); references to Day 11 and Day 12 patterns
+- **Reduced motion** — universal CSS override; vestibular disorder context for WCAG 2.3.3
+- **Colour contrast** — 4.5:1 / 3:1 thresholds; tools (DevTools picker, WebAIM, Lighthouse); `contrast-color()` reference back to Day 6
+- **The honest testing reality** — "automated tools detect about 30% of WCAG issues"; the five-step minimum-viable a11y test loop (keyboard tab, screen reader on key flow, 200% zoom, dark mode, automated audit)
+- **Core Web Vitals** — LCP / INP / CLS with their 2.5s / 200ms / 0.1 thresholds; INP replaced FID in March 2024
+- **LCP optimisations** — server response time, inline critical CSS, `<link rel="preload" fetchpriority="high">`, `<picture>` with AVIF/WebP/JPEG fallback (with the always-include-`width`-and-`height` reminder), responsive `srcset` + `sizes`, self-hosting fonts
+- **INP optimisations** — break long tasks (50ms threshold), `requestIdleCallback`, Web Workers, `content-visibility: auto` with `contain-intrinsic-size` for offscreen content (Baseline since 2024), defer non-essential JavaScript
+- **CLS causes** — images without dimensions, web fonts swapping with metric mismatch (`size-adjust` / `ascent-override` solutions), ads/embeds without reserved space, content insertion above existing content, forms growing on validation
+- **Field measurement** — the `web-vitals` library from esm.sh + `navigator.sendBeacon` pattern; CrUX as the free hosted option
+- **The 15-item performance checklist** — compression, caching, preconnect, preload LCP, modulepreload, deferred CSS, lazy images, modern formats, variable fonts, content-visibility, code-split routes, no-blocking third-party scripts, minify if bundling, HTTP/2 or 3, real-user monitoring
+- **Security** — XSS and CSRF as the two main attack patterns
+- **CSP** — complete starter policy with line-by-line annotation; the GitHub Pages constraint (`<meta http-equiv>` instead of headers, with the cannot-set-`frame-ancestors`/`report-uri`/`sandbox` caveat); the case for never allowing `'unsafe-inline'` in `script-src`; nonce vs hash for the inline theme bootstrap script; static-site can't generate nonces so use SHA-256 hash
+- **Trusted Types** — **the major news angle**: just became Baseline Newly Available in **February 2026** when Firefox 148 shipped support and Safari 26.1 followed; the `require-trusted-types-for` + `trusted-types` directives; the default-policy pattern with Sanitizer API integration; "for new projects in 2026, Trusted Types is the right way to harden against DOM-based XSS"
+- **Subresource Integrity** — both regular `<script integrity="...">` and the import-maps integrity field
+- **Other security headers** — six headers explained line by line (`X-Content-Type-Options`, `Strict-Transport-Security`, `Referrer-Policy`, `Permissions-Policy` with the `interest-cohort=()` opt-out, `Cross-Origin-Opener-Policy`, `Cross-Origin-Embedder-Policy`); the GitHub Pages limitation, with Cloudflare/Netlify/`_headers` as full-control alternatives
+- **CSRF** — `SameSite=Lax` default since 2020 covers most of it
+- **Lighthouse expectations for our magazine** — the predicted 95-100 / 95-100 / 95-100 / 100 / 100 scores, with the rationale: "not because we are clever. It is because we used the platform from the start. Each chapter of this series ... was solving a small piece of the audit before the audit was even considered."
+- **Honest caveats** — automated audits ≠ accessibility, real-user perf is what matters, security is moving target, the platform is not perfect, browser bugs exist
+
+Verified before writing: WCAG 2.2 published Oct 2023; Trusted Types Baseline Newly Available February 2026 with Firefox 148 + Safari 26.1 (the recent news angle); CSP, SRI, CWV (LCP/INP/CLS) all current; INP replaced FID March 2024; `content-visibility` Baseline since 2024.
+
+Ping me "Day 15" for the **capstone — A Complete Application End to End**, the closing post that ties all 14 prior days together with the working blog reader, full file structure walkthrough, deployment pipeline, audit results, and the closing reflection.
+
+66
+40
+
