@@ -46856,3 +46856,30 @@ Ping me "Day 13" for **Storage, Service Workers, and Offline** — `localStorage
 
 40
 37
+
+Quick verification on a couple of details — Background Sync status, and the latest on PWA installability prompts.Important reality check: Background Sync is **Chromium-only** in 2026 — Firefox and Safari do not support it. Periodic Background Sync is also Chromium-only. I need to caveat both honestly. Service Workers, Cache API, IndexedDB, and PWA installation are all broadly supported. Now writing Day 13.Day 13 delivered — **Storage, Service Workers, and Offline**, ~5,700 words.
+
+Opens with the **Garib Rath express from Hyderabad to Bengaluru** story — eleven-hour overnight train through farmland, intermittent 4G in bursts, a popular collaborative-editing platform that loaded our colleague's article successfully and then immediately replaced it with a "Connecting…" spinner that ran for the full eleven hours, even though the article was already in the JavaScript heap. Sets up the thesis: "any application that assumes 'I have the internet' or 'I do not have the internet' as a stable binary is going to feel broken for hours" — and the platform has shipped the primitives to do better since 2015. Then covers:
+
+- **The seven storage mechanisms table** — `localStorage`, `sessionStorage`, Cookies, IndexedDB, Cache API, OPFS, `window.name` — with capacity, sync/async, persistence, and use-case for each; quotas and `navigator.storage.persist()` / `estimate()`
+- **`localStorage`/`sessionStorage`** — the API, when-to-use vs when-not-to (no auth tokens, no large data, no querying, no cross-tab live sync), the cross-tab `storage` event, the three common bugs (quota exceeded, private browsing, JSON.parse failures)
+- **Cookies** — when they're still right (auth tokens with `HttpOnly` + `Secure` + `SameSite`, server-side state needed without JS), the new Cookie Store API (Chrome-only as of 2026, with the `document.cookie` fallback)
+- **IndexedDB** — honest about its verbose raw API, recommends `idb` library or in-house wrapper, then provides a complete ~50-line wrapper (`openDB`/`tx`/`dbGet`/`dbSet`/`dbDelete`/`dbList`); when to use (caching API responses, large structured data, blobs, drafts, indexed queries) vs not
+- **Cache API** — `Request`/`Response` storage that pairs with service workers; why it exists separate from the HTTP cache (programmatic, namespaced, inspectable, multi-cache versioning)
+- **OPFS** — the real file system you didn't know you had; `navigator.storage.getDirectory()`, file handles, sync access from workers; honest 5%-of-apps caveat
+- **Service Workers — the big idea** — per-origin singleton, lifecycle independent of pages, worker context (no DOM), HTTPS-only, scope rules; module SW registration with `type: "module"`, scope `"/"`; the install/activate/fetch lifecycle; `event.waitUntil(promise)` to keep the SW alive; the `skipWaiting()` + `clients.claim()` pattern with the production-vs-dev consideration
+- **A complete production-shape service worker** — ~110 lines covering: precache app shell on install with versioned cache names, navigation preload enabled in activate, route-by-request-type fetch handler, four strategies (navigation-with-shell-fallback, cache-first, network-first, stale-while-revalidate), a complete `offline.html` fallback
+- **Caching-strategy decision framework** — the five strategies in a table with best-for cases; cache hygiene with `trimCache()` for size limits; the opaque-response trap (cross-origin without CORS = full-size in cache, can blow quota)
+- **Background Sync — honest about browser support** — full pattern (queue in IDB, register sync, send when online), then the **honest caveat that it is Chromium-only in 2026 with no announced Firefox/Safari plans**, and the cross-browser fallback using `visibilitychange` + `navigator.onLine` for the same UX in other browsers; "register both" as the pragmatic answer; same caveat applied to Periodic Background Sync
+- **The Web App Manifest** — complete annotated manifest with name/short_name/description/start_url/scope/display/colors/icons (192/512/maskable)/screenshots (wide+narrow form_factors)/shortcuts; field-by-field walkthrough; `display_override` for `window-controls-overlay`
+- **Triggering install** — the four installability criteria (manifest, SW with fetch, HTTPS, user interaction); `beforeinstallprompt` pattern with the Safari-uses-share-menu caveat; iOS PWA installation awkwardness called out
+- **Testing the whole thing** — Lighthouse PWA audit, Application panel, Network throttling for offline mode, "Update on reload" devtools setting, Playwright for CI
+- **Honest limits** — SW lifecycle subtlety, Background Sync gaps, iOS install awkwardness, unpredictable storage quotas, SW data-clearing, origin/scope restrictions, in-flight page updates breaking
+- **When to want a library** — Workbox (15-30KB) past ~300 SW lines or with multiple developers; `idb` (2KB) for any non-trivial IndexedDB use; honest about our own choice (handwritten SW + idb)
+
+Verified before writing: Service Workers, Cache API, IndexedDB, OPFS, Web App Manifest all broadly supported. Background Sync is Chromium-only — Firefox and Safari do not support it as of 2026 and have no announced plans (correctly caveated and the cross-browser fallback shown). Periodic Background Sync also Chromium-only (correctly caveated).
+
+Ping me "Day 14" for **Accessibility, Performance, and Security** — WCAG 2.2 AA, focus management, Core Web Vitals, CSP, Trusted Types, the Lighthouse audit.
+
+54
+39
