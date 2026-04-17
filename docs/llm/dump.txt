@@ -1,6 +1,6 @@
 ===============================================================================
 PROJECT EXPORT: observermagazine.github.io
-DATE: 2026-04-16 21:49:53 UTC
+DATE: 2026-04-17 00:40:20 UTC
 ===============================================================================
 
 ===============================================================================
@@ -85,6 +85,12 @@ DIRECTORY TREE (all git-tracked files)
 │       ├── 2026-05-21-react.md
 │       ├── 2026-05-22-react.md
 │       ├── 2026-05-23-react.md
+│       ├── 2026-05-24-no-build-web-overview.md
+│       ├── 2026-05-25-semantics.md
+│       ├── 2026-05-26-cascade.md
+│       ├── 2026-05-27-css.md
+│       ├── 2026-05-28-responsive.md
+│       ├── 2026-05-29-typography.md
 │       ├── 2027-01-01-happy-new-year-2027.md
 │       └── 2099-01-01-draft-template.md
 ├── Directory.Build.props
@@ -195,7 +201,7 @@ DIRECTORY TREE (all git-tracked files)
     │   └── RssGenerator.cs
     └── requirements-audio.txt
 
-29 directories, 158 files
+29 directories, 164 files
 
 
 -------------------------------------------------------------------------------
@@ -1731,6 +1737,151 @@ tags:
   - deep-dive
   - series
   - conclusion
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-05-24-no-build-web-overview.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Without a Net, Part 1: Overview — Why a Plain Browser Is Enough in 2026"
+date: 2026-05-24
+author: myblazor-team
+summary: "We just spent seven articles dissecting React. Now the honest next question — do you actually need any of that? This is the opening post of a fifteen-part series on building real, responsive, accessible, offline-capable web applications in 2026 using only what evergreen browsers ship: plain HTML, plain CSS, plain JavaScript. No npm. No Node. No bundler. No framework. We frame the series, define what 'evergreen' means in 2026, tour the capabilities browsers now expose natively, and set expectations for the fourteen posts that follow."
+featured: true
+tags:
+  - javascript
+  - css
+  - html
+  - web-standards
+  - no-build
+  - vanilla
+  - first-principles
+  - series
+  - deep-dive
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-05-25-semantics.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Without a Net, Part 2: Semantic HTML and the Document Outline Nobody Taught You"
+date: 2026-05-25
+author: myblazor-team
+summary: "HTML is not markup for making things look right — it is a typed language for expressing document structure. Day 2 of our fifteen-part no-build web series covers the document outline, landmark elements, every input type, the dialog and details elements that replace JavaScript modal and accordion libraries, the popover attribute, the inert attribute, and exactly when (and when not) to reach for ARIA. If you have ever written a 'div with a role of button' instead of a button, this article is for you."
+tags:
+  - html
+  - semantic-html
+  - accessibility
+  - aria
+  - forms
+  - dialog
+  - popover
+  - web-standards
+  - no-build
+  - first-principles
+  - series
+  - deep-dive
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-05-26-cascade.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Without a Net, Part 3: The Cascade, Specificity, and @layer — Organising CSS Without a Framework"
+date: 2026-05-26
+author: myblazor-team
+summary: "Day 3 of our fifteen-part no-build web series tackles CSS as a language. We build a complete mental model of the cascade from first principles, demystify specificity without memorising '0,0,1,0' tables, and introduce custom properties, @layer, and @scope — the three features that made CSS-in-JS largely unnecessary. By the end, you will know how to organise a maintainable stylesheet for a real application without Tailwind, without Sass, without CSS Modules, and without BEM."
+tags:
+  - css
+  - cascade
+  - specificity
+  - layers
+  - scope
+  - custom-properties
+  - web-standards
+  - no-build
+  - first-principles
+  - series
+  - deep-dive
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-05-27-css.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Without a Net, Part 4: Modern CSS Layout — Flexbox, Grid, Subgrid, and Container Queries"
+date: 2026-05-27
+author: myblazor-team
+summary: "Day 4 of our fifteen-part no-build web series covers the CSS layout model of 2026 from first principles. We build a mental model of Flexbox and Grid, reimplement the entire Bootstrap twelve-column grid in nine lines of CSS, cover Subgrid in depth, introduce container queries as the replacement for most media queries, and finally discuss why 'masonry' is still waiting on the spec committee. Every layout pattern you reach for a framework to solve is a one-liner or a six-liner in modern CSS."
+tags:
+  - css
+  - layout
+  - flexbox
+  - grid
+  - subgrid
+  - container-queries
+  - responsive-design
+  - web-standards
+  - no-build
+  - first-principles
+  - series
+  - deep-dive
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-05-28-responsive.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Without a Net, Part 5: Responsive Design in 2026 — Container Queries, clamp(), Fluid Type, and :has()"
+date: 2026-05-28
+author: myblazor-team
+summary: "Day 5 of our fifteen-part no-build web series takes a hard look at responsive design as a discipline. We build a mental model for intrinsic design, replace most media queries with container queries and fluid values, reach into clamp() and the typography scale, rebuild a responsive navbar without a single breakpoint, use :has() to react to DOM state without JavaScript, and discuss the accessibility settings — reduced motion, reduced transparency, data saver — that turn a responsive site into a genuinely adaptable one. If you still think 'responsive' means 'mobile breakpoint at 768px,' this article is for you."
+tags:
+  - css
+  - responsive-design
+  - container-queries
+  - clamp
+  - fluid-typography
+  - has-selector
+  - accessibility
+  - media-queries
+  - web-standards
+  - no-build
+  - first-principles
+  - series
+  - deep-dive
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-05-29-typography.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Without a Net, Part 6: Colour, Typography, and Motion — oklch, light-dark(), Variable Fonts, and View Transitions"
+date: 2026-05-29
+author: myblazor-team
+summary: "Day 6 of our fifteen-part no-build web series covers the design half of modern CSS — perceptually uniform colour with oklch(), automatic theme switching with light-dark(), variable fonts that ship one file to cover every weight, typographic refinements you did not know existed, and the View Transitions API that animates page changes with a single function call. You will leave this article with a complete design system, in plain CSS, that beats every 'utility framework' on file size and flexibility."
+tags:
+  - css
+  - color
+  - oklch
+  - light-dark
+  - typography
+  - variable-fonts
+  - view-transitions
+  - motion
+  - animation
+  - accessibility
+  - web-standards
+  - no-build
+  - first-principles
+  - series
+  - deep-dive
 ---
 
 
@@ -11690,8 +11841,8 @@ num2words>=0.5.14
 
 ===============================================================================
 EXPORT COMPLETED
-Total Files Exported: 152
-  Blog posts (front matter only): 73
+Total Files Exported: 158
+  Blog posts (front matter only): 79
   Full content files: 77
   Binary files skipped: 2
 Output File: docs/llm/dump.txt
