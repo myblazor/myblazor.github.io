@@ -47475,3 +47475,50 @@ The budget check: 3,840 sq ft at NPR 4,200/sq ft = NPR 1.61 crore — still on t
 36
 49
 
+I have now fully read the dump. Let me now verify a few key technical facts for Part 3 — Kathmandu Valley soil conditions, TMT rebar grades, and underground water tank sizing — before writing.Great — Kathmandu Valley SBC ranges roughly 49-307 kPa, with most areas being silty clay of soft-to-medium consistency. Raft foundation often recommended. Now verify TMT rebar grades and underground water tank sizing.Good — key facts confirmed:
+- Fe500: 500 MPa yield, 12% min elongation, 0.30% max carbon
+- Fe500D: 500 MPa yield, 16% min elongation, 0.25% max carbon, lower sulphur/phosphorus
+- Fe500D is the right grade for seismic zones
+- Nepali brands: Rhino 500D (Jagdamba), Jagdamba E, Shree Steels, Panchakanya, Hama Steel, etc.
+- NPR ~120-135/kg for Fe500/500D
+
+One quick check on water tank sizing:I have the key numbers: family of 5 consumes 675-750 liters/day; underground tank of 6,000-8,000 liters for 10 days of storage is a good target. Plastic tanks from Hilltake/Nepatop/Kishan common. Let me check one more — NBC detailing specifics for stirrup spacing and lap length.I have enough detailed technical facts. Now I'll write Part 3 — a deep dive into foundation and structure. Plan the layout:
+
+1. Opening — recap and today's focus
+2. What a foundation is, in plain English
+3. The soil test — what it is, procedure, cost, reading the report
+4. Kathmandu Valley soils specifically (49-307 kPa SBC, silty clay, some liquefaction zones)
+5. Choosing the foundation type (isolated footing vs mat/raft)
+6. The underground water tank — how it integrates with the foundation
+7. Columns and beams — the RCC frame system
+8. Rebar quality — Fe500 vs Fe500D explained
+9. Concrete mix — cement types, grades M20/M25, the water-cement ratio
+10. Ductile detailing — stirrups, hooks, lap lengths, joint details in plain English
+11. Construction supervision — what to watch for on site
+12. The seismic gap with neighbours
+13. Common mistakes and how to prevent them
+14. Part 4 preview
+15. Resources
+
+Now writing Part 3.8,103 words — solid. Front matter is clean. Let me move to outputs and present.**Part 3 — Foundation and Structure (8,103 words)**
+
+Part 3 is the densest technical article in the series, covering everything underground and everything that disappears under the plaster:
+
+- **Soil bearing capacity from first principles** — what the number actually means, the real range for Kathmandu Valley (49-307 kPa, most sites 60-150 kPa silty clay), why every plot needs its own test
+- **The soil test procedure explained** — borehole, SPT N-values, lab work, the three numbers on the report to glance at, NPR 15,000-80,000 cost range
+- **Three foundation types compared** — isolated footings (NPR 8-12 lakh), raft foundation (NPR 12-18 lakh, often needed on Valley silty clay), pile foundation (NPR 20-30 lakh, rarely required) — with realistic cost ranges
+- **The underground water tank** — sized for family + tea shop at 7,500-10,000 liters (9-12 days buffer), three siting options, waterstop and waterproofing detail, why it must be integrated into the foundation pour
+- **The RCC moment-resisting frame** with concrete NBC 201 dimensions — 230×230mm columns, 230×350mm beams, 125mm slabs — and why the beam-column joint is where most earthquake collapses start
+- **Fe500 vs Fe500D rebar** — 12% vs 16% minimum elongation, less than 0.1% cost premium, Nepali brand landscape (Rhino 500D, Jagdamba E, Shree Steels, Panchakanya, Hama), the five on-delivery checks
+- **Concrete explained** — M20/M25/M30 grades, OPC for structural and PPC only for non-structural, water-cement ratio (0.45 for M25), slump tests and 28-day cube tests, why curing is the step everyone cheats on
+- **Twelve ductile-detailing rules** in plain English (135° hooks, stirrup spacing, lap length = 56× bar diameter, not more than 50% spliced at one section, etc.) — things the owner can verify on site without being an engineer
+- **Ten practical on-site checks** the owner should do weekly during structural work
+- **Six common failure modes** from post-2015 Kathmandu forensics (short-column effect, soft-storey effect, strong-beam-weak-column, short laps, missing joint stirrups, watery concrete)
+
+Budget check: foundation + frame + masonry together is 53% of the NPR 1.6 crore target (NPR 84.8 lakh), and the total upgrade cost from "adequate" to "excellent" box is under 1% of the project — maybe NPR 2 lakh for Fe500D upgrade, proper cubes, proper cement, proper curing. The highest-return invisible investment in the whole house.
+
+**To get Day 4:** reply "Day 4" or "Part 4" — tomorrow we come up out of the ground. Walls (AAC blocks vs solid brick and why Kathmandu is quietly shifting toward AAC), roof insulation, windows, weather stripping, and the air-tightness details that decide whether the house feels stuffy in summer or pleasant year-round.
+
+52
+51
+
