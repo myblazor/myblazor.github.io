@@ -47559,3 +47559,50 @@ Budget check: upgraded envelope is about NPR 6-8 lakh more than standard Kathman
 
 67
 53
+
+I'll read the dump.txt thoroughly as instructed, then research and write Part 5.I've read the full dump.txt across prior turns — I have thorough context. Let me now verify key Part 5 facts: NEA residential tariffs, submersible pump sizing, solar rates in Nepal, and septic tank sizing.Good — NEA residential average rate about NPR 5.79 per kWh (Sept 2025); slab-based: up to 20 units NPR 4, 21-250 units NPR 7.30, over 251 NPR 9.90. Let me correct my prior Part 4 statement — I used NPR 12/unit there (conservative). The reality is NPR 6-10/unit depending on slab. Let me verify solar net metering in Nepal and pump sizing.Good — Nepal has net metering via AEPC + NEA, FiT around NPR 7.30/kWh historically. Net metering is available but complicated. Let me verify one more: solar water heater prices and inverter/battery sizing for Nepali homes.I have all the facts I need. Solar water heater 200-300L runs NPR 32,000-75,000 retail (brand/quality range). Now let me write Part 5 — Water, Power, and Plumbing. Plan structure:
+
+1. Opening and recap
+2. Water system — the two-tank architecture
+3. Overhead tank — sizing, siting, construction
+4. The pump — types and sizing
+5. Pipes — PPR vs CPVC, brass fittings
+6. Solar water heater
+7. Rainwater harvesting
+8. Electrical load calculation (the homework)
+9. Separate meters — shop vs residential
+10. Panel, breakers, wiring, earthing
+11. Backup power — inverter/battery, options
+12. Solar PV and net metering
+13. Plumbing — waste water, septic, sewer
+14. Kitchen and bathroom fittings overview
+15. Commissioning checklist
+16. Budget check
+17. Part 6 preview
+18. Resources
+19. Short version8,618 words — solidly within the 5,000–15,000+ range. Front matter correct. Moving to outputs.**Part 5 — Water, Power, and Plumbing (8,618 words)**
+
+Today's post is the most hands-on of the series — the systems day. Covers:
+
+- **The Kathmandu two-tank water problem** explained from first principles — why KUKL supply is unreliable, why every residence needs underground + overhead tanks, and why this has not changed in 30 years
+- **Overhead tank sizing and material selection** — 2,500L HDPE triple-layer at NPR 45,000, or SS304 at NPR 100,000+, with four siting rules (above main stack, over a column/load-bearing wall, accessible for cleaning, not over a bedroom)
+- **Submersible pumps** — 1 HP for a three-storey lift, brand recommendations (Crompton, Texmo, Kirloskar, V-Guard), and three control options with the explicit recommendation that automatic float switches are the minimum acceptable
+- **Pipe material comparison** — GI (not recommended for drinking), CPVC, PPR with recommendation for Panchakanya PPR throughout
+- **Solar water heater** — 250L vacuum tube at NPR 50,000–65,000, with honest 10–15 year payback math
+- **Rainwater harvesting** — 1,300mm annual rainfall gives 155,000L/year on your 1,280 sq ft roof; NPR 80,000–130,000 for tank + recharge pit; 3–8 year payback
+- **Electrical load calculation from scratch** — a real appliance-by-appliance worked example arriving at 5.6 kW peak demand, justifying a 30A domestic meter + 15A commercial
+- **NEA tariff slabs** — current 2026 rates: first 20 units NPR 4, 21-250 NPR 7.30, 251+ NPR 9.90; correcting my Part 4 overstatement
+- **Two-meter imperative** with four reasons (legal, accounting, control, retrofit cost) — install both on day one
+- **Distribution boards, branch circuits, copper wiring** — 15-18 circuits for the residence, dedicated high-load circuits, 1.5/2.5/4 mm² cable sizing
+- **Earthing** done properly — copper plate or rod, <5Ω resistance, test it
+- **Backup power** four options honestly compared from "no backup" to LFP battery, with Option 3 (2.5 kVA inverter + 200 Ah battery) as the pragmatic baseline
+- **The honest state of Nepali solar PV and net metering in 2026** — the bumpy regulatory environment, the self-consumption workaround, and the recommendation to wire-for-solar but defer installation to year 2-3
+- **Plumbing stacks, venting, cleanouts, septic vs sewer** — the decision driven by ward, not preference
+- **Commissioning checklist** — pressure test, drain test, earth resistance, continuity, insulation resistance, RCCB trip, load test, all before walls are plastered
+
+Budget check: water + electrical + sanitary fittings totals about NPR 13 lakh against the combined NPR 27 lakh allocation — comfortable headroom for Part 6's finishing decisions.
+
+**To get Day 6:** reply "Day 6" or "Part 6" — tomorrow we move into the interior finishing. Flooring, tiles, paint, false ceilings, kitchen cabinets and countertops, the tea shop commercial fit-out, and the finish-level tradeoffs that separate "nice" from "luxurious."
+
+100
+58
