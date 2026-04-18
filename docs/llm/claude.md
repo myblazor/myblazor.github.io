@@ -47455,3 +47455,23 @@ Versions, dates, and code references (NBC 105:2025, cost-per-sq-ft tiers, 2015 b
 20
 46
 
+I'll read dump.txt fully as instructed, then write Part 2.I've now read through the dump file comprehensively. Good — I have the full picture of the project. The content processor parses `FrontMatter` which includes `Series`, `Tags`, `Featured`, etc. Consistent with my Part 1 approach. Now let me verify a couple of facts specific to Part 2 (architect fee guidance and cross-ventilation design principles for Kathmandu) to ground the article properly.Good — architect fee 3-6% of construction cost, soil test NPR 15,000-30,000 basic (my Part 1 figure of 25k-80k is slightly conservative but fine). Now let me verify one more key item — Kathmandu sun/wind patterns for design guidance — then I'll write Part 2.Excellent. Kathmandu Valley: 6+ hours of sunshine Oct–May, good for passive solar heating. Long axis should ideally be east-west. Now I have everything to write a strong Part 2. Let me write it now — focused on design, floor plans, sun path, architect interview, cross-ventilation, and making 6 aana feel like 8.7,807 words — well within target. Front matter clean, consistent with Part 1 and site conventions. Moving to outputs.**Part 2 — Designing the House (7,807 words)**
+
+Part 2 translates yesterday's pre-work into an actual design. It opens with the three-days-at-three-hours plot walk (free, highest-leverage), then covers:
+
+- **The Kathmandu sun path** with real numbers for 27.7° N latitude — sun angles at summer solstice (85.5°), equinox (62°), and winter solstice (39°) — and what each means for window placement
+- **Cross-ventilation** explained from physics up: why still 28°C feels hotter than moving 30°C, the four rules for designing for it, why stack ventilation through the staircase is essentially free cooling
+- **The four plot-orientation scenarios** (road-on-south, road-on-north, north-south plot, corner plot) with the trade-offs of each
+- **Floor-by-floor stacking** for the tea shop + 2 BR + 2.5 bath programme on 1,280 sq ft of setback-limited footprint, with room areas that add up to budget
+- **Staircase design** with code minimums (250mm tread, 190mm max riser, 900mm width), three layouts, and why U-shape in the NW corner is usually right
+- **Six tricks to make 6 aana feel like 8** — ceiling volume, sight lines, two-sided lighting, pale colours, built-in storage, roof terrace as outdoor room
+- **How to find an architect**, **three fee structures** (percentage 3-6%, flat, stage-based), and the **five interview questions** to ask three different candidates before hiring
+- **What the first four-to-six weeks of architect work should produce** — site analysis, two-three concepts, preliminary cost estimate
+
+The budget check: 3,840 sq ft at NPR 4,200/sq ft = NPR 1.61 crore — still on the NPR 1.6 crore target, still under the NPR 2 crore ceiling, with the 400 sq ft terrace room as the first phase-2 candidate if things tighten.
+
+**To get Day 3:** just reply "Day 3" or "Part 3" — tomorrow we go underground. Soil test, foundation, rebar grade, seismic detailing, and how the underground water tank has to be designed *into* the foundation rather than added later.
+
+36
+49
+
