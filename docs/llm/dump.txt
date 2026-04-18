@@ -1,6 +1,6 @@
 ===============================================================================
 PROJECT EXPORT: observermagazine.github.io
-DATE: 2026-04-18 01:17:27 UTC
+DATE: 2026-04-18 07:40:09 UTC
 ===============================================================================
 
 ===============================================================================
@@ -105,6 +105,8 @@ DIRECTORY TREE (all git-tracked files)
 │       ├── 2026-06-10-house.md
 │       ├── 2026-06-11-house.md
 │       ├── 2026-06-12-house.md
+│       ├── 2026-06-13-house.md
+│       ├── 2026-06-14-house.md
 │       ├── 2027-01-01-happy-new-year-2027.md
 │       └── 2099-01-01-draft-template.md
 ├── Directory.Build.props
@@ -215,7 +217,7 @@ DIRECTORY TREE (all git-tracked files)
     │   └── RssGenerator.cs
     └── requirements-audio.txt
 
-29 directories, 178 files
+29 directories, 180 files
 
 
 -------------------------------------------------------------------------------
@@ -2237,6 +2239,61 @@ tags:
   - first-principles
   - series
   - deep-dive
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-06-13-house.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Building a House in Kathmandu, Part 6: Finishing the Interior"
+date: 2026-06-13
+author: myblazor-team
+summary: "Day six of the seven-part series on building a modest family home in the Bhaktapur side of the Kathmandu Valley. Today we walk through everything you can actually see in a finished house — the flooring, the wall paint, the false ceilings, the internal doors, the kitchen cabinets and countertops, the bathroom tiles and fittings, the wardrobes, the lighting, and the rolling shutter for the tea shop. We work through the three honest finish tiers (basic, mid-range, premium) with real 2026 Nepali prices, walk through a room-by-room specification that hits NPR 1.6 crore of total build cost, explain which finishes age gracefully and which announce their vintage five years in, and give the tea shop the commercial fit-out it needs without gold-plating it. This is the part of the budget where first-time builders most commonly overspend, where the contractors most commonly try to cut corners, and where the difference between nice and luxurious is mostly invisible to anyone but the owner. No programming, no code — just the patient craft of turning a shell into a home."
+tags:
+  - housing
+  - nepal
+  - kathmandu
+  - bhaktapur
+  - construction
+  - interior
+  - flooring
+  - tiles
+  - paint
+  - kitchen
+  - bathroom
+  - modular-kitchen
+  - first-principles
+  - series
+  - deep-dive
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-06-14-house.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Building a House in Kathmandu, Part 7: Moving In and Living With It"
+date: 2026-06-14
+author: myblazor-team
+summary: "Day seven — the final day of the seven-part series on building a modest family home in the Bhaktapur side of the Kathmandu Valley. Today we close the series. We walk through the handover-day commissioning checklist that catches the last defects before you take possession of the house, right-size the air conditioning and heating based on the envelope we built rather than on rules of thumb that assume a leaky house, set up the twenty-year maintenance schedule that keeps the house healthy, think honestly about the tea shop as an income hedge and what its first year of operation actually looks like, cover the property tax, rental tax, and insurance decisions that most first-time builders only learn about by accident, and reconcile the final budget against the NPR 2 crore hard ceiling that has governed the entire project. We end with a twenty-year altitude view of the whole build, a frank admission of what the series could not cover, and the quiet thought that the house is no longer a project but a home. No programming, no code — just the patient arithmetic of living in what you have built."
+tags:
+  - housing
+  - nepal
+  - kathmandu
+  - bhaktapur
+  - construction
+  - commissioning
+  - hvac
+  - maintenance
+  - property-tax
+  - insurance
+  - tea-shop
+  - budget
+  - first-principles
+  - series
+  - deep-dive
+  - finale
 ---
 
 
@@ -12196,8 +12253,8 @@ num2words>=0.5.14
 
 ===============================================================================
 EXPORT COMPLETED
-Total Files Exported: 172
-  Blog posts (front matter only): 93
+Total Files Exported: 174
+  Blog posts (front matter only): 95
   Full content files: 77
   Binary files skipped: 2
 Output File: docs/llm/dump.txt
