@@ -47606,3 +47606,50 @@ Budget check: water + electrical + sanitary fittings totals about NPR 13 lakh ag
 
 100
 58
+
+00
+58
+
+I'll read the dump.txt thoroughly as instructed, verify key facts for Part 6, then write it.I've re-confirmed dump.txt and I have comprehensive context from reading it across prior turns. Now let me verify key Part 6 facts — tile prices, paint, kitchen cabinets/countertops, and rolling shutter costs in Nepal 2026.Good — tile prices confirmed. Let me quickly verify kitchen/countertop, paint brands, and rolling shutter pricing.Excellent — I have the key pricing. Let me verify one more — rolling shutter cost.Rolling shutter ~NPR 180-300 per sq ft + motor NPR 47,000-58,000 for motorized option. Let me verify paint brands in Nepal.I have all the key pricing. Now I'll write Part 6 — Interior Finishing. Plan:
+
+1. Opening + recap
+2. The finish-level mental model (three tiers)
+3. Flooring (types, prices, room-by-room strategy)
+4. Wall paint (brands, types, the application process)
+5. False ceilings (POP vs gypsum, where they belong)
+6. Internal doors (types, hardware)
+7. Kitchen in detail (cabinets, countertops, appliance layout)
+8. Bathrooms in detail (tiles, fittings, waterproofing completion)
+9. The tea shop fit-out
+10. Wardrobes and built-in storage
+11. Lighting and fixtures
+12. Paint and plaster sequence (what happens when)
+13. Finish-level tradeoffs — where to upgrade, where to save
+14. What to never skip
+15. Budget reconciliation
+16. Part 7 preview
+17. Resources
+18. Short version8,542 words — solid. Let me move to outputs and present.**Part 6 — Finishing the Interior (8,542 words)**
+
+Today's article is the longest-running stage of the build — the "all the things you actually see" day. It opens by setting up the three-tier mental model (basic / mid-range / premium) and the core planning rule: mid-range across the house with one or two selective premium upgrades. Then it works room-by-room with real 2026 Nepali prices:
+
+- **Flooring** — ceramic (NPR 35–50/sq ft) vs vitrified (NPR 140–260, Kajaria reference pricing), wood-look planks, and Indian vs Italian marble. Full room-by-room table totaling NPR 5.7 lakh for the house
+- **Wall paint** — the four categories (distemper, basic/mid/premium emulsion, NPR 250–900/L), a side-by-side of Asian Paints, Berger, Nerolac, Dulux, Nippon; the critical five-step painting sequence (28-day cure → putty → primer → 2 coats) and the three most common shortcuts (skipping putty, premature painting, water extension)
+- **False ceilings** — gypsum vs POP, and the honest list of where they do and do not belong (yes: living room, master bedroom; no: bathrooms, staircase, second bedroom)
+- **Internal doors** — hollow-core vs solid-core vs panel, with Hettich/Hafele hardware premium being worth it
+- **The kitchen in detail** — the BWP plywood rule (non-negotiable), laminate vs acrylic vs PU finish tradeoffs, granite vs quartz vs marble countertop, full NPR 5.4 lakh mid-range spec for an L-shape kitchen
+- **Bathrooms** — waterproofing membrane (non-negotiable), anti-skid floor tile, glazed wall tile, sanitary ware from Jaquar/Cera/Hindware, with the master-only glass shower enclosure upgrade. Three bathrooms complete at NPR 2.3 lakh
+- **Wardrobes and built-in storage** — NPR 90,000–130,000 per bedroom for a proper BWP carcass wardrobe
+- **The tea shop fit-out in detail** — manual rolling shutter (NPR 30,000) vs motorised (NPR 80,000–150,000) tradeoff, anti-skid darker tile, glazed lower wall, separate sub-panel off the commercial meter, counter+shelving — NPR 2.4 lakh total
+- **Lighting** — the three layers (ambient/task/accent), mid-range branded LEDs from Philips/Syska/Havells
+- **Finishing sequence** — 8-14 weeks in the correct order, where deviations cause damage
+- **Where to upgrade, where to save** — four specific upgrade candidates, four save candidates
+- **Seven things never to skip** — waterproofing, BWP plywood, exhaust fans, anti-skid tile, door sweeps, proper cabinet hardware, granite/anti-skid staircase treads
+
+Budget reconciliation: finishing stage is ~NPR 17.6 lakh, or 11% of the NPR 1.6 crore target. Cumulative across all six parts comes to NPR 160 lakh — exactly on the target with the NPR 40 lakh reserve still intact for tomorrow's commissioning, HVAC right-sizing, and move-in costs.
+
+**To get Day 7 (the finale):** reply "Day 7" or "Part 7" — tomorrow we close out the series with the commissioning walkthrough, HVAC right-sizing based on the envelope, maintenance schedule for the next 20 years, the tea shop as an income hedge, a final full-budget reconciliation against the NPR 2 crore ceiling, and a twenty-year-altitude view of the whole project.
+
+25
+61
+
