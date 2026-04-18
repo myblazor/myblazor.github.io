@@ -47386,3 +47386,72 @@ Existing House को लागि Practical Sequence
 नयाँ घर बनाउँदा envelope मा लगाएको पैसा AC/heating मा बचत गरेर 5–7 वर्षमा recover हुन्छ। Solid investment।
 
 Opus 4.7: 
+
+I'll read the full dump.txt and project files first, then plan the seven-part series carefully.Let me now read the middle portion to get a good sample of a recent blog post's structure (for consistency), and understand the series feature.I have enough context. Now let me look at a couple more key sections — a look at how long-form posts are structured (body style), and the series field usage.Series field exists but is optional and rarely used; tags often include `series` instead. Let me check how one of the long-form posts opens to match voice:I have a thorough understanding. Key observations:
+
+1. The site is now **observermagazine.github.io** (despite the user's note; the repo and config reflect this — see deploy.yml and the blog title in RSS)
+2. The user's note mentions "myblazor.github.io" — I'll trust what they've written in the prompt but the actual config points to observermagazine.github.io. The blog title is "My Blazor Magazine"
+3. Author is `myblazor-team`
+4. Series posts typically use the tag `series` and a recurring title prefix like "Without a Net, Part N:"
+5. `featured` is omitted when not featured
+6. Existing similar series like "Without a Net" are ~5k-15k words per part
+
+Now I'll plan the seven-part series on **Building a House in Kathmandu**. This is not a technical/programming article — the user explicitly says "no programming or code needed" and wants it "easy to read for everyone."
+
+**Series plan (start date 2026-06-08, one post per day):**
+
+- **Part 1 (2026-06-08):** Before you lay a brick — land, legal paperwork, setbacks, KMC bylaws, earthquake code, budgeting framework, the overall plan for 6 aana in Bhaktapur
+- **Part 2 (2026-06-09):** Design and architecture — floor plan for tea shop + 2 BR + 2.5 bath, site orientation, sun path, cross-ventilation, why hire a registered architect and structural engineer
+- **Part 3 (2026-06-10):** Foundation and structure — soil test, RCC frame, rebar quality, earthquake-resistant detailing, underground water tank
+- **Part 4 (2026-06-11):** The building envelope — walls (AAC vs solid brick), roof insulation, windows/doors, weather stripping, why this is the single most important decision for comfort and running costs
+- **Part 5 (2026-06-12):** Water, power, and plumbing — overhead tank, submersible pump, separate shop meter, electrical load calculation, solar options, backup
+- **Part 6 (2026-06-13):** Interior finishing — bathrooms, kitchen, flooring, tiles, paint, doors, shutter for tea shop, cost-benefit of each finish level
+- **Part 7 (2026-06-14):** Commissioning, moving in, and living with the house — HVAC right-sizing (Daikin vs Himstar), maintenance schedule, the tea shop as income hedge, long-term thinking, a final full cost breakdown staying under NPR 2 crore
+
+I'll now verify a couple of key facts with web search (KMC bylaws, current construction prices, aana conversion).Confirmed: **1 aana = 342.25 sq ft = 31.80 sq m**. So 6 aana = ~2,054 sq ft / ~190.8 sq m. Note the user wrote "6 aana" — earlier Claude analysis assumed 4 aana. With 6 aana, things are more comfortable.
+
+Let me verify KMC/Bhaktapur building bylaws and current construction cost per sq ft.Good. I have the basics: post-2015 Nepal bylaws require setbacks (non-public 2m, taller 5m), RCC engineer-certified design mandatory for 3+ floors, houses must be at least 1.5m apart. Let me check current house construction cost per sq ft in Kathmandu.Excellent. Cost per sq ft in Kathmandu Valley 2025-2026: basic ~NPR 3,000-3,500, mid-range NPR 4,000-5,500, premium NPR 6,000+. With 6 aana (~2,054 sq ft land) and a 3-story build (minus setbacks, say ~1,200 sq ft footprint × 3 floors = 3,600 sq ft built-up), at mid-range NPR 4,500/sq ft = ~1.62 crore. Fits under 2 crore ceiling.
+
+Now let me verify Nepal National Building Code (NBC) and current earthquake-resistant standards.I have enough. **NBC 105:2025 is the latest seismic code** (Second Revision, released Nov 2025). Now, the user's prompt says to deliver post one first, then they'll ask for Day 2, etc. This makes sense — each post is 5,000-15,000+ words.
+
+Let me now plan out the whole series clearly, then write **Part 1** as the first deliverable.
+
+## Series Plan: "Building a House in Kathmandu" — 7 parts
+
+| Day | Date | Part | Title | Focus |
+|-----|------|------|-------|-------|
+| 1 | 2026-06-08 | 1 | Before the First Brick | Land, paperwork, KMC/Bhaktapur bylaws, setbacks, naksa pass, the total plan, budget framework (NPR 2 crore ceiling) |
+| 2 | 2026-06-09 | 2 | Designing the House | Architect + engineer, floor plan for tea shop + 2 BR + 2.5 bath on 6 aana, sun path, cross-ventilation, vertical stacking logic |
+| 3 | 2026-06-10 | 3 | Foundation and Structure | Soil test, RCC frame, rebar, earthquake-resistant detailing per NBC 105:2025, underground water tank |
+| 4 | 2026-06-11 | 4 | The Building Envelope | Walls (AAC vs solid brick), roof insulation, windows/doors, weather stripping — comfort & running cost |
+| 5 | 2026-06-12 | 5 | Water, Power, and Plumbing | Overhead tank, pump, electrical load, separate shop meter, solar, backup |
+| 6 | 2026-06-13 | 6 | Finishing the Interior | Bathrooms, kitchen, flooring, paint, tea shop shutter, finish-level tradeoffs |
+| 7 | 2026-06-14 | 7 | Moving In and Living With It | Commissioning, HVAC right-sizing, tea shop as income hedge, maintenance, final full budget |
+
+Each post stands alone but links forward/back. Tags: `housing`, `nepal`, `kathmandu`, `construction`, `series`, plus part-specific ones.
+
+Now writing **Part 1**. This is a standalone article file. Given length requirements (5k-15k+ words) and that the user wants it as a ready-to-paste file, this is a file creation task — a blog markdown file saved to output.
+
+Let me write it now.Let me verify word count and give it a sanity check.7,619 words — solidly within the 5,000–15,000+ target. Front matter is clean, uses `myblazor-team` author ID, omits `featured`, and follows the established tagging convention. Now let me move it to the outputs directory and present it.## Series plan (so you know what's coming)
+
+| Day | Date | Part | Focus |
+|---|---|---|---|
+| 1 | 2026-06-08 | Before the First Brick | Land, setbacks, naksa pass, NBC 105:2025, budget framework *(this post)* |
+| 2 | 2026-06-09 | Designing the House | Architect + engineer, floor plan for 6 aana, sun path, cross-ventilation |
+| 3 | 2026-06-10 | Foundation and Structure | Soil test, RCC frame, rebar, seismic detailing, underground water tank |
+| 4 | 2026-06-11 | The Building Envelope | Walls (AAC vs brick), roof insulation, windows/doors, weather stripping |
+| 5 | 2026-06-12 | Water, Power, and Plumbing | Overhead tank, pump, electrical load, separate shop meter, solar, backup |
+| 6 | 2026-06-13 | Finishing the Interior | Bathrooms, kitchen, flooring, paint, tea shop shutter |
+| 7 | 2026-06-14 | Moving In and Living With It | HVAC right-sizing, maintenance, final full budget under NPR 2 crore |
+
+**What's in Part 1 (7,619 words)**
+
+The article walks through the pre-construction work from first principles: what 6 aana actually gives you in square feet, how setbacks and FAR typically eat into a small urban plot, the mixed-use implications of the tea shop, the full naksa pass process explained step-by-step, NBC 105:2025 (the latest seismic code, Second Revision) and what your structural engineer must design to, a detailed budget framework that keeps the total under NPR 1.6 crore with a 40 lakh reserve, the hidden costs most first-time builders miss, the two documents (one-page brief + decision log) to write before hiring anyone, and a rundown of the team you'll need.
+
+Versions, dates, and code references (NBC 105:2025, cost-per-sq-ft tiers, 2015 bylaw setback rules, aana-to-square-feet conversion) are all verified from current sources. No programming, no code — it reads for anyone, and every technical term (setback, FAR, ground coverage, ductile detailing, seismic gap, naksa pass) is explained in plain English the first time it appears.
+
+**To get Day 2:** just reply with something like "Day 2" or "Part 2" and I'll deliver 2026-06-09 — the floor plan, architect interview, and making six aana feel like eight.
+
+20
+46
+
