@@ -1,6 +1,6 @@
 ===============================================================================
 PROJECT EXPORT: observermagazine.github.io
-DATE: 2026-04-17 11:32:26 UTC
+DATE: 2026-04-18 01:17:27 UTC
 ===============================================================================
 
 ===============================================================================
@@ -100,6 +100,11 @@ DIRECTORY TREE (all git-tracked files)
 │       ├── 2026-06-05-web-storage-offline.md
 │       ├── 2026-06-06-web-accessibility-performance-security.md
 │       ├── 2026-06-07-capstone.md
+│       ├── 2026-06-08-house.md
+│       ├── 2026-06-09-house.md
+│       ├── 2026-06-10-house.md
+│       ├── 2026-06-11-house.md
+│       ├── 2026-06-12-house.md
 │       ├── 2027-01-01-happy-new-year-2027.md
 │       └── 2099-01-01-draft-template.md
 ├── Directory.Build.props
@@ -210,7 +215,7 @@ DIRECTORY TREE (all git-tracked files)
     │   └── RssGenerator.cs
     └── requirements-audio.txt
 
-29 directories, 173 files
+29 directories, 178 files
 
 
 -------------------------------------------------------------------------------
@@ -2103,6 +2108,135 @@ tags:
   - series
   - deep-dive
   - finale
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-06-08-house.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Building a House in Kathmandu, Part 1: Before the First Brick"
+date: 2026-06-08
+author: myblazor-team
+summary: "Day one of a seven-part series on building a modest, earthquake-safe family home on six aana of land in the Bhaktapur side of the Kathmandu Valley, on a hard budget ceiling of NPR 2 crore. This opening part covers everything that must be settled before a single brick is laid: what your land can actually hold under current municipal setback rules, the naksa pass process in plain English, the 2025 seismic code for residential buildings, how to budget across three finish levels, and the one-page written brief that will save you from the single biggest source of cost overruns. No programming, no code — just a patient, first-principles walk through the decisions that quietly decide whether your house ends up comfortable, legal, and within budget, or whether it becomes the house that ate your savings."
+tags:
+  - housing
+  - nepal
+  - kathmandu
+  - bhaktapur
+  - construction
+  - planning
+  - budget
+  - real-estate
+  - first-principles
+  - series
+  - deep-dive
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-06-09-house.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Building a House in Kathmandu, Part 2: Designing the House"
+date: 2026-06-09
+author: myblazor-team
+summary: "Day two of the seven-part series on building a modest family home in the Bhaktapur side of the Kathmandu Valley. Today we put pencil to paper and actually design the house. We walk the six-aana site at three different hours of the day, trace the sun path from June to December, figure out where the prevailing wind comes from, and translate all of that into a floor-by-floor plan for a tea shop on the ground floor, a kitchen and living room on the first, and two bedrooms with two-and-a-half bathrooms on the second. We cover cross-ventilation in plain English, why the long axis of your house should probably run east-west, how to design a staircase that does not eat half the plot, and the five questions to ask the three architects you interview before you hire one. No programming, no code — just the quiet craft of making six aana feel like eight."
+tags:
+  - housing
+  - nepal
+  - kathmandu
+  - bhaktapur
+  - construction
+  - architecture
+  - floor-plan
+  - passive-design
+  - cross-ventilation
+  - first-principles
+  - series
+  - deep-dive
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-06-10-house.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Building a House in Kathmandu, Part 3: Foundation and Structure"
+date: 2026-06-10
+author: myblazor-team
+summary: "Day three of the seven-part series on building a modest family home in the Bhaktapur side of the Kathmandu Valley. Today we go underground. We cover what a soil test actually does and why the Kathmandu Valley's silty-clay subsurface demands one for every serious residential build, the honest difference between an isolated footing and a raft foundation, how to integrate the underground water tank into the foundation instead of bolting it on later, and a patient walk through the reinforced concrete frame — columns, beams, slabs, stirrups, lap lengths, and the ductile detailing rules from NBC 201 and NBC 105:2025 that decide whether the house stands up in the next big earthquake. We explain Fe500 versus Fe500D rebar, the real difference between M20 and M25 concrete, and the ten things to look for on site to make sure the drawings are actually being followed. No programming, no code — just the quiet engineering that keeps a house standing for fifty years."
+tags:
+  - housing
+  - nepal
+  - kathmandu
+  - bhaktapur
+  - construction
+  - foundation
+  - rcc
+  - earthquake
+  - nbc-105
+  - nbc-201
+  - rebar
+  - concrete
+  - first-principles
+  - series
+  - deep-dive
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-06-11-house.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Building a House in Kathmandu, Part 4: The Building Envelope"
+date: 2026-06-11
+author: myblazor-team
+summary: "Day four of the seven-part series on building a modest family home in the Bhaktapur side of the Kathmandu Valley. Today we come out of the ground and talk about the part of the house that decides, more than any other single thing, how comfortable you will be and how much you will spend on cooling and heating for the next fifty years — the building envelope. We explain what R-value and U-value actually mean, compare AAC blocks against traditional solid brick in honest numbers, cover roof insulation as the single highest-return decision in the whole project, walk through UPVC versus aluminium versus wooden window frames, explain why double glazing matters more than the glass shop will tell you, and talk through weather stripping, door sweeps, and the dozen small air-leakage details that decide whether the house feels stuffy and expensive or pleasant and cheap to run. Everything here is cheap if designed in and ruinously expensive to retrofit. No programming, no code — just the quiet physics of keeping a house comfortable."
+tags:
+  - housing
+  - nepal
+  - kathmandu
+  - bhaktapur
+  - construction
+  - envelope
+  - insulation
+  - aac
+  - upvc
+  - roof
+  - windows
+  - weatherstripping
+  - thermal-comfort
+  - first-principles
+  - series
+  - deep-dive
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-06-12-house.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Building a House in Kathmandu, Part 5: Water, Power, and Plumbing"
+date: 2026-06-12
+author: myblazor-team
+summary: "Day five of the seven-part series on building a modest family home in the Bhaktapur side of the Kathmandu Valley. Today we turn on the taps, flip the switches, and flush the toilets. We walk through the classic Kathmandu two-tank water system — underground cistern, submersible pump, overhead tank, gravity feed — with honest sizing numbers for a family of five plus a small tea shop. We calculate the household electrical load from scratch, explain why the ground-floor tea shop needs its own NEA meter on day one, cover wiring, earthing, surge protection, backup power, and the practical state of rooftop solar and net metering in Nepal in 2026. We look at solar water heaters (NPR 32,000–75,000 for family-sized systems), rainwater harvesting for the monsoon months, and the septic-tank-versus-sewer decision that depends entirely on your ward. No programming, no code — just the quiet plumbing and wiring that decides whether the house actually works every day for the next fifty years."
+tags:
+  - housing
+  - nepal
+  - kathmandu
+  - bhaktapur
+  - construction
+  - plumbing
+  - electrical
+  - water-supply
+  - solar
+  - net-metering
+  - rainwater-harvesting
+  - septic-tank
+  - first-principles
+  - series
+  - deep-dive
 ---
 
 
@@ -12062,8 +12196,8 @@ num2words>=0.5.14
 
 ===============================================================================
 EXPORT COMPLETED
-Total Files Exported: 167
-  Blog posts (front matter only): 88
+Total Files Exported: 172
+  Blog posts (front matter only): 93
   Full content files: 77
   Binary files skipped: 2
 Output File: docs/llm/dump.txt
