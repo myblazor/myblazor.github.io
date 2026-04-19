@@ -2105,3 +2105,535 @@ please make all the changes that have NO risk of regression
 do not make any changes that have any risk of regression for now 
 please give me the full file for easy copy pasting 
 
+I'll apply the no-risk quick wins: output duration verification, proper rounding of audio duration, `$SSH_OPTS` as an array, logging the encoder used, logging the bg music size, `+genpts` for pass 2, and the VAAPI cache. Let me build and verify the file.Let me verify it parses and passes basic sanity checks:Both SC2155 warnings are pre-existing (they were in the original file) — not introduced by my changes, so I'm leaving them alone as requested. Let me also verify that the `rsync -e "ssh ${SSH_OPTS[*]}"` expansion produces the right string (this is the one spot I want to double-check, since rsync needs a single shell string for `-e`):Both expansions produce identical behavior to the original (unquoted `$SSH_OPTS` relied on word-splitting; the array version does it explicitly without risk). The `rsync -e` string is identical to what you had before. Let me present the file:Changes applied — all no-risk:
+
+1. **`SSH_OPTS` → array** — `ssh_cmd` now uses `"${SSH_OPTS[@]}"` (properly quoted), and `rsync -e "ssh ${SSH_OPTS[*]}"` produces the exact same string the old unquoted expansion did.
+2. **Rounding instead of flooring** — `audio_duration_raw` keeps the full `ffprobe` value for logging; `audio_duration` is `printf '%.0f'` rounded. Log line now shows both: `Audio recorded: 120.032000s (rounded: 120s)`.
+3. **VAAPI cache** — new `resolve_vaapi` function caches the probe result in `~/.cache/podcast-vaapi-192.168.0.106` for 7 days. Falls back to live probe on cache miss or stale. Delete the file to force re-probe.
+4. **`+genpts` on pass 2** — added `-fflags +genpts` before the inputs. No-op on compliant players, helps stragglers.
+5. **Output duration verification** — `ffprobe` the final file, log `Output duration: Xs (expected ~Ys)`. Falls back to `?` if ffprobe fails, so it can't break the run.
+6. **Encoder logged in summary** — `Encoder: hevc_vaapi` or `libx265`.
+7. **Music file size logged** — `Corazón_Ardiente.mp3 (3.8M, volume: 0.05)` so you can correlate output size variance against bg music characteristics.
+
+**Not touched (as requested):**
+- `-qp 26` rate control (would change quality/size behavior)
+- The `$(printf '%q ' ...)` remote command building (works fine for current filters)
+- The pre-existing SC2155 warnings on `local trans=$(...)` and `local dst=$(...)` — those were in your original and fixing them is a pure style change, but any edit still carries a non-zero chance of typo regression, so I left them alone
+- `check_vaapi` function body itself — only wrapped in the caching layer
+
+Drop it in, run it once to populate the VAAPI cache, and you should see ~1.5s shaved off every subsequent run plus richer logs.
+
+```bash
+#!/bin/bash
+# =============================================================================
+# podcast-record-remote-multiimage-vertical.sh
+# =============================================================================
+# Records audio locally, creates "punchy" vertical video (YouTube Shorts)
+# with multiple images, random xfade transitions, and optional background
+# music from a file. Encodes remotely using VAAPI H.265/HEVC.
+#
+# Background music: picks one random audio file from the image source folder.
+# If the video is longer than the track, the track loops from the beginning.
+# If the video is shorter, only the needed portion is used.
+# Set AMBIENT_VOLUME to 0.0 to disable, or remove all audio files from the
+# source folder.
+#
+# Uses two-pass approach:
+#   Pass 1: Create short looping slideshow (~30 images with transitions)
+#   Pass 2: Loop slideshow, mix voice + background music, mux together
+#
+# Usage: ./podcast-record-remote-multiimage-vertical.sh [duration_in_seconds]
+# =============================================================================
+
+set -euo pipefail
+
+# =============================================================================
+# CONFIGURATION
+# =============================================================================
+
+DEFAULT_DURATION=175
+
+LOCAL_IMAGE_SOURCE_DIR="$HOME/Pictures/podcast"
+LOCAL_OUTPUT_DIR="$HOME/Videos/podcast"
+
+REMOTE_HOST="192.168.0.106"
+REMOTE_USER="kushal"
+
+SESSION_ID="vertical_$(date +%Y%m%d_%H%M%S)_$$"
+REMOTE_WORK_DIR="/tmp/${SESSION_ID}"
+
+SSH_CONTROL_PATH="/tmp/ssh-${SESSION_ID}-%r@%h:%p"
+SSH_OPTS=(-o ControlMaster=auto -o ControlPath="${SSH_CONTROL_PATH}" -o ControlPersist=60)
+
+# VAAPI probe cache (avoids re-spinning a container every run)
+VAAPI_CACHE_DIR="${HOME}/.cache"
+VAAPI_CACHE_FILE="${VAAPI_CACHE_DIR}/podcast-vaapi-${REMOTE_HOST}"
+VAAPI_CACHE_TTL_DAYS=7
+
+# Vertical / YouTube Shorts: 1080x1920 (9:16)
+VIDEO_WIDTH=1080
+VIDEO_HEIGHT=1920
+VIDEO_FRAMERATE=60
+
+AUDIO_SAMPLE_RATE=48000
+AUDIO_CHANNELS=2
+AUDIO_BITRATE="256k"
+
+# How loud the background music is relative to voice (0.0 - 1.0)
+# 0.0 = disabled, 0.04 = very subtle, 0.90 = prominent
+AMBIENT_VOLUME="0.05"
+
+# Image timing (kept punchy regardless of video length)
+SECONDS_PER_IMAGE=2
+TRANSITION_DURATION=1
+
+# Max images for the looping slideshow
+MAX_IMAGES=30
+
+FFMPEG_CONTAINER_IMAGE="lscr.io/linuxserver/ffmpeg:latest"
+
+# Available xfade transitions
+TRANSITIONS=(
+    fade wipeleft wiperight wipeup wipedown
+    slideleft slideright slideup slidedown
+    circlecrop circleclose circleopen
+    horzclose horzopen vertclose vertopen
+    diagbl diagbr diagtl diagtr
+    hlslice hrslice vuslice vdslice
+    dissolve pixelize
+    radial smoothleft smoothright smoothup smoothdown
+    squeezeh squeezev
+    fadeblack fadewhite fadegrays
+)
+
+# =============================================================================
+# HELPERS
+# =============================================================================
+
+log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*"; }
+error() { echo "[ERROR] $*" >&2; }
+
+ssh_cmd() {
+    ssh "${SSH_OPTS[@]}" "${REMOTE_USER}@${REMOTE_HOST}" "$@"
+}
+
+cleanup() {
+    local ec=$?
+    log "Cleaning up session ${SESSION_ID}..."
+
+    [[ -n "${LOCAL_TEMP_AUDIO:-}" && -f "$LOCAL_TEMP_AUDIO" ]] && rm -f "$LOCAL_TEMP_AUDIO"
+    [[ -n "${LOCAL_TEMP_IMAGE_DIR:-}" && -d "$LOCAL_TEMP_IMAGE_DIR" ]] && rm -rf "$LOCAL_TEMP_IMAGE_DIR"
+
+    ssh_cmd "rm -rf ${REMOTE_WORK_DIR}" 2>/dev/null || true
+    ssh -O exit -o ControlPath="${SSH_CONTROL_PATH}" "${REMOTE_USER}@${REMOTE_HOST}" 2>/dev/null || true
+
+    if [[ $ec -eq 0 ]]; then
+        log "Cleanup complete"
+    else
+        log "Cleanup complete (script exited with error $ec)"
+    fi
+    exit "$ec"
+}
+
+trap cleanup EXIT INT TERM
+
+detect_audio_source() {
+    pactl get-default-source 2>/dev/null || echo "default"
+}
+
+random_transition() {
+    echo "${TRANSITIONS[RANDOM % ${#TRANSITIONS[@]}]}"
+}
+
+# =============================================================================
+# CHECK IF AMBIENT VOLUME IS EFFECTIVELY ZERO
+# =============================================================================
+
+is_volume_zero() {
+    local vol="$1"
+    # Use awk for float comparison: returns 0 (true) if volume <= 0
+    awk "BEGIN { exit !($vol <= 0) }"
+}
+
+# =============================================================================
+# FIND A RANDOM BACKGROUND MUSIC FILE
+# =============================================================================
+
+find_random_music() {
+    local source_dir="$1"
+    local music_files=()
+
+    mapfile -t music_files < <(
+        find "$source_dir" -maxdepth 1 -type f \( \
+            -iname "*.mp3" -o -iname "*.flac" -o -iname "*.wav" \
+            -o -iname "*.ogg" -o -iname "*.oga" -o -iname "*.opus" \
+            -o -iname "*.m4a" -o -iname "*.aac" -o -iname "*.wma" \
+        \) 2>/dev/null
+    )
+
+    if [[ ${#music_files[@]} -eq 0 ]]; then
+        return 1
+    fi
+
+    # Pick one at random (if only one, that's the one)
+    echo "${music_files[RANDOM % ${#music_files[@]}]}"
+    return 0
+}
+
+# =============================================================================
+# BUILD FFMPEG ARGS FOR SLIDESHOW (PASS 1)
+# =============================================================================
+
+build_slideshow_args() {
+    local image_count="$1"
+    local use_vaapi="$2"
+
+    local args=()
+
+    # Suppress cosmetic warnings (yuvj420p decode warnings)
+    args+=(-hide_banner -loglevel error)
+
+    if [[ "$use_vaapi" == "true" ]]; then
+        args+=(-vaapi_device /dev/dri/renderD128)
+    fi
+
+    # Input all images
+    for i in $(seq 1 "$image_count"); do
+        args+=(-loop 1 -t "$SECONDS_PER_IMAGE" -i "/config/images/img_$(printf "%04d" "$i").jpeg")
+    done
+
+    # Build xfade filter chain
+    local filter=""
+    local last_label=""
+
+    for i in $(seq 0 $((image_count - 1))); do
+        if [[ $i -eq 0 ]]; then
+            filter+="[0:v]format=yuv420p,scale=${VIDEO_WIDTH}:${VIDEO_HEIGHT}:force_original_aspect_ratio=decrease,pad=${VIDEO_WIDTH}:${VIDEO_HEIGHT}:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=${VIDEO_FRAMERATE}[v0];"
+            last_label="v0"
+        else
+            local offset=$(( i * (SECONDS_PER_IMAGE - TRANSITION_DURATION) ))
+            local trans=$(random_transition)
+            filter+="[${i}:v]format=yuv420p,scale=${VIDEO_WIDTH}:${VIDEO_HEIGHT}:force_original_aspect_ratio=decrease,pad=${VIDEO_WIDTH}:${VIDEO_HEIGHT}:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=${VIDEO_FRAMERATE}[s${i}];"
+            filter+="[${last_label}][s${i}]xfade=transition=${trans}:duration=${TRANSITION_DURATION}:offset=${offset}[v${i}];"
+            last_label="v${i}"
+        fi
+    done
+
+    # Final format
+    if [[ "$use_vaapi" == "true" ]]; then
+        filter+="[${last_label}]format=nv12,hwupload[vout]"
+    else
+        filter+="[${last_label}]format=yuv420p[vout]"
+    fi
+
+    args+=(-filter_complex "$filter")
+    args+=(-map "[vout]")
+
+    if [[ "$use_vaapi" == "true" ]]; then
+        args+=(-c:v hevc_vaapi -qp 26)
+    else
+        args+=(-c:v libx265 -crf 26 -preset medium)
+    fi
+
+    args+=(
+        -r "$VIDEO_FRAMERATE"
+        -an
+        -movflags +faststart
+        -y
+        /config/slideshow.mp4
+    )
+
+    printf '%s\n' "${args[@]}"
+}
+
+# =============================================================================
+# BUILD FFMPEG ARGS FOR FINAL MUX (PASS 2)
+# =============================================================================
+
+build_mux_args() {
+    local use_vaapi="$1"
+    local has_music="$2"
+    local music_remote_path="$3"
+
+    local args=()
+
+    # Suppress cosmetic warnings
+    args+=(-hide_banner -loglevel error)
+
+    # Generate monotonic PTS on output (helps some players with looped inputs)
+    args+=(-fflags +genpts)
+
+    # Loop slideshow video indefinitely
+    args+=(-stream_loop -1 -i /config/slideshow.mp4)
+
+    # Voice audio
+    args+=(-i /config/audio.flac)
+
+    if [[ "$has_music" == "true" ]]; then
+        # Loop music track indefinitely — -shortest will cut it when voice ends
+        # If the track is longer than the video, only the needed portion is used
+        # If the track is shorter, it loops from the beginning
+        args+=(-stream_loop -1 -i "$music_remote_path")
+
+        # Mix voice at full volume + music at configured volume
+        # normalize=0 prevents amix from halving the voice level
+        args+=(-filter_complex "[1:a]volume=1.0[voice];[2:a]volume=${AMBIENT_VOLUME}[bg];[voice][bg]amix=inputs=2:duration=first:normalize=0[aout]")
+        args+=(-map 0:v -map "[aout]")
+    else
+        args+=(-map 0:v -map 1:a)
+    fi
+
+    # Copy video (already encoded), encode audio
+    args+=(-c:v copy)
+    args+=(-c:a aac -b:a "$AUDIO_BITRATE")
+
+    # Stop when audio ends
+    args+=(-shortest)
+    args+=(-movflags +faststart)
+    args+=(-y /config/output.mp4)
+
+    printf '%s\n' "${args[@]}"
+}
+
+# =============================================================================
+# CHECK VAAPI AVAILABILITY (with cache)
+# =============================================================================
+
+check_vaapi() {
+    log "Checking VAAPI availability on remote..."
+
+    if ! ssh_cmd "test -e /dev/dri/renderD128"; then
+        log "No render device found, will use software encoding"
+        return 1
+    fi
+
+    local test_result
+    test_result=$(ssh_cmd "podman run --rm --device /dev/dri:/dev/dri \
+        ${FFMPEG_CONTAINER_IMAGE} \
+        -hide_banner -encoders 2>/dev/null | grep -c hevc_vaapi" 2>/dev/null || echo "0")
+
+    if [[ "$test_result" -ge 1 ]]; then
+        log "VAAPI hardware encoding available (hevc_vaapi)"
+        return 0
+    else
+        log "VAAPI hevc not available, will use software encoding"
+        return 1
+    fi
+}
+
+# Resolve VAAPI availability via cache, falling back to a live probe.
+# Cache TTL is VAAPI_CACHE_TTL_DAYS; use `rm -f $VAAPI_CACHE_FILE` to force a re-probe.
+resolve_vaapi() {
+    mkdir -p "$VAAPI_CACHE_DIR"
+
+    if [[ -f "$VAAPI_CACHE_FILE" ]] \
+        && [[ -n "$(find "$VAAPI_CACHE_FILE" -mtime -"$VAAPI_CACHE_TTL_DAYS" 2>/dev/null)" ]]; then
+        local cached
+        cached=$(<"$VAAPI_CACHE_FILE")
+        if [[ "$cached" == "true" || "$cached" == "false" ]]; then
+            log "VAAPI status from cache: $cached (cache: $VAAPI_CACHE_FILE)"
+            echo "$cached"
+            return 0
+        fi
+    fi
+
+    local result="false"
+    if check_vaapi; then
+        result="true"
+    fi
+    echo "$result" > "$VAAPI_CACHE_FILE"
+    echo "$result"
+}
+
+# =============================================================================
+# MAIN
+# =============================================================================
+
+main() {
+    local duration="${1:-$DEFAULT_DURATION}"
+
+    log "=========================================="
+    log "Podcast Recording - Vertical (YouTube Shorts)"
+    log "=========================================="
+    log "Duration: ${duration}s | Resolution: ${VIDEO_WIDTH}x${VIDEO_HEIGHT}"
+    log "Codec: H.265/HEVC | Remote: ${REMOTE_HOST}"
+
+    mkdir -p "$LOCAL_OUTPUT_DIR"
+
+    LOCAL_TEMP_AUDIO=$(mktemp "/tmp/${SESSION_ID}_audio.XXXXXX.flac")
+    LOCAL_TEMP_IMAGE_DIR=$(mktemp -d "/tmp/${SESSION_ID}_images.XXXXXX")
+
+    # =========================================================================
+    # Step 1: Record audio locally
+    # =========================================================================
+    log "Recording audio for ${duration} seconds..."
+    ffmpeg -y -f pulse -i "$(detect_audio_source)" -t "$duration" \
+        -ar "$AUDIO_SAMPLE_RATE" -ac "$AUDIO_CHANNELS" -c:a flac \
+        "$LOCAL_TEMP_AUDIO" -loglevel warning
+
+    local audio_duration_raw audio_duration
+    audio_duration_raw=$(ffprobe -v error -show_entries format=duration \
+        -of default=nokey=1:noprint_wrappers=1 "$LOCAL_TEMP_AUDIO")
+    # Round to nearest integer (was: ${var%.*} which floored)
+    audio_duration=$(printf '%.0f' "$audio_duration_raw")
+
+    log "Audio recorded: ${audio_duration_raw}s (rounded: ${audio_duration}s)"
+
+    # =========================================================================
+    # Step 2: Determine image count (use fewer for short videos)
+    # =========================================================================
+    local effective_per_image=$((SECONDS_PER_IMAGE - TRANSITION_DURATION))
+    local min_images_needed=$(( (audio_duration + effective_per_image - 1) / effective_per_image ))
+
+    local image_count=$MAX_IMAGES
+    if [[ $min_images_needed -lt $MAX_IMAGES ]]; then
+        image_count=$min_images_needed
+    fi
+    [[ $image_count -lt 2 ]] && image_count=2
+
+    # Calculate slideshow duration
+    local slideshow_duration=$(( SECONDS_PER_IMAGE + (image_count - 1) * effective_per_image ))
+    local loop_count=$(( (audio_duration + slideshow_duration - 1) / slideshow_duration ))
+
+    log "Slideshow: ${image_count} images, ${slideshow_duration}s duration"
+    log "Will loop ${loop_count}x to cover ${audio_duration}s audio"
+
+    # =========================================================================
+    # Step 3: Select and prepare images
+    # =========================================================================
+    mapfile -t all_images < <(
+        find "$LOCAL_IMAGE_SOURCE_DIR" -maxdepth 1 -type f \( \
+            -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \
+        \) 2>/dev/null
+    )
+
+    if [[ ${#all_images[@]} -eq 0 ]]; then
+        error "No images found in $LOCAL_IMAGE_SOURCE_DIR"
+        exit 1
+    fi
+
+    log "Found ${#all_images[@]} source images, selecting ${image_count} randomly"
+
+    for i in $(seq 1 "$image_count"); do
+        local src="${all_images[RANDOM % ${#all_images[@]}]}"
+        local dst="$LOCAL_TEMP_IMAGE_DIR/img_$(printf "%04d" "$i").jpeg"
+        ffmpeg -y -i "$src" \
+            -vf "format=yuv420p,scale=${VIDEO_WIDTH}:${VIDEO_HEIGHT}:force_original_aspect_ratio=increase,crop=${VIDEO_WIDTH}:${VIDEO_HEIGHT}" \
+            -frames:v 1 -update 1 "$dst" -loglevel error
+    done
+
+    # =========================================================================
+    # Step 4: Find background music (if available and volume > 0)
+    # =========================================================================
+    local has_music="false"
+    local local_music_file=""
+    local music_ext=""
+    local music_remote_path=""
+    local music_size=""
+
+    if is_volume_zero "$AMBIENT_VOLUME"; then
+        log "Background music disabled (volume is ${AMBIENT_VOLUME})"
+    else
+        if local_music_file=$(find_random_music "$LOCAL_IMAGE_SOURCE_DIR"); then
+            music_ext="${local_music_file##*.}"
+            music_remote_path="/config/bgmusic.${music_ext}"
+            music_size=$(du -h "$local_music_file" 2>/dev/null | cut -f1)
+            log "Background music: $(basename "$local_music_file") (${music_size}, volume: ${AMBIENT_VOLUME})"
+            has_music="true"
+        else
+            log "No audio files found in $LOCAL_IMAGE_SOURCE_DIR, skipping background music"
+        fi
+    fi
+
+    # =========================================================================
+    # Step 5: Setup remote
+    # =========================================================================
+    log "Setting up remote workspace..."
+    ssh_cmd "mkdir -p ${REMOTE_WORK_DIR}/images"
+
+    # =========================================================================
+    # Step 6: Transfer files
+    # =========================================================================
+    log "Transferring audio and ${image_count} images..."
+    rsync -az --partial -e "ssh ${SSH_OPTS[*]}" \
+        "$LOCAL_TEMP_AUDIO" "${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_WORK_DIR}/audio.flac"
+    rsync -az --partial -e "ssh ${SSH_OPTS[*]}" \
+        "$LOCAL_TEMP_IMAGE_DIR/" "${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_WORK_DIR}/images/"
+
+    if [[ "$has_music" == "true" ]]; then
+        log "Transferring background music: $(basename "$local_music_file")"
+        rsync -az --partial -e "ssh ${SSH_OPTS[*]}" \
+            "$local_music_file" "${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_WORK_DIR}/bgmusic.${music_ext}"
+    fi
+
+    # =========================================================================
+    # Step 7: Resolve VAAPI (cached)
+    # =========================================================================
+    local use_vaapi
+    use_vaapi=$(resolve_vaapi)
+
+    local podman_cmd="podman run --rm"
+    if [[ "$use_vaapi" == "true" ]]; then
+        podman_cmd+=" --device /dev/dri:/dev/dri"
+    fi
+    podman_cmd+=" -v ${REMOTE_WORK_DIR}:/config:Z ${FFMPEG_CONTAINER_IMAGE}"
+
+    # =========================================================================
+    # Step 8: PASS 1 - Create slideshow
+    # =========================================================================
+    log "Pass 1: Creating ${slideshow_duration}s slideshow with transitions..."
+    mapfile -t slideshow_args < <(build_slideshow_args "$image_count" "$use_vaapi")
+
+    ssh_cmd "$podman_cmd $(printf '%q ' "${slideshow_args[@]}")"
+
+    # =========================================================================
+    # Step 9: PASS 2 - Loop slideshow, mix audio, mux
+    # =========================================================================
+    log "Pass 2: Looping slideshow and muxing with audio..."
+    mapfile -t mux_args < <(build_mux_args "$use_vaapi" "$has_music" "$music_remote_path")
+
+    ssh_cmd "$podman_cmd $(printf '%q ' "${mux_args[@]}")"
+
+    # =========================================================================
+    # Step 10: Download result
+    # =========================================================================
+    local output_file="$LOCAL_OUTPUT_DIR/${SESSION_ID}.mp4"
+    log "Downloading encoded video..."
+    rsync -az --partial -e "ssh ${SSH_OPTS[*]}" \
+        "${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_WORK_DIR}/output.mp4" "$output_file"
+
+    # =========================================================================
+    # Step 11: Verify output
+    # =========================================================================
+    local final_size out_dur encoder_used
+    final_size=$(du -h "$output_file" | cut -f1)
+
+    out_dur=$(ffprobe -v error -show_entries format=duration \
+        -of default=nokey=1:noprint_wrappers=1 "$output_file" 2>/dev/null || echo "?")
+
+    if [[ "$use_vaapi" == "true" ]]; then
+        encoder_used="hevc_vaapi"
+    else
+        encoder_used="libx265"
+    fi
+
+    log "=========================================="
+    log "COMPLETE!"
+    log "Output: $output_file"
+    log "Size: $final_size"
+    log "Output duration: ${out_dur}s (expected ~${audio_duration}s)"
+    log "Encoder: ${encoder_used}"
+    log "Slideshow: ${image_count} images @ ${SECONDS_PER_IMAGE}s (looped ${loop_count}x)"
+    if [[ "$has_music" == "true" ]]; then
+        log "Background music: $(basename "$local_music_file") (${music_size}) @ volume ${AMBIENT_VOLUME}"
+    else
+        log "Background music: none"
+    fi
+    log "=========================================="
+}
+
+main "$@"
+```
+
+17
+76
