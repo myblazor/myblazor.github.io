@@ -1,6 +1,6 @@
 ===============================================================================
 PROJECT EXPORT: observermagazine.github.io
-DATE: 2026-04-19 13:09:46 UTC
+DATE: 2026-04-19 13:26:16 UTC
 ===============================================================================
 
 ===============================================================================
@@ -107,6 +107,7 @@ DIRECTORY TREE (all git-tracked files)
 │       ├── 2026-06-12-house.md
 │       ├── 2026-06-13-house.md
 │       ├── 2026-06-14-house.md
+│       ├── 2026-06-15-chestertons-fence-and-the-monkey-cage.md
 │       ├── 2027-01-01-happy-new-year-2027.md
 │       └── 2099-01-01-draft-template.md
 ├── Directory.Build.props
@@ -217,7 +218,7 @@ DIRECTORY TREE (all git-tracked files)
     │   └── RssGenerator.cs
     └── requirements-audio.txt
 
-29 directories, 180 files
+29 directories, 181 files
 
 
 -------------------------------------------------------------------------------
@@ -2294,6 +2295,31 @@ tags:
   - series
   - deep-dive
   - finale
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-06-15-chestertons-fence-and-the-monkey-cage.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Chesterton's Fence and the Monkey Cage: A Developer's Guide to Knowing Which Rules to Keep and Which to Tear Down"
+date: 2026-06-15
+author: myblazor-team
+summary: "A long, patient essay on the two opposite failure modes every software engineer stumbles into — throwing away rules you do not understand, and blindly obeying rules nobody understands any more. We work through Chesterton's Fence, Hyrum's Law, cargo-culting, vicarious learning, institutional inertia, and the safe-to-fail probe, grounded in first-hand stories from house renovation, a TFS-to-Git migration, and a modern Angular 21 signal-forms rewrite. Bad code, good code, honest acknowledgement of which famous parables are myths, and a decision framework you can actually use on Monday morning."
+tags:
+  - software-engineering
+  - best-practices
+  - architecture
+  - angular
+  - dotnet
+  - csharp
+  - migration
+  - legacy-code
+  - philosophy
+  - first-principles
+  - chestertons-fence
+  - opinion
+  - deep-dive
 ---
 
 
@@ -12253,8 +12279,8 @@ num2words>=0.5.14
 
 ===============================================================================
 EXPORT COMPLETED
-Total Files Exported: 174
-  Blog posts (front matter only): 95
+Total Files Exported: 175
+  Blog posts (front matter only): 96
   Full content files: 77
   Binary files skipped: 2
 Output File: docs/llm/dump.txt

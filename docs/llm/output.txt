@@ -1,9 +1,9 @@
 kushal@fedora:~/src/dotnet/myblazor$ cd /home/kushal/src/dotnet/myblazor/; time du -sh .; time git clean -dfX; time du -sh .; time dotnet format; time dotnet restore; dotnet run --project tools/ObserverMagazine.ContentProcessor -- --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot; time dotnet test; time dotnet list package; time dotnet list package --outdated; time bash export.sh;
-233M	.
+237M	.
 
-real	0m0.042s
-user	0m0.000s
-sys	0m0.021s
+real	0m0.022s
+user	0m0.001s
+sys	0m0.011s
 Removing src/ObserverMagazine.Web/bin/
 Removing src/ObserverMagazine.Web/obj/
 Removing src/ObserverMagazine.Web/wwwroot/blog-data/
@@ -15,687 +15,35 @@ Removing tests/ObserverMagazine.Web.Tests/obj/
 Removing tools/ObserverMagazine.ContentProcessor/bin/
 Removing tools/ObserverMagazine.ContentProcessor/obj/
 
-real	0m0.046s
+real	0m0.038s
 user	0m0.002s
-sys	0m0.039s
-93M	.
+sys	0m0.036s
+96M	.
 
 real	0m0.009s
-user	0m0.001s
-sys	0m0.007s
+user	0m0.000s
+sys	0m0.008s
 
-real	0m8.041s
-user	0m11.892s
-sys	0m1.094s
+real	0m7.770s
+user	0m12.251s
+sys	0m1.077s
 Restore complete (0.5s)
 
 Build succeeded in 0.6s
 
-real	0m0.760s
-user	0m0.752s
-sys	0m0.174s
+real	0m0.721s
+user	0m0.772s
+sys	0m0.154s
 Content directory: content/blog
 Output directory:  src/ObserverMagazine.Web/wwwroot
 Authors directory: content/authors
-Publish before:    2026-04-18 01:17:16 UTC
+Publish before:    2026-04-19 13:26:06 UTC
 Found 3 author profile(s)
   Loaded author: kushal (kushal)
   Loaded author: abraham-lincoln (Abraham Lincoln)
   Loaded author: myblazor-team (My Blazor Team)
 Wrote authors index: src/ObserverMagazine.Web/wwwroot/blog-data/authors.json (3 authors)
-Found 93 markdown files
-Processing: 2026-01-15-welcome-to-observer-magazine.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/welcome-to-observer-magazine.html (~1 min read)
-Processing: 2026-02-20-getting-started-with-blazor-wasm.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/getting-started-with-blazor-wasm.html (~1 min read)
-Processing: 2026-03-10-responsive-design-patterns.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/responsive-design-patterns.html (~1 min read)
-Processing: 2026-03-20-hello-world.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/hello-world.html (~1 min read)
-Processing: 2026-03-21-aspnet-lifecycle-deep-dive.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/aspnet-lifecycle-deep-dive.html (~16 min read)
-Processing: 2099-01-01-draft-template.md
-  SKIPPED: Draft post 'Your Post Title Here'
-Processing: 2027-01-01-happy-new-year-2027.md
-  SKIPPED: Future post 'Happy New Year 2027: A Look Back and a Look Ahead' (date: 2027-01-01, publish-before: 2026-04-18)
-Processing: 2026-03-22-good-morning.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/good-morning.html (~1 min read)
-Processing: 2026-03-22-the-year-2025-in-review.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/the-year-2025-in-review.html (~14 min read)
-Processing: 2026-03-22-modernizing-to-dotnet-10.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/modernizing-to-dotnet-10.html (~13 min read)
-Processing: 2026-03-23-honk-drive.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/honk-drive.html (~7 min read)
-Processing: 2026-03-24-avalonia-ui-comprehensive-guide.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/avalonia-ui-comprehensive-guide.html (~35 min read)
-Processing: 2026-03-25-git-and-trunk-based-development.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/git-and-trunk-based-development.html (~31 min read)
-Processing: 2026-03-26-typescript-comprehensive-guide.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/typescript-comprehensive-guide.html (~38 min read)
-Processing: 2026-03-27-sql-server-complete-guide.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/sql-server-complete-guide.html (~48 min read)
-Processing: 2026-03-28-postgresql-npgsql-comprehensive-guide.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/postgresql-npgsql-comprehensive-guide.html (~42 min read)
-Processing: 2026-03-29-why-qa-matters-more-than-ever.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/why-qa-matters-more-than-ever.html (~29 min read)
-Processing: 2026-03-30-the-cloud-toilet-problem.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/the-cloud-toilet-problem.html (~17 min read)
-Processing: 2026-03-31-solid-principles.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/solid-principles.html (~44 min read)
-Processing: 2026-04-01-single-responsibility-principle-complete-guide.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/single-responsibility-principle-complete-guide.html (~47 min read)
-Processing: 2026-04-02-open-closed-principle.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/open-closed-principle.html (~41 min read)
-Processing: 2026-04-03-liskov-substitution.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/liskov-substitution.html (~42 min read)
-Processing: 2026-04-04-interface-segregation.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/interface-segregation.html (~34 min read)
-Processing: 2026-04-05-dependency-injection.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/dependency-injection.html (~44 min read)
-Processing: 2026-04-06-most-important-solid-principle.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/most-important-solid-principle.html (~30 min read)
-Processing: 2026-04-07-2007-toyota-camry-complete-guide.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/2007-toyota-camry-complete-guide.html (~42 min read)
-Processing: 2026-04-08-aspire-containers-self-hosting-guide.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/aspire-containers-self-hosting-guide.html (~37 min read)
-Processing: 2026-04-09-dotnet-data-structures-complete-guide.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/dotnet-data-structures-complete-guide.html (~62 min read)
-Processing: 2026-04-10-relational-databases-normalization-guide.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/relational-databases-normalization-guide.html (~36 min read)
-Processing: 2026-04-11-dotnet10-csharp14-complete-guide.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/dotnet10-csharp14-complete-guide.html (~39 min read)
-Processing: 2026-04-14-happy-new-year.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/happy-new-year.html (~1 min read)
-Processing: 2026-04-12-dfw-home-buying-complete-guide.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/dfw-home-buying-complete-guide.html (~52 min read)
-Processing: 2026-04-13-bikram-sambat-nepal-sambat-comprehensive-guide.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/bikram-sambat-nepal-sambat-comprehensive-guide.html (~53 min read)
-Processing: 2026-04-14-web-browser-technology-complete-guide.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/web-browser-technology-complete-guide.html (~55 min read)
-Processing: 2026-04-15-blazor-not-found-page-postmortem.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/blazor-not-found-page-postmortem.html (~29 min read)
-Processing: 2026-04-16-global-money-machine-currency-payments-remittance-nepal.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/global-money-machine-currency-payments-remittance-nepal.html (~44 min read)
-Processing: 2026-04-17-grand-unified-novel-timeline.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/grand-unified-novel-timeline.html (~85 min read)
-Processing: 2026-04-18-global-gnss-and-atomic-synchronization.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/global-gnss-and-atomic-synchronization.html (~100 min read)
-Processing: 2026-04-19-sql-server-connection-pooling-complete-guide.md
-  SKIPPED: Future post 'The Complete Guide to SQL Server Connection Pooling in ASP.NET: From Framework 4.8 to .NET 10' (date: 2026-04-19, publish-before: 2026-04-18)
-Processing: 2026-04-20-httpclientfactory-typed-clients-deep-dive.md
-  SKIPPED: Future post 'HttpClientFactory and Typed Clients: The Complete Guide to HTTP Connection Management in .NET' (date: 2026-04-20, publish-before: 2026-04-18)
-Processing: 2026-04-21-threadpool-starvation-and-connection-pooling.md
-  SKIPPED: Future post 'Thread Pool Starvation, Injection, and the Other Pool: A Complete Guide to Concurrency in ASP.NET and .NET 10' (date: 2026-04-21, publish-before: 2026-04-18)
-Processing: 2026-04-22-git-comprehensive-guide.md
-  SKIPPED: Future post 'Git: The Complete Guide — Internals, Misconceptions, Branches, Commits, Tags, and Everything In Between' (date: 2026-04-22, publish-before: 2026-04-18)
-Processing: 2026-04-23-git-sha1-vs-sha256.md
-  SKIPPED: Future post 'Git's Hash Revolution: SHA-1, SHA-256, and the Long Road to a More Secure Version Control System' (date: 2026-04-23, publish-before: 2026-04-18)
-Processing: 2026-04-24-clojure-beginners-guide.md
-  SKIPPED: Future post 'Clojure: A Beginner's Guide for the C# ASP.NET Developer Who Has Been Doing Everything Wrong' (date: 2026-04-24, publish-before: 2026-04-18)
-Processing: 2026-04-25-javascript.md
-  SKIPPED: Future post 'The Definitive JavaScript Reference for .NET Developers: Language, Ecosystem, and Tooling in 2026' (date: 2026-04-25, publish-before: 2026-04-18)
-Processing: 2026-04-26-typescript.md
-  SKIPPED: Future post 'The Definitive TypeScript Reference for .NET Developers: Language, Ecosystem, and Tooling in 2026' (date: 2026-04-26, publish-before: 2026-04-18)
-Processing: 2026-04-27-golang.md
-  SKIPPED: Future post 'Go in 2026: The Definitive Technical Guide from Hello World to Production Mastery' (date: 2026-04-27, publish-before: 2026-04-18)
-Processing: 2026-04-28-rust.md
-  SKIPPED: Future post 'The C# Developer's Crucible: A Comprehensive Guide to Unlearning Bad Habits and Mastering Rust' (date: 2026-04-28, publish-before: 2026-04-18)
-Processing: 2026-04-29-angular-form.md
-  SKIPPED: Future post 'Angular in 2026 - signals, forms, and the modern developer toolkit' (date: 2026-04-29, publish-before: 2026-04-18)
-Processing: 2026-04-30-angular-signals-reactive-forms-guide.md
-  SKIPPED: Future post 'Composable, Reactive Forms in Angular Using Signals: A Complete Guide from First Principles to Production Patterns' (date: 2026-04-30, publish-before: 2026-04-18)
-Processing: 2026-05-01-javascript-modern-web-first-principles.md
-  SKIPPED: Future post 'JavaScript for the Modern Web in 2026: Complete Web Applications from First Principles Without npm, Without Build Steps, Without Nonsense' (date: 2026-05-01, publish-before: 2026-04-18)
-Processing: 2026-05-02-javascript-css-from-ground-up.md
-  SKIPPED: Future post 'JavaScript and CSS from the Ground Up: Complete Web Applications from First Principles in 2026' (date: 2026-05-02, publish-before: 2026-04-18)
-Processing: 2026-05-03-html-javascript-css-from-first-principles.md
-  SKIPPED: Future post 'HTML, JavaScript, and CSS from the Ground Up: Building Complete Web Applications Without Any External Packages, From First Principles, for the Modern Web in 2026' (date: 2026-05-03, publish-before: 2026-04-18)
-Processing: 2026-05-04-rust-programming-language-complete-guide.md
-  SKIPPED: Future post 'The Rust Programming Language: High-Performance Computing from First Principles — Data Structures, Algorithms, and Everything You Were Afraid to Ask' (date: 2026-05-04, publish-before: 2026-04-18)
-Processing: 2026-05-05-kotlin-android-comprehensive-guide.md
-  SKIPPED: Future post 'Kotlin, Compose, and Android Development: A Comprehensive Guide from First Principles for the ASP.NET Developer Who Wants to Build Real Things' (date: 2026-05-05, publish-before: 2026-04-18)
-Processing: 2026-05-06-swift-ios-apple-comprehensive-guide.md
-  SKIPPED: Future post 'Swift, SwiftUI, and the Apple Ecosystem: A Comprehensive Guide from First Principles for the ASP.NET Developer Who Wants to Ship on iPhone' (date: 2026-05-06, publish-before: 2026-04-18)
-Processing: 2026-05-07-dart-flutter-comprehensive-guide.md
-  SKIPPED: Future post 'Dart and Flutter: A Comprehensive Guide from First Principles for the ASP.NET Developer Who Wants to Build Everywhere from a Single Codebase' (date: 2026-05-07, publish-before: 2026-04-18)
-Processing: 2026-05-08-feed.md
-  SKIPPED: Future post 'The Feed: A Novel of the Age of Algorithmic Nourishment' (date: 2026-05-08, publish-before: 2026-04-18)
-Processing: 2026-05-09-sql.md
-  SKIPPED: Future post 'Relational Databases, SQL, and Parameterized Queries: The Complete Guide for ASP.NET Developers Who Are Barely Keeping It Together' (date: 2026-05-09, publish-before: 2026-04-18)
-Processing: 2026-05-10-sql.md
-  SKIPPED: Future post 'From Chaos to Order: A Complete Guide to Relational Databases, SQL, and the First Normal Form' (date: 2026-05-10, publish-before: 2026-04-18)
-Processing: 2026-05-11-sql.md
-  SKIPPED: Future post 'Relational Databases, SQL, and Second Normal Form: A Complete Guide for the Developer Who Has Been Getting Away With It' (date: 2026-05-11, publish-before: 2026-04-18)
-Processing: 2026-05-12-sql.md
-  SKIPPED: Future post 'The Complete Guide to Relational Databases, SQL, and Normalization: From First Principles to Third Normal Form and Beyond' (date: 2026-05-12, publish-before: 2026-04-18)
-Processing: 2026-05-13-git.md
-  SKIPPED: Future post 'Git for TFS Developers: The Complete, Exhaustive, No-Stone-Unturned Guide to Migrating Your Brain from Team Foundation Version Control to Git' (date: 2026-05-13, publish-before: 2026-04-18)
-Processing: 2026-05-14-git.md
-  SKIPPED: Future post 'Git for TFS Developers, Part 2: The Three-Way Merge Algorithm, Every Conflict Type, tf.exe Command Mapping, CI/CD Integration, and Fifty More Scenarios You Will Encounter in Real Life' (date: 2026-05-14, publish-before: 2026-04-18)
-Processing: 2026-05-15-load-bearing-bugs-legacy-aspnet-guide.md
-  SKIPPED: Future post 'Load-Bearing Bugs: A Comprehensive Guide to Finding, Understanding, and Surviving the Subtle Defects That Keep Legacy ASP.NET Applications Alive' (date: 2026-05-15, publish-before: 2026-04-18)
-Processing: 2026-05-16-load-bearing-bugs-part-2-survival-guide.md
-  SKIPPED: Future post 'Load-Bearing Bugs, Part 2: The Complete Survival Guide to SQL Injection, web.config, IIS, Error Handling, Refactoring, Security, and Everything Else We Could Not Fit Into One Article' (date: 2026-05-16, publish-before: 2026-04-18)
-Processing: 2026-05-17-react.md
-  SKIPPED: Future post 'The Elephant in the Room: A Seven-Part Guide to React vs. Blazor WebAssembly for ASP.NET Developers — Overview' (date: 2026-05-17, publish-before: 2026-04-18)
-Processing: 2026-05-18-react.md
-  SKIPPED: Future post 'The Elephant in the Room, Part 2: The Virtual DOM vs. the Render Tree — A Systems-Level Deconstruction' (date: 2026-05-18, publish-before: 2026-04-18)
-Processing: 2026-05-19-react.md
-  SKIPPED: Future post 'The Elephant in the Room, Part 3: Escaping the useEffect Trap — Component Lifecycles Across Paradigms' (date: 2026-05-19, publish-before: 2026-04-18)
-Processing: 2026-05-20-react.md
-  SKIPPED: Future post 'The Elephant in the Room, Part 4: The Polyglot Front-End — Safely Sandboxing React Components via JSInterop' (date: 2026-05-20, publish-before: 2026-04-18)
-Processing: 2026-05-21-react.md
-  SKIPPED: Future post 'The Elephant in the Room, Part 5: State of the Union — Context, Redux, and the Absence of Dependency Injection' (date: 2026-05-21, publish-before: 2026-04-18)
-Processing: 2026-05-22-react.md
-  SKIPPED: Future post 'The Elephant in the Room, Part 6: Build Pipelines and Bundlers — Vite, esbuild, and the .NET Publish Pipeline' (date: 2026-05-22, publish-before: 2026-04-18)
-Processing: 2026-05-23-react.md
-  SKIPPED: Future post 'The Elephant in the Room, Part 7: The Conclusion — How to Actually Make the Decision' (date: 2026-05-23, publish-before: 2026-04-18)
-Processing: 2026-05-24-no-build-web-overview.md
-  SKIPPED: Future post 'Without a Net, Part 1: Overview — Why a Plain Browser Is Enough in 2026' (date: 2026-05-24, publish-before: 2026-04-18)
-Processing: 2026-05-25-semantics.md
-  SKIPPED: Future post 'Without a Net, Part 2: Semantic HTML and the Document Outline Nobody Taught You' (date: 2026-05-25, publish-before: 2026-04-18)
-Processing: 2026-05-26-cascade.md
-  SKIPPED: Future post 'Without a Net, Part 3: The Cascade, Specificity, and @layer — Organising CSS Without a Framework' (date: 2026-05-26, publish-before: 2026-04-18)
-Processing: 2026-05-27-css.md
-  SKIPPED: Future post 'Without a Net, Part 4: Modern CSS Layout — Flexbox, Grid, Subgrid, and Container Queries' (date: 2026-05-27, publish-before: 2026-04-18)
-Processing: 2026-05-28-responsive.md
-  SKIPPED: Future post 'Without a Net, Part 5: Responsive Design in 2026 — Container Queries, clamp(), Fluid Type, and :has()' (date: 2026-05-28, publish-before: 2026-04-18)
-Processing: 2026-05-29-typography.md
-  SKIPPED: Future post 'Without a Net, Part 6: Colour, Typography, and Motion — oklch, light-dark(), Variable Fonts, and View Transitions' (date: 2026-05-29, publish-before: 2026-04-18)
-Processing: 2026-05-30-modules.md
-  SKIPPED: Future post 'Without a Net, Part 7: Native ES Modules — Import Maps, Dynamic Import, and the Death of the Bundler' (date: 2026-05-30, publish-before: 2026-04-18)
-Processing: 2026-05-31-dom-events.md
-  SKIPPED: Future post 'Without a Net, Part 8: The DOM, Events, and Platform Primitives Everyone Reimplemented' (date: 2026-05-31, publish-before: 2026-04-18)
-Processing: 2026-06-01-state.md
-  SKIPPED: Future post 'Without a Net, Part 9: State Management Without a Library — Proxies, Signals from Scratch, and the Observer Pattern' (date: 2026-06-01, publish-before: 2026-04-18)
-Processing: 2026-06-02-web-custom-elements.md
-  SKIPPED: Future post 'Without a Net, Part 10: Web Components — Custom Elements, Shadow DOM, Templates, and Slots' (date: 2026-06-02, publish-before: 2026-04-18)
-Processing: 2026-06-03-web-routing-navigation.md
-  SKIPPED: Future post 'Without a Net, Part 11: Client-Side Routing with the Navigation API and View Transitions' (date: 2026-06-03, publish-before: 2026-04-18)
-Processing: 2026-06-04-web-forms-validation.md
-  SKIPPED: Future post 'Without a Net, Part 12: Forms, Validation, and the Constraint Validation API' (date: 2026-06-04, publish-before: 2026-04-18)
-Processing: 2026-06-05-web-storage-offline.md
-  SKIPPED: Future post 'Without a Net, Part 13: Storage, Service Workers, and Offline' (date: 2026-06-05, publish-before: 2026-04-18)
-Processing: 2026-06-06-web-accessibility-performance-security.md
-  SKIPPED: Future post 'Without a Net, Part 14: Accessibility, Performance, and Security' (date: 2026-06-06, publish-before: 2026-04-18)
-Processing: 2026-06-07-capstone.md
-  SKIPPED: Future post 'Without a Net, Part 15: The Conclusion — A Complete Application End to End' (date: 2026-06-07, publish-before: 2026-04-18)
-Processing: 2026-06-08-house.md
-  SKIPPED: Future post 'Building a House in Kathmandu, Part 1: Before the First Brick' (date: 2026-06-08, publish-before: 2026-04-18)
-Processing: 2026-06-09-house.md
-  SKIPPED: Future post 'Building a House in Kathmandu, Part 2: Designing the House' (date: 2026-06-09, publish-before: 2026-04-18)
-Processing: 2026-06-10-house.md
-  SKIPPED: Future post 'Building a House in Kathmandu, Part 3: Foundation and Structure' (date: 2026-06-10, publish-before: 2026-04-18)
-Processing: 2026-06-11-house.md
-  SKIPPED: Future post 'Building a House in Kathmandu, Part 4: The Building Envelope' (date: 2026-06-11, publish-before: 2026-04-18)
-Processing: 2026-06-12-house.md
-  SKIPPED: Future post 'Building a House in Kathmandu, Part 5: Water, Power, and Plumbing' (date: 2026-06-12, publish-before: 2026-04-18)
-Wrote posts index: src/ObserverMagazine.Web/wwwroot/blog-data/posts-index.json (36 posts, 1 drafts skipped, 56 future posts skipped)
-Wrote RSS feed: src/ObserverMagazine.Web/wwwroot/feed.xml
-Content processing complete.
-Restore complete (0.5s)
-  ObserverMagazine.Integration.Tests net10.0 succeeded (0.5s) → tests/ObserverMagazine.Integration.Tests/bin/Debug/net10.0/ObserverMagazine.Integration.Tests.dll
-[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.4)
-[xUnit.net 00:00:00.14]   Discovering: ObserverMagazine.Integration.Tests
-[xUnit.net 00:00:00.30]   Discovered:  ObserverMagazine.Integration.Tests
-[xUnit.net 00:00:00.45]   Starting:    ObserverMagazine.Integration.Tests
-[xUnit.net 00:00:00.69]   Finished:    ObserverMagazine.Integration.Tests (ID = 'd4d0d007958fbe0fe38b14d9e6b646a44fb0e18b73a44da34c809b07def2c31b')
-  ObserverMagazine.Integration.Tests test net10.0 succeeded (1.2s)
-  ObserverMagazine.Web net10.0 browser-wasm succeeded (3.9s) → src/ObserverMagazine.Web/bin/Debug/net10.0/wwwroot
-  ObserverMagazine.Web.Tests net10.0 succeeded (0.4s) → tests/ObserverMagazine.Web.Tests/bin/Debug/net10.0/ObserverMagazine.Web.Tests.dll
-[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.4)
-[xUnit.net 00:00:00.16]   Discovering: ObserverMagazine.Web.Tests
-[xUnit.net 00:00:00.32]   Discovered:  ObserverMagazine.Web.Tests
-[xUnit.net 00:00:00.47]   Starting:    ObserverMagazine.Web.Tests
-[xUnit.net 00:00:00.94]   Finished:    ObserverMagazine.Web.Tests (ID = '637bea1e316adf1ddb3603d0d821a98009dc019a599147baf24c1e1ec396837f')
-  ObserverMagazine.Web.Tests test net10.0 succeeded (1.4s)
-
-Test summary: total: 81, failed: 0, succeeded: 81, skipped: 0, duration: 5.5s
-Build succeeded in 6.6s
-
-real	0m6.715s
-user	0m4.098s
-sys	0m0.544s
-Restore complete (0.5s)
-
-Build succeeded in 0.6s
-Project 'ObserverMagazine.Web' has the following package references
-   [net10.0]: 
-   Top-level Package                                        Requested      Resolved
-   > Microsoft.AspNetCore.App.Internal.Assets         (A)   [10.0.4, )     10.0.4  
-   > Microsoft.AspNetCore.Components.WebAssembly            10.0.6         10.0.6  
-   > Microsoft.DotNet.HotReload.WebAssembly.Browser   (A)   [10.0.104, )   10.0.104
-   > Microsoft.Extensions.Http                              10.0.6         10.0.6  
-   > Microsoft.Extensions.Logging.Configuration             10.0.6         10.0.6  
-   > Microsoft.NET.ILLink.Tasks                       (A)   [10.0.4, )     10.0.4  
-   > Microsoft.NET.Sdk.WebAssembly.Pack               (A)   [10.0.1, )     10.0.1  
-
-Project 'ObserverMagazine.Integration.Tests' has the following package references
-   [net10.0]: 
-   Top-level Package                Requested   Resolved
-   > Markdig                        1.1.2       1.1.2   
-   > Microsoft.NET.Test.Sdk         18.4.0      18.4.0  
-   > xunit.runner.visualstudio      3.1.5       3.1.5   
-   > xunit.v3                       3.2.2       3.2.2   
-   > YamlDotNet                     17.0.1      17.0.1  
-
-Project 'ObserverMagazine.Web.Tests' has the following package references
-   [net10.0]: 
-   Top-level Package                Requested   Resolved
-   > bunit                          2.7.2       2.7.2   
-   > Microsoft.NET.Test.Sdk         18.4.0      18.4.0  
-   > xunit.runner.visualstudio      3.1.5       3.1.5   
-   > xunit.v3                       3.2.2       3.2.2   
-
-Project 'ObserverMagazine.ContentProcessor' has the following package references
-   [net10.0]: 
-   Top-level Package      Requested   Resolved
-   > Markdig              1.1.2       1.1.2   
-   > YamlDotNet           17.0.1      17.0.1  
-
-(A) : Auto-referenced package.
-
-real	0m1.531s
-user	0m1.503s
-sys	0m0.325s
-Restore complete (0.5s)
-
-Build succeeded in 0.6s
-
-The following sources were used:
-   https://api.nuget.org/v3/index.json
-
-The given project `ObserverMagazine.Web` has no updates given the current sources.
-The given project `ObserverMagazine.Integration.Tests` has no updates given the current sources.
-The given project `ObserverMagazine.Web.Tests` has no updates given the current sources.
-The given project `ObserverMagazine.ContentProcessor` has no updates given the current sources.
-
-real	0m2.611s
-user	0m1.954s
-sys	0m0.420s
-Export complete: docs/llm/dump.txt
-  Total files: 172
-  Blog posts (front matter only): 93
-  Full content files: 77
-  Binary files skipped: 2
-
-real	0m0.147s
-user	0m0.061s
-sys	0m0.057s
-kushal@fedora:~/src/dotnet/myblazor$ cd /home/kushal/src/dotnet/myblazor/; time du -sh .; time git clean -dfX; time du -sh .; time dotnet format; time dotnet restore; dotnet run --project tools/ObserverMagazine.ContentProcessor -- --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot; time dotnet test; time dotnet list package; time dotnet list package --outdated; time bash export.sh;
-234M	.
-
-real	0m0.056s
-user	0m0.004s
-sys	0m0.031s
-Removing src/ObserverMagazine.Web/bin/
-Removing src/ObserverMagazine.Web/obj/
-Removing src/ObserverMagazine.Web/wwwroot/blog-data/
-Removing src/ObserverMagazine.Web/wwwroot/feed.xml
-Removing tests/ObserverMagazine.Integration.Tests/bin/
-Removing tests/ObserverMagazine.Integration.Tests/obj/
-Removing tests/ObserverMagazine.Web.Tests/bin/
-Removing tests/ObserverMagazine.Web.Tests/obj/
-Removing tools/ObserverMagazine.ContentProcessor/bin/
-Removing tools/ObserverMagazine.ContentProcessor/obj/
-
-real	0m0.058s
-user	0m0.002s
-sys	0m0.052s
-94M	.
-
-real	0m0.012s
-user	0m0.003s
-sys	0m0.009s
-
-real	0m14.223s
-user	0m20.573s
-sys	0m1.922s
-Restore complete (0.9s)
-
-Build succeeded in 1.1s
-
-real	0m1.361s
-user	0m1.424s
-sys	0m0.228s
-Content directory: content/blog
-Output directory:  src/ObserverMagazine.Web/wwwroot
-Authors directory: content/authors
-Publish before:    2026-04-18 07:39:50 UTC
-Found 3 author profile(s)
-  Loaded author: kushal (kushal)
-  Loaded author: abraham-lincoln (Abraham Lincoln)
-  Loaded author: myblazor-team (My Blazor Team)
-Wrote authors index: src/ObserverMagazine.Web/wwwroot/blog-data/authors.json (3 authors)
-Found 95 markdown files
-Processing: 2026-01-15-welcome-to-observer-magazine.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/welcome-to-observer-magazine.html (~1 min read)
-Processing: 2026-02-20-getting-started-with-blazor-wasm.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/getting-started-with-blazor-wasm.html (~1 min read)
-Processing: 2026-03-10-responsive-design-patterns.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/responsive-design-patterns.html (~1 min read)
-Processing: 2026-03-20-hello-world.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/hello-world.html (~1 min read)
-Processing: 2026-03-21-aspnet-lifecycle-deep-dive.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/aspnet-lifecycle-deep-dive.html (~16 min read)
-Processing: 2099-01-01-draft-template.md
-  SKIPPED: Draft post 'Your Post Title Here'
-Processing: 2027-01-01-happy-new-year-2027.md
-  SKIPPED: Future post 'Happy New Year 2027: A Look Back and a Look Ahead' (date: 2027-01-01, publish-before: 2026-04-18)
-Processing: 2026-03-22-good-morning.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/good-morning.html (~1 min read)
-Processing: 2026-03-22-the-year-2025-in-review.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/the-year-2025-in-review.html (~14 min read)
-Processing: 2026-03-22-modernizing-to-dotnet-10.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/modernizing-to-dotnet-10.html (~13 min read)
-Processing: 2026-03-23-honk-drive.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/honk-drive.html (~7 min read)
-Processing: 2026-03-24-avalonia-ui-comprehensive-guide.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/avalonia-ui-comprehensive-guide.html (~35 min read)
-Processing: 2026-03-25-git-and-trunk-based-development.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/git-and-trunk-based-development.html (~31 min read)
-Processing: 2026-03-26-typescript-comprehensive-guide.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/typescript-comprehensive-guide.html (~38 min read)
-Processing: 2026-03-27-sql-server-complete-guide.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/sql-server-complete-guide.html (~48 min read)
-Processing: 2026-03-28-postgresql-npgsql-comprehensive-guide.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/postgresql-npgsql-comprehensive-guide.html (~42 min read)
-Processing: 2026-03-29-why-qa-matters-more-than-ever.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/why-qa-matters-more-than-ever.html (~29 min read)
-Processing: 2026-03-30-the-cloud-toilet-problem.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/the-cloud-toilet-problem.html (~17 min read)
-Processing: 2026-03-31-solid-principles.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/solid-principles.html (~44 min read)
-Processing: 2026-04-01-single-responsibility-principle-complete-guide.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/single-responsibility-principle-complete-guide.html (~47 min read)
-Processing: 2026-04-02-open-closed-principle.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/open-closed-principle.html (~41 min read)
-Processing: 2026-04-03-liskov-substitution.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/liskov-substitution.html (~42 min read)
-Processing: 2026-04-04-interface-segregation.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/interface-segregation.html (~34 min read)
-Processing: 2026-04-05-dependency-injection.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/dependency-injection.html (~44 min read)
-Processing: 2026-04-06-most-important-solid-principle.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/most-important-solid-principle.html (~30 min read)
-Processing: 2026-04-07-2007-toyota-camry-complete-guide.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/2007-toyota-camry-complete-guide.html (~42 min read)
-Processing: 2026-04-08-aspire-containers-self-hosting-guide.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/aspire-containers-self-hosting-guide.html (~37 min read)
-Processing: 2026-04-09-dotnet-data-structures-complete-guide.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/dotnet-data-structures-complete-guide.html (~62 min read)
-Processing: 2026-04-10-relational-databases-normalization-guide.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/relational-databases-normalization-guide.html (~36 min read)
-Processing: 2026-04-11-dotnet10-csharp14-complete-guide.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/dotnet10-csharp14-complete-guide.html (~39 min read)
-Processing: 2026-04-14-happy-new-year.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/happy-new-year.html (~1 min read)
-Processing: 2026-04-12-dfw-home-buying-complete-guide.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/dfw-home-buying-complete-guide.html (~52 min read)
-Processing: 2026-04-13-bikram-sambat-nepal-sambat-comprehensive-guide.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/bikram-sambat-nepal-sambat-comprehensive-guide.html (~53 min read)
-Processing: 2026-04-14-web-browser-technology-complete-guide.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/web-browser-technology-complete-guide.html (~55 min read)
-Processing: 2026-04-15-blazor-not-found-page-postmortem.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/blazor-not-found-page-postmortem.html (~29 min read)
-Processing: 2026-04-16-global-money-machine-currency-payments-remittance-nepal.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/global-money-machine-currency-payments-remittance-nepal.html (~44 min read)
-Processing: 2026-04-17-grand-unified-novel-timeline.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/grand-unified-novel-timeline.html (~85 min read)
-Processing: 2026-04-18-global-gnss-and-atomic-synchronization.md
-  Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/global-gnss-and-atomic-synchronization.html (~100 min read)
-Processing: 2026-04-19-sql-server-connection-pooling-complete-guide.md
-  SKIPPED: Future post 'The Complete Guide to SQL Server Connection Pooling in ASP.NET: From Framework 4.8 to .NET 10' (date: 2026-04-19, publish-before: 2026-04-18)
-Processing: 2026-04-20-httpclientfactory-typed-clients-deep-dive.md
-  SKIPPED: Future post 'HttpClientFactory and Typed Clients: The Complete Guide to HTTP Connection Management in .NET' (date: 2026-04-20, publish-before: 2026-04-18)
-Processing: 2026-04-21-threadpool-starvation-and-connection-pooling.md
-  SKIPPED: Future post 'Thread Pool Starvation, Injection, and the Other Pool: A Complete Guide to Concurrency in ASP.NET and .NET 10' (date: 2026-04-21, publish-before: 2026-04-18)
-Processing: 2026-04-22-git-comprehensive-guide.md
-  SKIPPED: Future post 'Git: The Complete Guide — Internals, Misconceptions, Branches, Commits, Tags, and Everything In Between' (date: 2026-04-22, publish-before: 2026-04-18)
-Processing: 2026-04-23-git-sha1-vs-sha256.md
-  SKIPPED: Future post 'Git's Hash Revolution: SHA-1, SHA-256, and the Long Road to a More Secure Version Control System' (date: 2026-04-23, publish-before: 2026-04-18)
-Processing: 2026-04-24-clojure-beginners-guide.md
-  SKIPPED: Future post 'Clojure: A Beginner's Guide for the C# ASP.NET Developer Who Has Been Doing Everything Wrong' (date: 2026-04-24, publish-before: 2026-04-18)
-Processing: 2026-04-25-javascript.md
-  SKIPPED: Future post 'The Definitive JavaScript Reference for .NET Developers: Language, Ecosystem, and Tooling in 2026' (date: 2026-04-25, publish-before: 2026-04-18)
-Processing: 2026-04-26-typescript.md
-  SKIPPED: Future post 'The Definitive TypeScript Reference for .NET Developers: Language, Ecosystem, and Tooling in 2026' (date: 2026-04-26, publish-before: 2026-04-18)
-Processing: 2026-04-27-golang.md
-  SKIPPED: Future post 'Go in 2026: The Definitive Technical Guide from Hello World to Production Mastery' (date: 2026-04-27, publish-before: 2026-04-18)
-Processing: 2026-04-28-rust.md
-  SKIPPED: Future post 'The C# Developer's Crucible: A Comprehensive Guide to Unlearning Bad Habits and Mastering Rust' (date: 2026-04-28, publish-before: 2026-04-18)
-Processing: 2026-04-29-angular-form.md
-  SKIPPED: Future post 'Angular in 2026 - signals, forms, and the modern developer toolkit' (date: 2026-04-29, publish-before: 2026-04-18)
-Processing: 2026-04-30-angular-signals-reactive-forms-guide.md
-  SKIPPED: Future post 'Composable, Reactive Forms in Angular Using Signals: A Complete Guide from First Principles to Production Patterns' (date: 2026-04-30, publish-before: 2026-04-18)
-Processing: 2026-05-01-javascript-modern-web-first-principles.md
-  SKIPPED: Future post 'JavaScript for the Modern Web in 2026: Complete Web Applications from First Principles Without npm, Without Build Steps, Without Nonsense' (date: 2026-05-01, publish-before: 2026-04-18)
-Processing: 2026-05-02-javascript-css-from-ground-up.md
-  SKIPPED: Future post 'JavaScript and CSS from the Ground Up: Complete Web Applications from First Principles in 2026' (date: 2026-05-02, publish-before: 2026-04-18)
-Processing: 2026-05-03-html-javascript-css-from-first-principles.md
-  SKIPPED: Future post 'HTML, JavaScript, and CSS from the Ground Up: Building Complete Web Applications Without Any External Packages, From First Principles, for the Modern Web in 2026' (date: 2026-05-03, publish-before: 2026-04-18)
-Processing: 2026-05-04-rust-programming-language-complete-guide.md
-  SKIPPED: Future post 'The Rust Programming Language: High-Performance Computing from First Principles — Data Structures, Algorithms, and Everything You Were Afraid to Ask' (date: 2026-05-04, publish-before: 2026-04-18)
-Processing: 2026-05-05-kotlin-android-comprehensive-guide.md
-  SKIPPED: Future post 'Kotlin, Compose, and Android Development: A Comprehensive Guide from First Principles for the ASP.NET Developer Who Wants to Build Real Things' (date: 2026-05-05, publish-before: 2026-04-18)
-Processing: 2026-05-06-swift-ios-apple-comprehensive-guide.md
-  SKIPPED: Future post 'Swift, SwiftUI, and the Apple Ecosystem: A Comprehensive Guide from First Principles for the ASP.NET Developer Who Wants to Ship on iPhone' (date: 2026-05-06, publish-before: 2026-04-18)
-Processing: 2026-05-07-dart-flutter-comprehensive-guide.md
-  SKIPPED: Future post 'Dart and Flutter: A Comprehensive Guide from First Principles for the ASP.NET Developer Who Wants to Build Everywhere from a Single Codebase' (date: 2026-05-07, publish-before: 2026-04-18)
-Processing: 2026-05-08-feed.md
-  SKIPPED: Future post 'The Feed: A Novel of the Age of Algorithmic Nourishment' (date: 2026-05-08, publish-before: 2026-04-18)
-Processing: 2026-05-09-sql.md
-  SKIPPED: Future post 'Relational Databases, SQL, and Parameterized Queries: The Complete Guide for ASP.NET Developers Who Are Barely Keeping It Together' (date: 2026-05-09, publish-before: 2026-04-18)
-Processing: 2026-05-10-sql.md
-  SKIPPED: Future post 'From Chaos to Order: A Complete Guide to Relational Databases, SQL, and the First Normal Form' (date: 2026-05-10, publish-before: 2026-04-18)
-Processing: 2026-05-11-sql.md
-  SKIPPED: Future post 'Relational Databases, SQL, and Second Normal Form: A Complete Guide for the Developer Who Has Been Getting Away With It' (date: 2026-05-11, publish-before: 2026-04-18)
-Processing: 2026-05-12-sql.md
-  SKIPPED: Future post 'The Complete Guide to Relational Databases, SQL, and Normalization: From First Principles to Third Normal Form and Beyond' (date: 2026-05-12, publish-before: 2026-04-18)
-Processing: 2026-05-13-git.md
-  SKIPPED: Future post 'Git for TFS Developers: The Complete, Exhaustive, No-Stone-Unturned Guide to Migrating Your Brain from Team Foundation Version Control to Git' (date: 2026-05-13, publish-before: 2026-04-18)
-Processing: 2026-05-14-git.md
-  SKIPPED: Future post 'Git for TFS Developers, Part 2: The Three-Way Merge Algorithm, Every Conflict Type, tf.exe Command Mapping, CI/CD Integration, and Fifty More Scenarios You Will Encounter in Real Life' (date: 2026-05-14, publish-before: 2026-04-18)
-Processing: 2026-05-15-load-bearing-bugs-legacy-aspnet-guide.md
-  SKIPPED: Future post 'Load-Bearing Bugs: A Comprehensive Guide to Finding, Understanding, and Surviving the Subtle Defects That Keep Legacy ASP.NET Applications Alive' (date: 2026-05-15, publish-before: 2026-04-18)
-Processing: 2026-05-16-load-bearing-bugs-part-2-survival-guide.md
-  SKIPPED: Future post 'Load-Bearing Bugs, Part 2: The Complete Survival Guide to SQL Injection, web.config, IIS, Error Handling, Refactoring, Security, and Everything Else We Could Not Fit Into One Article' (date: 2026-05-16, publish-before: 2026-04-18)
-Processing: 2026-05-17-react.md
-  SKIPPED: Future post 'The Elephant in the Room: A Seven-Part Guide to React vs. Blazor WebAssembly for ASP.NET Developers — Overview' (date: 2026-05-17, publish-before: 2026-04-18)
-Processing: 2026-05-18-react.md
-  SKIPPED: Future post 'The Elephant in the Room, Part 2: The Virtual DOM vs. the Render Tree — A Systems-Level Deconstruction' (date: 2026-05-18, publish-before: 2026-04-18)
-Processing: 2026-05-19-react.md
-  SKIPPED: Future post 'The Elephant in the Room, Part 3: Escaping the useEffect Trap — Component Lifecycles Across Paradigms' (date: 2026-05-19, publish-before: 2026-04-18)
-Processing: 2026-05-20-react.md
-  SKIPPED: Future post 'The Elephant in the Room, Part 4: The Polyglot Front-End — Safely Sandboxing React Components via JSInterop' (date: 2026-05-20, publish-before: 2026-04-18)
-Processing: 2026-05-21-react.md
-  SKIPPED: Future post 'The Elephant in the Room, Part 5: State of the Union — Context, Redux, and the Absence of Dependency Injection' (date: 2026-05-21, publish-before: 2026-04-18)
-Processing: 2026-05-22-react.md
-  SKIPPED: Future post 'The Elephant in the Room, Part 6: Build Pipelines and Bundlers — Vite, esbuild, and the .NET Publish Pipeline' (date: 2026-05-22, publish-before: 2026-04-18)
-Processing: 2026-05-23-react.md
-  SKIPPED: Future post 'The Elephant in the Room, Part 7: The Conclusion — How to Actually Make the Decision' (date: 2026-05-23, publish-before: 2026-04-18)
-Processing: 2026-05-24-no-build-web-overview.md
-  SKIPPED: Future post 'Without a Net, Part 1: Overview — Why a Plain Browser Is Enough in 2026' (date: 2026-05-24, publish-before: 2026-04-18)
-Processing: 2026-05-25-semantics.md
-  SKIPPED: Future post 'Without a Net, Part 2: Semantic HTML and the Document Outline Nobody Taught You' (date: 2026-05-25, publish-before: 2026-04-18)
-Processing: 2026-05-26-cascade.md
-  SKIPPED: Future post 'Without a Net, Part 3: The Cascade, Specificity, and @layer — Organising CSS Without a Framework' (date: 2026-05-26, publish-before: 2026-04-18)
-Processing: 2026-05-27-css.md
-  SKIPPED: Future post 'Without a Net, Part 4: Modern CSS Layout — Flexbox, Grid, Subgrid, and Container Queries' (date: 2026-05-27, publish-before: 2026-04-18)
-Processing: 2026-05-28-responsive.md
-  SKIPPED: Future post 'Without a Net, Part 5: Responsive Design in 2026 — Container Queries, clamp(), Fluid Type, and :has()' (date: 2026-05-28, publish-before: 2026-04-18)
-Processing: 2026-05-29-typography.md
-  SKIPPED: Future post 'Without a Net, Part 6: Colour, Typography, and Motion — oklch, light-dark(), Variable Fonts, and View Transitions' (date: 2026-05-29, publish-before: 2026-04-18)
-Processing: 2026-05-30-modules.md
-  SKIPPED: Future post 'Without a Net, Part 7: Native ES Modules — Import Maps, Dynamic Import, and the Death of the Bundler' (date: 2026-05-30, publish-before: 2026-04-18)
-Processing: 2026-05-31-dom-events.md
-  SKIPPED: Future post 'Without a Net, Part 8: The DOM, Events, and Platform Primitives Everyone Reimplemented' (date: 2026-05-31, publish-before: 2026-04-18)
-Processing: 2026-06-01-state.md
-  SKIPPED: Future post 'Without a Net, Part 9: State Management Without a Library — Proxies, Signals from Scratch, and the Observer Pattern' (date: 2026-06-01, publish-before: 2026-04-18)
-Processing: 2026-06-02-web-custom-elements.md
-  SKIPPED: Future post 'Without a Net, Part 10: Web Components — Custom Elements, Shadow DOM, Templates, and Slots' (date: 2026-06-02, publish-before: 2026-04-18)
-Processing: 2026-06-03-web-routing-navigation.md
-  SKIPPED: Future post 'Without a Net, Part 11: Client-Side Routing with the Navigation API and View Transitions' (date: 2026-06-03, publish-before: 2026-04-18)
-Processing: 2026-06-04-web-forms-validation.md
-  SKIPPED: Future post 'Without a Net, Part 12: Forms, Validation, and the Constraint Validation API' (date: 2026-06-04, publish-before: 2026-04-18)
-Processing: 2026-06-05-web-storage-offline.md
-  SKIPPED: Future post 'Without a Net, Part 13: Storage, Service Workers, and Offline' (date: 2026-06-05, publish-before: 2026-04-18)
-Processing: 2026-06-06-web-accessibility-performance-security.md
-  SKIPPED: Future post 'Without a Net, Part 14: Accessibility, Performance, and Security' (date: 2026-06-06, publish-before: 2026-04-18)
-Processing: 2026-06-07-capstone.md
-  SKIPPED: Future post 'Without a Net, Part 15: The Conclusion — A Complete Application End to End' (date: 2026-06-07, publish-before: 2026-04-18)
-Processing: 2026-06-08-house.md
-  SKIPPED: Future post 'Building a House in Kathmandu, Part 1: Before the First Brick' (date: 2026-06-08, publish-before: 2026-04-18)
-Processing: 2026-06-09-house.md
-  SKIPPED: Future post 'Building a House in Kathmandu, Part 2: Designing the House' (date: 2026-06-09, publish-before: 2026-04-18)
-Processing: 2026-06-10-house.md
-  SKIPPED: Future post 'Building a House in Kathmandu, Part 3: Foundation and Structure' (date: 2026-06-10, publish-before: 2026-04-18)
-Processing: 2026-06-11-house.md
-  SKIPPED: Future post 'Building a House in Kathmandu, Part 4: The Building Envelope' (date: 2026-06-11, publish-before: 2026-04-18)
-Processing: 2026-06-12-house.md
-  SKIPPED: Future post 'Building a House in Kathmandu, Part 5: Water, Power, and Plumbing' (date: 2026-06-12, publish-before: 2026-04-18)
-Processing: 2026-06-13-house.md
-  SKIPPED: Future post 'Building a House in Kathmandu, Part 6: Finishing the Interior' (date: 2026-06-13, publish-before: 2026-04-18)
-Processing: 2026-06-14-house.md
-  SKIPPED: Future post 'Building a House in Kathmandu, Part 7: Moving In and Living With It' (date: 2026-06-14, publish-before: 2026-04-18)
-Wrote posts index: src/ObserverMagazine.Web/wwwroot/blog-data/posts-index.json (36 posts, 1 drafts skipped, 58 future posts skipped)
-Wrote RSS feed: src/ObserverMagazine.Web/wwwroot/feed.xml
-Content processing complete.
-Restore complete (0.9s)
-  ObserverMagazine.Integration.Tests net10.0 succeeded (0.8s) → tests/ObserverMagazine.Integration.Tests/bin/Debug/net10.0/ObserverMagazine.Integration.Tests.dll
-[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.4)
-[xUnit.net 00:00:00.24]   Discovering: ObserverMagazine.Integration.Tests
-[xUnit.net 00:00:00.51]   Discovered:  ObserverMagazine.Integration.Tests
-[xUnit.net 00:00:00.76]   Starting:    ObserverMagazine.Integration.Tests
-[xUnit.net 00:00:01.17]   Finished:    ObserverMagazine.Integration.Tests (ID = 'd4d0d007958fbe0fe38b14d9e6b646a44fb0e18b73a44da34c809b07def2c31b')
-  ObserverMagazine.Integration.Tests test net10.0 succeeded (2.1s)
-  ObserverMagazine.Web net10.0 browser-wasm succeeded (6.6s) → src/ObserverMagazine.Web/bin/Debug/net10.0/wwwroot
-  ObserverMagazine.Web.Tests net10.0 succeeded (0.8s) → tests/ObserverMagazine.Web.Tests/bin/Debug/net10.0/ObserverMagazine.Web.Tests.dll
-[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.4)
-[xUnit.net 00:00:00.24]   Discovering: ObserverMagazine.Web.Tests
-[xUnit.net 00:00:00.51]   Discovered:  ObserverMagazine.Web.Tests
-[xUnit.net 00:00:00.77]   Starting:    ObserverMagazine.Web.Tests
-[xUnit.net 00:00:01.51]   Finished:    ObserverMagazine.Web.Tests (ID = '637bea1e316adf1ddb3603d0d821a98009dc019a599147baf24c1e1ec396837f')
-  ObserverMagazine.Web.Tests test net10.0 succeeded (2.4s)
-
-Test summary: total: 81, failed: 0, succeeded: 81, skipped: 0, duration: 9.2s
-Build succeeded in 11.2s
-
-real	0m11.472s
-user	0m7.120s
-sys	0m0.916s
-Restore complete (0.9s)
-
-Build succeeded in 1.1s
-Project 'ObserverMagazine.Web' has the following package references
-   [net10.0]: 
-   Top-level Package                                        Requested      Resolved
-   > Microsoft.AspNetCore.App.Internal.Assets         (A)   [10.0.4, )     10.0.4  
-   > Microsoft.AspNetCore.Components.WebAssembly            10.0.6         10.0.6  
-   > Microsoft.DotNet.HotReload.WebAssembly.Browser   (A)   [10.0.104, )   10.0.104
-   > Microsoft.Extensions.Http                              10.0.6         10.0.6  
-   > Microsoft.Extensions.Logging.Configuration             10.0.6         10.0.6  
-   > Microsoft.NET.ILLink.Tasks                       (A)   [10.0.4, )     10.0.4  
-   > Microsoft.NET.Sdk.WebAssembly.Pack               (A)   [10.0.1, )     10.0.1  
-
-Project 'ObserverMagazine.Integration.Tests' has the following package references
-   [net10.0]: 
-   Top-level Package                Requested   Resolved
-   > Markdig                        1.1.2       1.1.2   
-   > Microsoft.NET.Test.Sdk         18.4.0      18.4.0  
-   > xunit.runner.visualstudio      3.1.5       3.1.5   
-   > xunit.v3                       3.2.2       3.2.2   
-   > YamlDotNet                     17.0.1      17.0.1  
-
-Project 'ObserverMagazine.Web.Tests' has the following package references
-   [net10.0]: 
-   Top-level Package                Requested   Resolved
-   > bunit                          2.7.2       2.7.2   
-   > Microsoft.NET.Test.Sdk         18.4.0      18.4.0  
-   > xunit.runner.visualstudio      3.1.5       3.1.5   
-   > xunit.v3                       3.2.2       3.2.2   
-
-Project 'ObserverMagazine.ContentProcessor' has the following package references
-   [net10.0]: 
-   Top-level Package      Requested   Resolved
-   > Markdig              1.1.2       1.1.2   
-   > YamlDotNet           17.0.1      17.0.1  
-
-(A) : Auto-referenced package.
-
-real	0m2.978s
-user	0m2.822s
-sys	0m0.552s
-Restore complete (0.9s)
-
-Build succeeded in 1.1s
-
-The following sources were used:
-   https://api.nuget.org/v3/index.json
-
-The given project `ObserverMagazine.Web` has no updates given the current sources.
-The given project `ObserverMagazine.Integration.Tests` has no updates given the current sources.
-The given project `ObserverMagazine.Web.Tests` has no updates given the current sources.
-The given project `ObserverMagazine.ContentProcessor` has no updates given the current sources.
-
-real	0m4.261s
-user	0m3.743s
-sys	0m0.691s
-Export complete: docs/llm/dump.txt
-  Total files: 174
-  Blog posts (front matter only): 95
-  Full content files: 77
-  Binary files skipped: 2
-
-real	0m0.229s
-user	0m0.083s
-sys	0m0.104s
-kushal@fedora:~/src/dotnet/myblazor$ cd /home/kushal/src/dotnet/myblazor/; time du -sh .; time git clean -dfX; time du -sh .; time dotnet format; time dotnet restore; dotnet run --project tools/ObserverMagazine.ContentProcessor -- --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot; time dotnet test; time dotnet list package; time dotnet list package --outdated; time bash export.sh;
-235M	.
-
-real	0m0.030s
-user	0m0.002s
-sys	0m0.017s
-Removing src/ObserverMagazine.Web/bin/
-Removing src/ObserverMagazine.Web/obj/
-Removing src/ObserverMagazine.Web/wwwroot/blog-data/
-Removing src/ObserverMagazine.Web/wwwroot/feed.xml
-Removing tests/ObserverMagazine.Integration.Tests/bin/
-Removing tests/ObserverMagazine.Integration.Tests/obj/
-Removing tests/ObserverMagazine.Web.Tests/bin/
-Removing tests/ObserverMagazine.Web.Tests/obj/
-Removing tools/ObserverMagazine.ContentProcessor/bin/
-Removing tools/ObserverMagazine.ContentProcessor/obj/
-
-real	0m0.047s
-user	0m0.003s
-sys	0m0.039s
-95M	.
-
-real	0m0.011s
-user	0m0.001s
-sys	0m0.010s
-
-real	0m8.506s
-user	0m12.415s
-sys	0m1.234s
-Restore complete (0.5s)
-
-Build succeeded in 0.6s
-
-real	0m0.748s
-user	0m0.787s
-sys	0m0.164s
-Content directory: content/blog
-Output directory:  src/ObserverMagazine.Web/wwwroot
-Authors directory: content/authors
-Publish before:    2026-04-19 13:09:35 UTC
-Found 3 author profile(s)
-  Loaded author: kushal (kushal)
-  Loaded author: abraham-lincoln (Abraham Lincoln)
-  Loaded author: myblazor-team (My Blazor Team)
-Wrote authors index: src/ObserverMagazine.Web/wwwroot/blog-data/authors.json (3 authors)
-Found 95 markdown files
+Found 96 markdown files
 Processing: 2026-01-15-welcome-to-observer-magazine.md
   Wrote: src/ObserverMagazine.Web/wwwroot/blog-data/welcome-to-observer-magazine.html (~1 min read)
 Processing: 2026-02-20-getting-started-with-blazor-wasm.md
@@ -886,32 +234,34 @@ Processing: 2026-06-13-house.md
   SKIPPED: Future post 'Building a House in Kathmandu, Part 6: Finishing the Interior' (date: 2026-06-13, publish-before: 2026-04-19)
 Processing: 2026-06-14-house.md
   SKIPPED: Future post 'Building a House in Kathmandu, Part 7: Moving In and Living With It' (date: 2026-06-14, publish-before: 2026-04-19)
-Wrote posts index: src/ObserverMagazine.Web/wwwroot/blog-data/posts-index.json (37 posts, 1 drafts skipped, 57 future posts skipped)
+Processing: 2026-06-15-chestertons-fence-and-the-monkey-cage.md
+  SKIPPED: Future post 'Chesterton's Fence and the Monkey Cage: A Developer's Guide to Knowing Which Rules to Keep and Which to Tear Down' (date: 2026-06-15, publish-before: 2026-04-19)
+Wrote posts index: src/ObserverMagazine.Web/wwwroot/blog-data/posts-index.json (37 posts, 1 drafts skipped, 58 future posts skipped)
 Wrote RSS feed: src/ObserverMagazine.Web/wwwroot/feed.xml
 Content processing complete.
 Restore complete (0.5s)
   ObserverMagazine.Integration.Tests net10.0 succeeded (0.5s) → tests/ObserverMagazine.Integration.Tests/bin/Debug/net10.0/ObserverMagazine.Integration.Tests.dll
 [xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.4)
-[xUnit.net 00:00:00.15]   Discovering: ObserverMagazine.Integration.Tests
+[xUnit.net 00:00:00.14]   Discovering: ObserverMagazine.Integration.Tests
 [xUnit.net 00:00:00.31]   Discovered:  ObserverMagazine.Integration.Tests
 [xUnit.net 00:00:00.46]   Starting:    ObserverMagazine.Integration.Tests
 [xUnit.net 00:00:00.70]   Finished:    ObserverMagazine.Integration.Tests (ID = 'd4d0d007958fbe0fe38b14d9e6b646a44fb0e18b73a44da34c809b07def2c31b')
-  ObserverMagazine.Integration.Tests test net10.0 succeeded (1.3s)
-  ObserverMagazine.Web net10.0 browser-wasm succeeded (3.8s) → src/ObserverMagazine.Web/bin/Debug/net10.0/wwwroot
+  ObserverMagazine.Integration.Tests test net10.0 succeeded (1.2s)
+  ObserverMagazine.Web net10.0 browser-wasm succeeded (3.9s) → src/ObserverMagazine.Web/bin/Debug/net10.0/wwwroot
   ObserverMagazine.Web.Tests net10.0 succeeded (0.4s) → tests/ObserverMagazine.Web.Tests/bin/Debug/net10.0/ObserverMagazine.Web.Tests.dll
 [xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.4)
-[xUnit.net 00:00:00.15]   Discovering: ObserverMagazine.Web.Tests
-[xUnit.net 00:00:00.31]   Discovered:  ObserverMagazine.Web.Tests
-[xUnit.net 00:00:00.46]   Starting:    ObserverMagazine.Web.Tests
-[xUnit.net 00:00:00.91]   Finished:    ObserverMagazine.Web.Tests (ID = '637bea1e316adf1ddb3603d0d821a98009dc019a599147baf24c1e1ec396837f')
+[xUnit.net 00:00:00.13]   Discovering: ObserverMagazine.Web.Tests
+[xUnit.net 00:00:00.30]   Discovered:  ObserverMagazine.Web.Tests
+[xUnit.net 00:00:00.44]   Starting:    ObserverMagazine.Web.Tests
+[xUnit.net 00:00:00.89]   Finished:    ObserverMagazine.Web.Tests (ID = '637bea1e316adf1ddb3603d0d821a98009dc019a599147baf24c1e1ec396837f')
   ObserverMagazine.Web.Tests test net10.0 succeeded (1.4s)
 
 Test summary: total: 81, failed: 0, succeeded: 81, skipped: 0, duration: 5.3s
-Build succeeded in 6.4s
+Build succeeded in 6.5s
 
-real	0m6.576s
-user	0m4.021s
-sys	0m0.576s
+real	0m6.615s
+user	0m3.853s
+sys	0m0.569s
 Restore complete (0.5s)
 
 Build succeeded in 0.6s
@@ -951,9 +301,9 @@ Project 'ObserverMagazine.ContentProcessor' has the following package references
 
 (A) : Auto-referenced package.
 
-real	0m1.500s
-user	0m1.464s
-sys	0m0.348s
+real	0m1.502s
+user	0m1.501s
+sys	0m0.318s
 Restore complete (0.5s)
 
 Build succeeded in 0.6s
@@ -966,16 +316,16 @@ The given project `ObserverMagazine.Integration.Tests` has no updates given the 
 The given project `ObserverMagazine.Web.Tests` has no updates given the current sources.
 The given project `ObserverMagazine.ContentProcessor` has no updates given the current sources.
 
-real	0m2.583s
-user	0m2.042s
-sys	0m0.418s
+real	0m1.701s
+user	0m1.658s
+sys	0m0.360s
 Export complete: docs/llm/dump.txt
-  Total files: 174
-  Blog posts (front matter only): 95
+  Total files: 175
+  Blog posts (front matter only): 96
   Full content files: 77
   Binary files skipped: 2
 
-real	0m0.126s
-user	0m0.053s
-sys	0m0.061s
+real	0m0.127s
+user	0m0.064s
+sys	0m0.049s
 kushal@fedora:~/src/dotnet/myblazor$ 
