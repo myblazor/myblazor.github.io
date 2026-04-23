@@ -211,11 +211,16 @@
                     out += sp('number', code.slice(i, j));
                     i = j; continue;
                 }
-                if (code.slice(i, i + 4) === 'true' || code.slice(i, i + 5) === 'false' || code.slice(i, i + 4) === 'null') {
-                    var word = code.slice(i, i + 4) === 'null' ? 'null' :
-                              code.slice(i, i + 4) === 'true' ? 'true' : 'false';
-                    out += sp('literal', word);
-                    i += word.length; continue;
+                if (/[a-zA-Z]/.test(code[i])) {
+                    var j = i;
+                    while (j < n && /[a-zA-Z]/.test(code[j])) j++;
+                    var word = code.slice(i, j);
+                    if (/^(true|false|null)$/.test(word)) {
+                        out += sp('literal', word);
+                    } else {
+                        out += esc(word);
+                    }
+                    i = j; continue;
                 }
                 out += esc(code[i]);
                 i++;
@@ -244,44 +249,141 @@
             return ' ' + esc(val);
         }
 
+        // Single-pass HTML/XML tokenizer.
+        // IMPORTANT: we never run a second regex replacement over already-
+        // highlighted output — doing so re-tokenises the span markup itself
+        // (e.g. matches `class="hl-attr"` inside an inserted <span>), which
+        // is exactly the defect this function is designed to avoid. Everything
+        // is produced in one linear pass through the input.
         function highlightHTML(code) {
             var out = '', i = 0, n = code.length;
+
             while (i < n) {
-                if (code[i] === '<') {
-                    if (code.slice(i, i + 4) === '<!--') {
-                        var end = code.indexOf('-->', i);
-                        end = end === -1 ? n : end + 3;
-                        out += sp('comment', code.slice(i, end));
-                        i = end; continue;
-                    }
-                    var end = code.indexOf('>', i);
-                    if (end === -1) { out += esc(code[i]); i++; continue; }
-                    var tag = code.slice(i, end + 1);
-                    out += esc('<');
-                    var inner = tag.slice(1, -1);
-                    // Tag name
-                    var tm = inner.match(/^(\/?)(\w[\w-]*)/);
-                    if (tm) {
-                        out += esc(tm[1]) + sp('tag', tm[2]);
-                        inner = inner.slice(tm[0].length);
-                    }
-                    // Attributes
-                    inner = inner.replace(/(\w[\w-]*)(\s*=\s*)("[^"]*"|'[^']*')/g, function (m, attr, eq, val) {
-                        return sp('attr', attr) + esc(eq) + sp('string', val);
-                    });
-                    inner = inner.replace(/(\w[\w-]*)(\s*=\s*)(\S+)/g, function (m, attr, eq, val) {
-                        return sp('attr', attr) + esc(eq) + sp('string', val);
-                    });
-                    // Remaining unmatched attrs (boolean)
-                    inner = inner.replace(/(\s)(\w[\w-]*)/g, function (m, space, attr) {
-                        return space + sp('attr', attr);
-                    });
-                    out += inner + esc('>');
-                    i = end + 1; continue;
+                var ch = code[i];
+
+                // Comment: <!-- ... -->
+                if (ch === '<' && code.slice(i, i + 4) === '<!--') {
+                    var end = code.indexOf('-->', i + 4);
+                    end = end === -1 ? n : end + 3;
+                    out += sp('comment', code.slice(i, end));
+                    i = end;
+                    continue;
                 }
-                out += esc(code[i]);
+
+                // CDATA: <![CDATA[ ... ]]>
+                if (ch === '<' && code.slice(i, i + 9) === '<![CDATA[') {
+                    var end = code.indexOf(']]>', i + 9);
+                    end = end === -1 ? n : end + 3;
+                    out += sp('comment', code.slice(i, end));
+                    i = end;
+                    continue;
+                }
+
+                // DOCTYPE / processing instruction: <!DOCTYPE ...>, <?xml ... ?>
+                // Styled as comments — no dedicated CSS class needed.
+                if (ch === '<' && (code[i + 1] === '!' || code[i + 1] === '?')) {
+                    var end = code.indexOf('>', i);
+                    end = end === -1 ? n : end + 1;
+                    out += sp('comment', code.slice(i, end));
+                    i = end;
+                    continue;
+                }
+
+                // Element tag: <name ...> or </name>
+                if (ch === '<' && i + 1 < n && /[a-zA-Z\/]/.test(code[i + 1])) {
+                    out += esc('<');
+                    i++;
+
+                    // Optional leading slash (closing tag)
+                    if (code[i] === '/') {
+                        out += esc('/');
+                        i++;
+                    }
+
+                    // Tag name
+                    var nameStart = i;
+                    while (i < n && /[\w:-]/.test(code[i])) i++;
+                    if (i > nameStart) {
+                        out += sp('tag', code.slice(nameStart, i));
+                    }
+
+                    // Attributes — walk until we hit the closing '>'.
+                    while (i < n && code[i] !== '>') {
+                        // Whitespace: passthrough (already safe — no <>& in whitespace)
+                        if (/\s/.test(code[i])) {
+                            out += code[i];
+                            i++;
+                            continue;
+                        }
+
+                        // Self-closing slash
+                        if (code[i] === '/') {
+                            out += esc('/');
+                            i++;
+                            continue;
+                        }
+
+                        // Attribute name
+                        if (/[\w:-]/.test(code[i])) {
+                            var attrStart = i;
+                            while (i < n && /[\w:.-]/.test(code[i])) i++;
+                            out += sp('attr', code.slice(attrStart, i));
+
+                            // Optional '=' with optional whitespace on either side
+                            var look = i;
+                            while (look < n && /\s/.test(code[look])) look++;
+                            if (code[look] === '=') {
+                                if (look > i) out += code.slice(i, look);
+                                out += esc('=');
+                                i = look + 1;
+                                // Skip whitespace after '='
+                                while (i < n && /\s/.test(code[i])) {
+                                    out += code[i];
+                                    i++;
+                                }
+                                // Quoted value
+                                if (code[i] === '"' || code[i] === "'") {
+                                    var q = code[i];
+                                    var valStart = i;
+                                    i++;
+                                    while (i < n && code[i] !== q) i++;
+                                    if (i < n) i++; // include closing quote
+                                    out += sp('string', code.slice(valStart, i));
+                                } else {
+                                    // Unquoted value: up to whitespace, '/', or '>'
+                                    var valStart = i;
+                                    while (i < n &&
+                                           !/\s/.test(code[i]) &&
+                                           code[i] !== '>' &&
+                                           code[i] !== '/') {
+                                        i++;
+                                    }
+                                    if (i > valStart) {
+                                        out += sp('string', code.slice(valStart, i));
+                                    }
+                                }
+                            }
+                            continue;
+                        }
+
+                        // Anything else inside the tag — emit escaped
+                        out += esc(code[i]);
+                        i++;
+                    }
+
+                    // Closing '>'
+                    if (i < n && code[i] === '>') {
+                        out += esc('>');
+                        i++;
+                    }
+                    continue;
+                }
+
+                // Plain text outside tags
+                out += esc(ch);
                 i++;
             }
+
             return out;
         }
 
