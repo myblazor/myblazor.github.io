@@ -1,6 +1,6 @@
 ===============================================================================
 PROJECT EXPORT: observermagazine.github.io
-DATE: 2026-04-27 11:26:01 UTC
+DATE: 2026-04-27 13:30:02 UTC
 ===============================================================================
 
 ===============================================================================
@@ -109,6 +109,10 @@ DIRECTORY TREE (all git-tracked files)
 │       ├── 2026-06-14-house.md
 │       ├── 2026-06-15-chestertons-fence-and-the-monkey-cage.md
 │       ├── 2026-06-16-foundation.md
+│       ├── 2026-06-17-chinese-ev.md
+│       ├── 2026-06-18-california-wealth-tax.md
+│       ├── 2026-06-20-sunroom-complete-guide.md
+│       ├── 2026-06-22-sunroom-adu.md
 │       ├── 2027-01-01-happy-new-year-2027.md
 │       └── 2099-01-01-draft-template.md
 ├── Directory.Build.props
@@ -222,7 +226,7 @@ DIRECTORY TREE (all git-tracked files)
     │   └── RssGenerator.cs
     └── requirements-audio.txt
 
-29 directories, 185 files
+29 directories, 189 files
 
 
 -------------------------------------------------------------------------------
@@ -2368,6 +2372,89 @@ tags:
   - nbc-206
   - first-principles
   - deep-dive
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-06-17-chinese-ev.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Forbidden Fruit: The Full Map of China's EV Market and the Cars Americans Cannot Have"
+date: 2026-06-17
+author: myblazor-team
+summary: A comprehensive deep-dive into China's electric vehicle market, with special focus on the ultra-affordable segment — cars priced from $6,200 to $16,500 that are reshaping urban mobility worldwide while remaining locked out of the United States by a 100% tariff wall.
+tags:
+  - ev
+  - china
+  - automotive
+  - electric-vehicles
+  - byd
+  - policy
+  - economics
+  - affordability
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-06-18-california-wealth-tax.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "The California Billionaire Tax: A Complete Guide to the 2026 Wealth Tax Initiative — What It Is, Why It Exists, Who Pays, and What Happens Next"
+date: 2026-06-16
+author: myblazor-team
+summary: California's proposed one-time 5% wealth tax on billionaires has qualified for the November 2026 ballot after gathering over 1.5 million signatures. This exhaustive guide covers the full legal text, the Medi-Cal funding crisis that motivated it, the economic arguments for and against, who is affected, comparable international and domestic wealth taxes, the constitutional questions, and what a yes or no vote means for ordinary Californians.
+tags:
+  - california
+  - wealth-tax
+  - policy
+  - healthcare
+  - medi-cal
+  - politics
+  - economics
+  - inequality
+featured: true
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-06-20-sunroom-complete-guide.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Glass Houses, Sun-Drenched Rooms, and the Law: The Complete American Homeowner's Guide to Sunrooms, Three-Season Rooms, Mudrooms, Conservatories, ADUs, and Everything In Between"
+date: 2026-06-19
+author: myblazor-team
+summary: An exhaustive, leave-no-stone-unturned guide to adding a sunroom, three-season room, mudroom, or conservatory behind your single-family US home — covering every structure type from a $500 polycarbonate screen porch to a $150,000 bespoke glass conservatory, Virginia-specific permits and property tax implications, the full ADU landscape in the Commonwealth, real case studies from homeowners across the country, and every planning, design, contractor, financing, and legal consideration you will face along the way.
+featured: true
+tags:
+  - home-improvement
+  - sunroom
+  - virginia
+  - adu
+  - real-estate
+  - property-tax
+  - construction
+  - permits
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-06-22-sunroom-adu.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Glass Houses, Sun-Drenched Rooms, and the Law: The Complete American Homeowner's Guide to Sunrooms, Three-Season Rooms, Mudrooms, Conservatories, ADUs, and Everything In Between"
+date: 2026-06-19
+author: myblazor-team
+summary: An exhaustive, leave-no-stone-unturned guide to adding a sunroom, three-season room, mudroom, or conservatory behind your single-family US home — covering every structure type from a $500 polycarbonate screen porch to a $150,000 bespoke glass conservatory, Virginia-specific permits and property tax implications, the full ADU landscape in the Commonwealth, real case studies from homeowners across the country, and every planning, design, contractor, financing, and legal consideration you will face along the way.
+featured: true
+tags:
+  - home-improvement
+  - sunroom
+  - virginia
+  - adu
+  - real-estate
+  - property-tax
+  - construction
+  - permits
 ---
 
 
@@ -15208,8 +15295,8 @@ num2words>=0.5.14
 
 ===============================================================================
 EXPORT COMPLETED
-Total Files Exported: 179
-  Blog posts (front matter only): 97
+Total Files Exported: 183
+  Blog posts (front matter only): 101
   Full content files: 80
   Binary files skipped: 2
 Output File: docs/llm/dump.txt
