@@ -1,6 +1,6 @@
 ===============================================================================
 PROJECT EXPORT: observermagazine.github.io
-DATE: 2026-04-27 21:50:49 UTC
+DATE: 2026-04-28 04:16:14 UTC
 ===============================================================================
 
 ===============================================================================
@@ -113,6 +113,7 @@ DIRECTORY TREE (all git-tracked files)
 │       ├── 2026-06-18-california-wealth-tax.md
 │       ├── 2026-06-20-sunroom-complete-guide.md
 │       ├── 2026-06-22-sunroom-adu.md
+│       ├── 2026-06-23-adu.md
 │       ├── 2027-01-01-happy-new-year-2027.md
 │       └── 2099-01-01-draft-template.md
 ├── Directory.Build.props
@@ -226,7 +227,7 @@ DIRECTORY TREE (all git-tracked files)
     │   └── RssGenerator.cs
     └── requirements-audio.txt
 
-29 directories, 189 files
+29 directories, 190 files
 
 
 -------------------------------------------------------------------------------
@@ -2455,6 +2456,40 @@ tags:
   - property-tax
   - construction
   - permits
+---
+
+
+-------------------------------------------------------------------------------
+FILE: content/blog/2026-06-23-adu.md  [FRONT MATTER ONLY — body omitted to save context space]
+-------------------------------------------------------------------------------
+---
+title: "Building an ADU in Newport News, Virginia: An Exhaustive, Pavement-to-Move-In Field Guide to a Sunroom-Plus-Bedroom-Plus-Bath-Plus-Kitchen Backyard Cottage on the Virginia Peninsula"
+date: 2026-06-23
+author: myblazor-team
+summary: "A leave-no-stone-unturned guide to designing, permitting, financing, and physically constructing a roughly 800-square-foot accessory dwelling unit — sunroom, bedroom, full bathroom, and kitchen — behind a single-family home in Newport News, Virginia. We walk the entire path from the first conversation with the city planner, through SB 531 and the new Newport News by-right ordinance, through Climate Zone 4A coastal-Virginia building physics, through soil, foundations, framing, the building envelope, MEP, finishes, landscaping, inspections, certificate of occupancy, property tax aftermath, and the first full year of living with the building. Three full case studies, every line item priced to mid-2026 Hampton Roads costs, every code section cited."
+featured: true
+tags:
+  - adu
+  - housing
+  - construction
+  - newport-news
+  - virginia
+  - hampton-roads
+  - sunroom
+  - real-estate
+  - permits
+  - zoning
+  - sb-531
+  - flood
+  - climate-zone-4a
+  - foundations
+  - framing
+  - hvac
+  - electrical
+  - plumbing
+  - property-tax
+  - first-principles
+  - deep-dive
 ---
 
 
@@ -15295,8 +15330,8 @@ num2words>=0.5.14
 
 ===============================================================================
 EXPORT COMPLETED
-Total Files Exported: 183
-  Blog posts (front matter only): 101
+Total Files Exported: 184
+  Blog posts (front matter only): 102
   Full content files: 80
   Binary files skipped: 2
 Output File: docs/llm/dump.txt
