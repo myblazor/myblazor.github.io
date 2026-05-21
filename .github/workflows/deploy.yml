@@ -43,7 +43,7 @@ jobs:
 
       # ── Audio generation with caching ──────────────────────────────
       # Cache key is based on the content of all blog markdown files.
-      # Exact hit  → all MP3s restored, ALL Python steps skipped.
+      # Exact hit  → all MP3s restored, ALL Python TTS steps skipped.
       # Partial hit → most MP3s restored, only changed posts regenerated.
       # Miss        → full regeneration (first run or cache eviction).
 
@@ -67,13 +67,25 @@ jobs:
             echo "No audio cache to restore"
           fi
 
-      # All Python/audio steps are skipped on exact cache hit
-      - name: Setup Python 3.12 (for TTS audio generation)
-        if: steps.audio-cache.outputs.cache-hit != 'true'
+      # Run the legacy rename migration UNCONDITIONALLY — even on a cache hit.
+      # This step has no ML dependencies (pure Python stdlib + os.rename) and
+      # finishes in under a second. It renames dateless MP3s such as
+      # rust-programming-language-complete-guide.mp3 to their date-prefixed
+      # equivalents (2026-05-04-rust-programming-language-complete-guide.mp3)
+      # so that BlogTtsPlayer can find them. Safe to run repeatedly.
+      - name: Setup Python 3.12 (for audio migration)
         uses: actions/setup-python@v6
         with:
           python-version: '3.12'
 
+      - name: Migrate legacy audio filenames (dateless → date-prefixed)
+        run: |
+          python tools/generate_audio.py \
+            --migrate-only \
+            --content-dir content/blog \
+            --output-dir src/ObserverMagazine.Web/wwwroot/blog-data
+
+      # All heavy Python/TTS steps are skipped on exact cache hit
       - name: Install system dependencies (espeak-ng + ffmpeg)
         if: steps.audio-cache.outputs.cache-hit != 'true'
         run: sudo apt-get update && sudo apt-get install -y espeak-ng ffmpeg

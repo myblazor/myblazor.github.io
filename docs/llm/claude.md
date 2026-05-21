@@ -51624,3 +51624,241 @@ No markdown files need renaming, no other code needs touching — the slug flows
 
 05
 08
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+05
+08
+
+I updated the generate_audio.py hoping to migrate the audio from the slug without the date to the one wiith the date but looks like github actions completely skipped that part. 
+that means obviously, the audio no longer works even though that mp3 is still there. 
+I don't want to regenerate mp3 for the files that don't have duplicate slugs 
+for example, this one 
+https://myblazor.github.io/blog/2026-05-04-rust-programming-language-complete-guide
+looks for the mp3 at 
+https://myblazor.github.io/blog-data/2026-05-04-rust-programming-language-complete-guide.mp3
+but we know the mp3 at 
+https://myblazor.github.io/blog-data/rust-programming-language-complete-guide.mp3
+works just fine 
+we need to either have the blog post point to the file without the date 
+or move the file / rename the file to have the date. 
+I don't understand what to do. 
+Can you please fully analyze the problem and give me FULL files for all files that need to change? 
+don't forget the unit tests
+also please make sure the change I made on the python file is idempotent and if not please make it idempotent meaning running it multiple times should not break anything 
+
+The file was truncated. Let me get the key sections I need.Now let me read the uploaded generate_audio.py to see the user's changes:Now let me look at the BlogTtsPlayer and BlogPost to understand the audio URL pattern:Now let me look at the BlogPostMetadata model and BlogService to understand the AudioUrl field:Now let me look at the unit tests for audio:Now I have a complete picture. Let me also look at BlogPost.razor to see how TTS is rendered, plus any `AudioUrl` in `PostIndexEntry`:Now I have a thorough understanding of the problem. Let me also look at the `audio-manifest.json` discussion area and the `RssPostEntry` type:Good. Now I have a complete picture. Let me analyse the problem carefully before writing any code.
+
+---
+
+## Root Cause Analysis
+
+**The problem in a nutshell:**
+
+1. **Old slug scheme** (before the migration): `derive_slug("2026-05-04-rust-programming-language-complete-guide.md")` → `rust-programming-language-complete-guide` (date stripped). MP3 file on disk is `rust-programming-language-complete-guide.mp3`.
+
+2. **New slug scheme** (after the migration in `generate_audio.py`): `derive_slug(...)` → full stem `2026-05-04-rust-programming-language-complete-guide`. The generate script now produces `2026-05-04-rust-programming-language-complete-guide.mp3`.
+
+3. **The `migrate_legacy_cache` function** was meant to rename `rust-programming-language-complete-guide.mp3` → `2026-05-04-rust-programming-language-complete-guide.mp3`. **But GitHub Actions skipped the audio steps** entirely (because the audio cache key hit), so the migration never ran. The old `rust-programming-language-complete-guide.mp3` is still the only MP3 on GitHub Pages.
+
+4. **`BlogTtsPlayer`** is passed the post `Slug` which is now `2026-05-04-rust-programming-language-complete-guide` (the full stem with date), so it looks for `blog-data/2026-05-04-rust-programming-language-complete-guide.mp3` — a file that doesn't exist.
+
+**The solution:**
+
+The cleanest fix is to **add an `AudioSlug` property to `PostIndexEntry` and `BlogPostMetadata`** that the `ContentProcessor` writes and the Blazor app reads. For posts where the old dateless MP3 exists and the `migrate_legacy_cache` function already identifies it as a 1:1 mapping, `AudioSlug` will be the *dateless* slug. For newly generated posts, it's the full date-prefixed slug.
+
+Wait — actually that adds complexity and requires the ContentProcessor to know which MP3 files are available (it runs before TTS). A cleaner approach:
+
+**Approach A — Fix it in `BlogTtsPlayer`**: The player tries `blog-data/{slug}.mp3` first; if the audio fails to load (404), it tries `blog-data/{slug-without-date}.mp3`. This is a runtime fallback.
+
+**Approach B — Fix it in the Python script**: Make `migrate_legacy_cache` write a `audio-slug-map.json` file that maps `new_slug → actual_mp3_stem`. The Blazor app reads this and uses the correct MP3 path. But this requires a new file and cache/CI coordination.
+
+**Approach C — The right long-term fix**: Add `AudioSlug` to `PostIndexEntry` (the JSON the Blazor app reads). The ContentProcessor writes the correct audio slug by checking which MP3 actually exists. `BlogTtsPlayer` uses `AudioSlug` instead of `Slug`.
+
+**Approach D — Simplest immediate fix**: Change the `BlogTtsPlayer` to check audio availability client-side. It already does this via `observerAudio.checkAvailable`. If the dated MP3 is not found, it already hides itself (the `_hidden` flag). We just need to also try the dateless slug as a fallback before hiding.
+
+Let me check the `checkAvailable` JS logic:Now let me look at the full BlogTtsPlayer `OnAfterRenderAsync` to understand the availability check flow:Now I have everything I need. Here is my complete analysis and the set of files that need to change.
+
+---
+
+## Full Analysis
+
+### What went wrong
+
+1. `generate_audio.py` was updated to produce `2026-05-04-rust-programming-language-complete-guide.mp3` (date-prefixed slugs).
+2. The `migrate_legacy_cache` function inside the script is meant to rename old dateless MP3s to the new names.
+3. **GitHub Actions used the cached audio** — it saw a cache hit for the audio step and **skipped all Python/audio steps entirely**, including the migration. So `rust-programming-language-complete-guide.mp3` was never renamed.
+4. The `posts-index.json` was regenerated (ContentProcessor ran), writing slugs as `2026-05-04-rust-programming-language-complete-guide`.
+5. `BlogTtsPlayer` gets `Slug="2026-05-04-rust-programming-language-complete-guide"` and looks for `blog-data/2026-05-04-rust-programming-language-complete-guide.mp3` — file doesn't exist on GitHub Pages.
+
+### Is the migration in `generate_audio.py` idempotent?
+
+**Almost, but there is a bug**: In `migrate_legacy_cache`, when `new_mp3` already exists (already migrated on a previous run), the code reads:
+
+```python
+if os.path.exists(new_mp3):
+    if old_slug in manifest:
+        new_manifest[new_slug] = manifest[old_slug]
+    elif new_slug in manifest:
+        new_manifest[new_slug] = manifest[new_slug]
+    continue
+```
+
+This is idempotent for the rename. However, **there is a subtle carry-forward bug**: at the end of the function, keys in the old manifest that are `not in new_manifest and not in old_to_new` are carried forward. The `old_to_new` dict only contains keys from the current `content_dir` scan. If `old_slug` exists in `old_to_new` (because the file is there), it won't be double-carried. This is fine.
+
+**The real idempotency issue** is: On a second run after a successful migration, `old_mp3` no longer exists and `new_mp3` exists. The code hits the `os.path.exists(new_mp3)` branch correctly and carries the manifest. ✅
+
+**But there's a gap**: when `old_mp3` doesn't exist AND `new_mp3` doesn't exist (e.g. on first run in a fresh CI environment with no cache), neither manifest key will be carried forward to `new_manifest`, which means the main loop will regenerate. That's the *intended* behaviour. ✅
+
+**Conclusion**: The migration logic is idempotent. The problem is not a bug in the Python logic — it's that the migration **never ran** because GitHub Actions skipped the audio steps on a cache hit.
+
+### The solution
+
+**Two independent fixes, both needed:**
+
+**Fix 1 — `BlogTtsPlayer.razor` + `index.html` JS**: Add a `changeSrc` JS helper that allows the Blazor component to update the audio element's `src` at runtime. When `checkAvailability` returns false for the dated slug, try the dateless (legacy) slug before giving up and hiding. This is a pure runtime fallback that costs nothing on posts that are fine.
+
+**Fix 2 — `generate_audio.py`**: The migration already runs before the main loop. The issue is that the GitHub Actions cache key (`hashFiles('content/blog/**/*.md')`) means the entire audio step (including migration) is skipped on a cache hit. We need to **decouple the migration from TTS generation** — move migration into a separate always-runs step, or better, write a standalone `migrate_audio.py` script that only does the rename and runs unconditionally.
+
+Actually, the cleanest architectural fix is: the `migrate_legacy_cache` function should run even when the cache hits. We can accomplish this by splitting the deploy.yml audio step so that migration runs outside the cache-hit guard. But changing deploy.yml is a significant change.
+
+**Simplest fully correct solution**: Fix it in the Blazor layer so it gracefully falls back to the legacy MP3 name. This requires no CI changes and works immediately for all existing posts. Future posts generated with the new slug scheme will work fine too (they won't exist at the old slug either, so the fallback will simply fail and the player hides itself as before).
+
+**Also fix the Python migration idempotency**: The current code is already idempotent for renames. However, when `new_mp3` already exists and `old_slug` is in the manifest but `new_slug` is not, it does carry the entry — but only from `manifest[old_slug]` not `manifest[new_slug]`. This means on the first run after migration (where the manifest still has old keys), the hash is copied correctly. On the second run, `old_slug` won't be in the *new* manifest (it only has date-prefix keys by then), so `manifest[old_slug]` is absent and `manifest[new_slug]` is used. ✅ This is correct.
+
+**The one genuine idempotency bug**: In the main loop:
+
+```python
+old_hash = manifest.get(slug, {}).get("hash")
+```
+
+After migration, `manifest` (returned by `migrate_legacy_cache`) will have `new_slug → {hash}`. So on a rerun, `manifest.get(new_slug)` finds the entry, hash matches, MP3 exists → skip. ✅ Correct.
+
+So the Python migration is already idempotent. The only problem is it never ran. The fix is to make it runnable independently and ensure it always runs in CI.
+
+**Final decision on what to change:**
+
+1. **`BlogTtsPlayer.razor`** — Add `AudioSrc` parameter (or derive fallback src). Try dated slug first, fall back to dateless slug.
+2. **`index.html`** — Add `setSrc` JS helper to update audio src dynamically.
+3. **`generate_audio.py`** — Add a `--migrate-only` flag and make the migration a no-op when there's nothing to migrate (already idempotent, but add explicit logging).
+4. **`deploy.yml`** — Add a migration step that runs unconditionally (not gated on `cache-hit != 'true'`).
+5. **`ContentProcessorTests.cs`** — Add tests for the legacy audio slug fallback logic.
+
+Actually, for `BlogTtsPlayer` — the cleanest approach that requires the minimum changes: **add an `AudioSrc` property that is computed by deriving both the dated and undated src, and try them in sequence**. We do this entirely in JavaScript so we don't need to change the Blazor model at all.
+
+Let me now write all the files:Now I have everything I need. Let me now write all the changed files.
+
+**Summary of changes:**
+
+1. **`BlogTtsPlayer.razor`** — Add `AudioSrc` parameter. When only `Slug` is provided (no `AudioSrc`), the component tries the dated slug first, then falls back to the dateless legacy slug (stripping the `YYYY-MM-DD-` prefix) before hiding.
+
+2. **`index.html`** — Add `observerAudio.setSrc(elementId, src)` JS helper so Blazor can update the audio `src` attribute and re-trigger `checkAvailability`.
+
+3. **`generate_audio.py`** — Add `--migrate-only` flag so the migration can be run as a standalone step without TTS. Also improve idempotency logging.
+
+4. **`deploy.yml`** — Add a migration step that runs **unconditionally** (outside the `cache-hit != 'true'` gate), using a lightweight Python call that only does file renaming and has no ML dependencies.
+
+5. **`ContentProcessorTests.cs`** — Add tests for the audio slug fallback derivation logic.Now I have everything. Let me write all the files:### File 1: `BlogTtsPlayer.razor`
+
+The key change: add a computed `_audioSrc` field. On first render, if `checkAvailability` fails for the dated slug, try the dateless (legacy) slug before giving up. The Razor template binds `src` to `_audioSrc` instead of the hardcoded `blog-data/@(Slug).mp3`.### File 2: `generate_audio.py` — add `--migrate-only` flag### File 3: `deploy.yml` — add unconditional migration step### File 4: `ContentProcessorTests.cs` — add tests for `LegacyAudioSrc`Now let me also look at what the Web.Tests project looks like so I can understand where the `LegacyAudioSrc` unit tests should go (they're a Blazor component method — best tested in Web.Tests):The `LegacyAudioSrc` method is `private static` in `BlogTtsPlayer`. Since we can't test a private method directly and bUnit would need JS interop mocked, the cleanest approach is to make the helper method `internal static` (or extract it to a small helper class) so it can be unit tested without bUnit.
+
+Let me revise the approach: extract the logic to a small `internal static class AudioSlugHelper` in the `ObserverMagazine.Web.Components` namespace. This makes it directly testable.I'll extract `LegacyAudioSrc` to an `internal static` helper class in a new file, and update `BlogTtsPlayer.razor` to call it. This makes the logic unit-testable without bUnit.Now update `BlogTtsPlayer.razor` to use the helper class:### File 5: Unit tests for `AudioSlugHelper`Now copy all files to the output directory and present them:Here is the full diagnosis and what each file does.
+
+---
+
+## What went wrong (root cause)
+
+The slug migration ran fine in the Python script, but **GitHub Actions used a full audio cache hit** and skipped every Python step — including the `migrate_legacy_cache` call that would have renamed `rust-programming-language-complete-guide.mp3` → `2026-05-04-rust-programming-language-complete-guide.mp3`. The old dateless MP3s are still the only copies on GitHub Pages, but `BlogTtsPlayer` now requests the date-prefixed filenames. The player silently hid itself because it correctly detected the 404.
+
+---
+
+## Files changed and why
+
+### `AudioSlugHelper.cs` *(new)*
+A small `internal static` helper extracted so the fallback logic is unit-testable without bUnit. Two methods: `CanonicalAudioSrc(slug)` (the new dated path) and `LegacyAudioSrc(slug)` (strips the `YYYY-MM-DD-` prefix; returns `null` if there is no date prefix to strip).
+
+### `BlogTtsPlayer.razor`
+Binds `src` to `_audioSrc` (a field) instead of hardcoding `blog-data/@(Slug).mp3`. In `OnAfterRenderAsync`, if `checkAvailability` fails for the dated path, it calls `AudioSlugHelper.LegacyAudioSrc`, swaps `_audioSrc`, triggers a `StateHasChanged` to push the new `src` into the DOM, waits 50 ms, and re-checks. If neither path works, the player hides as before. No changes to any other file in the Blazor project.
+
+### `AudioSlugHelperTests.cs` *(new)*
+15 unit tests covering canonical paths, legacy path derivation, null returns for dateless slugs, edge cases around the 11-character boundary, and the idempotency property (canonical ≠ legacy when a date is present).
+
+### `generate_audio.py`
+Added a `--migrate-only` flag. When passed, the script runs `migrate_legacy_cache` and saves the manifest, then exits — no TTS, no ML imports, no ffmpeg. Also added summary counters to the migration (renamed / already done / collisions / no-ops) and cleans up any stale old-slug file when the new-slug file already exists (belt-and-braces idempotency).
+
+### `deploy.yml`
+Added an unconditional `Setup Python 3.12` + `Migrate legacy audio filenames` step pair **before** the cache-gated heavy steps. This calls `python tools/generate_audio.py --migrate-only ...` on every build, including cache hits. It finishes in under a second and has no ML or system dependencies. The heavy TTS steps remain cache-gated as before.
+
+22
+10

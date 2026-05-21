@@ -5,7 +5,10 @@ Generate MP3 audio files from blog post markdown using KittenTTS.
 Usage:
     python tools/generate_audio.py --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot/blog-data
 
-Requires:
+    # Run only the legacy rename migration (no TTS, no ML deps needed):
+    python tools/generate_audio.py --migrate-only --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot/blog-data
+
+Requires (for TTS generation):
     - KittenTTS 0.8.1 (pip install from GitHub releases)
     - espeak-ng (apt install espeak-ng)
     - ffmpeg (for WAV → MP3 conversion)
@@ -17,6 +20,12 @@ The script:
     3. Generates speech audio with KittenTTS (nano model, CPU-only, ~25MB)
     4. Converts WAV → MP3 at 24kbps mono via ffmpeg (keeps files small)
     5. Skips regeneration if the content hash matches the manifest
+
+Migration (--migrate-only):
+    Renames legacy dateless MP3s (e.g. rust-programming-language-complete-guide.mp3)
+    to date-prefixed names (e.g. 2026-05-04-rust-programming-language-complete-guide.mp3).
+    Safe to run repeatedly — already-renamed files are left untouched.
+    Has no ML dependencies; uses only os / json / hashlib from the standard library.
 """
 
 import argparse
@@ -257,7 +266,7 @@ def old_derive_slug(filename: str) -> str:
 
 
 # ---------------------------------------------------------------------------
-# One-time cache migration
+# One-time cache migration  (idempotent — safe to call on every build)
 # ---------------------------------------------------------------------------
 
 def migrate_legacy_cache(content_dir: str, output_dir: str, manifest: dict) -> dict:
@@ -267,6 +276,13 @@ def migrate_legacy_cache(content_dir: str, output_dir: str, manifest: dict) -> d
     2026-05-23-react.md) all mapped to the same react.mp3. Those colliding files
     cannot be salvaged — they must be regenerated. Only unambiguous 1:1 mappings
     are migrated.
+
+    Idempotent guarantees:
+    - If new_mp3 already exists (previous run completed), the rename is skipped.
+    - If old_mp3 is absent and new_mp3 is absent, the manifest entry is dropped
+      so the main loop regenerates the file (correct behaviour on a cold cache).
+    - Manifest keys are always rewritten to new-style (date-prefix) keys.
+    - Running this function N times produces the same result as running it once.
 
     Returns the updated manifest (keys rewritten from old slugs to new slugs).
     """
@@ -281,19 +297,24 @@ def migrate_legacy_cache(content_dir: str, output_dir: str, manifest: dict) -> d
 
     print("\n── Legacy cache migration ──────────────────────────────────")
 
-    new_manifest = {}
+    new_manifest: dict = {}
+    renamed = 0
+    already_done = 0
+    collisions = 0
+    no_op = 0
 
     for old_slug, new_slugs in sorted(old_to_new.items()):
         old_mp3 = os.path.join(output_dir, f"{old_slug}.mp3")
 
         if len(new_slugs) > 1:
-            # Collision: one old MP3 would have to serve multiple posts.
-            # We can't know which content it contains, so discard it.
+            # Collision: one old MP3 name would have to serve multiple posts.
+            # We cannot know which content it contains, so discard it.
             # The main loop will regenerate each new_slug fresh.
             if os.path.exists(old_mp3):
                 os.remove(old_mp3)
                 print(f"  Removed ambiguous: {old_slug}.mp3  "
                       f"(maps to {len(new_slugs)} posts: {', '.join(sorted(new_slugs))})")
+                collisions += 1
             else:
                 print(f"  Skipping (absent + ambiguous): {old_slug}.mp3")
             # Drop manifest entry — forces regeneration of all variants
@@ -307,14 +328,20 @@ def migrate_legacy_cache(content_dir: str, output_dir: str, manifest: dict) -> d
             # No rename needed (post had no date prefix to begin with)
             if old_slug in manifest:
                 new_manifest[new_slug] = manifest[old_slug]
+            no_op += 1
             continue
 
         if os.path.exists(new_mp3):
-            # Already migrated on a previous run
+            # Already migrated on a previous run — idempotent skip
             if old_slug in manifest:
                 new_manifest[new_slug] = manifest[old_slug]
             elif new_slug in manifest:
                 new_manifest[new_slug] = manifest[new_slug]
+            # If old_mp3 is also still sitting around (shouldn't happen, but clean up)
+            if os.path.exists(old_mp3):
+                os.remove(old_mp3)
+                print(f"  Cleaned up stale: {old_slug}.mp3 (new file already present)")
+            already_done += 1
             continue
 
         if os.path.exists(old_mp3):
@@ -322,17 +349,20 @@ def migrate_legacy_cache(content_dir: str, output_dir: str, manifest: dict) -> d
             print(f"  Renamed: {old_slug}.mp3 → {new_slug}.mp3")
             if old_slug in manifest:
                 new_manifest[new_slug] = manifest[old_slug]
+            renamed += 1
         else:
             # Old MP3 absent (never generated, or already cleaned up)
             if new_slug in manifest:
                 new_manifest[new_slug] = manifest[new_slug]
 
-    # Carry forward any entries that were already using new-style keys
-    # (idempotent: safe to run on an already-migrated cache)
+    # Carry forward any entries that were already using new-style keys and were
+    # not touched by the migration above (idempotent: safe on an already-migrated cache).
     for key, value in manifest.items():
         if key not in new_manifest and key not in old_to_new:
             new_manifest[key] = value
 
+    print(f"  Migration summary: {renamed} renamed, {already_done} already done, "
+          f"{collisions} collisions removed, {no_op} no-ops (no date prefix)")
     print("── End migration ───────────────────────────────────────────\n")
     return new_manifest
 
@@ -469,6 +499,14 @@ def main():
     parser.add_argument("--model", default="KittenML/kitten-tts-nano-0.8",
                         help="HuggingFace model ID (nano=25MB/fast, mini=80MB/better quality)")
     parser.add_argument("--force", action="store_true", help="Regenerate even if MP3 is up to date")
+    parser.add_argument(
+        "--migrate-only",
+        action="store_true",
+        help=(
+            "Only run the legacy MP3 rename migration (dateless → date-prefixed names). "
+            "No TTS generation, no ML dependencies. Safe to run on every build."
+        ),
+    )
     args = parser.parse_args()
 
     if not os.path.isdir(args.content_dir):
@@ -481,8 +519,14 @@ def main():
     manifest = load_manifest(args.output_dir)
 
     # One-time migration: rename dateless MP3s to date-prefixed names.
-    # Safe to run repeatedly — already-migrated caches are left untouched.
+    # Idempotent — safe to run on every build, including cache-hit builds.
     manifest = migrate_legacy_cache(args.content_dir, args.output_dir, manifest)
+
+    if args.migrate_only:
+        # Persist the updated manifest so subsequent runs don't re-migrate.
+        save_manifest(args.output_dir, manifest)
+        print("Migration-only mode: done.")
+        return
 
     new_manifest = {}
 

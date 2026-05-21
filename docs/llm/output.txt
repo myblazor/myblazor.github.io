@@ -1,24 +1,24 @@
 kushal@fedora:~/src/dotnet/myblazor$ cd /home/kushal/src/dotnet/myblazor/; time du -sh .; time dotnet format; time dotnet restore; dotnet run --project tools/ObserverMagazine.ContentProcessor -- --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot; time dotnet test; time dotnet list package; time dotnet list package --outdated; time bash export.sh;
-184M	.
+185M	.
 
-real	0m0.009s
-user	0m0.002s
+real	0m0.017s
+user	0m0.001s
 sys	0m0.006s
 
-real	0m8.074s
-user	0m12.730s
-sys	0m1.027s
+real	0m7.956s
+user	0m12.306s
+sys	0m1.043s
 Restore complete (0.5s)
 
-Build succeeded in 0.7s
+Build succeeded in 0.6s
 
-real	0m0.815s
-user	0m0.879s
-sys	0m0.167s
+real	0m0.750s
+user	0m0.789s
+sys	0m0.174s
 Content directory: content/blog
 Output directory:  src/ObserverMagazine.Web/wwwroot
 Authors directory: content/authors
-Publish before:    2026-05-21 12:07:39 UTC
+Publish before:    2026-05-21 13:03:00 UTC
 Found 3 author profile(s)
   Loaded author: kushal (kushal)
   Loaded author: abraham-lincoln (Abraham Lincoln)
@@ -243,26 +243,31 @@ Content processing complete.
 Restore complete (0.5s)
   ObserverMagazine.Integration.Tests net10.0 succeeded (0.4s) → tests/ObserverMagazine.Integration.Tests/bin/Debug/net10.0/ObserverMagazine.Integration.Tests.dll
 [xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.7)
-[xUnit.net 00:00:00.15]   Discovering: ObserverMagazine.Integration.Tests
-[xUnit.net 00:00:00.34]   Discovered:  ObserverMagazine.Integration.Tests
-[xUnit.net 00:00:00.51]   Starting:    ObserverMagazine.Integration.Tests
-[xUnit.net 00:00:00.77]   Finished:    ObserverMagazine.Integration.Tests (ID = 'd4d0d007958fbe0fe38b14d9e6b646a44fb0e18b73a44da34c809b07def2c31b')
-  ObserverMagazine.Integration.Tests test net10.0 succeeded (1.4s)
-  ObserverMagazine.Web net10.0 browser-wasm succeeded (3.9s) → src/ObserverMagazine.Web/bin/Debug/net10.0/wwwroot
-  ObserverMagazine.Web.Tests net10.0 succeeded (0.4s) → tests/ObserverMagazine.Web.Tests/bin/Debug/net10.0/ObserverMagazine.Web.Tests.dll
-[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.7)
-[xUnit.net 00:00:00.16]   Discovering: ObserverMagazine.Web.Tests
-[xUnit.net 00:00:00.31]   Discovered:  ObserverMagazine.Web.Tests
-[xUnit.net 00:00:00.46]   Starting:    ObserverMagazine.Web.Tests
-[xUnit.net 00:00:00.92]   Finished:    ObserverMagazine.Web.Tests (ID = '637bea1e316adf1ddb3603d0d821a98009dc019a599147baf24c1e1ec396837f')
-  ObserverMagazine.Web.Tests test net10.0 succeeded (1.4s)
+[xUnit.net 00:00:00.16]   Discovering: ObserverMagazine.Integration.Tests
+[xUnit.net 00:00:00.32]   Discovered:  ObserverMagazine.Integration.Tests
+[xUnit.net 00:00:00.47]   Starting:    ObserverMagazine.Integration.Tests
+[xUnit.net 00:00:00.71]   Finished:    ObserverMagazine.Integration.Tests (ID = 'd4d0d007958fbe0fe38b14d9e6b646a44fb0e18b73a44da34c809b07def2c31b')
+  ObserverMagazine.Integration.Tests test net10.0 succeeded (1.3s)
+  ObserverMagazine.Web net10.0 browser-wasm succeeded (3.7s) → src/ObserverMagazine.Web/bin/Debug/net10.0/wwwroot
+  ObserverMagazine.Web.Tests net10.0 failed with 11 error(s) (0.3s)
+    /home/kushal/src/dotnet/myblazor/tests/ObserverMagazine.Web.Tests/Components/AudioSlugHelperTests.cs(27,19): error CS0122: 'AudioSlugHelper' is inaccessible due to its protection level
+    /home/kushal/src/dotnet/myblazor/tests/ObserverMagazine.Web.Tests/Components/AudioSlugHelperTests.cs(38,19): error CS0122: 'AudioSlugHelper' is inaccessible due to its protection level
+    /home/kushal/src/dotnet/myblazor/tests/ObserverMagazine.Web.Tests/Components/AudioSlugHelperTests.cs(51,19): error CS0122: 'AudioSlugHelper' is inaccessible due to its protection level
+    /home/kushal/src/dotnet/myblazor/tests/ObserverMagazine.Web.Tests/Components/AudioSlugHelperTests.cs(70,35): error CS0122: 'AudioSlugHelper' is inaccessible due to its protection level
+    /home/kushal/src/dotnet/myblazor/tests/ObserverMagazine.Web.Tests/Components/AudioSlugHelperTests.cs(81,21): error CS0122: 'AudioSlugHelper' is inaccessible due to its protection level
+    /home/kushal/src/dotnet/myblazor/tests/ObserverMagazine.Web.Tests/Components/AudioSlugHelperTests.cs(93,21): error CS0122: 'AudioSlugHelper' is inaccessible due to its protection level
+    /home/kushal/src/dotnet/myblazor/tests/ObserverMagazine.Web.Tests/Components/AudioSlugHelperTests.cs(104,25): error CS0122: 'AudioSlugHelper' is inaccessible due to its protection level
+    /home/kushal/src/dotnet/myblazor/tests/ObserverMagazine.Web.Tests/Components/AudioSlugHelperTests.cs(105,22): error CS0122: 'AudioSlugHelper' is inaccessible due to its protection level
+    /home/kushal/src/dotnet/myblazor/tests/ObserverMagazine.Web.Tests/Components/AudioSlugHelperTests.cs(119,19): error CS0122: 'AudioSlugHelper' is inaccessible due to its protection level
+    /home/kushal/src/dotnet/myblazor/tests/ObserverMagazine.Web.Tests/Components/AudioSlugHelperTests.cs(127,21): error CS0122: 'AudioSlugHelper' is inaccessible due to its protection level
+    /home/kushal/src/dotnet/myblazor/tests/ObserverMagazine.Web.Tests/Components/AudioSlugHelperTests.cs(135,21): error CS0122: 'AudioSlugHelper' is inaccessible due to its protection level
 
-Test summary: total: 81, failed: 0, succeeded: 81, skipped: 0, duration: 5.4s
-Build succeeded in 6.5s
+Test summary: total: 17, failed: 0, succeeded: 17, skipped: 0, duration: 1.3s
+Build failed with 11 error(s) in 4.8s
 
-real	0m6.673s
-user	0m3.720s
-sys	0m0.470s
+real	0m4.918s
+user	0m2.579s
+sys	0m0.428s
 Restore complete (0.5s)
 
 Build succeeded in 0.6s
@@ -302,9 +307,9 @@ Project 'ObserverMagazine.ContentProcessor' has the following package references
 
 (A) : Auto-referenced package.
 
-real	0m1.557s
-user	0m1.559s
-sys	0m0.305s
+real	0m1.591s
+user	0m1.567s
+sys	0m0.332s
 Restore complete (0.5s)
 
 Build succeeded in 0.6s
@@ -317,16 +322,16 @@ The given project `ObserverMagazine.Integration.Tests` has no updates given the 
 The given project `ObserverMagazine.Web.Tests` has no updates given the current sources.
 The given project `ObserverMagazine.ContentProcessor` has no updates given the current sources.
 
-real	0m3.034s
-user	0m2.196s
-sys	0m0.419s
+real	0m2.764s
+user	0m1.967s
+sys	0m0.410s
 Export complete: docs/llm/dump.txt
-  Total files: 190
+  Total files: 192
   Blog posts (front matter only): 105
-  Full content files: 83
+  Full content files: 85
   Binary files skipped: 2
 
-real	0m0.138s
-user	0m0.065s
-sys	0m0.056s
+real	0m0.144s
+user	0m0.067s
+sys	0m0.063s
 kushal@fedora:~/src/dotnet/myblazor$ 

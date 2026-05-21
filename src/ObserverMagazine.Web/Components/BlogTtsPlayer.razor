@@ -15,7 +15,7 @@
             <audio id="tts-audio-@Slug"
                    preload="metadata"
                    playsinline
-                   src="blog-data/@(Slug).mp3"
+                   src="@_audioSrc"
                    style="display:none;">
                 Your browser does not support audio playback.
             </audio>
@@ -37,7 +37,7 @@
                    controls
                    preload="metadata"
                    playsinline
-                   src="blog-data/@(Slug).mp3"
+                   src="@_audioSrc"
                    @onplay="OnPlay"
                    @onpause="OnPause"
                    @onended="OnEnded">
@@ -62,7 +62,7 @@
             </select>
         </div>
 
-        <a class="tts-direct-link" href="blog-data/@(Slug).mp3" target="_blank" rel="noopener noreferrer"
+        <a class="tts-direct-link" href="@_audioSrc" target="_blank" rel="noopener noreferrer"
            title="Open audio file directly in a new tab">
             Open audio ↗
         </a>
@@ -70,7 +70,7 @@
 }
 
 @code {
-    /// <summary>Blog post slug — matches the MP3 filename in blog-data/</summary>
+    /// <summary>Blog post slug — the full date-prefixed slug from posts-index.json.</summary>
     [Parameter, EditorRequired]
     public string Slug { get; set; } = string.Empty;
 
@@ -81,10 +81,27 @@
     private int _fallbackDuration = 1; // avoid div-by-zero on range
     private double _currentRate = 1.0;
 
+    /// <summary>
+    /// The resolved audio source URL. Initialised to the canonical dated path and may be
+    /// switched to the legacy dateless path during <see cref="OnAfterRenderAsync"/> if
+    /// the dated MP3 is not yet available (e.g. the audio cache predates the slug migration).
+    /// </summary>
+    private string _audioSrc = string.Empty;
+
     private Timer? _pollTimer;
 
     /// <summary>Available playback speed options.</summary>
     private static readonly double[] PlaybackRates = [0.75, 1.0, 1.25, 1.5, 1.75, 2.0];
+
+    protected override void OnParametersSet()
+    {
+        _hidden = false;
+        _useFallbackControls = false;
+        _fallbackPlaying = false;
+        _fallbackCurrentTime = 0;
+        // Start with the canonical dated path; may fall back to legacy in OnAfterRenderAsync.
+        _audioSrc = AudioSlugHelper.CanonicalAudioSrc(Slug);
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -92,14 +109,38 @@
         {
             try
             {
-                // Check if the audio source is available at all
+                // --- Step 1: try the canonical (dated) src ---
                 var canPlay = await Js.InvokeAsync<bool>("observerAudio.checkAvailability",
                     $"tts-audio-{Slug}");
+
                 if (!canPlay)
                 {
-                    _hidden = true;
-                    StateHasChanged();
-                    return;
+                    // --- Step 2: try legacy dateless src as fallback ---
+                    var legacySrc = AudioSlugHelper.LegacyAudioSrc(Slug);
+                    if (legacySrc is not null)
+                    {
+                        Logger.LogInformation(
+                            "Dated audio not found for {Slug}, trying legacy src {LegacySrc}",
+                            Slug, legacySrc);
+
+                        // Switch the audio element's src to the legacy path and re-probe.
+                        _audioSrc = legacySrc;
+                        StateHasChanged();
+                        await Task.Delay(50); // let Blazor update the DOM src attribute
+
+                        canPlay = await Js.InvokeAsync<bool>("observerAudio.checkAvailability",
+                            $"tts-audio-{Slug}");
+                    }
+
+                    if (!canPlay)
+                    {
+                        Logger.LogInformation("No audio available for {Slug}, hiding player", Slug);
+                        _hidden = true;
+                        StateHasChanged();
+                        return;
+                    }
+
+                    Logger.LogInformation("Using legacy audio src for {Slug}: {LegacySrc}", Slug, _audioSrc);
                 }
 
                 // Restore saved playback rate from localStorage
@@ -139,14 +180,6 @@
                 Logger.LogDebug(ex, "Audio availability check failed for {Slug}", Slug);
             }
         }
-    }
-
-    protected override void OnParametersSet()
-    {
-        _hidden = false;
-        _useFallbackControls = false;
-        _fallbackPlaying = false;
-        _fallbackCurrentTime = 0;
     }
 
     // --- Speed control ---

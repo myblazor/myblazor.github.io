@@ -1,6 +1,6 @@
 ===============================================================================
 PROJECT EXPORT: observermagazine.github.io
-DATE: 2026-05-21 12:07:51 UTC
+DATE: 2026-05-21 13:03:10 UTC
 ===============================================================================
 
 ===============================================================================
@@ -144,6 +144,7 @@ DIRECTORY TREE (all git-tracked files)
 │   └── ObserverMagazine.Web
 │       ├── App.razor
 │       ├── Components
+│       │   ├── AudioSlugHelper.cs
 │       │   ├── AuthorCard.razor
 │       │   ├── AuthorCard.razor.css
 │       │   ├── BlogTtsPlayer.razor
@@ -216,6 +217,7 @@ DIRECTORY TREE (all git-tracked files)
 │   │   └── RssGeneratorTests.cs
 │   └── ObserverMagazine.Web.Tests
 │       ├── Components
+│       │   ├── AudioSlugHelperTests.cs
 │       │   ├── MasterDetailTests.cs
 │       │   ├── ResponsiveTableTests.cs
 │       │   └── ShowcaseTests.cs
@@ -233,7 +235,7 @@ DIRECTORY TREE (all git-tracked files)
     │   └── RssGenerator.cs
     └── requirements-audio.txt
 
-29 directories, 196 files
+29 directories, 198 files
 
 
 -------------------------------------------------------------------------------
@@ -2910,7 +2912,7 @@ jobs:
 
       # ── Audio generation with caching ──────────────────────────────
       # Cache key is based on the content of all blog markdown files.
-      # Exact hit  → all MP3s restored, ALL Python steps skipped.
+      # Exact hit  → all MP3s restored, ALL Python TTS steps skipped.
       # Partial hit → most MP3s restored, only changed posts regenerated.
       # Miss        → full regeneration (first run or cache eviction).
 
@@ -2934,13 +2936,25 @@ jobs:
             echo "No audio cache to restore"
           fi
 
-      # All Python/audio steps are skipped on exact cache hit
-      - name: Setup Python 3.12 (for TTS audio generation)
-        if: steps.audio-cache.outputs.cache-hit != 'true'
+      # Run the legacy rename migration UNCONDITIONALLY — even on a cache hit.
+      # This step has no ML dependencies (pure Python stdlib + os.rename) and
+      # finishes in under a second. It renames dateless MP3s such as
+      # rust-programming-language-complete-guide.mp3 to their date-prefixed
+      # equivalents (2026-05-04-rust-programming-language-complete-guide.mp3)
+      # so that BlogTtsPlayer can find them. Safe to run repeatedly.
+      - name: Setup Python 3.12 (for audio migration)
         uses: actions/setup-python@v6
         with:
           python-version: '3.12'
 
+      - name: Migrate legacy audio filenames (dateless → date-prefixed)
+        run: |
+          python tools/generate_audio.py \
+            --migrate-only \
+            --content-dir content/blog \
+            --output-dir src/ObserverMagazine.Web/wwwroot/blog-data
+
+      # All heavy Python/TTS steps are skipped on exact cache hit
       - name: Install system dependencies (espeak-ng + ffmpeg)
         if: steps.audio-cache.outputs.cache-hit != 'true'
         run: sudo apt-get update && sudo apt-get install -y espeak-ng ffmpeg
@@ -3231,6 +3245,65 @@ FILE: src/ObserverMagazine.Web/App.razor
 
 
 -------------------------------------------------------------------------------
+FILE: src/ObserverMagazine.Web/Components/AudioSlugHelper.cs
+-------------------------------------------------------------------------------
+namespace ObserverMagazine.Web.Components;
+
+/// <summary>
+/// Helpers for resolving audio file paths, including backward-compatibility
+/// with the pre-migration era when MP3 filenames had no date prefix.
+/// </summary>
+internal static class AudioSlugHelper
+{
+    /// <summary>
+    /// Returns the legacy (dateless) audio src for a slug that carries a
+    /// <c>YYYY-MM-DD-</c> prefix, or <c>null</c> when no date prefix is present
+    /// (meaning there is no older filename to fall back to).
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// Before the slug migration, MP3 files were named after the post topic only,
+    /// e.g. <c>rust-programming-language-complete-guide.mp3</c>.  After the
+    /// migration <c>derive_slug</c> in <c>generate_audio.py</c> was changed to
+    /// include the date prefix, producing
+    /// <c>2026-05-04-rust-programming-language-complete-guide.mp3</c>.
+    /// </para>
+    /// <para>
+    /// When a GitHub Actions cache hit causes the migration step to be skipped,
+    /// the old dateless file may still be the only copy on disk.  This helper
+    /// lets <see cref="BlogTtsPlayer"/> try the dateless path as a fallback before
+    /// giving up and hiding the player.
+    /// </para>
+    /// </remarks>
+    /// <param name="slug">The full date-prefixed slug, e.g.
+    ///   <c>2026-05-04-rust-programming-language-complete-guide</c>.</param>
+    /// <returns>
+    /// A relative <c>blog-data/{datelessSlug}.mp3</c> URL, or <c>null</c>.
+    /// </returns>
+    public static string? LegacyAudioSrc(string slug)
+    {
+        // Pattern: YYYY-MM-DD-rest-of-slug  (min length = 11 chars for prefix + 1 for rest)
+        if (slug.Length > 11
+            && slug[4] == '-'
+            && slug[7] == '-'
+            && slug[10] == '-'
+            && slug[..4].All(char.IsAsciiDigit))
+        {
+            var datelessSlug = slug[11..];
+            return $"blog-data/{datelessSlug}.mp3";
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Returns the canonical (date-prefixed) audio src for a given slug.
+    /// </summary>
+    public static string CanonicalAudioSrc(string slug) => $"blog-data/{slug}.mp3";
+}
+
+
+-------------------------------------------------------------------------------
 FILE: src/ObserverMagazine.Web/Components/AuthorCard.razor
 -------------------------------------------------------------------------------
 @if (Author is not null)
@@ -3479,7 +3552,7 @@ FILE: src/ObserverMagazine.Web/Components/BlogTtsPlayer.razor
             <audio id="tts-audio-@Slug"
                    preload="metadata"
                    playsinline
-                   src="blog-data/@(Slug).mp3"
+                   src="@_audioSrc"
                    style="display:none;">
                 Your browser does not support audio playback.
             </audio>
@@ -3501,7 +3574,7 @@ FILE: src/ObserverMagazine.Web/Components/BlogTtsPlayer.razor
                    controls
                    preload="metadata"
                    playsinline
-                   src="blog-data/@(Slug).mp3"
+                   src="@_audioSrc"
                    @onplay="OnPlay"
                    @onpause="OnPause"
                    @onended="OnEnded">
@@ -3526,7 +3599,7 @@ FILE: src/ObserverMagazine.Web/Components/BlogTtsPlayer.razor
             </select>
         </div>
 
-        <a class="tts-direct-link" href="blog-data/@(Slug).mp3" target="_blank" rel="noopener noreferrer"
+        <a class="tts-direct-link" href="@_audioSrc" target="_blank" rel="noopener noreferrer"
            title="Open audio file directly in a new tab">
             Open audio ↗
         </a>
@@ -3534,7 +3607,7 @@ FILE: src/ObserverMagazine.Web/Components/BlogTtsPlayer.razor
 }
 
 @code {
-    /// <summary>Blog post slug — matches the MP3 filename in blog-data/</summary>
+    /// <summary>Blog post slug — the full date-prefixed slug from posts-index.json.</summary>
     [Parameter, EditorRequired]
     public string Slug { get; set; } = string.Empty;
 
@@ -3545,10 +3618,27 @@ FILE: src/ObserverMagazine.Web/Components/BlogTtsPlayer.razor
     private int _fallbackDuration = 1; // avoid div-by-zero on range
     private double _currentRate = 1.0;
 
+    /// <summary>
+    /// The resolved audio source URL. Initialised to the canonical dated path and may be
+    /// switched to the legacy dateless path during <see cref="OnAfterRenderAsync"/> if
+    /// the dated MP3 is not yet available (e.g. the audio cache predates the slug migration).
+    /// </summary>
+    private string _audioSrc = string.Empty;
+
     private Timer? _pollTimer;
 
     /// <summary>Available playback speed options.</summary>
     private static readonly double[] PlaybackRates = [0.75, 1.0, 1.25, 1.5, 1.75, 2.0];
+
+    protected override void OnParametersSet()
+    {
+        _hidden = false;
+        _useFallbackControls = false;
+        _fallbackPlaying = false;
+        _fallbackCurrentTime = 0;
+        // Start with the canonical dated path; may fall back to legacy in OnAfterRenderAsync.
+        _audioSrc = AudioSlugHelper.CanonicalAudioSrc(Slug);
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -3556,14 +3646,38 @@ FILE: src/ObserverMagazine.Web/Components/BlogTtsPlayer.razor
         {
             try
             {
-                // Check if the audio source is available at all
+                // --- Step 1: try the canonical (dated) src ---
                 var canPlay = await Js.InvokeAsync<bool>("observerAudio.checkAvailability",
                     $"tts-audio-{Slug}");
+
                 if (!canPlay)
                 {
-                    _hidden = true;
-                    StateHasChanged();
-                    return;
+                    // --- Step 2: try legacy dateless src as fallback ---
+                    var legacySrc = AudioSlugHelper.LegacyAudioSrc(Slug);
+                    if (legacySrc is not null)
+                    {
+                        Logger.LogInformation(
+                            "Dated audio not found for {Slug}, trying legacy src {LegacySrc}",
+                            Slug, legacySrc);
+
+                        // Switch the audio element's src to the legacy path and re-probe.
+                        _audioSrc = legacySrc;
+                        StateHasChanged();
+                        await Task.Delay(50); // let Blazor update the DOM src attribute
+
+                        canPlay = await Js.InvokeAsync<bool>("observerAudio.checkAvailability",
+                            $"tts-audio-{Slug}");
+                    }
+
+                    if (!canPlay)
+                    {
+                        Logger.LogInformation("No audio available for {Slug}, hiding player", Slug);
+                        _hidden = true;
+                        StateHasChanged();
+                        return;
+                    }
+
+                    Logger.LogInformation("Using legacy audio src for {Slug}: {LegacySrc}", Slug, _audioSrc);
                 }
 
                 // Restore saved playback rate from localStorage
@@ -3603,14 +3717,6 @@ FILE: src/ObserverMagazine.Web/Components/BlogTtsPlayer.razor
                 Logger.LogDebug(ex, "Audio availability check failed for {Slug}", Slug);
             }
         }
-    }
-
-    protected override void OnParametersSet()
-    {
-        _hidden = false;
-        _useFallbackControls = false;
-        _fallbackPlaying = false;
-        _fallbackCurrentTime = 0;
     }
 
     // --- Speed control ---
@@ -13544,6 +13650,148 @@ public sealed class RssPostEntry
 
 
 -------------------------------------------------------------------------------
+FILE: tests/ObserverMagazine.Web.Tests/Components/AudioSlugHelperTests.cs
+-------------------------------------------------------------------------------
+using ObserverMagazine.Web.Components;
+using Xunit;
+
+namespace ObserverMagazine.Web.Tests.Components;
+
+/// <summary>
+/// Unit tests for <see cref="AudioSlugHelper"/>.
+///
+/// These tests verify the two-phase audio resolution strategy used by
+/// <see cref="BlogTtsPlayer"/>:
+///   1. Try the canonical (date-prefixed) MP3 path.
+///   2. If unavailable, fall back to the legacy (dateless) MP3 path.
+///
+/// The fallback exists because GitHub Actions can hit a full audio cache and
+/// skip the legacy-rename migration step, leaving dateless MP3s on GitHub Pages
+/// even after the slug scheme was changed to include date prefixes.
+/// </summary>
+public class AudioSlugHelperTests
+{
+    // -----------------------------------------------------------------------
+    // CanonicalAudioSrc
+    // -----------------------------------------------------------------------
+
+    [Fact]
+    public void CanonicalAudioSrc_ReturnsDatePrefixedPath()
+    {
+        var src = AudioSlugHelper.CanonicalAudioSrc(
+            "2026-05-04-rust-programming-language-complete-guide");
+
+        Assert.Equal(
+            "blog-data/2026-05-04-rust-programming-language-complete-guide.mp3",
+            src);
+    }
+
+    [Fact]
+    public void CanonicalAudioSrc_ReturnsDatelessPath_WhenSlugHasNoDate()
+    {
+        var src = AudioSlugHelper.CanonicalAudioSrc("welcome-to-observer");
+
+        Assert.Equal("blog-data/welcome-to-observer.mp3", src);
+    }
+
+    // -----------------------------------------------------------------------
+    // LegacyAudioSrc — posts that have a date prefix (the common case)
+    // -----------------------------------------------------------------------
+
+    [Fact]
+    public void LegacyAudioSrc_ReturnsDatelessPath_ForDatePrefixedSlug()
+    {
+        // This is the core scenario: the MP3 on disk is still the old dateless name.
+        var src = AudioSlugHelper.LegacyAudioSrc(
+            "2026-05-04-rust-programming-language-complete-guide");
+
+        Assert.Equal(
+            "blog-data/rust-programming-language-complete-guide.mp3",
+            src);
+    }
+
+    [Theory]
+    [InlineData("2026-01-15-welcome-to-observer-magazine",
+                "blog-data/welcome-to-observer-magazine.mp3")]
+    [InlineData("2026-03-27-sql-server-complete-guide",
+                "blog-data/sql-server-complete-guide.mp3")]
+    [InlineData("2026-04-25-javascript",
+                "blog-data/javascript.mp3")]
+    [InlineData("2099-12-31-future-post",
+                "blog-data/future-post.mp3")]
+    public void LegacyAudioSrc_StripsPrefixCorrectly(string slug, string expectedSrc)
+    {
+        Assert.Equal(expectedSrc, AudioSlugHelper.LegacyAudioSrc(slug));
+    }
+
+    // -----------------------------------------------------------------------
+    // LegacyAudioSrc — posts that have NO date prefix (should return null)
+    // -----------------------------------------------------------------------
+
+    [Fact]
+    public void LegacyAudioSrc_ReturnsNull_WhenSlugHasNoDatePrefix()
+    {
+        // A slug with no date prefix has no "older" dateless name to fall back to.
+        Assert.Null(AudioSlugHelper.LegacyAudioSrc("welcome-to-observer"));
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData("short")]
+    [InlineData("no-date-at-all")]
+    [InlineData("2026-only-two-segments")]          // YYYY-XX only, missing third dash
+    [InlineData("abcd-ef-gh-rest")]                 // non-digit year
+    [InlineData("2026-AB-01-rest")]                 // non-digit month
+    public void LegacyAudioSrc_ReturnsNull_ForNonDatePrefixedSlugs(string slug)
+    {
+        Assert.Null(AudioSlugHelper.LegacyAudioSrc(slug));
+    }
+
+    // -----------------------------------------------------------------------
+    // Idempotency: canonical and legacy are always different when a date is present
+    // -----------------------------------------------------------------------
+
+    [Fact]
+    public void CanonicalAndLegacySrc_AreDifferent_WhenDatePrefixed()
+    {
+        const string slug = "2026-05-04-rust-programming-language-complete-guide";
+        var canonical = AudioSlugHelper.CanonicalAudioSrc(slug);
+        var legacy = AudioSlugHelper.LegacyAudioSrc(slug);
+
+        Assert.NotNull(legacy);
+        Assert.NotEqual(canonical, legacy);
+    }
+
+    // -----------------------------------------------------------------------
+    // Edge cases around the YYYY-MM-DD boundary
+    // -----------------------------------------------------------------------
+
+    [Fact]
+    public void LegacyAudioSrc_HandlesMinimalSlugAfterDate()
+    {
+        // YYYY-MM-DD-x — the part after the date is just one character
+        var src = AudioSlugHelper.LegacyAudioSrc("2026-05-04-x");
+        Assert.Equal("blog-data/x.mp3", src);
+    }
+
+    [Fact]
+    public void LegacyAudioSrc_ReturnsNull_WhenNothingFollowsDate()
+    {
+        // "2026-05-04-" has length 11 which is NOT > 11, so no slug after the prefix
+        Assert.Null(AudioSlugHelper.LegacyAudioSrc("2026-05-04-"));
+    }
+
+    [Fact]
+    public void LegacyAudioSrc_ReturnsNull_ForExactly11Chars()
+    {
+        // Exactly 11 chars: "2026-05-04-" but without the trailing "-"
+        // e.g. a slug of exactly "2026-05-04" (length 10) — not a valid date-slug pattern
+        Assert.Null(AudioSlugHelper.LegacyAudioSrc("2026-05-04"));
+    }
+}
+
+
+-------------------------------------------------------------------------------
 FILE: tests/ObserverMagazine.Web.Tests/Components/MasterDetailTests.cs
 -------------------------------------------------------------------------------
 using Bunit;
@@ -14634,7 +14882,10 @@ Generate MP3 audio files from blog post markdown using KittenTTS.
 Usage:
     python tools/generate_audio.py --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot/blog-data
 
-Requires:
+    # Run only the legacy rename migration (no TTS, no ML deps needed):
+    python tools/generate_audio.py --migrate-only --content-dir content/blog --output-dir src/ObserverMagazine.Web/wwwroot/blog-data
+
+Requires (for TTS generation):
     - KittenTTS 0.8.1 (pip install from GitHub releases)
     - espeak-ng (apt install espeak-ng)
     - ffmpeg (for WAV → MP3 conversion)
@@ -14646,6 +14897,12 @@ The script:
     3. Generates speech audio with KittenTTS (nano model, CPU-only, ~25MB)
     4. Converts WAV → MP3 at 24kbps mono via ffmpeg (keeps files small)
     5. Skips regeneration if the content hash matches the manifest
+
+Migration (--migrate-only):
+    Renames legacy dateless MP3s (e.g. rust-programming-language-complete-guide.mp3)
+    to date-prefixed names (e.g. 2026-05-04-rust-programming-language-complete-guide.mp3).
+    Safe to run repeatedly — already-renamed files are left untouched.
+    Has no ML dependencies; uses only os / json / hashlib from the standard library.
 """
 
 import argparse
@@ -14886,7 +15143,7 @@ def old_derive_slug(filename: str) -> str:
 
 
 # ---------------------------------------------------------------------------
-# One-time cache migration
+# One-time cache migration  (idempotent — safe to call on every build)
 # ---------------------------------------------------------------------------
 
 def migrate_legacy_cache(content_dir: str, output_dir: str, manifest: dict) -> dict:
@@ -14896,6 +15153,13 @@ def migrate_legacy_cache(content_dir: str, output_dir: str, manifest: dict) -> d
     2026-05-23-react.md) all mapped to the same react.mp3. Those colliding files
     cannot be salvaged — they must be regenerated. Only unambiguous 1:1 mappings
     are migrated.
+
+    Idempotent guarantees:
+    - If new_mp3 already exists (previous run completed), the rename is skipped.
+    - If old_mp3 is absent and new_mp3 is absent, the manifest entry is dropped
+      so the main loop regenerates the file (correct behaviour on a cold cache).
+    - Manifest keys are always rewritten to new-style (date-prefix) keys.
+    - Running this function N times produces the same result as running it once.
 
     Returns the updated manifest (keys rewritten from old slugs to new slugs).
     """
@@ -14910,19 +15174,24 @@ def migrate_legacy_cache(content_dir: str, output_dir: str, manifest: dict) -> d
 
     print("\n── Legacy cache migration ──────────────────────────────────")
 
-    new_manifest = {}
+    new_manifest: dict = {}
+    renamed = 0
+    already_done = 0
+    collisions = 0
+    no_op = 0
 
     for old_slug, new_slugs in sorted(old_to_new.items()):
         old_mp3 = os.path.join(output_dir, f"{old_slug}.mp3")
 
         if len(new_slugs) > 1:
-            # Collision: one old MP3 would have to serve multiple posts.
-            # We can't know which content it contains, so discard it.
+            # Collision: one old MP3 name would have to serve multiple posts.
+            # We cannot know which content it contains, so discard it.
             # The main loop will regenerate each new_slug fresh.
             if os.path.exists(old_mp3):
                 os.remove(old_mp3)
                 print(f"  Removed ambiguous: {old_slug}.mp3  "
                       f"(maps to {len(new_slugs)} posts: {', '.join(sorted(new_slugs))})")
+                collisions += 1
             else:
                 print(f"  Skipping (absent + ambiguous): {old_slug}.mp3")
             # Drop manifest entry — forces regeneration of all variants
@@ -14936,14 +15205,20 @@ def migrate_legacy_cache(content_dir: str, output_dir: str, manifest: dict) -> d
             # No rename needed (post had no date prefix to begin with)
             if old_slug in manifest:
                 new_manifest[new_slug] = manifest[old_slug]
+            no_op += 1
             continue
 
         if os.path.exists(new_mp3):
-            # Already migrated on a previous run
+            # Already migrated on a previous run — idempotent skip
             if old_slug in manifest:
                 new_manifest[new_slug] = manifest[old_slug]
             elif new_slug in manifest:
                 new_manifest[new_slug] = manifest[new_slug]
+            # If old_mp3 is also still sitting around (shouldn't happen, but clean up)
+            if os.path.exists(old_mp3):
+                os.remove(old_mp3)
+                print(f"  Cleaned up stale: {old_slug}.mp3 (new file already present)")
+            already_done += 1
             continue
 
         if os.path.exists(old_mp3):
@@ -14951,17 +15226,20 @@ def migrate_legacy_cache(content_dir: str, output_dir: str, manifest: dict) -> d
             print(f"  Renamed: {old_slug}.mp3 → {new_slug}.mp3")
             if old_slug in manifest:
                 new_manifest[new_slug] = manifest[old_slug]
+            renamed += 1
         else:
             # Old MP3 absent (never generated, or already cleaned up)
             if new_slug in manifest:
                 new_manifest[new_slug] = manifest[new_slug]
 
-    # Carry forward any entries that were already using new-style keys
-    # (idempotent: safe to run on an already-migrated cache)
+    # Carry forward any entries that were already using new-style keys and were
+    # not touched by the migration above (idempotent: safe on an already-migrated cache).
     for key, value in manifest.items():
         if key not in new_manifest and key not in old_to_new:
             new_manifest[key] = value
 
+    print(f"  Migration summary: {renamed} renamed, {already_done} already done, "
+          f"{collisions} collisions removed, {no_op} no-ops (no date prefix)")
     print("── End migration ───────────────────────────────────────────\n")
     return new_manifest
 
@@ -15098,6 +15376,14 @@ def main():
     parser.add_argument("--model", default="KittenML/kitten-tts-nano-0.8",
                         help="HuggingFace model ID (nano=25MB/fast, mini=80MB/better quality)")
     parser.add_argument("--force", action="store_true", help="Regenerate even if MP3 is up to date")
+    parser.add_argument(
+        "--migrate-only",
+        action="store_true",
+        help=(
+            "Only run the legacy MP3 rename migration (dateless → date-prefixed names). "
+            "No TTS generation, no ML dependencies. Safe to run on every build."
+        ),
+    )
     args = parser.parse_args()
 
     if not os.path.isdir(args.content_dir):
@@ -15110,8 +15396,14 @@ def main():
     manifest = load_manifest(args.output_dir)
 
     # One-time migration: rename dateless MP3s to date-prefixed names.
-    # Safe to run repeatedly — already-migrated caches are left untouched.
+    # Idempotent — safe to run on every build, including cache-hit builds.
     manifest = migrate_legacy_cache(args.content_dir, args.output_dir, manifest)
+
+    if args.migrate_only:
+        # Persist the updated manifest so subsequent runs don't re-migrate.
+        save_manifest(args.output_dir, manifest)
+        print("Migration-only mode: done.")
+        return
 
     new_manifest = {}
 
@@ -15617,9 +15909,9 @@ num2words>=0.5.14
 
 ===============================================================================
 EXPORT COMPLETED
-Total Files Exported: 190
+Total Files Exported: 192
   Blog posts (front matter only): 105
-  Full content files: 83
+  Full content files: 85
   Binary files skipped: 2
 Output File: docs/llm/dump.txt
 ===============================================================================
