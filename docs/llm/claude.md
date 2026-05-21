@@ -51022,3 +51022,605 @@ which is why this new repo
 at https://myblazor.github.io 
 only uses 24k mp3 
 I am hoping this will give us a longer runway before we become refugees again
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+00
+08
+
+Somehow I failed to realize that slugs need to be unique? 
+So 
+│       ├── 2026-05-09-sql.md
+│       ├── 2026-05-10-sql.md
+│       ├── 2026-05-11-sql.md
+│       ├── 2026-05-12-sql.md
+│       ├── 2026-05-13-git.md
+│       ├── 2026-05-14-git.md
+all these would go to the same post because they all have the same slug? 
+I see there are two ways to fix this -- 
+1. update the logic that creates the link 
+2. update the filename so each file is unique 
+What should we do? 
+
+The file was truncated. Let me read the critical section — the `DeriveSlug` function in `FrontMatterParser.cs`.Now I have the full picture. The `DeriveSlug` function strips the `YYYY-MM-DD-` prefix, so `2026-05-09-sql.md` and `2026-05-10-sql.md` both become slug `sql` — a collision.
+
+**The right fix is option 1: change `DeriveSlug` to use the full filename (including the date) as the slug.** Here's why:
+
+- The date prefix is *already* part of the filename and guarantees uniqueness — it's free, stable disambiguation with no renames needed.
+- Renaming all the files (option 2) is busywork: you'd have to touch the markdown files, re-generate, and it could happen again in the future.
+- The date-prefixed slug (`2026-05-09-sql`) is actually *better* for URLs — it's informative and matches the pattern most blogs use (e.g. Jekyll).
+- The current approach of stripping the date was a premature optimisation that created a correctness bug.
+
+The change is a one-liner in `FrontMatterParser.cs`: just `return fileName;` always (no stripping). Everything downstream already uses the slug as a key, so nothing else breaks — the slug just becomes the full filename without extension.
+
+Here's the full updated file:Now let me also check the unit test for DeriveSlug so we can update it:Now I need to check which test file that's in:Now I have everything. Here are the two files that need to change:
+
+---
+
+## `tools/ObserverMagazine.ContentProcessor/FrontMatterParser.cs`
+
+The `DeriveSlug` method now keeps the full filename (date prefix included). This makes every slug inherently unique since filenames must be unique on disk.
+
+```csharp
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
+
+namespace ObserverMagazine.ContentProcessor;
+
+public static class FrontMatterParser
+{
+    private static readonly IDeserializer Deserializer = new DeserializerBuilder()
+        .WithNamingConvention(CamelCaseNamingConvention.Instance)
+        .IgnoreUnmatchedProperties()
+        .Build();
+
+    /// <summary>
+    /// Splits a markdown file into YAML front matter and markdown body.
+    /// Front matter is delimited by --- at the start and end.
+    /// </summary>
+    public static (FrontMatter FrontMatter, string MarkdownBody) Parse(string rawContent)
+    {
+        if (!rawContent.StartsWith("---"))
+        {
+            return (new FrontMatter(), rawContent);
+        }
+
+        var endIndex = rawContent.IndexOf("---", 3, StringComparison.Ordinal);
+        if (endIndex < 0)
+        {
+            return (new FrontMatter(), rawContent);
+        }
+
+        var yamlBlock = rawContent[3..endIndex].Trim();
+        var body = rawContent[(endIndex + 3)..].TrimStart('\r', '\n');
+
+        var frontMatter = Deserializer.Deserialize<FrontMatter>(yamlBlock);
+        return (frontMatter, body);
+    }
+
+    /// <summary>
+    /// Parses an author YAML file into an AuthorProfile.
+    /// </summary>
+    public static AuthorProfile? ParseAuthor(string yamlContent, string id)
+    {
+        try
+        {
+            var profile = Deserializer.Deserialize<AuthorProfile>(yamlContent);
+            profile.Id = id;
+            return profile;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Derives a slug from a filename like "2026-01-15-welcome-to-observer-magazine".
+    /// The full filename (without extension) is used as the slug, including the date
+    /// prefix, which guarantees uniqueness across all posts.
+    /// </summary>
+    public static string DeriveSlug(string fileName) => fileName;
+
+    /// <summary>
+    /// Calculates estimated reading time in minutes from markdown text.
+    /// Uses 200 words per minute, minimum 1 minute.
+    /// </summary>
+    public static int CalculateReadingTime(string markdownBody)
+    {
+        var wordCount = markdownBody
+            .Split([' ', '\n', '\r', '\t'], StringSplitOptions.RemoveEmptyEntries)
+            .Length;
+        return Math.Max(1, (int)Math.Ceiling(wordCount / 200.0));
+    }
+}
+
+public sealed class FrontMatter
+{
+    public string Title { get; init; } = "";
+    public DateTime Date { get; init; }
+    public DateTime? Updated { get; init; }
+    public string? Author { get; init; }
+    public string? Summary { get; init; }
+    public string[]? Tags { get; init; }
+    public bool Draft { get; init; }
+    public bool Featured { get; init; }
+    public string? Series { get; init; }
+    public string? Image { get; init; }
+}
+
+public sealed class AuthorProfile
+{
+    public string Id { get; set; } = "";
+    public string Name { get; init; } = "";
+    public string? Email { get; init; }
+    public string? Bio { get; init; }
+    public string? Avatar { get; init; }
+    public Dictionary<string, string>? Socials { get; init; }
+}
+```
+
+---
+
+## `tests/ObserverMagazine.Integration.Tests/ContentProcessorTests.cs`
+
+The test `SlugDerivation_StripsDatePrefix` is renamed to `SlugDerivation_UsesFullFilename` and its assertions are corrected. The private `DeriveSlug` helper in the test file is also updated to match.
+
+```csharp
+using System.Xml.Linq;
+using Markdig;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
+using Xunit;
+
+namespace ObserverMagazine.Integration.Tests;
+
+public class ContentProcessorTests
+{
+    private static readonly XNamespace ContentNs = "http://purl.org/rss/1.0/modules/content/";
+
+    [Fact]
+    public void FrontMatter_ParsesAllFields()
+    {
+        var markdown = """
+            ---
+            title: Test Post
+            date: 2026-03-01
+            author: myblazor-team
+            summary: A test summary
+            tags:
+              - test
+              - integration
+            featured: true
+            series: Test Series
+            image: /images/test.jpg
+            ---
+            ## Hello
+
+            This is the body.
+            """;
+
+        var (frontMatter, body) = ParseFrontMatter(markdown);
+
+        Assert.Equal("Test Post", frontMatter.Title);
+        Assert.Equal(new DateTime(2026, 3, 1), frontMatter.Date);
+        Assert.Equal("myblazor-team", frontMatter.Author);
+        Assert.Equal("A test summary", frontMatter.Summary);
+        Assert.Equal(["test", "integration"], frontMatter.Tags!);
+        Assert.True(frontMatter.Featured);
+        Assert.Equal("Test Series", frontMatter.Series);
+        Assert.Equal("/images/test.jpg", frontMatter.Image);
+        Assert.False(frontMatter.Draft);
+        Assert.Contains("## Hello", body);
+    }
+
+    [Fact]
+    public void FrontMatter_HandlesMissingFields()
+    {
+        var markdown = """
+            ---
+            title: Minimal Post
+            date: 2026-01-01
+            ---
+            Body content.
+            """;
+
+        var (frontMatter, body) = ParseFrontMatter(markdown);
+
+        Assert.Equal("Minimal Post", frontMatter.Title);
+        Assert.Null(frontMatter.Author);
+        Assert.Null(frontMatter.Tags);
+        Assert.False(frontMatter.Featured);
+        Assert.False(frontMatter.Draft);
+        Assert.Null(frontMatter.Series);
+        Assert.Null(frontMatter.Image);
+        Assert.Contains("Body content.", body);
+    }
+
+    [Fact]
+    public void FrontMatter_ParsesDraftField()
+    {
+        var markdown = """
+            ---
+            title: Draft Post
+            date: 2026-06-01
+            draft: true
+            ---
+            Not ready yet.
+            """;
+
+        var (frontMatter, _) = ParseFrontMatter(markdown);
+
+        Assert.True(frontMatter.Draft);
+    }
+
+    [Fact]
+    public void FrontMatter_ParsesUpdatedDate()
+    {
+        var markdown = """
+            ---
+            title: Updated Post
+            date: 2026-01-01
+            updated: 2026-03-15
+            ---
+            Body.
+            """;
+
+        var (frontMatter, _) = ParseFrontMatter(markdown);
+
+        Assert.Equal(new DateTime(2026, 3, 15), frontMatter.Updated);
+    }
+
+    [Fact]
+    public void Markdown_ConvertsToHtml()
+    {
+        var md = "## Hello\n\nThis is **bold** and *italic*.";
+        var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
+        var html = Markdown.ToHtml(md, pipeline);
+
+        Assert.Contains("<h2 id=\"hello\">Hello</h2>", html);
+        Assert.Contains("<strong>bold</strong>", html);
+        Assert.Contains("<em>italic</em>", html);
+    }
+
+    [Fact]
+    public void MarkdownTwoWords_ConvertsToHtml()
+    {
+        var md = "## Hello World\n\nThis is **bold** and *italic*.";
+        var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
+        var html = Markdown.ToHtml(md, pipeline);
+
+        Assert.Contains("<h2 id=\"hello-world\">Hello World</h2>", html);
+        Assert.Contains("<strong>bold</strong>", html);
+        Assert.Contains("<em>italic</em>", html);
+    }
+
+    [Fact]
+    public void SlugDerivation_UsesFullFilename()
+    {
+        // The full filename (without extension) is the slug.
+        // The date prefix is kept, guaranteeing uniqueness across all posts.
+        Assert.Equal("2026-01-15-welcome-post", DeriveSlug("2026-01-15-welcome-post"));
+        Assert.Equal("no-date", DeriveSlug("no-date"));
+        Assert.Equal("short", DeriveSlug("short"));
+
+        // Two posts with the same topic on different dates produce distinct slugs.
+        Assert.NotEqual(DeriveSlug("2026-05-09-sql"), DeriveSlug("2026-05-10-sql"));
+    }
+
+    [Fact]
+    public void ReadingTime_CalculatesCorrectly()
+    {
+        // 200 words = 1 minute, 400 words = 2 minutes
+        var shortText = string.Join(" ", Enumerable.Repeat("word", 50));
+        Assert.Equal(1, CalculateReadingTime(shortText)); // minimum 1 minute
+
+        var mediumText = string.Join(" ", Enumerable.Repeat("word", 400));
+        Assert.Equal(2, CalculateReadingTime(mediumText));
+
+        var longText = string.Join(" ", Enumerable.Repeat("word", 1000));
+        Assert.Equal(5, CalculateReadingTime(longText));
+    }
+
+    [Fact]
+    public void GenerateRss_IncludesBasicElements()
+    {
+        var posts = new List<RssPostEntry>
+        {
+            new()
+            {
+                Slug = "test-post",
+                Title = "Test Post",
+                Date = new DateTime(2026, 1, 1),
+                Summary = "A test post",
+                Tags = ["test"]
+            }
+        };
+
+        var xml = GenerateRss("Test Blog", "A test blog", "https://example.com", posts);
+        var doc = XDocument.Parse(xml);
+        var channel = doc.Root!.Element("channel")!;
+
+        Assert.Equal("Test Blog", channel.Element("title")!.Value);
+        Assert.Equal("https://example.com", channel.Element("link")!.Value);
+
+        var item = channel.Element("item")!;
+        Assert.Equal("Test Post", item.Element("title")!.Value);
+        Assert.Equal("https://example.com/blog/test-post", item.Element("link")!.Value);
+    }
+
+    [Fact]
+    public void GenerateRss_HandlesEmptyPostList()
+    {
+        var xml = GenerateRss("Empty Blog", "Nothing here", "https://example.com", []);
+        var doc = XDocument.Parse(xml);
+        var items = doc.Root!.Element("channel")!.Elements("item");
+        Assert.Empty(items);
+    }
+
+    [Fact]
+    public void GenerateRss_IncludesCategoryTags()
+    {
+        var posts = new List<RssPostEntry>
+        {
+            new()
+            {
+                Slug = "tagged",
+                Title = "Tagged Post",
+                Date = new DateTime(2026, 1, 1),
+                Summary = "Has tags",
+                Tags = ["alpha", "beta"]
+            }
+        };
+
+        var xml = GenerateRss("Blog", "Desc", "https://example.com", posts);
+        var doc = XDocument.Parse(xml);
+        var categories = doc.Root!.Element("channel")!
+            .Element("item")!.Elements("category").Select(c => c.Value).ToArray();
+
+        Assert.Equal(["alpha", "beta"], categories);
+    }
+
+    [Fact]
+    public void GenerateRss_IncludesFullContentWhenProvided()
+    {
+        var posts = new List<RssPostEntry>
+        {
+            new()
+            {
+                Slug = "full-content",
+                Title = "Full Content Post",
+                Date = new DateTime(2026, 2, 1),
+                Summary = "Has full content",
+                Tags = []
+            }
+        };
+
+        var htmlMap = new Dictionary<string, string>
+        {
+            ["full-content"] = "<p>This is the <strong>full</strong> content.</p>"
+        };
+
+        var xml = GenerateRss("Blog", "Desc", "https://example.com", posts,
+            slug => htmlMap.GetValueOrDefault(slug));
+
+        var doc = XDocument.Parse(xml);
+        var item = doc.Root!.Element("channel")!.Element("item")!;
+        var encoded = item.Element(ContentNs + "encoded");
+
+        Assert.NotNull(encoded);
+        Assert.Contains("<strong>full</strong>", encoded.Value);
+    }
+
+    [Fact]
+    public void GenerateRss_IncludesAuthorWhenEmailProvided()
+    {
+        var posts = new List<RssPostEntry>
+        {
+            new()
+            {
+                Slug = "authored",
+                Title = "Authored Post",
+                Date = new DateTime(2026, 1, 1),
+                Summary = "Has author",
+                Tags = [],
+                AuthorName = "Observer Team",
+                AuthorEmail = "hello@observermagazine.example"
+            }
+        };
+
+        var xml = GenerateRss("Blog", "Desc", "https://example.com", posts);
+        var doc = XDocument.Parse(xml);
+        var author = doc.Root!.Element("channel")!.Element("item")!.Element("author");
+
+        Assert.NotNull(author);
+        Assert.Contains("hello@observermagazine.example", author.Value);
+        Assert.Contains("Observer Team", author.Value);
+    }
+
+    // --- Helpers duplicated from ContentProcessor for isolated testing ---
+
+    private static (TestFrontMatter, string) ParseFrontMatter(string rawContent)
+    {
+        var deserializer = new DeserializerBuilder()
+            .WithNamingConvention(CamelCaseNamingConvention.Instance)
+            .IgnoreUnmatchedProperties()
+            .Build();
+
+        if (!rawContent.StartsWith("---"))
+            return (new TestFrontMatter(), rawContent);
+
+        var endIndex = rawContent.IndexOf("---", 3, StringComparison.Ordinal);
+        if (endIndex < 0)
+            return (new TestFrontMatter(), rawContent);
+
+        var yaml = rawContent[3..endIndex].Trim();
+        var body = rawContent[(endIndex + 3)..].TrimStart('\r', '\n');
+        var fm = deserializer.Deserialize<TestFrontMatter>(yaml);
+        return (fm, body);
+    }
+
+    // Mirrors FrontMatterParser.DeriveSlug exactly — full filename is the slug.
+    private static string DeriveSlug(string fileName) => fileName;
+
+    private static int CalculateReadingTime(string markdownBody)
+    {
+        var wordCount = markdownBody
+            .Split([' ', '\n', '\r', '\t'], StringSplitOptions.RemoveEmptyEntries)
+            .Length;
+        return Math.Max(1, (int)Math.Ceiling(wordCount / 200.0));
+    }
+
+    private static string GenerateRss(
+        string title, string description, string siteUrl,
+        IReadOnlyList<RssPostEntry> posts,
+        Func<string, string?>? getPostHtml = null)
+    {
+        var items = posts.Select(p =>
+        {
+            var itemElements = new List<object>
+            {
+                new XElement("title", p.Title),
+                new XElement("link", $"{siteUrl}/blog/{p.Slug}"),
+                new XElement("description", p.Summary),
+                new XElement("pubDate", p.Date.ToString("R")),
+                new XElement("guid", $"{siteUrl}/blog/{p.Slug}")
+            };
+
+            if (!string.IsNullOrEmpty(p.AuthorEmail))
+            {
+                itemElements.Add(new XElement("author", $"{p.AuthorEmail} ({p.AuthorName})"));
+            }
+
+            var html = getPostHtml?.Invoke(p.Slug);
+            if (!string.IsNullOrEmpty(html))
+            {
+                itemElements.Add(new XElement(ContentNs + "encoded", new XCData(html)));
+            }
+
+            if (p.Tags.Length > 0)
+            {
+                itemElements.AddRange(p.Tags.Select(t => new XElement("category", t)));
+            }
+
+            return new XElement("item", itemElements);
+        });
+
+        var rss = new XDocument(
+            new XDeclaration("1.0", "utf-8", null),
+            new XElement("rss",
+                new XAttribute("version", "2.0"),
+                new XAttribute(XNamespace.Xmlns + "content", ContentNs),
+                new XElement("channel",
+                    new XElement("title", title),
+                    new XElement("link", siteUrl),
+                    new XElement("description", description),
+                    new XElement("language", "en-us"),
+                    new XElement("lastBuildDate", DateTime.UtcNow.ToString("R")),
+                    items
+                )
+            )
+        );
+
+        return rss.Declaration + Environment.NewLine + rss;
+    }
+}
+
+public sealed class TestFrontMatter
+{
+    public string Title { get; init; } = "";
+    public DateTime Date { get; init; }
+    public DateTime? Updated { get; init; }
+    public string? Author { get; init; }
+    public string? Summary { get; init; }
+    public string[]? Tags { get; init; }
+    public bool Draft { get; init; }
+    public bool Featured { get; init; }
+    public string? Series { get; init; }
+    public string? Image { get; init; }
+}
+```
+
+---
+
+**Summary of what changed and why:**
+
+Only two files changed. In `FrontMatterParser.cs`, `DeriveSlug` becomes `=> fileName` — a single expression. In `ContentProcessorTests.cs`, the test is renamed `SlugDerivation_UsesFullFilename`, the three assertions flip to expect the full filename, and a fourth assertion is added that directly documents the collision scenario being fixed (`2026-05-09-sql` ≠ `2026-05-10-sql`). The private `DeriveSlug` helper in the test file is similarly reduced to `=> fileName`.
+
+No markdown files need renaming, no other code needs touching — the slug flows from the filename through the entire pipeline (content processor → `posts-index.json` → `blog-data/{slug}.html` → Blazor routing), and all of that already works correctly with any valid string.
+
+05
+08

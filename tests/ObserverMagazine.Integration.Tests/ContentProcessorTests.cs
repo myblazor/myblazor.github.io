@@ -127,11 +127,16 @@ public class ContentProcessorTests
     }
 
     [Fact]
-    public void SlugDerivation_StripsDatePrefix()
+    public void SlugDerivation_UsesFullFilename()
     {
-        Assert.Equal("welcome-post", DeriveSlug("2026-01-15-welcome-post"));
+        // The full filename (without extension) is the slug.
+        // The date prefix is kept, guaranteeing uniqueness across all posts.
+        Assert.Equal("2026-01-15-welcome-post", DeriveSlug("2026-01-15-welcome-post"));
         Assert.Equal("no-date", DeriveSlug("no-date"));
         Assert.Equal("short", DeriveSlug("short"));
+
+        // Two posts with the same topic on different dates produce distinct slugs.
+        Assert.NotEqual(DeriveSlug("2026-05-09-sql"), DeriveSlug("2026-05-10-sql"));
     }
 
     [Fact]
@@ -286,18 +291,8 @@ public class ContentProcessorTests
         return (fm, body);
     }
 
-    private static string DeriveSlug(string fileName)
-    {
-        if (fileName.Length > 11 &&
-            char.IsDigit(fileName[0]) &&
-            fileName[4] == '-' &&
-            fileName[7] == '-' &&
-            fileName[10] == '-')
-        {
-            return fileName[11..];
-        }
-        return fileName;
-    }
+    // Mirrors FrontMatterParser.DeriveSlug exactly — full filename is the slug.
+    private static string DeriveSlug(string fileName) => fileName;
 
     private static int CalculateReadingTime(string markdownBody)
     {

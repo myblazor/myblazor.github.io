@@ -53,21 +53,10 @@ public static class FrontMatterParser
 
     /// <summary>
     /// Derives a slug from a filename like "2026-01-15-welcome-to-observer-magazine".
-    /// Strips the leading date prefix if present.
+    /// The full filename (without extension) is used as the slug, including the date
+    /// prefix, which guarantees uniqueness across all posts.
     /// </summary>
-    public static string DeriveSlug(string fileName)
-    {
-        // Pattern: YYYY-MM-DD-rest-of-slug
-        if (fileName.Length > 11 &&
-            char.IsDigit(fileName[0]) &&
-            fileName[4] == '-' &&
-            fileName[7] == '-' &&
-            fileName[10] == '-')
-        {
-            return fileName[11..];
-        }
-        return fileName;
-    }
+    public static string DeriveSlug(string fileName) => fileName;
 
     /// <summary>
     /// Calculates estimated reading time in minutes from markdown text.
