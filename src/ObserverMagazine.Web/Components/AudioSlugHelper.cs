@@ -4,7 +4,7 @@ namespace ObserverMagazine.Web.Components;
 /// Helpers for resolving audio file paths, including backward-compatibility
 /// with the pre-migration era when MP3 filenames had no date prefix.
 /// </summary>
-internal static class AudioSlugHelper
+public static class AudioSlugHelper
 {
     /// <summary>
     /// Returns the legacy (dateless) audio src for a slug that carries a
