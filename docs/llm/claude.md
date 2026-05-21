@@ -51862,3 +51862,241 @@ Added an unconditional `Setup Python 3.12` + `Migrate legacy audio filenames` st
 
 22
 10
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+22
+10
+
+I made the slug public because I got an error but now I have a failing test 
+  ObserverMagazine.Web.Tests test net10.0 failed with 1 error(s) (1.5s)
+    /home/kushal/src/dotnet/myblazor/tests/ObserverMagazine.Web.Tests/Components/AudioSlugHelperTests.cs(93): error TESTERROR: 
+      ObserverMagazine.Web.Tests.Components.AudioSlugHelperTests.LegacyAudioSrc_ReturnsNull_ForNonDatePre
+      fixedSlugs(slug: "2026-AB-01-rest") (2ms): Error Message: Assert.Null() Failure: Value is not null
+      Expected: null
+      Actual:   "blog-data/rest.mp3"
+      Stack Trace:
+         at ObserverMagazine.Web.Tests.Components.AudioSlugHelperTests.LegacyAudioSrc_ReturnsNull_ForNonD
+      atePrefixedSlugs(String slug) in /home/kushal/src/dotnet/myblazor/tests/ObserverMagazine.Web.Tests/
+      Components/AudioSlugHelperTests.cs:line 93
+         at InvokeStub_AudioSlugHelperTests.LegacyAudioSrc_ReturnsNull_ForNonDatePrefixedSlugs(Object, Sp
+      an`1)
+         at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Bin
+      der binder, Object[] parameters, CultureInfo culture)
+
+Test summary: total: 99, failed: 1, succeeded: 98, skipped: 0, duration: 3.2s
+Build failed with 1 error(s) in 4.1s
+
+Opus 4.7: 
+
+I'll read the full dump.txt first as instructed, then look at the failing test to understand what needs to change.I need to see more of the dump, especially the AudioSlugHelper test file and the helper itself. Let me view the rest in chunks.Let me search for the specific test file and audio slug helper code by viewing more strategic sections:The test file mentions `AudioSlugHelperTests.cs` but that's not in the directory tree from the dump. Let me check the BlogTtsPlayer and related items:Now let me view the BlogTtsPlayer.razor file to see how the slug helper works:I see — `BlogTtsPlayer.razor` uses `Slug` directly. The failing test refers to an `AudioSlugHelper` class with a `LegacyAudioSrc` method. This class isn't shown in the directory tree from dump.txt — so it must have been recently added (the user mentioned "I made the slug public because I got an error"). Let me look at the test file the user mentioned and search the output.txt for any AudioSlugHelper info:The user uploaded a different (newer) version of dump.txt. The `/mnt/user-data/uploads/dump.txt` has the actual current state with `AudioSlugHelper.cs` and its test file. Let me read those:Now let me view the test file:Now I fully understand the failing test. Let me analyze:
+
+**The failing test:**
+```csharp
+[InlineData("2026-AB-01-rest")]                 // non-digit month
+public void LegacyAudioSrc_ReturnsNull_ForNonDatePrefixedSlugs(string slug)
+{
+    Assert.Null(AudioSlugHelper.LegacyAudioSrc(slug));
+}
+```
+
+For slug `"2026-AB-01-rest"`:
+- Length is 17 (> 11) ✓
+- Position 4 is `-` ✓
+- Position 7 is `-` ✓
+- Position 10 is `-` ✓
+- `slug[..4]` = `"2026"`, all ASCII digits ✓
+
+**All checks pass, so it returns `"blog-data/rest.mp3"` — but the test expects `null`.**
+
+The bug: the helper only validates the year is digits, not the month and day. The test comment "non-digit month" confirms the intent — the helper must also check that the month (`slug[5..7]`) and day (`slug[8..10]`) are digits.
+
+Also look at the other test cases to verify the fix:
+- `"2026-only-two-segments"` — length 23, slug[4]='-', slug[7]='-' (after "only"... wait let me count: `2026-only-two-segments` → indices: 0='2',1='0',2='2',3='6',4='-',5='o',6='n',7='l'... slug[7]='l' not '-'. So this fails the current check correctly.
+- `"abcd-ef-gh-rest"` — length 15, slug[..4]="abcd" not digits → returns null ✓
+- `"2026-AB-01-rest"` — passes current check (year is digits) but month "AB" is not → currently RETURNS `"blog-data/rest.mp3"`, test expects null ✗
+
+So the fix is to also validate that `slug[5..7]` (month) and `slug[8..10]` (day) are ASCII digits.
+
+Let me also check the migration step in the workflow to understand the broader context:Now I have everything I need. The fix is in `AudioSlugHelper.cs` — I need to also validate that the month (positions 5-6) and day (positions 8-9) characters are ASCII digits, not just the year. The user said they "made the slug public" which is unrelated — that's just exposing what was probably internal. The test "I have a failing test" is about month digit validation.
+
+Let me write the fix. The current code:
+
+```csharp
+if (slug.Length > 11
+    && slug[4] == '-'
+    && slug[7] == '-'
+    && slug[10] == '-'
+    && slug[..4].All(char.IsAsciiDigit))
+```
+
+Should be:
+
+```csharp
+if (slug.Length > 11
+    && slug[4] == '-'
+    && slug[7] == '-'
+    && slug[10] == '-'
+    && slug[..4].All(char.IsAsciiDigit)
+    && slug[5..7].All(char.IsAsciiDigit)
+    && slug[8..10].All(char.IsAsciiDigit))
+```
+
+Let me verify every test case passes with this fix:
+
+1. `CanonicalAudioSrc_ReturnsDatePrefixedPath` — uses `CanonicalAudioSrc`, unaffected ✓
+2. `CanonicalAudioSrc_ReturnsDatelessPath_WhenSlugHasNoDate` — uses `CanonicalAudioSrc`, unaffected ✓
+3. `LegacyAudioSrc_ReturnsDatelessPath_ForDatePrefixedSlug` — `"2026-05-04-rust-..."` → year "2026" digits, month "05" digits, day "04" digits → returns `"blog-data/rust-programming-language-complete-guide.mp3"` ✓
+4. `LegacyAudioSrc_StripsPrefixCorrectly`:
+   - `"2026-01-15-welcome-..."` → all digits → strips → ✓
+   - `"2026-03-27-sql-..."` → all digits → ✓
+   - `"2026-04-25-javascript"` → all digits → ✓
+   - `"2099-12-31-future-post"` → all digits → ✓
+5. `LegacyAudioSrc_ReturnsNull_WhenSlugHasNoDatePrefix` — `"welcome-to-observer"`, slug[4]='m'≠'-' → null ✓
+6. `LegacyAudioSrc_ReturnsNull_ForNonDatePrefixedSlugs`:
+   - `""` → length 0, not > 11 → null ✓
+   - `"short"` → length 5, not > 11 → null ✓
+   - `"no-date-at-all"` → length 14, slug[4]='t'... wait: `n,o,-,d,a,t,e,-,a,t,-,a,l,l` → slug[4]='a' ≠ '-' → null ✓
+   - `"2026-only-two-segments"` → slug[4]='-', slug[7]='l' ≠ '-' → null ✓
+   - `"abcd-ef-gh-rest"` → slug[..4]="abcd" not digits → null ✓
+   - `"2026-AB-01-rest"` → year "2026" digits, but month "AB" not digits → null ✓ **FIXED**
+7. `CanonicalAndLegacySrc_AreDifferent_WhenDatePrefixed` — `"2026-05-04-rust-..."` → legacy returns non-null, different → ✓
+8. `LegacyAudioSrc_HandlesMinimalSlugAfterDate` — `"2026-05-04-x"` → length 12 > 11, all checks pass → `"blog-data/x.mp3"` ✓
+9. `LegacyAudioSrc_ReturnsNull_WhenNothingFollowsDate` — `"2026-05-04-"` → length 11, not > 11 → null ✓
+10. `LegacyAudioSrc_ReturnsNull_ForExactly11Chars` — `"2026-05-04"` → length 10, not > 11 → null ✓
+
+All cases pass. Let me also confirm the dotnet 10 stance — `char.IsAsciiDigit` was added in .NET 7, and `slug[5..7]` ranges are fine. `.All(char.IsAsciiDigit)` on a `ReadOnlySpan<char>` — note `slug[..4]` returns `string` in C# for a `string` (because `string` has an indexer for `Range` that returns `string`). So `.All(char.IsAsciiDigit)` works fine via `IEnumerable<char>`.
+
+Now, the user said "I made the slug public because I got an error". Let me check the BlogTtsPlayer code in the uploaded dump to see how it uses the helper now (to confirm nothing else needs changing):The component uses `AudioSlugHelper.CanonicalAudioSrc` and `AudioSlugHelper.LegacyAudioSrc` exactly as the helper is designed. The fix is contained to just `AudioSlugHelper.cs`.
+
+Here's the full corrected file:
+
+---
+
+## The fix
+
+The failing test case is `"2026-AB-01-rest"` — a slug where year digits look valid but the month is letters. Your current check only validates the **year** is digits (`slug[..4].All(char.IsAsciiDigit)`); it never validates that the **month** (`slug[5..7]`) or **day** (`slug[8..10]`) are digits too. So `"2026-AB-01-rest"` slips through and returns `"blog-data/rest.mp3"` instead of `null`.
+
+The fix is to add two more digit checks. Everything else in the file (XML doc comments, the canonical helper, the `> 11` length guard) stays the same.
+
+### Full file: `src/ObserverMagazine.Web/Components/AudioSlugHelper.cs`
+
+```csharp
+namespace ObserverMagazine.Web.Components;
+
+/// <summary>
+/// Helpers for resolving audio file paths, including backward-compatibility
+/// with the pre-migration era when MP3 filenames had no date prefix.
+/// </summary>
+public static class AudioSlugHelper
+{
+    /// <summary>
+    /// Returns the legacy (dateless) audio src for a slug that carries a
+    /// <c>YYYY-MM-DD-</c> prefix, or <c>null</c> when no date prefix is present
+    /// (meaning there is no older filename to fall back to).
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// Before the slug migration, MP3 files were named after the post topic only,
+    /// e.g. <c>rust-programming-language-complete-guide.mp3</c>.  After the
+    /// migration <c>derive_slug</c> in <c>generate_audio.py</c> was changed to
+    /// include the date prefix, producing
+    /// <c>2026-05-04-rust-programming-language-complete-guide.mp3</c>.
+    /// </para>
+    /// <para>
+    /// When a GitHub Actions cache hit causes the migration step to be skipped,
+    /// the old dateless file may still be the only copy on disk.  This helper
+    /// lets <see cref="BlogTtsPlayer"/> try the dateless path as a fallback before
+    /// giving up and hiding the player.
+    /// </para>
+    /// <para>
+    /// The date prefix is validated structurally: the slug must be longer than
+    /// <c>YYYY-MM-DD-</c> (11 chars), the three dashes must be in the expected
+    /// positions, and the year, month, and day groups must all be ASCII digits.
+    /// Calendar validity (e.g. month &lt;= 12, day &lt;= 31) is intentionally not
+    /// enforced — this is a filename-shape check, not a date parser.
+    /// </para>
+    /// </remarks>
+    /// <param name="slug">The full date-prefixed slug, e.g.
+    ///   <c>2026-05-04-rust-programming-language-complete-guide</c>.</param>
+    /// <returns>
+    /// A relative <c>blog-data/{datelessSlug}.mp3</c> URL, or <c>null</c>.
+    /// </returns>
+    public static string? LegacyAudioSrc(string slug)
+    {
+        // Pattern: YYYY-MM-DD-rest-of-slug  (min length = 11 chars for prefix + 1 for rest)
+        if (slug.Length > 11
+            && slug[4] == '-'
+            && slug[7] == '-'
+            && slug[10] == '-'
+            && slug[..4].All(char.IsAsciiDigit)   // year
+            && slug[5..7].All(char.IsAsciiDigit)  // month
+            && slug[8..10].All(char.IsAsciiDigit)) // day
+        {
+            var datelessSlug = slug[11..];
+            return $"blog-data/{datelessSlug}.mp3";
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Returns the canonical (date-prefixed) audio src for a given slug.
+    /// </summary>
+    public static string CanonicalAudioSrc(string slug) => $"blog-data/{slug}.mp3";
+}
+```
+
+### Why this works for every test case
+
+| Test slug | Year digits? | Month digits? | Day digits? | Result |
+|---|---|---|---|---|
+| `2026-05-04-rust-…` | ✓ | ✓ | ✓ | strips → `blog-data/rust-….mp3` |
+| `2026-01-15-welcome-…` | ✓ | ✓ | ✓ | strips |
+| `2099-12-31-future-post` | ✓ | ✓ | ✓ | strips |
+| `2026-AB-01-rest` | ✓ | **✗ ("AB")** | — | `null` ← **now fixed** |
+| `abcd-ef-gh-rest` | ✗ | — | — | `null` |
+| `2026-only-two-segments` | (slug[7]≠'-') | — | — | `null` |
+| `welcome-to-observer` | (slug[4]≠'-') | — | — | `null` |
+| `2026-05-04-` | length 11, not > 11 | — | — | `null` |
+| `2026-05-04-x` | ✓ | ✓ | ✓ | strips → `blog-data/x.mp3` |
+
+No other files need to change — `BlogTtsPlayer.razor` already calls the helper through the right surface, and `CanonicalAudioSrc` is untouched.
+
+Drop the file in over `src/ObserverMagazine.Web/Components/AudioSlugHelper.cs`, re-run `dotnet test`, and all 99 tests should pass.
+
+30
+11
