@@ -228,7 +228,24 @@ def preprocess_numbers(text: str) -> str:
 
 
 def derive_slug(filename: str) -> str:
-    """Derive slug from filename: 2026-01-15-welcome-post.md → welcome-post"""
+    """Derive slug from filename stem, including the date prefix.
+
+    Examples:
+        2026-01-15-welcome-post.md → 2026-01-15-welcome-post
+        no-date-post.md           → no-date-post
+
+    The full stem (date + name) is the slug. This guarantees uniqueness when
+    multiple posts share the same base name on different dates (e.g. five
+    consecutive react.md files).
+    """
+    return os.path.splitext(filename)[0]
+
+
+def old_derive_slug(filename: str) -> str:
+    """The old slug logic (pre-date-prefix): strips the date portion.
+
+    Used only by migrate_legacy_cache to map old MP3 names → new names.
+    """
     name = os.path.splitext(filename)[0]
     if (len(name) > 11
             and name[4] == "-"
@@ -237,6 +254,87 @@ def derive_slug(filename: str) -> str:
             and name[:4].isdigit()):
         return name[11:]
     return name
+
+
+# ---------------------------------------------------------------------------
+# One-time cache migration
+# ---------------------------------------------------------------------------
+
+def migrate_legacy_cache(content_dir: str, output_dir: str, manifest: dict) -> dict:
+    """Rename old dateless MP3s to date-prefixed names, and migrate manifest keys.
+
+    When slugs were dateless, multiple posts (e.g. 2026-05-17-react.md through
+    2026-05-23-react.md) all mapped to the same react.mp3. Those colliding files
+    cannot be salvaged — they must be regenerated. Only unambiguous 1:1 mappings
+    are migrated.
+
+    Returns the updated manifest (keys rewritten from old slugs to new slugs).
+    """
+    # Build a map of old_slug → list of new_slugs (full stems) from content_dir
+    old_to_new: dict[str, list[str]] = {}
+    for md_file in os.listdir(content_dir):
+        if not md_file.endswith(".md"):
+            continue
+        new_slug = derive_slug(md_file)          # 2026-05-17-react
+        old_slug = old_derive_slug(md_file)      # react
+        old_to_new.setdefault(old_slug, []).append(new_slug)
+
+    print("\n── Legacy cache migration ──────────────────────────────────")
+
+    new_manifest = {}
+
+    for old_slug, new_slugs in sorted(old_to_new.items()):
+        old_mp3 = os.path.join(output_dir, f"{old_slug}.mp3")
+
+        if len(new_slugs) > 1:
+            # Collision: one old MP3 would have to serve multiple posts.
+            # We can't know which content it contains, so discard it.
+            # The main loop will regenerate each new_slug fresh.
+            if os.path.exists(old_mp3):
+                os.remove(old_mp3)
+                print(f"  Removed ambiguous: {old_slug}.mp3  "
+                      f"(maps to {len(new_slugs)} posts: {', '.join(sorted(new_slugs))})")
+            else:
+                print(f"  Skipping (absent + ambiguous): {old_slug}.mp3")
+            # Drop manifest entry — forces regeneration of all variants
+            continue
+
+        # Unambiguous 1:1 mapping
+        new_slug = new_slugs[0]
+        new_mp3 = os.path.join(output_dir, f"{new_slug}.mp3")
+
+        if new_slug == old_slug:
+            # No rename needed (post had no date prefix to begin with)
+            if old_slug in manifest:
+                new_manifest[new_slug] = manifest[old_slug]
+            continue
+
+        if os.path.exists(new_mp3):
+            # Already migrated on a previous run
+            if old_slug in manifest:
+                new_manifest[new_slug] = manifest[old_slug]
+            elif new_slug in manifest:
+                new_manifest[new_slug] = manifest[new_slug]
+            continue
+
+        if os.path.exists(old_mp3):
+            os.rename(old_mp3, new_mp3)
+            print(f"  Renamed: {old_slug}.mp3 → {new_slug}.mp3")
+            if old_slug in manifest:
+                new_manifest[new_slug] = manifest[old_slug]
+        else:
+            # Old MP3 absent (never generated, or already cleaned up)
+            if new_slug in manifest:
+                new_manifest[new_slug] = manifest[new_slug]
+
+    # Carry forward any entries that were already using new-style keys
+    # (idempotent: safe to run on an already-migrated cache)
+    for key, value in manifest.items():
+        if key not in new_manifest and key not in old_to_new:
+            new_manifest[key] = value
+
+    print("── End migration ───────────────────────────────────────────\n")
+    return new_manifest
 
 
 # ---------------------------------------------------------------------------
@@ -381,6 +479,11 @@ def main():
 
     # Load existing manifest for incremental builds
     manifest = load_manifest(args.output_dir)
+
+    # One-time migration: rename dateless MP3s to date-prefixed names.
+    # Safe to run repeatedly — already-migrated caches are left untouched.
+    manifest = migrate_legacy_cache(args.content_dir, args.output_dir, manifest)
+
     new_manifest = {}
 
     md_files = sorted(f for f in os.listdir(args.content_dir) if f.endswith(".md"))
